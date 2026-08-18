@@ -175,6 +175,14 @@
   .bar-row .br-top .amt{font-family:'JetBrains Mono',monospace;color:var(--muted);}
   .bar-track{height:8px;border-radius:6px;background:var(--card-2);overflow:hidden;}
   .bar-fill{height:100%;border-radius:6px;}
+  .bar-row.subtotal{
+    background:linear-gradient(90deg,rgba(255,184,77,.14),rgba(255,184,77,.03));
+    border-radius:8px;
+    padding:8px 10px;
+    margin-bottom:16px;
+  }
+  .bar-row.subtotal .br-top{font-weight:700;margin-bottom:0;}
+  .bar-row.subtotal .br-top .amt{color:var(--gold);font-size:14px;font-weight:700;}
 
   /* ===== CHECKLIST ===== */
   .todo-list{display:flex;flex-direction:column;gap:8px;}
@@ -452,10 +460,11 @@
         var amt = (r[2] || "").trim();
         var note = (r[3] || "").trim();
         if (!item) return; // skip pure subtotal-label-only rows with no item name
-        var color = CAT_COLOR[cat] || "var(--muted-2)";
+        var isSubtotal = item.indexOf('소계') !== -1;
+        var color = isSubtotal ? "var(--gold)" : (CAT_COLOR[cat] || "var(--muted-2)");
         var showCat = cat !== lastCat;
         lastCat = cat;
-        html += '<div class="bar-row" style="border-left:3px solid ' + color + ';padding-left:10px;">';
+        html += '<div class="bar-row' + (isSubtotal ? ' subtotal' : '') + '" style="border-left:3px solid ' + color + ';padding-left:10px;">';
         html += '<div class="br-top"><span>' + (showCat ? '<span style="color:'+color+';font-family:\'JetBrains Mono\',monospace;font-size:10px;">[' + cat + '] </span>' : '') + item + '</span><span class="amt">' + amt + '</span></div>';
         if (note) html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">' + note + '</div>';
         html += '</div>';
