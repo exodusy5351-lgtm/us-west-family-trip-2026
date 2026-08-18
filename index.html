@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미서부 가족여행 · 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1a1625;
+    --bg-2:#211b30;
+    --card:#251f37;
+    --card-2:#2c243f;
+    --line:#3a3150;
+    --text:#f4eee3;
+    --muted:#a99bc2;
+    --muted-2:#7d6f98;
+    --coral:#ff6b4a;
+    --gold:#ffb84d;
+    --teal:#2ec4b6;
+    --pink:#c74b8c;
+    --green:#5fd77b;
+    --amber:#f2b94b;
+    --red:#ff6b6b;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #2f2447 0%, transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Work Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 18px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  h1,h2,h3{font-family:'Oswald',sans-serif;margin:0;letter-spacing:.01em;}
+
+  /* ===== HERO ===== */
+  .hero{padding:36px 0 26px;}
+  .hero .eyebrow{margin-bottom:10px;}
+  .hero h1{
+    font-size:34px;
+    font-weight:700;
+    line-height:1.08;
+    background:linear-gradient(100deg,#fff 10%,var(--gold) 60%,var(--coral) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero .sub{color:var(--muted);font-size:14px;margin-top:8px;}
+  .countdown{
+    margin-top:20px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    padding:16px 18px;
+    background:linear-gradient(135deg,rgba(255,107,74,.16),rgba(255,184,77,.08));
+    border:1px solid rgba(255,184,77,.25);
+    border-radius:var(--radius);
+  }
+  .countdown .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:38px;
+    font-weight:700;
+    color:var(--gold);
+  }
+  .countdown .label{color:var(--muted);font-size:13px;line-height:1.4;}
+
+  /* ===== ROUTE LINE (signature element) ===== */
+  .route{margin:30px 0 6px;}
+  .route-title{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
+  .route-track{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    padding:0 4px;
+  }
+  .route-track::before{
+    content:"";
+    position:absolute;
+    top:15px;
+    left:14px;
+    right:14px;
+    height:2px;
+    background:repeating-linear-gradient(90deg, var(--muted-2) 0 8px, transparent 8px 16px);
+  }
+  .stop{position:relative;display:flex;flex-direction:column;align-items:center;width:25%;}
+  .stop .dot{
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    background:var(--card-2);
+    border:2px solid var(--muted-2);
+    z-index:1;
+  }
+  .stop.active .dot{border-color:var(--gold);background:linear-gradient(135deg,var(--coral),var(--gold));box-shadow:0 0 0 4px rgba(255,184,77,.15);}
+  .stop .place{font-size:11.5px;margin-top:8px;text-align:center;color:var(--text);font-weight:600;}
+  .stop .nights{font-size:10px;color:var(--muted);margin-top:2px;font-family:'JetBrains Mono',monospace;}
+
+  /* ===== SECTION ===== */
+  section{margin-top:38px;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+  .section-head h2{font-size:19px;color:var(--text);}
+  .section-head .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+
+  /* ===== STATUS CARDS ===== */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px;
+  }
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;}
+  .card .icon{font-size:18px;}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:.03em;
+    padding:3px 7px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .badge.done{background:rgba(95,215,123,.15);color:var(--green);border:1px solid rgba(95,215,123,.3);}
+  .badge.pending{background:rgba(242,185,75,.15);color:var(--amber);border:1px solid rgba(242,185,75,.3);}
+  .badge.todo{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3);}
+  .card .name{font-size:13.5px;font-weight:600;margin-top:10px;line-height:1.3;}
+  .card .detail{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
+  .card .amount{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);margin-top:8px;font-weight:700;}
+
+  /* ===== TIMELINE ===== */
+  .timeline{position:relative;padding-left:26px;}
+  .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line);}
+  .day{position:relative;margin-bottom:18px;}
+  .day::before{
+    content:"";position:absolute;left:-26px;top:4px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--teal);
+  }
+  .day.highlight::before{border-color:var(--coral);background:var(--coral);}
+  .day .d-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .day .d-date{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--teal);font-weight:700;}
+  .day .d-tag{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .day .d-title{font-size:14.5px;font-weight:600;margin-top:3px;}
+  .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
+  .day.todo-day .d-title{color:var(--amber);}
+
+  /* ===== BUDGET ===== */
+  .budget-total{
+    background:linear-gradient(135deg,var(--card-2),var(--card));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    text-align:center;
+    margin-bottom:16px;
+  }
+  .budget-total .label{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .budget-total .value{font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;margin-top:6px;
+    background:linear-gradient(100deg,var(--gold),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .budget-total .range{font-size:11px;color:var(--muted-2);margin-top:4px;}
+
+  .bar-row{margin-bottom:14px;}
+  .bar-row .br-top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;}
+  .bar-row .br-top .amt{font-family:'JetBrains Mono',monospace;color:var(--muted);}
+  .bar-track{height:8px;border-radius:6px;background:var(--card-2);overflow:hidden;}
+  .bar-fill{height:100%;border-radius:6px;}
+
+  /* ===== CHECKLIST ===== */
+  .todo-list{display:flex;flex-direction:column;gap:8px;}
+  .todo-item{
+    display:flex;align-items:center;gap:10px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:13px;
+  }
+  .todo-item .chk{
+    width:18px;height:18px;border-radius:5px;border:2px solid var(--muted-2);
+    flex-shrink:0;
+  }
+  .todo-item.priority{border-color:rgba(255,107,74,.35);background:rgba(255,107,74,.06);}
+  .todo-item.priority .chk{border-color:var(--coral);}
+  .todo-item .txt{flex:1;line-height:1.4;}
+  .todo-item .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted-2);}
+
+  footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">FAMILY ROAD TRIP · 2026</div>
+    <h1>미서부 가족여행<br>대시보드</h1>
+    <div class="sub">2026.10.1(목) – 10.11(일) · 10박 11일 · 4인 가족</div>
+    <div class="countdown">
+      <div class="num" id="dday">–</div>
+      <div class="label">출국까지 남은 일수<br><span id="ddate" style="font-family:'JetBrains Mono',monospace;"></span></div>
+    </div>
+  </div>
+
+  <div class="route">
+    <div class="route-title">Route — LAS → JT → ANA → LAX</div>
+    <div class="route-track">
+      <div class="stop active">
+        <div class="dot">🎰</div>
+        <div class="place">라스베가스</div>
+        <div class="nights">10/1–10/4</div>
+      </div>
+      <div class="stop active">
+        <div class="dot">🌵</div>
+        <div class="place">조슈아트리</div>
+        <div class="nights">10/4–10/5</div>
+      </div>
+      <div class="stop active">
+        <div class="dot">🎢</div>
+        <div class="place">애너하임</div>
+        <div class="nights">10/5–10/7</div>
+      </div>
+      <div class="stop active">
+        <div class="dot">🌴</div>
+        <div class="place">할리우드</div>
+        <div class="nights">10/7–10/11</div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h2>예약 현황</h2>
+      <span class="count">8 / 10 완료</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="top"><span class="icon">✈️</span><span class="badge done">완료</span></div>
+        <div class="name">항공권 왕복</div>
+        <div class="detail">에어프레미아 YP101/YP102</div>
+        <div class="amount">₩4,075,800</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🚗</span><span class="badge done">완료</span></div>
+        <div class="name">렌터카 2건</div>
+        <div class="detail">Hertz · LAX↔LAS, LAS→ANA</div>
+        <div class="amount">$160.77</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
+        <div class="name">콘래드 라스베가스</div>
+        <div class="detail">10/1–2, 10/3–4 (2건)</div>
+        <div class="amount">150,000pt</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
+        <div class="name">Home2 Suites 애너하임</div>
+        <div class="detail">10/5–7 · 2박</div>
+        <div class="amount">130,000pt</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
+        <div class="name">로어스 할리우드</div>
+        <div class="detail">10/7–11 · 4박 · #3892645</div>
+        <div class="amount">₩1,627,179</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🌵</span><span class="badge pending">선택대기</span></div>
+        <div class="name">조슈아트리 숙소</div>
+        <div class="detail">뉴 미네츠 투 제이티 · 1박</div>
+        <div class="amount">₩394,594~414,011</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🎫</span><span class="badge done">완료</span></div>
+        <div class="name">스피어 쇼</div>
+        <div class="detail">오즈의 마법사 · 10/2 17:00</div>
+        <div class="amount">₩906,999</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏜️</span><span class="badge todo">미예약</span></div>
+        <div class="name">그랜드캐년 투어</div>
+        <div class="detail">자정출발 · 6인미달 리스크</div>
+        <div class="amount">₩240,601~</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏰</span><span class="badge pending">견적확인</span></div>
+        <div class="name">디즈니랜드 티켓</div>
+        <div class="detail">1 Day 1 Park·Tier4 · 성인3+아동1</div>
+        <div class="amount">₩1,007,085</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🎬</span><span class="badge pending">견적확인</span></div>
+        <div class="name">유니버설 티켓</div>
+        <div class="detail">1일 일반권 · 성인3+아동1 · 5%쿠폰적용</div>
+        <div class="amount">₩616,233</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>일자별 일정</h2>
+      <span class="count">11 DAYS</span>
+    </div>
+    <div class="timeline">
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/1 목</span><span class="d-tag">라스베가스 도착</span></div>
+        <div class="d-title">LAX 도착 → 렌터카 → 콘래드 체크인</div>
+        <div class="d-desc">바스토우 아울렛·세븐매직마운틴스 경유 → Tacos El Gordo 저녁</div>
+      </div>
+
+      <div class="day highlight">
+        <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
+        <div class="d-title">수영 → 레이트체크아웃 → 서커스서커스 → 스피어 17:00</div>
+        <div class="d-desc">저녁~자정 사이 일정 미정 · 00:00 그랜드캐년 투어 출발</div>
+      </div>
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년</span></div>
+        <div class="d-title">그랜드캐년 당일투어 (사우스림·이스트림·앤텔롭·홀스슈밴드)</div>
+        <div class="d-desc">21시 복귀 → Black Tap 저녁 → 콘래드 재체크인</div>
+      </div>
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">조슈아트리 이동</span></div>
+        <div class="d-title">라스베가스 → 조슈아트리 (3.5~4h)</div>
+        <div class="d-desc">낮 관광 → 온수욕조+화덕 숙소 → 별관측</div>
+      </div>
+
+      <div class="day todo-day">
+        <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">이동일 · 미정</span></div>
+        <div class="d-title">조슈아트리 → 애너하임 체크인 16:00</div>
+        <div class="d-desc">중간 일정 미정 · 저녁 렌터카 반납</div>
+      </div>
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드</span></div>
+        <div class="d-title">디즈니랜드 1일</div>
+        <div class="d-desc">갤럭시엣지 → 캘리포니아어드벤처 → 야간 불꽃놀이</div>
+      </div>
+
+      <div class="day todo-day">
+        <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">할리우드 이동 · 미정</span></div>
+        <div class="d-title">애너하임 체크아웃 → 할리우드 → 로어스 체크인</div>
+        <div class="d-desc">낮 시간대 세부 일정 미정</div>
+      </div>
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 스튜디오</span></div>
+        <div class="d-title">유니버설 스튜디오 종일</div>
+        <div class="d-desc">지하철 이동(갈 때) · 우버 복귀(밤)</div>
+      </div>
+
+      <div class="day todo-day">
+        <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">일정 미정</span></div>
+        <div class="d-title">게티센터 · 그리피스 천문대 (예정)</div>
+        <div class="d-desc">확정 필요</div>
+      </div>
+
+      <div class="day todo-day">
+        <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">다저스타디움 · 일정 일부 미정</span></div>
+        <div class="d-title">오전 다저 스타디움 투어(반나절) → 오후 LACMA 또는 로데오드라이브 (예정)</div>
+        <div class="d-desc">오후 세부 확정 필요 · 짐 정리</div>
+      </div>
+
+      <div class="day">
+        <div class="d-head"><span class="d-date">10/11 일</span><span class="d-tag">출국</span></div>
+        <div class="d-title">새벽 LAX 이동 → 10:50 출국 (YP102)</div>
+        <div class="d-desc">10/12(월) 15:50 한국 도착 · 10/13(화) 출근</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>예상 경비</h2>
+      <span class="count" id="budget-updated">구글시트 연동 중...</span>
+    </div>
+    <div class="budget-total">
+      <div class="label">TOTAL ESTIMATE</div>
+      <div class="value">약 1,270만원</div>
+      <div class="range">범위 약 1,243만 ~ 1,297만원</div>
+    </div>
+
+    <div id="budget-live"></div>
+
+    <div style="margin-top:14px;text-align:center;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted-2);">
+        📊 아래 항목은 구글시트 수정 시 새로고침하면 자동 반영됩니다
+      </span>
+    </div>
+  </section>
+
+  <script>
+    var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSe42jBtbUO9kwhfEL3_WiFGyu8FGePhjXJt9EStSzQ3RXqoEB3R2yXIC-KkhyitUuWSlZ7ceeedv4O/pub?output=csv";
+
+    function parseCSV(text) {
+      var rows = [];
+      var lines = text.split(/\r?\n/).filter(function(l){ return l.trim().length > 0; });
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        var cells = [];
+        var cur = "";
+        var inQuotes = false;
+        for (var j = 0; j < line.length; j++) {
+          var ch = line[j];
+          if (ch === '"') { inQuotes = !inQuotes; }
+          else if (ch === ',' && !inQuotes) { cells.push(cur); cur = ""; }
+          else { cur += ch; }
+        }
+        cells.push(cur);
+        rows.push(cells);
+      }
+      return rows;
+    }
+
+    var CAT_COLOR = {
+      "항공": "var(--coral)",
+      "렌터카": "var(--teal)",
+      "숙박": "var(--pink)",
+      "액티비티": "var(--amber)"
+    };
+
+    function renderBudget(rows) {
+      var header = rows[0] || [];
+      var body = rows.slice(1);
+      var html = "";
+      var lastCat = "";
+      body.forEach(function(r) {
+        var cat = (r[0] || "").trim();
+        var item = (r[1] || "").trim();
+        var amt = (r[2] || "").trim();
+        var note = (r[3] || "").trim();
+        if (!item) return; // skip pure subtotal-label-only rows with no item name
+        var color = CAT_COLOR[cat] || "var(--muted-2)";
+        var showCat = cat !== lastCat;
+        lastCat = cat;
+        html += '<div class="bar-row" style="border-left:3px solid ' + color + ';padding-left:10px;">';
+        html += '<div class="br-top"><span>' + (showCat ? '<span style="color:'+color+';font-family:\'JetBrains Mono\',monospace;font-size:10px;">[' + cat + '] </span>' : '') + item + '</span><span class="amt">' + amt + '</span></div>';
+        if (note) html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">' + note + '</div>';
+        html += '</div>';
+      });
+      document.getElementById('budget-live').innerHTML = html || '<div style="color:var(--muted);font-size:12px;">데이터를 불러오지 못했습니다.</div>';
+      document.getElementById('budget-updated').textContent = "SHEET LIVE · " + new Date().toLocaleDateString('ko-KR');
+    }
+
+    fetch(SHEET_CSV_URL)
+      .then(function(res) { return res.text(); })
+      .then(function(text) { renderBudget(parseCSV(text)); })
+      .catch(function(err) {
+        document.getElementById('budget-updated').textContent = "연동 실패 (새로고침 시도)";
+        document.getElementById('budget-live').innerHTML = '<div style="color:var(--muted);font-size:12px;">구글시트를 불러오지 못했습니다. 시트가 "웹에 게시" 상태인지 확인해주세요.</div>';
+      });
+  </script>
+
+  <section>
+    <div class="section-head">
+      <h2>남은 할 일</h2>
+      <span class="count">8 ITEMS</span>
+    </div>
+    <div class="todo-list">
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 10/10 오전 · 반나절</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">조슈아트리 숙소 예약 확정 <span class="tag">— 환불가능 옵션 권장</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">그랜드캐년 투어 예약 <span class="tag">— 6인 미달 리스크 확인</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">여행사 컨설팅 문의 발송</div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 구매 <span class="tag">— 9월 재확인</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">유니버설 티켓 구매</div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">둘째 딸 카시트 필요 여부 확인</div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">10/2 저녁, 10/5, 10/7·9·10 일정 채우기</div></div>
+    </div>
+  </section>
+
+  <footer>SEUNGHYUN SHIN FAMILY · US WEST 2026</footer>
+</div>
+
+<script>
+  var target = new Date("2026-10-01T00:00:00+09:00");
+  var now = new Date();
+  var diff = Math.ceil((target - now) / (1000*60*60*24));
+  document.getElementById('dday').textContent = diff > 0 ? diff : (diff === 0 ? 'D' : '완료');
+  document.getElementById('ddate').textContent = "2026.10.1(목) 출국";
+</script>
+</body>
+</html>
