@@ -156,6 +156,18 @@
   .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
   .day.todo-day .d-title{color:var(--amber);}
 
+  /* ===== DINE PICKS ===== */
+  .dine-picks{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+  .dine-tier-label{font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;margin-bottom:6px;}
+  .dine-tier-items{display:flex;flex-direction:column;gap:6px;}
+  .dine-item{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;text-decoration:none;color:var(--text);transition:border-color .15s;}
+  .dine-item:hover,.dine-item:focus-visible{border-color:var(--coral);outline:none;}
+  .dine-item .dine-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .dine-item .dine-name{font-size:12.5px;font-weight:600;}
+  .dine-item .dine-name::after{content:" ↗";color:var(--muted-2);font-weight:400;}
+  .dine-item .dine-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+  .dine-item .dine-note{font-size:10.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
+
   /* ===== BUDGET ===== */
   .budget-total{
     background:linear-gradient(135deg,var(--card-2),var(--card));
@@ -337,6 +349,47 @@
         <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
         <div class="d-title">수영 → 레이트체크아웃 → 서커스서커스 → 스피어 17:00</div>
         <div class="d-desc">저녁~자정 사이 일정 미정 · 00:00 그랜드캐년 투어 출발</div>
+        <div class="dine-picks">
+          <div class="dine-tier">
+            <div class="dine-tier-label">🍔 실속 가성비 &amp; 패스트 캐주얼 · $35~85</div>
+            <div class="dine-tier-items">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=In-N-Out+Burger+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">인앤아웃 버거</span><span class="dine-price">4인 $35~45</span></div>
+                <div class="dine-note">더블더블 세트2+치즈버거2+애니멀스타일 프라이+쉐이크 · 팁 없음, 스트립 필수코스</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Gordon+Ramsay+Fish+%26+Chips+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">고든 램지 피시 앤 칩스</span><span class="dine-price">4인 $65~85</span></div>
+                <div class="dine-note">피시앤칩스 콤보3+치킨 콤보1 · 카운터 주문이라 팁 부담 적음, 아이도 잘 먹음</div>
+              </a>
+            </div>
+          </div>
+          <div class="dine-tier">
+            <div class="dine-tier-label">🍕 패밀리 셰어 &amp; 특색 메뉴 · $75~115</div>
+            <div class="dine-tier-items">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Grimaldi%27s+Pizzeria+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">그리말디스 피제리아</span><span class="dine-price">4인 $75~100</span></div>
+                <div class="dine-note">18인치 화덕피자1(토핑추가)+미트볼/칼조네1+샐러드 · 스피어에서 실내로 바로 이동 가능</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Hash+House+A+Go+Go+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">해시 하우스 어 고고</span><span class="dine-price">4인 $85~115</span></div>
+                <div class="dine-note">로즈마리 치킨&와플1+트랙터 스킬렛1+팬케이크1 · 비주얼 좋아 가족사진에 좋음</div>
+              </a>
+            </div>
+          </div>
+          <div class="dine-tier">
+            <div class="dine-tier-label">🍗 정통 다이닝 &amp; 편의성 · $110~210</div>
+            <div class="dine-tier-items">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Grand+Lux+Cafe+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">그랜드 럭스 카페</span><span class="dine-price">4인 $110~145</span></div>
+                <div class="dine-note">아시안 나초+볼로네제/잠발라야 파스타2+버거or스테이크1 · 메뉴 100가지+, 24시간 운영</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Yardbird+Southern+Table+%26+Bar+Las+Vegas" target="_blank" rel="noopener">
+                <div class="dine-top"><span class="dine-name">야드버드</span><span class="dine-price">4인 $160~210</span></div>
+                <div class="dine-note">시그니처 프라이드치킨&와플2+버터비스킷+맥앤치즈 · 가격은 높지만 만족도 최고</div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="day">
