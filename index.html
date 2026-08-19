@@ -200,6 +200,17 @@
   .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
   .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
 
+  /* ===== NAV BADGE (English destination, one-click maps) ===== */
+  .nav-badge{display:inline-flex;align-items:center;gap:4px;margin-top:7px;padding:4px 9px 4px 8px;border-radius:20px;background:rgba(46,196,182,.12);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.01em;text-decoration:none;transition:background-color .15s,border-color .15s;}
+  .nav-badge:hover,.nav-badge:focus-visible{background:rgba(46,196,182,.24);border-color:var(--teal);outline:none;}
+  .nav-badge::after{content:"↗";color:var(--muted-2);margin-left:2px;}
+  .nav-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
+  .nav-card + .nav-card{margin-top:6px;}
+  .nav-card-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .nav-card-label{font-size:12.5px;font-weight:700;color:var(--text);}
+  .nav-card-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+  .nav-card-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5;}
+
   /* ===== BUDGET ===== */
   .budget-total{
     background:linear-gradient(135deg,var(--card-2),var(--card));
@@ -528,61 +539,57 @@
         <div class="sched-list">
 
           <div class="sched-block">
-            <div class="sched-time">🚗 09:30–13:00</div>
-            <div class="sched-title">라스베이거스 출발 → 사막 고속도로 드라이브</div>
-            <div class="sched-note">I-15 S → CA-62 E · 약 3.5~4시간</div>
+            <div class="sched-time">🚗 [이동 1]</div>
+            <div class="sched-title">라스베이거스 콘래드 → 유카밸리 (약 3.5~4시간)</div>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Walmart+Supercenter+58501+Twentynine+Palms+Hwy+Yucca+Valley+CA" target="_blank" rel="noopener noreferrer">📍 Walmart Supercenter, Yucca Valley</a>
+            <div class="sched-note">유카밸리 중심 진입 기점. 바비큐용 스테이크, 소시지, 마시멜로(스모어), 음료 장보기</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🛒 13:00–13:45</div>
-            <a class="sched-title-link" href="https://www.google.com/maps/search/?api=1&amp;query=Walmart+Supercenter+Yucca+Valley" target="_blank" rel="noopener noreferrer">📍 유카밸리 월마트(Walmart) 바비큐 &amp; 간식 장보기</a>
-            <div class="sched-note"><b>구매 리스트</b> — 스테이크용 소고기(립아이/뉴욕스트립), 수제 소시지, 구이용 채소, 스모어 세트(마시멜로/크래커/초콜릿), 생수/음료/주류, 아침용 베이글</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍔 13:50–14:40</div>
-            <div class="sched-title">유카밸리 점심 식사<span class="mini-badge">현장 선택</span></div>
+            <div class="sched-time">🍔 [점심]</div>
+            <div class="sched-title">유카밸리 식당 <span class="mini-badge">선택 1곳 내비 검색</span></div>
             <div class="sched-sub">
-              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=In-N-Out+Burger+Yucca+Valley" target="_blank" rel="noopener noreferrer">
-                <div class="dine-top"><span class="dine-name">📍 [후보1] In-N-Out Burger (인앤아웃)</span><span class="dine-price">4인 $35~45</span></div>
-                <div class="dine-note">팁 없음 · 극강의 가성비 &amp; 빠른 식사</div>
-              </a>
-              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Pie+for+the+People+Yucca+Valley" target="_blank" rel="noopener noreferrer">
-                <div class="dine-top"><span class="dine-name">📍 [후보2] Pie for the People</span><span class="dine-price">4인 $55~75</span></div>
-                <div class="dine-note">뉴욕 정통 화덕피자 · 대형 피자 셰어, 남은 조각 숙소 야식 포장</div>
-              </a>
-              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=John%27s+Place+Yucca+Valley" target="_blank" rel="noopener noreferrer">
-                <div class="dine-top"><span class="dine-name">📍 [후보3] John's Place</span><span class="dine-price">4인 $65~90</span></div>
-                <div class="dine-note">정통 패밀리 다이너 · 편안한 부스 좌석, 두툼한 수제버거 &amp; 아메리칸 다이너</div>
-              </a>
+              <div class="nav-card">
+                <div class="nav-card-top"><span class="nav-card-label">[후보1] In-N-Out Burger</span><span class="nav-card-price">$35~45</span></div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=In-N-Out+Burger+Yucca+Valley+CA" target="_blank" rel="noopener noreferrer">📍 In-N-Out Burger, Yucca Valley</a>
+              </div>
+              <div class="nav-card">
+                <div class="nav-card-top"><span class="nav-card-label">[후보2] Pie for the People</span><span class="nav-card-price">$55~75</span></div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Pie+for+the+People+Yucca+Valley+CA" target="_blank" rel="noopener noreferrer">📍 Pie for the People, Yucca Valley</a>
+              </div>
+              <div class="nav-card">
+                <div class="nav-card-top"><span class="nav-card-label">[후보3] John's Place</span><span class="nav-card-price">$65~90</span></div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=John%27s+Place+Yucca+Valley+CA" target="_blank" rel="noopener noreferrer">📍 John's Place, Yucca Valley</a>
+              </div>
             </div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🌵 15:15–17:00</div>
-            <div class="sched-title">조슈아트리 국립공원 핵심 명소 탐방</div>
+            <div class="sched-time">🌵 [이동 2]</div>
+            <div class="sched-title">조슈아트리 국립공원 핵심 탐방</div>
             <div class="sched-sub">
-              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Hidden+Valley+Nature+Trail+Joshua+Tree" target="_blank" rel="noopener noreferrer">
-                <div class="dine-top"><span class="dine-name">📍 히든 밸리 (Hidden Valley)</span></div>
-                <div class="dine-note">기암괴석과 조슈아트리가 어우러진 완만한 1.6km 패밀리 트레일</div>
-              </a>
-              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Skull+Rock+Joshua+Tree" target="_blank" rel="noopener noreferrer">
-                <div class="dine-top"><span class="dine-name">📍 스컬 락 (Skull Rock)</span></div>
-                <div class="dine-note">해골 모양의 거대한 자연 풍화 바위 포토존</div>
-              </a>
+              <div class="nav-card">
+                <div class="nav-card-label">1차 내비 · Hidden Valley Nature Trail</div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hidden+Valley+Nature+Trail+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Hidden Valley Nature Trail, Joshua Tree CA</a>
+                <div class="nav-card-note">1.6km 완만 둘레길</div>
+              </div>
+              <div class="nav-card">
+                <div class="nav-card-label">2차 내비 · Skull Rock</div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Skull+Rock+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Skull Rock, Joshua Tree CA</a>
+                <div class="nav-card-note">해골 바위 포토존</div>
+              </div>
+              <div class="nav-card">
+                <div class="nav-card-label">3차 내비 · Keys View</div>
+                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Keys+View+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Keys View, Joshua Tree CA</a>
+                <div class="nav-card-note">일몰 명소 · 18:25 일몰 감상, 방한 외투 필수</div>
+              </div>
             </div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🌅 17:30–18:35</div>
-            <a class="sched-title-link" href="https://www.google.com/maps/search/?api=1&amp;query=Keys+View+Joshua+Tree" target="_blank" rel="noopener noreferrer">📍 키즈 뷰(Keys View) 선셋 감상</a>
-            <div class="sched-note">해발 1,500m 전망대에서 팜스프링스와 샌앤드레아스 단층대 파노라마 일몰 감상 · <b>일몰 18:25경</b>, 방한 외투 필수</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🌌 19:00~</div>
-            <div class="sched-title">독채 숙소 체크인 &amp; 힐링 나이트</div>
-            <div class="sched-note">야외 테라스 바비큐 저녁 식사 + 온수욕조(Hot Tub/자쿠지) 피로 풀기 + 화덕 불멍 &amp; 스모어 굽기 + 쏟아지는 밤하늘 은하수 관측</div>
+            <div class="sched-time">🌌 [숙소]</div>
+            <div class="sched-title">조슈아트리 독채 숙소 체크인</div>
+            <div class="sched-note">바비큐 + 온수욕조/자쿠지 + 별자리 관측</div>
           </div>
 
         </div>
@@ -590,17 +597,53 @@
         </div></div>
       </details>
 
-      <details class="day todo-day">
+      <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">이동일 · 미정</span></div>
-            <div class="d-line">조슈아트리 → 애너하임 체크인 16:00</div>
+            <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">애너하임 이동 &amp; 다운타운 디즈니</span></div>
+            <div class="d-line">체크아웃 10:00 → 아울렛/와인샵 경유 → 애너하임 체크인 15:30 &amp; 렌터카 반납 → 다운타운 디즈니 저녁</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">조슈아트리 → 애너하임 체크인 16:00</div>
-        <div class="d-desc">중간 일정 미정 · 저녁 렌터카 반납</div>
+        <div class="d-title">조슈아트리 → 애너하임 체크인 15:30</div>
+        <div class="d-desc">경유 쇼핑 후 렌터카 반납, 다운타운 디즈니에서 저녁 산책</div>
+        <div class="sched-list">
+
+          <div class="sched-block">
+            <div class="sched-time">🚗 10:00</div>
+            <div class="sched-title">숙소 체크아웃 후 서쪽 이동</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🛍️ [경유 옵션 A]</div>
+            <div class="sched-title">데저트 힐스 프리미엄 아울렛 (쇼핑 &amp; 점심)</div>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+Hills+Premium+Outlets+Cabazon+CA" target="_blank" rel="noopener noreferrer">📍 Desert Hills Premium Outlets, Cabazon CA</a>
+            <div class="sched-note">미서부 최대 아울렛, 푸드코트 점심 및 핵심 쇼핑 (숙소에서 약 50분)</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🥃 [선택 경유 B]</div>
+            <div class="sched-title">Hi-Time Wine Cellars (코스타메사 주류 성지)</div>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hi-Time+Wine+Cellars+Costa+Mesa+CA" target="_blank" rel="noopener noreferrer">📍 Hi-Time Wine Cellars, Costa Mesa CA</a>
+            <div class="sched-note">지하 대형 셀러 및 희귀 버번/싱글몰트 정가 판매 성지</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🏨 15:30</div>
+            <div class="sched-title">애너하임 숙소 체크인 &amp; 렌터카 반납</div>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">📍 Home2 Suites by Hilton Anaheim Resort</a>
+            <div class="sched-note">숙소 체크인 후 인근 Hertz 지점 차량 반납</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🏰 17:30</div>
+            <div class="sched-title">다운타운 디즈니(Downtown Disney) 산책 &amp; 저녁</div>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Downtown+Disney+District+Anaheim" target="_blank" rel="noopener noreferrer">📍 Downtown Disney District, Anaheim</a>
+            <div class="sched-note">디즈니 스토어 굿즈 사전 구경, 저녁 식사, 다음 날 디즈니랜드 오픈런 대비 일찍 휴식</div>
+          </div>
+
+        </div>
         </div></div>
       </details>
 
@@ -790,7 +833,7 @@
       <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 구매 <span class="tag">— 9월 재확인</span></div></div>
       <div class="todo-item"><div class="chk"></div><div class="txt">유니버설 티켓 구매</div></div>
       <div class="todo-item"><div class="chk"></div><div class="txt">둘째 딸 카시트 필요 여부 확인</div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">10/2 저녁, 10/5, 10/7·9·10 일정 채우기</div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">10/7·9·10 일정 채우기</div></div>
     </div>
   </section>
 
