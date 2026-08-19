@@ -214,6 +214,7 @@
   .nav-card-label{font-size:12.5px;font-weight:700;color:var(--text);}
   .nav-card-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
   .nav-card-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5;}
+  .uber-badge{display:inline-flex;align-items:center;gap:4px;margin-top:6px;margin-right:6px;padding:3px 8px;border-radius:20px;background:rgba(255,107,74,.12);border:1px solid rgba(255,107,74,.32);color:var(--coral);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.01em;white-space:nowrap;}
 
   /* ===== BUDGET ===== */
   .budget-total{
@@ -912,67 +913,63 @@
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">게티센터 &amp; 그리피스 천문대 (LA 전망 투어)</span></div>
-            <div class="d-line">게티센터 미술관·정원(오전) → 관내 점심 → 그리피스 천문대 &amp; 할리우드 사인 조망(오후~노을) → 자유 저녁</div>
+            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">게티센터 명작 감상 &amp; 그리피스 천문대 라라랜드 선셋·야경</span></div>
+            <div class="d-line">09:30 호텔 출발(우버 25분) → 게티센터(고흐 '아이리스'·센트럴가든) → 13:30 더 그로브/파머스마켓 런치 → 16:30 그리피스 천문대(선셋 18:20 &amp; 야경)</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">게티센터 &amp; 그리피스 천문대</div>
-        <div class="d-desc">유니버설(전날)과 다저스타디움(다음날) 사이 여유로운 하루 · 실내외 전망 명소 위주로 체력 안배</div>
+        <div class="d-title">우버 기반 LA 문화&amp;야경 힐링 자유 일정</div>
+        <div class="d-desc">렌터카 없이 우버 4회 이동으로만 진행 · 게티센터 명작 감상 → 파머스마켓 런치 → 그리피스 선셋·야경</div>
         <div class="sched-list">
 
           <div class="sched-block">
-            <div class="sched-time">🚗 09:00–09:30</div>
-            <div class="sched-title">로어스 출발 → 게티센터</div>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Getty+Center+Los+Angeles+CA" target="_blank" rel="noopener noreferrer">📍 The Getty Center, LA</a>
-            <div class="sched-note">우버 약 20~25분. 입구 도착 후 무료 트램으로 언덕 위 미술관까지 이동</div>
+            <div class="sched-time">🚕 09:30–13:00</div>
+            <div class="sched-title">【1단계: 게티센터 심층 관람】 (The Getty Center)</div>
+            <span class="uber-badge">🚕 [이동1] 로어스→게티센터 · 25분 · $25~35</span>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Getty+Center+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Getty Center (Rideshare Drop-off)</a>
+            <div class="sched-note">
+              무료 트램 탑승 → 서관(West Pavilion) 반 고흐 &lt;아이리스&gt;, 모네 &lt;건초더미&gt; 등 핵심 명작 감상 → 센트럴 가든(Central Garden) 산책 &amp; 태평양 파노라마 조망<br>
+              <b>메모</b>: 입장료 무료(공식 웹사이트 사전 시간지정 예약 필수)
+            </div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🎨 09:30–12:30</div>
-            <div class="sched-title">게티센터 관람 <span class="mini-badge">입장 무료·예약 필수</span></div>
-            <div class="sched-note">미술관 상설전 + 중앙정원(Central Garden) 산책 + 로스앤젤레스 파노라마 전망대 · 아이 동반 시 정원·전망 위주로 가볍게</div>
+            <div class="sched-time">🍔 13:00–15:30</div>
+            <div class="sched-title">【2단계: 런치 &amp; 로컬 마켓 투어】 더 그로브 &amp; 오리지널 파머스 마켓</div>
+            <span class="uber-badge">🚕 [이동2] 게티센터→파머스마켓 · 25분 · $20~28</span>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Original+Farmers+Market+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Original Farmers Market</a>
+            <div class="sched-note">80년 전통 파머스 마켓에서 취향껏 점심(수제버거, 프렌치딥, 바비큐 등) → 유럽풍 야외 쇼핑몰 '더 그로브(The Grove)' 분수대 산책 및 에레혼(Erewhon) 마켓 구경</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🍽️ 12:30–13:30</div>
-            <div class="sched-title">게티센터 관내 점심</div>
-            <div class="sched-note">언덕 위 시설이라 외부 이동이 불편해 관내 레스토랑/카페 이용 권장</div>
+            <div class="sched-time">🔭 16:00–19:30</div>
+            <div class="sched-title">【3단계: 그리피스 천문대】 일몰(18:20) &amp; 라라랜드 황금빛 야경</div>
+            <span class="uber-badge">🚕 [이동3] 파머스마켓→그리피스천문대 · 25~30분 · $22~30</span>
+            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Griffith+Observatory+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Griffith Observatory (승하차 전용 로터리)</a>
+            <div class="sched-note">
+              16:30 도착: 천문대 잔디밭에서 할리우드 사인(Hollywood Sign) 배경 가족 기념 스냅 촬영<br>
+              18:20 선셋: 붉게 물드는 LA 다운타운과 태평양 방면 황금빛 노을 감상<br>
+              19:00 야경: 야외 테라스에서 LA 3대 야경 감상 &amp; 천문대 내부 무료 전시 관람
+            </div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🚗 13:30–14:15</div>
-            <div class="sched-title">이동: 게티센터 → 그리피스 천문대</div>
-            <div class="sched-note">약 30~40분 (405 → 101 경유)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🔭 14:15–17:30</div>
-            <div class="sched-title">그리피스 천문대 관람</div>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Griffith+Observatory+Los+Angeles+CA" target="_blank" rel="noopener noreferrer">📍 Griffith Observatory, LA</a>
-            <div class="sched-note">플라네타리움 쇼 &amp; 망원경 관측 + 할리우드 사인·LA 시내 전망 포토스팟</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🌇 17:30–18:30</div>
-            <div class="sched-title">그리피스 파크 노을 감상 &amp; 가족사진</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍽️ 19:00~</div>
-            <div class="sched-title">저녁 자유식 <span class="mini-badge">로스펠리즈/할리우드</span></div>
-            <div class="sched-note">호텔 복귀 방향으로 이동하며 자유롭게, 7일차 후보(CPK·Win-Dow·Hard Rock) 재방문도 가능</div>
+            <div class="sched-time">🏨 19:45~</div>
+            <div class="sched-title">【4단계: 로어스 할리우드 호텔 복귀 &amp; 저녁】</div>
+            <span class="uber-badge">🚕 [이동4] 그리피스천문대→로어스호텔 · 15분 · $15~20</span>
+            <div class="sched-note">숙소 복귀 후 인근 맛집 저녁 식사 및 편안한 휴식</div>
           </div>
 
         </div>
 
         <div class="tip-note">
-          <div class="tip-note-title">💡 9일차 체크포인트</div>
+          <div class="tip-note-title">💡 9일차 교통 &amp; 방문 핵심 치트키</div>
           <ol class="cheat-list">
-            <li><b>게티센터 예약</b> — 입장 자체는 무료지만 시간지정(Timed-entry) 예약 필수. getty.edu에서 방문 전 미리 예약.</li>
-            <li><b>그리피스 주차 주의</b> — 주차장이 매우 혼잡하고 조기 마감되는 경우가 많음. 이른 오후 도착 또는 우버 이용 권장.</li>
-            <li><b>플라네타리움 쇼</b> — 현장 매진이 빠르니 도착 즉시 쇼 티켓부터 확인.</li>
+            <li><b>우버 활용 경제성</b> — 4회 탑승 총액 약 $80~115 수준으로, 렌터카 재대여+주차비(호텔 $60, 게티 $25 등 총 $160+) 대비 $50 이상 절약 &amp; 운전/주차 스트레스 제로.</li>
+            <li><b>그리피스 주차 전쟁 회피</b> — 일몰 시간대 일반 차량은 만차로 진입조차 어려우나, 우버는 천문대 정문 앞 로터리 승하차 구역까지 바로 진입 가능.</li>
+            <li><b>천문대 복귀 호출 팁</b> — 야경 관람을 마치기 약 10~15분 전에 우버를 미리 호출하면 대기 시간 최소화.</li>
+            <li><b>방한 겉옷</b> — 천문대는 산 정상에 위치하여 일몰 후 바람이 불고 쌀쌀하므로 경량 겉옷 필수 지참.</li>
           </ol>
         </div>
         </div></div>
