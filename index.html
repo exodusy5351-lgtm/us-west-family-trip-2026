@@ -155,6 +155,8 @@
   .day .d-title{font-size:14.5px;font-weight:600;margin-top:3px;}
   .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
   .day.todo-day .d-title{color:var(--amber);}
+  .d-title .d-link{color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;font-weight:700;transition:color .15s,text-decoration-color .15s;}
+  .d-title .d-link:hover,.d-title .d-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
 
   /* ===== DINE PICKS ===== */
   .dine-picks{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
@@ -341,8 +343,8 @@
 
       <div class="day">
         <div class="d-head"><span class="d-date">10/1 목</span><span class="d-tag">라스베가스 도착</span></div>
-        <div class="d-title">LAX 도착 → 렌터카 → 콘래드 체크인</div>
-        <div class="d-desc">바스토우 아울렛·세븐매직마운틴스 경유 → Tacos El Gordo 저녁</div>
+        <div class="d-title">LAX 도착(픽업) → 바스토우/세븐매직마운틴스 경유 → 코스트코 헨더슨(세인트 로즈점) 경유(주유/장보기) → 리조트월드 도착(콘래드 체크인 및 렌터카 반납) → <a class="d-link" href="https://www.google.com/maps/search/?api=1&amp;query=Tacos+El+Gordo+3041+S+Las+Vegas+Blvd" target="_blank" rel="noopener noreferrer">📍 Tacos El Gordo</a> 저녁</div>
+        <div class="d-desc">코스트코에서 저렴하게 주유 및 식음료 장보기 후 리조트월드 내 렌터카 반납. 저녁은 도보 이동 가능한 스트립 최고 인기 타코 맛집.</div>
       </div>
 
       <div class="day highlight">
