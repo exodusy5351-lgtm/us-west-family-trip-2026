@@ -139,24 +139,40 @@
   .card .detail{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
   .card .amount{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);margin-top:8px;font-weight:700;}
 
-  /* ===== TIMELINE ===== */
+  /* ===== TIMELINE (accordion) ===== */
   .timeline{position:relative;padding-left:26px;}
   .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line);}
-  .day{position:relative;margin-bottom:18px;}
+  .day{position:relative;margin-bottom:10px;}
   .day::before{
-    content:"";position:absolute;left:-26px;top:4px;
+    content:"";position:absolute;left:-26px;top:16px;
     width:16px;height:16px;border-radius:50%;
     background:var(--bg);border:2px solid var(--teal);
+    z-index:1;
   }
   .day.highlight::before{border-color:var(--coral);background:var(--coral);}
+  .day summary{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .day summary::-webkit-details-marker{display:none;}
+  .d-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 10px;margin:-2px -10px;border-radius:10px;transition:background-color .15s;}
+  .d-summary:hover{background:var(--card);}
+  .d-summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;}
+  .d-summary-main{min-width:0;flex:1;}
   .day .d-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
   .day .d-date{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--teal);font-weight:700;}
   .day .d-tag{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
-  .day .d-title{font-size:14.5px;font-weight:600;margin-top:3px;}
-  .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
+  .d-line{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
+  .day.todo-day .d-line{color:var(--amber);}
+  .d-chevron{flex-shrink:0;color:var(--muted-2);font-size:13px;line-height:1;margin-top:2px;transition:transform .25s ease;}
+  .day[open] .d-chevron{transform:rotate(180deg);color:var(--gold);}
+  .d-body{overflow:hidden;transition:max-height .3s ease;}
+  .d-body-inner{padding:2px 10px 14px;}
+  .day .d-title{font-size:14.5px;font-weight:600;}
+  .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
   .day.todo-day .d-title{color:var(--amber);}
   .d-title .d-link{color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;font-weight:700;transition:color .15s,text-decoration-color .15s;}
   .d-title .d-link:hover,.d-title .d-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
+  @media (prefers-reduced-motion: reduce){
+    .d-body,.d-chevron{transition:none;}
+  }
 
   /* ===== DINE PICKS ===== */
   .dine-picks{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
@@ -343,14 +359,29 @@
     </div>
     <div class="timeline">
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/1 목</span><span class="d-tag">라스베가스 도착</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/1 목</span><span class="d-tag">라스베가스 도착</span></div>
+            <div class="d-line">LAX 도착 → 코스트코 헨더슨 경유 → 콘래드 체크인 → Tacos El Gordo 저녁</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">LAX 도착(픽업) → 바스토우/세븐매직마운틴스 경유 → 코스트코 헨더슨(세인트 로즈점) 경유(주유/장보기) → 리조트월드 도착(콘래드 체크인 및 렌터카 반납) → <a class="d-link" href="https://www.google.com/maps/search/?api=1&amp;query=Tacos+El+Gordo+3041+S+Las+Vegas+Blvd" target="_blank" rel="noopener noreferrer">📍 Tacos El Gordo</a> 저녁</div>
         <div class="d-desc">코스트코에서 저렴하게 주유 및 식음료 장보기 후 리조트월드 내 렌터카 반납. 저녁은 도보 이동 가능한 스트립 최고 인기 타코 맛집.</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day highlight">
-        <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
+      <details class="day highlight">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
+            <div class="d-line">수영 → 중식 → 레이트체크아웃 → 스피어 17:00</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">오전 수영 → 호텔 F&amp;B 크레딧($50) 활용 중식 → 레이트체크아웃 → 서커스서커스 → 스피어 17:00</div>
         <div class="d-desc">저녁~자정 사이 일정 미정 · 00:00 그랜드캐년 투어 출발</div>
         <div class="dine-picks">
@@ -412,62 +443,134 @@
               </a>
             </div>
           </div>
-        </div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년</span></div>
+            <div class="d-line">그랜드캐년 당일투어 → Black Tap 저녁</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">그랜드캐년 당일투어 (사우스림·이스트림·앤텔롭·홀스슈밴드)</div>
         <div class="d-desc">21시 복귀 → Black Tap 저녁 → 콘래드 재체크인</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">조슈아트리 이동</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">조슈아트리 이동</span></div>
+            <div class="d-line">라스베가스 → 조슈아트리 → 별관측</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">라스베가스 → 조슈아트리 (3.5~4h)</div>
         <div class="d-desc">낮 관광 → 온수욕조+화덕 숙소 → 별관측</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day todo-day">
-        <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">이동일 · 미정</span></div>
+      <details class="day todo-day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">이동일 · 미정</span></div>
+            <div class="d-line">조슈아트리 → 애너하임 체크인 16:00</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">조슈아트리 → 애너하임 체크인 16:00</div>
         <div class="d-desc">중간 일정 미정 · 저녁 렌터카 반납</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드</span></div>
+            <div class="d-line">디즈니랜드 1일 · 야간 불꽃놀이</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">디즈니랜드 1일</div>
         <div class="d-desc">갤럭시엣지 → 캘리포니아어드벤처 → 야간 불꽃놀이</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day todo-day">
-        <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">할리우드 이동 · 미정</span></div>
+      <details class="day todo-day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">할리우드 이동 · 미정</span></div>
+            <div class="d-line">애너하임 체크아웃 → 할리우드 → 로어스 체크인</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">애너하임 체크아웃 → 할리우드 → 로어스 체크인</div>
         <div class="d-desc">낮 시간대 세부 일정 미정</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 스튜디오</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 스튜디오</span></div>
+            <div class="d-line">유니버설 스튜디오 종일</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">유니버설 스튜디오 종일</div>
         <div class="d-desc">지하철 이동(갈 때) · 우버 복귀(밤)</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day todo-day">
-        <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">일정 미정</span></div>
+      <details class="day todo-day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">일정 미정</span></div>
+            <div class="d-line">게티센터 · 그리피스 천문대 (예정)</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">게티센터 · 그리피스 천문대 (예정)</div>
         <div class="d-desc">확정 필요</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day todo-day">
-        <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">다저스타디움 · 일정 일부 미정</span></div>
+      <details class="day todo-day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">다저스타디움 · 일정 일부 미정</span></div>
+            <div class="d-line">오전 다저 스타디움 투어 → 오후 LACMA 또는 로데오드라이브 (예정)</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">오전 다저 스타디움 투어(반나절) → 오후 LACMA 또는 로데오드라이브 (예정)</div>
         <div class="d-desc">오후 세부 확정 필요 · 짐 정리 · 10/9는 다저스 홈경기 시 일반투어 미운영 위험 있어 10/10로 선택</div>
-      </div>
+        </div></div>
+      </details>
 
-      <div class="day">
-        <div class="d-head"><span class="d-date">10/11 일</span><span class="d-tag">출국</span></div>
+      <details class="day">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/11 일</span><span class="d-tag">출국</span></div>
+            <div class="d-line">새벽 LAX 이동 → 10:50 출국</div>
+          </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
         <div class="d-title">새벽 LAX 이동 → 10:50 출국 (YP102)</div>
         <div class="d-desc">10/12(월) 15:50 한국 도착 · 10/13(화) 출근</div>
-      </div>
+        </div></div>
+      </details>
 
     </div>
   </section>
@@ -584,6 +687,56 @@
   var diff = Math.ceil((target - now) / (1000*60*60*24));
   document.getElementById('dday').textContent = diff > 0 ? diff : (diff === 0 ? 'D' : '완료');
   document.getElementById('ddate').textContent = "2026.10.1(목) 출국";
+</script>
+
+<script>
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var days = document.querySelectorAll('.timeline > details.day');
+
+    days.forEach(function (det) {
+      var summary = det.querySelector(':scope > summary');
+      var body = det.querySelector(':scope > .d-body');
+      if (!summary || !body) return;
+
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (reduceMotion) {
+          det.open = !det.open;
+          return;
+        }
+
+        if (det.open) {
+          var startH = body.scrollHeight;
+          body.style.maxHeight = startH + 'px';
+          body.getBoundingClientRect();
+          requestAnimationFrame(function () {
+            body.style.maxHeight = '0px';
+          });
+          body.addEventListener('transitionend', function onClose(ev) {
+            if (ev.propertyName !== 'max-height') return;
+            det.open = false;
+            body.style.maxHeight = '';
+            body.removeEventListener('transitionend', onClose);
+          });
+        } else {
+          det.open = true;
+          var endH = body.scrollHeight;
+          body.style.maxHeight = '0px';
+          body.getBoundingClientRect();
+          requestAnimationFrame(function () {
+            body.style.maxHeight = endH + 'px';
+          });
+          body.addEventListener('transitionend', function onOpen(ev) {
+            if (ev.propertyName !== 'max-height') return;
+            body.style.maxHeight = 'none';
+            body.removeEventListener('transitionend', onOpen);
+          });
+        }
+      });
+    });
+  })();
 </script>
 </body>
 </html>
