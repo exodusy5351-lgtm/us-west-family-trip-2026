@@ -188,6 +188,10 @@
   .dine-item.static{cursor:default;}
   .tip-note{margin-top:2px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.28);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.55;}
   .tip-note b{color:var(--gold);}
+  .tip-note-title{font-size:11.5px;font-weight:700;color:var(--gold);margin-bottom:7px;}
+  .cheat-list{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:7px;}
+  .cheat-list li{font-size:11px;color:var(--muted);line-height:1.55;}
+  .cheat-list li b{color:var(--text);}
 
   /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
   .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
@@ -650,14 +654,86 @@
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드</span></div>
-            <div class="d-line">디즈니랜드 1일 · 야간 불꽃놀이</div>
+            <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드 1일 완벽 정복 (로프드랍~불꽃놀이)</span></div>
+            <div class="d-line">07:30 로프드랍 → 스페이스/매터호른 → 스타워즈(라이즈 오브 레지스탕스) → 인디아나존스/빅선더 → 21:30 성 앞 불꽃놀이</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">디즈니랜드 1일</div>
-        <div class="d-desc">갤럭시엣지 → 캘리포니아어드벤처 → 야간 불꽃놀이</div>
+        <div class="d-title">디즈니랜드 1일 완벽 정복</div>
+        <div class="d-desc">로프드랍 오픈런부터 야간 불꽃놀이까지 시간대별 공략 타임라인</div>
+        <div class="sched-list">
+
+          <div class="sched-block">
+            <div class="sched-time">🏰 07:30–08:00</div>
+            <div class="sched-title">로프드랍(Rope Drop) 대기</div>
+            <div class="sched-note">숙소(Home2 Suites)에서 도보 10분 이동, 07:30 보안검색 통과 후 메인 스트리트 중앙 로프 앞에서 개장 대기</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">⚡ 08:00–10:00</div>
+            <div class="sched-title">[골든 타임] 일반 대기(Standby) 논스톱 공략</div>
+            <div class="sched-note">
+              입장 게이트 오픈 즉시 투모로우랜드 직행 → ① 스페이스 마운틴(Space Mountain) 탑승<br>
+              판타지랜드 이동 → ② 매터호른 봅슬레이(Matterhorn Bobsleds) 탑승<br>
+              ③ 피터팬의 비행(Peter Pan's Flight) 또는 이상한 나라의 앨리스 탑승<br>
+              📱 <b>LL 액션</b>: 입장 완료 즉시 디즈니 앱에서 '인디아나 존스' 또는 '미키&amp;미니 런어웨이' LL 1차 예약
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🚀 10:00–12:30</div>
+            <div class="sched-title">스타워즈: 갤럭시스 엣지 &amp; 툰타운</div>
+            <div class="sched-note">
+              스타워즈 구역 진입 → '라이즈 오브 더 레지스탕스(Rise of the Resistance)' 탑승 (대기 45분 이하 시 스탠바이, 필요 시 싱글패스 구매)<br>
+              밀레니엄 팔콘: 스머글러스 런(Smugglers Run)<br>
+              툰타운 이동 → '미키와 미니의 런어웨이 레일웨이(Mickey &amp; Minnie's Runaway Railway)'
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🍗 12:30–14:30</div>
+            <div class="sched-title">점심 식사(모바일 오더) &amp; 실내 힐링 <span class="mini-badge">체력 안배</span></div>
+            <div class="sched-note">
+              📱 <b>모바일 오더</b>(줄 서기 생략): 플라자 인(Plaza Inn · 3조각 프라이드 치킨 플래터) 또는 독킹 베이 7(Docking Bay 7)<br>
+              에어컨 실내 휴식: 인챈티드 티키 룸(Enchanted Tiki Room)에서 파인애플 돌 휩(Dole Whip) 먹으며 휴식<br>
+              디즈니랜드 기차(Disneyland Railroad) 타고 파크 한 바퀴 순환하며 다리 피로 회복
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🤠 14:30–18:30</div>
+            <div class="sched-title">어드벤처 &amp; 프론티어랜드 <span class="mini-badge">LL 연쇄 사용</span></div>
+            <div class="sched-note">
+              빅 선더 마운틴(Big Thunder Mountain Railroad) 탑승 (스릴 최고 롤러코스터)<br>
+              인디아나 존스 어드벤처(Indiana Jones Adventure) 탑승<br>
+              캐리비안의 해적(Pirates of the Caribbean) 탑승 (시원한 실내 보트 라이드)
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🎆 19:00–22:00</div>
+            <div class="sched-title">저녁 식사 &amp; 야간 불꽃놀이 피날레</div>
+            <div class="sched-note">
+              저녁/간식: 점보 칠면조 다리(Turkey Leg), 미키 츄러스<br>
+              20:45 잠자는 숲속의 공주 성(Sleeping Beauty Castle) 앞 메인 광장(Central Plaza) 뷰 명당 확보<br>
+              21:30 야간 불꽃놀이 &amp; 캐슬 프로젝션 맵핑 쇼 감상<br>
+              22:00 메인 스트리트 샵에서 기념품 쇼핑 후 숙소 도보 복귀
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tip-note">
+          <div class="tip-note-title">💡 디즈니 1일 완벽 공략 5대 치트키</div>
+          <ol class="cheat-list">
+            <li><b>LL 쿨타임 룰</b> — 라이트닝 레인은 '예약한 놀이기구 탑승 직후' 또는 '예약 후 2시간 경과' 시점에 다음 예약이 가능하므로 폰 알람 필수!</li>
+            <li><b>모바일 오더(Mobile Order)</b> — 점심/간식은 앱으로 30분 전 미리 주문하여 줄 서지 않고 전용 픽업대에서 수령.</li>
+            <li><b>보조배터리 &amp; 포토패스</b> — 디즈니 앱(지도, 대기시간, LL, 사진) 사용으로 배터리 소모 극심. 완충 보조배터리 필수.</li>
+            <li><b>단축 팁</b> — 싱글라이더(Single Rider) 라인이 있는 어트랙션(스페이스 마운틴, 매터호른, 밀레니엄팔콘) 적극 활용.</li>
+            <li><b>소지품 팁</b> — 낮에는 덥고 밤 불꽃놀이 대기 시 쌀쌀하므로 얇은 겉옷/바람막이 챙기기.</li>
+          </ol>
+        </div>
         </div></div>
       </details>
 
