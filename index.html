@@ -179,12 +179,13 @@
   .dine-tier-label{font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.04em;margin-bottom:6px;}
   .dine-tier-items{display:flex;flex-direction:column;gap:6px;}
   .dine-item{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;text-decoration:none;color:var(--text);transition:border-color .15s;}
-  .dine-item:hover,.dine-item:focus-visible{border-color:var(--coral);outline:none;}
+  a.dine-item:hover,a.dine-item:focus-visible{border-color:var(--coral);outline:none;}
   .dine-item .dine-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
   .dine-item .dine-name{font-size:12.5px;font-weight:600;}
-  .dine-item .dine-name::after{content:" ↗";color:var(--muted-2);font-weight:400;}
+  a.dine-item .dine-name::after{content:" ↗";color:var(--muted-2);font-weight:400;}
   .dine-item .dine-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
   .dine-item .dine-note{font-size:10.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
+  .dine-item.static{cursor:default;}
   .tip-note{margin-top:2px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.28);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.55;}
   .tip-note b{color:var(--gold);}
 
@@ -450,14 +451,55 @@
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년</span></div>
-            <div class="d-line">그랜드캐년 당일투어 → Black Tap 저녁</div>
+            <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년 당일 투어 &amp; 복귀</span></div>
+            <div class="d-line">자정(00:00) 출발 → 별자리 → 앤텔롭 → 홀스슈밴드 → 이스트림/사우스림 → 루트66 → 21:00 베가스 복귀 후 Black Tap 저녁</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
         <div class="d-title">그랜드캐년 당일투어 (사우스림·이스트림·앤텔롭·홀스슈밴드)</div>
         <div class="d-desc">21시 복귀 → Black Tap 저녁 → 콘래드 재체크인</div>
+        <div class="dine-picks">
+          <div class="dine-tier">
+            <div class="dine-tier-label">🏜️ 그랜드캐년 6대 핵심 명소 가이드</div>
+            <div class="dine-tier-items">
+              <div class="dine-item static">
+                <div class="dine-top"><span class="dine-name">🌌 사막 별자리 관측</span></div>
+                <div class="dine-note">새벽 사막 밤하늘 은하수 감상 및 전문 야간 스냅 촬영 · 체감 기온 낮음, 방한 외투 필수</div>
+              </div>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Antelope+Canyon+Page+AZ" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 🕳️ 앤텔롭 캐년 (Antelope Canyon)</span></div>
+                <div class="dine-note">빛과 붉은 사암이 빚어낸 환상적인 곡선 협곡 · 나바호 인디언 가이드 동행(백팩 반입 불가)</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Horseshoe+Bend+Page+AZ" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 🌊 홀스슈 밴드 (Horseshoe Bend)</span></div>
+                <div class="dine-note">300m 붉은 절벽을 휘감아 도는 콜로라도강 말발굽 파노라마 · 왕복 약 1.5km 도보, 난간 주의</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+View+Watchtower+Grand+Canyon" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 🦅 데저트 뷰 와치타워 (이스트림)</span></div>
+                <div class="dine-note">1932년 인디언 양식 석조 전망대에서 조망하는 콜로라도강과 그랜드캐년 파노라마</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Mather+Point+Grand+Canyon" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 🏞️ 마더 포인트 &amp; 림 트레일 (사우스림)</span></div>
+                <div class="dine-note">그랜드캐년의 웅장함과 지층의 깊이감을 가장 입체적으로 감상하는 메인 뷰포인트</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Seligman+Route+66+AZ" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 🚗 루트 66 셀리그먼 (Seligman)</span></div>
+                <div class="dine-note">애니메이션 '카(Cars)'의 모티브가 된 미국 최초 대륙횡단 도로의 레트로 감성 보존 마을</div>
+              </a>
+            </div>
+          </div>
+          <div class="dine-tier">
+            <div class="dine-tier-label">🍔 저녁 식사</div>
+            <div class="dine-tier-items">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Black+Tap+Craft+Burgers+%26+Beer+Venetian+Las+Vegas" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 Black Tap 저녁 식사</span></div>
+                <div class="dine-note">베가스 복귀(21시경) 후 콘래드 재체크인 전후로 베네시안 내 수제버거 &amp; 크레이지쉐이크 야식</div>
+              </a>
+            </div>
+          </div>
+          <div class="tip-note">💡 <b>투어 당일 필수 준비물</b> — 여권(나바호 자치구역 신분 확인용), 경량 패딩/바람막이, 선글라스/선크림, 보조배터리, 편한 운동화, 현금(가이드 팁 및 현장 비용)</div>
+        </div>
         </div></div>
       </details>
 
