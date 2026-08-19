@@ -189,6 +189,17 @@
   .tip-note{margin-top:2px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.28);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.55;}
   .tip-note b{color:var(--gold);}
 
+  /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
+  .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
+  .sched-block{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;}
+  .sched-time{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--teal);font-weight:700;letter-spacing:.02em;margin-bottom:5px;}
+  .sched-title{font-size:13px;font-weight:700;color:var(--text);}
+  .sched-title-link{font-size:13px;font-weight:700;color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;display:inline-block;}
+  .sched-title-link:hover,.sched-title-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
+  .sched-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.55;}
+  .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
+  .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
+
   /* ===== BUDGET ===== */
   .budget-total{
     background:linear-gradient(135deg,var(--card-2),var(--card));
@@ -506,14 +517,76 @@
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">조슈아트리 이동</span></div>
-            <div class="d-line">라스베가스 → 조슈아트리 → 별관측</div>
+            <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">유카밸리 장보기 &amp; 조슈아트리 사막 힐링</span></div>
+            <div class="d-line">라스베가스 출발(3.5h) → 유카밸리(월마트 장보기 &amp; 점심) → 히든밸리/스컬락 → 키즈뷰 일몰(18:25) → 숙소(바비큐·온수욕조·별관측)</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
         <div class="d-title">라스베가스 → 조슈아트리 (3.5~4h)</div>
         <div class="d-desc">낮 관광 → 온수욕조+화덕 숙소 → 별관측</div>
+        <div class="sched-list">
+
+          <div class="sched-block">
+            <div class="sched-time">🚗 09:30–13:00</div>
+            <div class="sched-title">라스베이거스 출발 → 사막 고속도로 드라이브</div>
+            <div class="sched-note">I-15 S → CA-62 E · 약 3.5~4시간</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🛒 13:00–13:45</div>
+            <a class="sched-title-link" href="https://www.google.com/maps/search/?api=1&amp;query=Walmart+Supercenter+Yucca+Valley" target="_blank" rel="noopener noreferrer">📍 유카밸리 월마트(Walmart) 바비큐 &amp; 간식 장보기</a>
+            <div class="sched-note"><b>구매 리스트</b> — 스테이크용 소고기(립아이/뉴욕스트립), 수제 소시지, 구이용 채소, 스모어 세트(마시멜로/크래커/초콜릿), 생수/음료/주류, 아침용 베이글</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🍔 13:50–14:40</div>
+            <div class="sched-title">유카밸리 점심 식사<span class="mini-badge">현장 선택</span></div>
+            <div class="sched-sub">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=In-N-Out+Burger+Yucca+Valley" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 [후보1] In-N-Out Burger (인앤아웃)</span><span class="dine-price">4인 $35~45</span></div>
+                <div class="dine-note">팁 없음 · 극강의 가성비 &amp; 빠른 식사</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Pie+for+the+People+Yucca+Valley" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 [후보2] Pie for the People</span><span class="dine-price">4인 $55~75</span></div>
+                <div class="dine-note">뉴욕 정통 화덕피자 · 대형 피자 셰어, 남은 조각 숙소 야식 포장</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=John%27s+Place+Yucca+Valley" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 [후보3] John's Place</span><span class="dine-price">4인 $65~90</span></div>
+                <div class="dine-note">정통 패밀리 다이너 · 편안한 부스 좌석, 두툼한 수제버거 &amp; 아메리칸 다이너</div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🌵 15:15–17:00</div>
+            <div class="sched-title">조슈아트리 국립공원 핵심 명소 탐방</div>
+            <div class="sched-sub">
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Hidden+Valley+Nature+Trail+Joshua+Tree" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 히든 밸리 (Hidden Valley)</span></div>
+                <div class="dine-note">기암괴석과 조슈아트리가 어우러진 완만한 1.6km 패밀리 트레일</div>
+              </a>
+              <a class="dine-item" href="https://www.google.com/maps/search/?api=1&amp;query=Skull+Rock+Joshua+Tree" target="_blank" rel="noopener noreferrer">
+                <div class="dine-top"><span class="dine-name">📍 스컬 락 (Skull Rock)</span></div>
+                <div class="dine-note">해골 모양의 거대한 자연 풍화 바위 포토존</div>
+              </a>
+            </div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🌅 17:30–18:35</div>
+            <a class="sched-title-link" href="https://www.google.com/maps/search/?api=1&amp;query=Keys+View+Joshua+Tree" target="_blank" rel="noopener noreferrer">📍 키즈 뷰(Keys View) 선셋 감상</a>
+            <div class="sched-note">해발 1,500m 전망대에서 팜스프링스와 샌앤드레아스 단층대 파노라마 일몰 감상 · <b>일몰 18:25경</b>, 방한 외투 필수</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🌌 19:00~</div>
+            <div class="sched-title">독채 숙소 체크인 &amp; 힐링 나이트</div>
+            <div class="sched-note">야외 테라스 바비큐 저녁 식사 + 온수욕조(Hot Tub/자쿠지) 피로 풀기 + 화덕 불멍 &amp; 스모어 굽기 + 쏟아지는 밤하늘 은하수 관측</div>
+          </div>
+
+        </div>
+        <div class="tip-note">💡 <b>4일차 필수 체크포인트</b> — 국립공원 내부는 통신(LTE/5G)이 두절되므로 사전 구글 맵 오프라인 지도 다운로드 필수. 유카밸리 장보기 시 차량 주유 상태 확인(공원 내부 주유소 없음).</div>
         </div></div>
       </details>
 
