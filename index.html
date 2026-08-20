@@ -141,6 +141,16 @@
   .card[data-img]{cursor:pointer;transition:border-color .15s,transform .15s;}
   .card[data-img]:hover,.card[data-img]:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
   .card[data-img] .name::after{content:"🖼";margin-left:6px;font-size:11px;opacity:.75;}
+  .top-right{display:flex;align-items:center;gap:6px;}
+  .img-upload-btn{
+    background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted);
+    border-radius:6px;width:22px;height:22px;flex-shrink:0;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:11px;cursor:pointer;padding:0;
+    transition:background-color .15s,color .15s,border-color .15s;
+  }
+  .img-upload-btn:hover,.img-upload-btn:focus-visible{background:rgba(255,255,255,.16);color:var(--text);outline:none;}
+  .img-upload-btn.has-img{color:var(--teal);border-color:rgba(46,196,182,.4);}
 
   /* ===== IMAGE MODAL (reservation attachment viewer) ===== */
   .img-modal{
@@ -1358,12 +1368,32 @@
   <span class="img-modal-close" id="img-modal-close" role="button" aria-label="닫기" tabindex="0">✕</span>
   <img id="img-modal-img" src="" alt="예약 첨부 이미지">
 </div>
+<input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
 <script>
   (function () {
     var modal = document.getElementById('img-modal');
     var modalImg = document.getElementById('img-modal-img');
     var closeBtn = document.getElementById('img-modal-close');
+    var fileInput = document.getElementById('img-upload-input');
+    var cardsWrap = document.querySelector('.cards');
+    var pendingCard = null;
+
+    function storageKey(card) {
+      return 'resimg::' + card.querySelector('.name').textContent.trim();
+    }
+
+    function applyImage(card, dataUrl) {
+      card.setAttribute('data-img', dataUrl);
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      var btn = card.querySelector('.img-upload-btn');
+      if (btn) {
+        btn.textContent = '✅';
+        btn.title = '이미지 변경';
+        btn.classList.add('has-img');
+      }
+    }
 
     function openModal(src) {
       modalImg.src = src;
@@ -1374,18 +1404,64 @@
       modalImg.src = '';
     }
 
-    document.querySelectorAll('.cards .card[data-img]').forEach(function (card) {
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('role', 'button');
-      card.addEventListener('click', function () {
-        openModal(card.getAttribute('data-img'));
+    if (cardsWrap) {
+      Array.prototype.forEach.call(cardsWrap.querySelectorAll('.card'), function (card) {
+        var top = card.querySelector('.top');
+        var badge = top.querySelector('.badge');
+        var right = document.createElement('div');
+        right.className = 'top-right';
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'img-upload-btn';
+        btn.title = '이미지 추가 (내 브라우저에만 저장됨)';
+        btn.setAttribute('aria-label', '이미지 추가');
+        btn.textContent = '📎';
+        badge.parentNode.insertBefore(right, badge);
+        right.appendChild(badge);
+        right.appendChild(btn);
+
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          pendingCard = card;
+          fileInput.click();
+        });
+
+        var saved;
+        try { saved = localStorage.getItem(storageKey(card)); } catch (e) { saved = null; }
+        if (saved) applyImage(card, saved);
       });
-      card.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
+
+      cardsWrap.addEventListener('click', function (e) {
+        if (e.target.closest('.img-upload-btn')) return;
+        var card = e.target.closest('.card[data-img]');
+        if (card) openModal(card.getAttribute('data-img'));
+      });
+      cardsWrap.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        if (e.target.closest('.img-upload-btn')) return;
+        var card = e.target.closest('.card[data-img]');
+        if (card) {
           e.preventDefault();
           openModal(card.getAttribute('data-img'));
         }
       });
+    }
+
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files[0];
+      if (!file || !pendingCard) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          localStorage.setItem(storageKey(pendingCard), reader.result);
+        } catch (err) {
+          alert('이미지 저장에 실패했습니다. 파일 용량을 줄여서 다시 시도해주세요.');
+          return;
+        }
+        applyImage(pendingCard, reader.result);
+      };
+      reader.readAsDataURL(file);
+      fileInput.value = '';
     });
 
     modal.addEventListener('click', function (e) {
