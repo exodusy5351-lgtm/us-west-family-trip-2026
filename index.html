@@ -294,6 +294,38 @@
   .todo-item .txt{flex:1;line-height:1.4;}
   .todo-item .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted-2);}
 
+  /* ===== PACKING CHECKLIST ===== */
+  .pack-progress{background:linear-gradient(135deg,var(--card-2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
+  .pack-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .pack-progress-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  .pack-progress-count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);font-weight:700;}
+  .pack-fill{background:linear-gradient(90deg,var(--coral),var(--gold));transition:width .4s ease;}
+  .pack-actions{display:flex;gap:8px;margin-bottom:14px;}
+  .pack-action-btn{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;padding:9px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--text);cursor:pointer;font-weight:600;transition:border-color .15s,color .15s;}
+  .pack-action-btn:hover,.pack-action-btn:focus-visible{border-color:var(--teal);outline:none;}
+  .pack-action-btn.danger:hover,.pack-action-btn.danger:focus-visible{border-color:var(--red);color:var(--red);}
+  .pack-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:16px;scrollbar-width:none;}
+  .pack-tabs::-webkit-scrollbar{display:none;}
+  .pack-tab{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 12px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s;}
+  .pack-tab:hover,.pack-tab:focus-visible{border-color:var(--teal);outline:none;}
+  .pack-tab.active{background:linear-gradient(135deg,rgba(255,107,74,.18),rgba(255,184,77,.1));border-color:var(--gold);color:var(--text);font-weight:700;}
+  .pack-group{margin-top:20px;}
+  .pack-group:first-child{margin-top:0;}
+  .pack-group-title{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:baseline;gap:8px;}
+  .pack-group-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted-2);font-weight:400;}
+  .pack-group-items{display:flex;flex-direction:column;gap:8px;}
+  .pack-item{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,opacity .15s;}
+  .pack-item:hover{border-color:var(--teal);}
+  .pack-chk{appearance:none;-webkit-appearance:none;width:23px;height:23px;border-radius:6px;border:2px solid var(--muted-2);flex-shrink:0;margin-top:1px;cursor:pointer;position:relative;transition:background-color .15s,border-color .15s;}
+  .pack-chk:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .pack-chk:checked{background:var(--teal);border-color:var(--teal);}
+  .pack-chk:checked::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:14px;font-weight:700;}
+  .pack-item-text{flex:1;min-width:0;}
+  .pack-item-label{font-size:13px;font-weight:600;color:var(--text);line-height:1.4;}
+  .pack-item-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.45;}
+  .pack-item.checked{opacity:.55;}
+  .pack-item.checked .pack-item-label{text-decoration:line-through;color:var(--muted);}
+
   footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
 </style>
 </head>
@@ -1300,6 +1332,30 @@
     </div>
   </section>
 
+  <section>
+    <div class="section-head">
+      <h2>🎒 준비물 체크리스트</h2>
+      <span class="count">42 ITEMS</span>
+    </div>
+
+    <div class="pack-progress">
+      <div class="pack-progress-top">
+        <span class="pack-progress-label">준비 완료</span>
+        <span class="pack-progress-count" id="pack-count">0 / 42 (0%)</span>
+      </div>
+      <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
+    </div>
+
+    <div class="pack-actions">
+      <button type="button" class="pack-action-btn" id="pack-select-all">전체 선택</button>
+      <button type="button" class="pack-action-btn danger" id="pack-reset">초기화</button>
+    </div>
+
+    <div class="pack-tabs" id="pack-tabs"></div>
+
+    <div class="pack-list" id="pack-list"></div>
+  </section>
+
   <footer>SEUNGHYUN SHIN FAMILY · US WEST 2026</footer>
 </div>
 
@@ -1471,6 +1527,214 @@
         }
       });
     });
+  })();
+</script>
+
+<script>
+  (function () {
+    var STORAGE_KEY = "us_trip_checklist_2026";
+
+    var ITEMS = [
+      { id: "doc1", cat: "doc", label: "여권 실물 (가족 전원)", desc: "유효기간 6개월 이상 필수 잔여 / 스마트폰 사본 저장" },
+      { id: "doc2", cat: "doc", label: "ESTA 승인 확인서", desc: "승인 여부 사전 확인 및 출력본(또는 PDF) 소지" },
+      { id: "doc3", cat: "doc", label: "운전 관련 3종 세트", desc: "한국 운전면허증 실물 + 영문/국제운전면허증 + 주운전자 명의 신용카드" },
+      { id: "doc4", cat: "doc", label: "한국 코스트코 실물 회원권 카드", desc: "1일차 헨더슨 코스트코 주유 및 장보기용 (실물 카드 또는 바코드 앱)" },
+      { id: "doc5", cat: "doc", label: "해외 결제 카드", desc: "트래블로그/트래블월렛 및 컨택리스 지원 비자/마스터/아멕스 실물 카드" },
+      { id: "doc6", cat: "doc", label: "미국 달러(USD) 현금", desc: "소액권($1,$5,$10,$20 팁용 약 $100~$200) + 그랜드캐년 요한투어 현장 지불금($820)" },
+      { id: "doc7", cat: "doc", label: "e-티켓 & 예약 바우처 PDF", desc: "항공권(에어프레미아), 숙소 4곳, 스피어, 투어 확인서 오프라인 저장" },
+      { id: "doc8", cat: "doc", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
+
+      { id: "elec1", cat: "elec", label: "디즈니랜드 앱 (Disneyland)", desc: "티켓 4인 등록, Family 그룹 연동, 결제 카드 등록 완료" },
+      { id: "elec2", cat: "elec", label: "유니버설 스튜디오 앱", desc: "공식 앱 설치 및 지도 확인" },
+      { id: "elec3", cat: "elec", label: "구글 맵 오프라인 지도 다운로드", desc: "모하비 사막(I-15), 조슈아트리 국립공원, 그랜드캐년 일대 통신 음영 지역 사전 다운로드" },
+      { id: "elec4", cat: "elec", label: "우버(Uber) / 리프트(Lyft) 앱", desc: "계정 생성 및 해외 결제 카드 등록" },
+      { id: "elec5", cat: "elec", label: "110V 돼지코 변환 플러그 (4~5개)", desc: "호텔 객실 충전용 어댑터" },
+      { id: "elec6", cat: "elec", label: "멀티탭 / 다구 고속 멀티 충전기", desc: "스마트폰 4대, 보조배터리 동시 충전용" },
+      { id: "elec7", cat: "elec", label: "대용량 보조배터리 (2~3개)", desc: "테마파크 종일 사용 대비 (반드시 기내 수하물 휴대)" },
+      { id: "elec8", cat: "elec", label: "차량용 스마트폰 거치대 & 시거잭 충전기", desc: "렌터카 내비게이션 거치용" },
+      { id: "elec9", cat: "elec", label: "카메라 삼각대", desc: "조슈아트리 야간 은하수/별자리(Stargazing) 장노출 촬영용" },
+
+      { id: "wear1", cat: "wear", label: "새벽 사막/그랜드캐년 방한복 (가족 전원)", desc: "경량 패딩, 후리스, 기모 긴팔/긴바지, 윈드브레이커, 넥워머/비니" },
+      { id: "wear2", cat: "wear", label: "일교차 대비 레이어드 의류", desc: "낮 기온 25~28℃, 밤 기온 15℃ 대비 반팔+가디건/셔츠 조합" },
+      { id: "wear3", cat: "wear", label: "가장 편안한 쿠션 러닝화/운동화", desc: "하루 1.5만~2만 보 보행 대비 (가족 전원 필수)" },
+      { id: "wear4", cat: "wear", label: "조슈아트리 트레킹용 운동화", desc: "미끄럼 방지 밑창 운동화" },
+      { id: "wear5", cat: "wear", label: "수영복 / 래시가드", desc: "콘래드 수영장(10/2) 및 조슈아트리 숙소 야외 자쿠지 온수욕(10/4)" },
+      { id: "wear6", cat: "wear", label: "선글라스 (가족 전원)", desc: "강한 사막 자외선 및 드라이브 눈부심 방지" },
+      { id: "wear7", cat: "wear", label: "챙 넓은 모자 & 자외선 차단제", desc: "SPF 50+ 선크림 및 선스틱" },
+
+      { id: "med1", cat: "med", label: "멀미약", desc: "그랜드캐년 투어 밴 장거리 사막 도로 이동 대비" },
+      { id: "med2", cat: "med", label: "진통소염제 / 해열제", desc: "타이레놀, 이부프로펜" },
+      { id: "med3", cat: "med", label: "종합감기약, 소화제, 지사제", desc: "" },
+      { id: "med4", cat: "med", label: "발/다리 피로 회복용 파스", desc: "휴족시간/쿨파스 · 테마파크 및 트레킹 후 취침 전 부착용" },
+      { id: "med5", cat: "med", label: "인공눈물 & 비염 스프레이", desc: "미서부 사막성 기후 극심한 건조함 대비" },
+      { id: "med6", cat: "med", label: "밴드, 소독약, 연고", desc: "대일밴드, 물집방지패치, 소독약, 후시딘/마데카솔 연고" },
+      { id: "med7", cat: "med", label: "고보습 바디로션, 수분크림, 립밤, 핸드크림", desc: "극건조 기후 대비 대용량 보습제" },
+      { id: "med8", cat: "med", label: "칫솔 & 치약 세트", desc: "미국 호텔 객실 기본 미제공 대비 가족 전원분" },
+      { id: "med9", cat: "med", label: "실내용 일회용 슬리퍼", desc: "미국 호텔 카펫 바닥 객실용" },
+      { id: "med10", cat: "med", label: "휴대용 물티슈(캡형) & 손소독제", desc: "" },
+
+      { id: "tour1", cat: "tour", label: "투어용 분리 패킹 파우치 / 백팩", desc: "10/2 콘래드 체크아웃 시 대형 캐리어는 맡기고 투어용 짐만 분리 수납" },
+      { id: "tour2", cat: "tour", label: "야간 사막 밴 / 기내 수면 세트", desc: "목베개, 수면 안대, 귀마개" },
+      { id: "tour3", cat: "tour", label: "조슈아트리 바비큐용 한국 소포장 양념", desc: "허브솔트, 생와사비, 쌈장, 지퍼백 소량" },
+      { id: "tour4", cat: "tour", label: "조슈아트리 별 관측용 붉은빛 조명 / 별자리 앱", desc: "SkyView 또는 Stellarium 앱 설치" },
+      { id: "tour5", cat: "tour", label: "테마파크용 경량 접이식 백팩 / 슬링백", desc: "놀이기구 탑승 시 발밑 간편 보관용" },
+      { id: "tour6", cat: "tour", label: "우비 / 판초", desc: "유니버설 쥬라기월드 등 물 튀는 어트랙션 대비" },
+
+      { id: "shop1", cat: "shop", label: "접이식 대형 보조가방 (폴딩백 / 확장백)", desc: "아울렛 및 디즈니/유니버설 기념품 수납용" },
+      { id: "shop2", cat: "shop", label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁수하물 무게(23kg) 초과 사전 측정용" }
+    ];
+
+    var CATS = [
+      { key: "all", label: "전체보기" },
+      { key: "doc", label: "📄 필수서류/금융" },
+      { key: "elec", label: "📱 전자/앱" },
+      { key: "wear", label: "👕 의류/신발" },
+      { key: "med", label: "💊 상비약/위생" },
+      { key: "tour", label: "🎒 투어특화" },
+      { key: "shop", label: "🛍️ 쇼핑/기타" }
+    ];
+
+    function loadState() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    var state = loadState();
+    var activeCat = "all";
+
+    var tabsEl = document.getElementById("pack-tabs");
+    var listEl = document.getElementById("pack-list");
+    var countEl = document.getElementById("pack-count");
+    var fillEl = document.getElementById("pack-fill");
+    var selectAllBtn = document.getElementById("pack-select-all");
+    var resetBtn = document.getElementById("pack-reset");
+
+    if (!tabsEl || !listEl) return;
+
+    function updateProgress() {
+      var total = ITEMS.length;
+      var done = ITEMS.filter(function (it) { return !!state[it.id]; }).length;
+      var pct = total ? Math.round((done / total) * 100) : 0;
+      countEl.textContent = done + " / " + total + " (" + pct + "%)";
+      fillEl.style.width = pct + "%";
+    }
+
+    function renderTabs() {
+      tabsEl.innerHTML = "";
+      CATS.forEach(function (c) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pack-tab" + (c.key === activeCat ? " active" : "");
+        btn.textContent = c.label;
+        btn.addEventListener("click", function () {
+          activeCat = c.key;
+          renderTabs();
+          renderList();
+        });
+        tabsEl.appendChild(btn);
+      });
+    }
+
+    function renderList() {
+      listEl.innerHTML = "";
+      var catsToShow = activeCat === "all" ? CATS.slice(1) : CATS.filter(function (c) { return c.key === activeCat; });
+
+      catsToShow.forEach(function (c) {
+        var itemsInCat = ITEMS.filter(function (it) { return it.cat === c.key; });
+        if (!itemsInCat.length) return;
+
+        var group = document.createElement("div");
+        group.className = "pack-group";
+
+        var title = document.createElement("div");
+        title.className = "pack-group-title";
+        var countSpan = document.createElement("span");
+        countSpan.className = "pack-group-count";
+        title.textContent = c.label + " ";
+        title.appendChild(countSpan);
+        group.appendChild(title);
+
+        var itemsWrap = document.createElement("div");
+        itemsWrap.className = "pack-group-items";
+
+        function refreshGroupCount() {
+          var doneInCat = itemsInCat.filter(function (it) { return !!state[it.id]; }).length;
+          countSpan.textContent = doneInCat + "/" + itemsInCat.length;
+        }
+        refreshGroupCount();
+
+        itemsInCat.forEach(function (it) {
+          var row = document.createElement("label");
+          row.className = "pack-item" + (state[it.id] ? " checked" : "");
+
+          var input = document.createElement("input");
+          input.type = "checkbox";
+          input.className = "pack-chk";
+          input.checked = !!state[it.id];
+
+          input.addEventListener("change", function () {
+            state[it.id] = input.checked;
+            saveState(state);
+            row.classList.toggle("checked", input.checked);
+            refreshGroupCount();
+            updateProgress();
+          });
+
+          var textWrap = document.createElement("span");
+          textWrap.className = "pack-item-text";
+
+          var labelSpan = document.createElement("span");
+          labelSpan.className = "pack-item-label";
+          labelSpan.textContent = it.label;
+          textWrap.appendChild(labelSpan);
+
+          if (it.desc) {
+            var descSpan = document.createElement("span");
+            descSpan.className = "pack-item-desc";
+            descSpan.textContent = it.desc;
+            textWrap.appendChild(descSpan);
+          }
+
+          row.appendChild(input);
+          row.appendChild(textWrap);
+          itemsWrap.appendChild(row);
+        });
+
+        group.appendChild(itemsWrap);
+        listEl.appendChild(group);
+      });
+    }
+
+    if (selectAllBtn) {
+      selectAllBtn.addEventListener("click", function () {
+        ITEMS.forEach(function (it) { state[it.id] = true; });
+        saveState(state);
+        renderList();
+        updateProgress();
+      });
+    }
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function () {
+        if (!confirm("모든 체크 상태를 초기화할까요? 되돌릴 수 없습니다.")) return;
+        state = {};
+        saveState(state);
+        renderList();
+        updateProgress();
+      });
+    }
+
+    renderTabs();
+    renderList();
+    updateProgress();
   })();
 </script>
 </body>
