@@ -275,6 +275,7 @@
   }
   .bar-row.subtotal .br-top{font-weight:700;margin-bottom:0;}
   .bar-row.subtotal .br-top .amt{color:var(--gold);font-size:14px;font-weight:700;}
+  .cat-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:10px;margin-right:6px;letter-spacing:.02em;white-space:nowrap;}
 
   /* ===== CHECKLIST ===== */
   .todo-list{display:flex;flex-direction:column;gap:8px;}
@@ -1502,11 +1503,18 @@
       "식비": "var(--green)"
     };
 
+    var CAT_ICON = {
+      "항공": "✈️",
+      "렌터카": "🚗",
+      "숙박": "🏨",
+      "액티비티": "🎟️",
+      "식비": "🍽️"
+    };
+
     function renderBudget() {
       var totalKrw = 0;
       var paidKrw = 0;
       var html = "";
-      var lastCat = "";
 
       BUDGET_DATA.forEach(function(item) {
         var itemTotal = item.krw + (item.usd * USD_RATE);
@@ -1514,8 +1522,7 @@
         if (item.done) paidKrw += itemTotal;
 
         var color = CAT_COLOR[item.cat] || "var(--muted-2)";
-        var showCat = item.cat !== lastCat;
-        lastCat = item.cat;
+        var icon = CAT_ICON[item.cat] || "📌";
 
         var amtStr = "";
         if (item.krw > 0 && item.usd > 0) {
@@ -1530,11 +1537,14 @@
 
         html += '<div class="bar-row" style="border-left:3px solid ' + color + ';padding-left:10px;">';
         html += '<div class="br-top">';
-        html += '<span>' + (showCat ? '<span style="color:'+color+';font-family:\'JetBrains Mono\',monospace;font-size:10px;">[' + item.cat + '] </span>' : '') + item.item + '</span>';
+        html += '<span>';
+        html += '<span class="cat-badge" style="background:rgba(255,255,255,0.06);color:' + color + ';border:1px solid ' + color + ';">' + icon + ' ' + item.cat + '</span>';
+        html += item.item;
+        html += '</span>';
         html += '<span class="amt" style="' + (item.done ? 'color:var(--green);' : '') + '">' + amtStr + '</span>';
         html += '</div>';
         if (item.note) {
-          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">' + (item.done ? '✅ ' : '⏳ ') + item.note + '</div>';
+          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : '⏳ ') + item.note + '</div>';
         }
         html += '</div>';
       });
