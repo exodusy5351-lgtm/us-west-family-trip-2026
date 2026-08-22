@@ -300,6 +300,32 @@
   .ledger-input::placeholder{color:var(--muted-2);}
   .ledger-unit{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);flex-shrink:0;}
 
+  /* ===== 2-Way 지출 등록 컴포넌트 & 누적 칩 ===== */
+  .expense-entry-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.25);}
+  .entry-mode-tabs{display:flex;gap:8px;margin-bottom:12px;border-bottom:1px solid var(--line);padding-bottom:8px;}
+  .mode-tab{background:none;border:none;color:var(--muted);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:6px;cursor:pointer;transition:all .2s ease;}
+  .mode-tab.active{background:var(--card-2);color:var(--teal);}
+  .entry-form-panel.hidden{display:none !important;}
+  #smsInput{width:100%;box-sizing:border-box;background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--text);font-family:inherit;font-size:12.5px;line-height:1.5;resize:vertical;min-height:60px;outline:none;transition:border-color .2s;}
+  #smsInput::placeholder{color:var(--muted-2);}
+  #smsInput:focus{border-color:var(--teal);}
+  .entry-form-controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .manual-input-grid{display:flex;flex-direction:column;gap:8px;}
+  .manual-amount-row{display:flex;gap:6px;}
+  .manual-amount-row input{flex:1;}
+  .manual-input-grid input,.manual-input-grid select,#smsCategorySelect{background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--text);font-family:inherit;font-size:12px;outline:none;}
+  .manual-input-grid input::placeholder{color:var(--muted-2);}
+  .btn-submit{background:linear-gradient(135deg,var(--coral),var(--gold));color:#1a1625;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:12px;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+  .btn-submit:hover{opacity:.9;}
+  .btn-block{width:100%;margin-top:10px;}
+  .expense-history-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:4px;}
+  .expense-chip{display:inline-flex;align-items:center;gap:6px;background:var(--card-2);border:1px solid var(--line);padding:4px 8px;border-radius:6px;font-size:11px;}
+  .chip-paytype{font-size:11px;}
+  .chip-memo{color:var(--text);}
+  .chip-amount{color:var(--gold);font-weight:700;}
+  .btn-delete-chip{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
+  .btn-delete-chip:hover{color:var(--red);}
+
   /* ===== CHECKLIST ===== */
   .todo-list{display:flex;flex-direction:column;gap:8px;}
   .todo-item{
@@ -1519,7 +1545,57 @@
   <section>
     <div class="section-head">
       <h2>예상 경비 &amp; 정산 현황</h2>
-      <span class="count" id="budget-count">22 ITEMS</span>
+      <span class="count" id="budget-count">23 ITEMS</span>
+    </div>
+
+    <!-- 2-Way 지출 퀵 등록 컴포넌트 -->
+    <div class="expense-entry-card">
+      <div class="entry-mode-tabs">
+        <button type="button" class="mode-tab active" data-mode="sms">⚡ 문자 자동 등록</button>
+        <button type="button" class="mode-tab" data-mode="manual">✍️ 직접 입력 (현금/카드)</button>
+      </div>
+
+      <div class="entry-form-panel" id="smsFormPanel">
+        <textarea id="smsInput" placeholder="카드 승인 문자를 복사해 붙여넣으세요. (예: [현대카드] USD 38.50 승인 IN-N-OUT BURGER)"></textarea>
+        <div class="entry-form-controls">
+          <select id="smsCategorySelect">
+            <option value="auto">🤖 자동 분류 (가맹점명 기반)</option>
+            <option value="food-vegas">🍽️ 베가스 식비 (1~3일차)</option>
+            <option value="food-jt">🍽️ 조슈아트리 &amp; 아울렛 식비 (4~5일차)</option>
+            <option value="food-theme">🍽️ 테마파크 식비 (6~8일차)</option>
+            <option value="food-la">🍽️ LA &amp; 한인타운 식비 (9~11일차)</option>
+            <option value="activity-misc">🎟️ 액티비티/현장비/기타</option>
+          </select>
+          <button type="button" id="btnParseSms" class="btn-submit">분석 &amp; 등록</button>
+        </div>
+      </div>
+
+      <div class="entry-form-panel hidden" id="manualFormPanel">
+        <div class="manual-input-grid">
+          <select id="manualCategorySelect">
+            <option value="food-vegas">🍽️ 베가스 식비 (1~3일차)</option>
+            <option value="food-jt">🍽️ 조슈아트리 &amp; 아울렛 식비 (4~5일차)</option>
+            <option value="food-theme">🍽️ 테마파크 식비 (6~8일차)</option>
+            <option value="food-la">🍽️ LA &amp; 한인타운 식비 (9~11일차)</option>
+            <option value="activity-misc">🎟️ 액티비티/현장비/기타</option>
+          </select>
+
+          <input type="text" id="manualMemoInput" placeholder="사용처/메모 (예: 발렛 팁, 그랜드캐년 팁)">
+
+          <div class="manual-amount-row">
+            <select id="manualCurrencySelect">
+              <option value="USD">$ (USD)</option>
+              <option value="KRW">₩ (KRW)</option>
+            </select>
+            <input type="number" step="0.01" id="manualAmountInput" placeholder="금액 입력">
+            <select id="manualPayTypeSelect">
+              <option value="cash">💵 현금</option>
+              <option value="card">💳 카드</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" id="btnManualAdd" class="btn-submit btn-block">지출 등록</button>
+      </div>
     </div>
 
     <div class="budget-summary-grid">
@@ -1574,6 +1650,7 @@
       { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 626850, estUsd: 0, actKrw: 0, actUsd: 0, note: "견적 확인 (11시간 도슨트)", done: false },
       { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", estKrw: 0, estUsd: 170.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비/픽업비", done: false },
       { cat: "액티비티", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "9/27 티켓팅 오픈 예정", done: false },
+      { cat: "액티비티", item: "현장 기타 지출 (가계부 누적)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "우버·주차·팁 등 카드문자/직접입력으로 건별 기록", done: false },
 
       // 식비 (10박 11일 4인 가족 예상)
       { cat: "식비", item: "라스베이거스 식비 (1~3일차)", estKrw: 0, estUsd: 635.00, actKrw: 0, actUsd: 0, note: "인앤아웃·타코·장보기·Buddy V's·Black Tap 등", done: false },
@@ -1597,6 +1674,131 @@
       "액티비티": "🎟️",
       "식비": "🍽️"
     };
+
+    // 가계부 카테고리 ID ↔ BUDGET_DATA 항목명 매핑 (건별 누적 가계부 대상 5개)
+    var CATEGORY_TO_ITEM = {
+      "food-vegas": "라스베이거스 식비 (1~3일차)",
+      "food-jt": "조슈아트리 & 아울렛 식비 (4~5일차)",
+      "food-theme": "테마파크 식비 (6~8일차)",
+      "food-la": "LA & 한인타운 식비 (9~11일차)",
+      "activity-misc": "현장 기타 지출 (가계부 누적)"
+    };
+    var ITEM_TO_CATEGORY = {};
+    Object.keys(CATEGORY_TO_ITEM).forEach(function (k) { ITEM_TO_CATEGORY[CATEGORY_TO_ITEM[k]] = k; });
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    /**
+     * 카드 SMS / 알림톡 정규식 파서
+     */
+    function parseCardSMS(text) {
+      if (!text || typeof text !== "string") return null;
+      var cleanText = text.replace(/\r?\n/g, " ").replace(/\s+/g, " ").trim();
+
+      var currency = "USD";
+      var amount = 0;
+
+      // 통화 기호/코드가 금액보다 먼저 오는 표기(예: "USD 38.50")를 최우선으로 탐색 —
+      // 날짜(예: "10/01")가 "USD"/"원" 앞에 오면 뒤쪽 트레일링 패턴이 날짜 숫자를
+      // 금액으로 오인할 수 있어, 트레일링 패턴은 리딩 패턴이 없을 때만 폴백으로 사용
+      var usdLeadRegex = /(?:USD|\$)\s*([\d,]+(?:\.\d{1,2})?)/i;
+      var krwLeadRegex = /(?:KRW|₩)\s*([\d,]+)/i;
+      var usdTrailRegex = /([\d,]+(?:\.\d{1,2})?)\s*USD\b/i;
+      var krwTrailRegex = /([\d,]+)\s*(?:KRW|원)\b/i;
+
+      var usdLead = cleanText.match(usdLeadRegex);
+      var krwLead = cleanText.match(krwLeadRegex);
+
+      if (usdLead) {
+        currency = "USD";
+        amount = parseFloat(usdLead[1].replace(/,/g, ""));
+      } else if (krwLead) {
+        currency = "KRW";
+        amount = parseFloat(krwLead[1].replace(/,/g, ""));
+      } else {
+        var usdTrail = cleanText.match(usdTrailRegex);
+        var krwTrail = cleanText.match(krwTrailRegex);
+        if (usdTrail) {
+          currency = "USD";
+          amount = parseFloat(usdTrail[1].replace(/,/g, ""));
+        } else if (krwTrail) {
+          currency = "KRW";
+          amount = parseFloat(krwTrail[1].replace(/,/g, ""));
+        } else {
+          var numMatch = cleanText.match(/([\d,]+(?:\.\d{1,2})?)\s*(?:승인|결제)/);
+          if (numMatch) {
+            amount = parseFloat(numMatch[1].replace(/,/g, ""));
+            currency = amount % 1 !== 0 ? "USD" : "KRW";
+          }
+        }
+      }
+
+      var merchant = "카드 지출";
+      var merchantPattern = /(?:승인|결제|사용처[:\s])\s+([A-Za-z0-9가-힣\s\.\&\-\'\#]+?)(?:\s+누적|\s+잔여|\s+일시불|\s+\d+개월|\s+KRW|\s+USD|\s*\d{1,2}\/\d{1,2}|$)/i;
+      var merchantMatch = cleanText.match(merchantPattern);
+      if (merchantMatch && merchantMatch[1].trim()) {
+        merchant = merchantMatch[1].trim();
+      }
+
+      var dateStr = "";
+      var dateMatch = cleanText.match(/(\d{1,2}[\/\.-]\d{1,2}(?:\s+\d{1,2}:\d{2})?)/);
+      if (dateMatch) {
+        dateStr = dateMatch[1];
+      }
+
+      return {
+        amount: amount,
+        currency: currency,
+        merchant: merchant,
+        dateStr: dateStr,
+        isValid: !isNaN(amount) && amount > 0
+      };
+    }
+
+    /**
+     * 상호명 키워드 기반 카테고리 자동 매핑
+     */
+    function getCategoryByMerchant(merchant, fullText) {
+      fullText = fullText || "";
+      var query = (merchant + " " + fullText).toLowerCase();
+
+      if (query.indexOf("disney") !== -1 || query.indexOf("universal") !== -1 || query.indexOf("puesto") !== -1 ||
+          query.indexOf("broomstick") !== -1 || query.indexOf("citywalk") !== -1 || query.indexOf("theme") !== -1 || query.indexOf("anaheim") !== -1) {
+        return "food-theme";
+      }
+      if (query.indexOf("joshua") !== -1 || query.indexOf("desert hills") !== -1 || query.indexOf("outlet") !== -1 ||
+          query.indexOf("palm springs") !== -1 || query.indexOf("downtown disney") !== -1) {
+        return "food-jt";
+      }
+      if (query.indexOf("bcd") !== -1 || query.indexOf("farmers market") !== -1 || query.indexOf("galbi") !== -1 ||
+          query.indexOf("ktown") !== -1 || query.indexOf("korean") !== -1 || query.indexOf("los angeles") !== -1 ||
+          query.indexOf("santa monica") !== -1 || query.indexOf("hollywood") !== -1 || query.indexOf("getty") !== -1) {
+        return "food-la";
+      }
+      if (query.indexOf("uber") !== -1 || query.indexOf("lyft") !== -1 || query.indexOf("chevron") !== -1 ||
+          query.indexOf("shell") !== -1 || query.indexOf("gas") !== -1 || query.indexOf("parking") !== -1 ||
+          query.indexOf("tour") !== -1 || query.indexOf("stadium") !== -1 || query.indexOf("yohan") !== -1) {
+        return "activity-misc";
+      }
+      return "food-vegas";
+    }
+
+    // 건별 누적 가계부 (카드 SMS 자동 파싱 + 직접 입력, 브라우저 로컬 저장)
+    var EXPENSE_LOG_KEY = "us_trip_expense_log_2026";
+    function loadExpenseLog() {
+      try {
+        var raw = localStorage.getItem(EXPENSE_LOG_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveExpenseLog(log) {
+      try { localStorage.setItem(EXPENSE_LOG_KEY, JSON.stringify(log)); } catch (e) {}
+    }
+    var expenseLog = loadExpenseLog(); // { "food-vegas": [{memo,amount,currency,payType,dateStr}, ...], ... }
 
     function fmtAmount(krw, usd) {
       if (krw > 0 && usd > 0) return "₩" + krw.toLocaleString() + " + $" + usd.toFixed(2);
@@ -1633,12 +1835,27 @@
         var color = CAT_COLOR[item.cat] || "var(--muted-2)";
         var icon = CAT_ICON[item.cat] || "📌";
 
+        var catId = ITEM_TO_CATEGORY[item.item]; // 건별 누적 가계부 대상 여부
+        var transactions = catId ? (expenseLog[catId] || []) : null;
+
         var loggedVal = ledger[item.item];
         var hasLogged = typeof loggedVal === "number" && !isNaN(loggedVal) && loggedVal > 0;
-        var settled = item.done || hasLogged;
+        var hasTransactions = !!(transactions && transactions.length > 0);
+        var settled = item.done || hasLogged || hasTransactions;
 
-        var actKrw = item.done ? item.actKrw : (isKrwItem ? (hasLogged ? loggedVal : 0) : 0);
-        var actUsd = item.done ? item.actUsd : (!isKrwItem ? (hasLogged ? loggedVal : 0) : 0);
+        var actKrw, actUsd;
+        if (item.done) {
+          actKrw = item.actKrw;
+          actUsd = item.actUsd;
+        } else if (transactions) {
+          actKrw = 0; actUsd = 0;
+          transactions.forEach(function (t) {
+            if (t.currency === "KRW") actKrw += t.amount; else actUsd += t.amount;
+          });
+        } else {
+          actKrw = isKrwItem ? (hasLogged ? loggedVal : 0) : 0;
+          actUsd = !isKrwItem ? (hasLogged ? loggedVal : 0) : 0;
+        }
         var actualKrw = actKrw + (actUsd * USD_RATE);
 
         var amtStr;
@@ -1670,9 +1887,25 @@
         html += '<span class="amt" style="' + (settled ? 'color:var(--green);' : '') + '">' + amtStr + diffBadgeHtml + '</span>';
         html += '</div>';
         if (item.note) {
-          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : (hasLogged ? '📝 ' : '⏳ ')) + item.note + '</div>';
+          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : (hasTransactions || hasLogged ? '📝 ' : '⏳ ')) + item.note + '</div>';
         }
-        if (!item.done) {
+        if (catId) {
+          html += '<div class="expense-history-list" data-cat="' + catId + '">';
+          if (!hasTransactions) {
+            html += '<span style="font-size:10.5px;color:var(--muted-2);">위 가계부 입력창에서 등록하세요</span>';
+          } else {
+            transactions.forEach(function (t, tIdx) {
+              var amtDisp = t.currency === "KRW" ? ("₩" + Math.round(t.amount).toLocaleString()) : ("$" + t.amount.toFixed(2));
+              html += '<span class="expense-chip">';
+              html += '<span class="chip-paytype">' + (t.payType === "cash" ? "💵" : "💳") + '</span>';
+              html += '<span class="chip-memo">' + escapeHtml(t.memo) + '</span>';
+              html += '<span class="chip-amount">' + amtDisp + '</span>';
+              html += '<button type="button" class="btn-delete-chip" data-cat="' + catId + '" data-tidx="' + tIdx + '" aria-label="삭제">✕</button>';
+              html += '</span>';
+            });
+          }
+          html += '</div>';
+        } else if (!item.done) {
           html += '<div class="ledger-row">';
           html += '<input type="number" inputmode="decimal" step="0.01" class="ledger-input" data-idx="' + idx + '" placeholder="실지출 입력' + (hasLogged ? '' : ' (가계부 기록)') + '"' + (hasLogged ? ' value="' + loggedVal + '"' : '') + '>';
           html += '<span class="ledger-unit">' + (isKrwItem ? '원' : 'USD') + '</span>';
@@ -1724,6 +1957,78 @@
         });
       });
     }
+
+    // ===== 건별 누적 가계부: 거래 삭제 (이벤트 위임, #budget-live는 재렌더링에도 유지됨) =====
+    document.getElementById('budget-live').addEventListener('click', function (e) {
+      var btn = e.target.closest('.btn-delete-chip');
+      if (!btn) return;
+      var cat = btn.getAttribute('data-cat');
+      var tIdx = parseInt(btn.getAttribute('data-tidx'), 10);
+      if (!expenseLog[cat]) return;
+      expenseLog[cat].splice(tIdx, 1);
+      saveExpenseLog(expenseLog);
+      renderBudget();
+      if (window.showToast) window.showToast('내역이 삭제되었습니다');
+    });
+
+    // ===== 2-Way 지출 등록: 모드 전환 탭 =====
+    var modeTabs = document.querySelectorAll('.entry-mode-tabs .mode-tab');
+    var smsPanel = document.getElementById('smsFormPanel');
+    var manualPanel = document.getElementById('manualFormPanel');
+    modeTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        modeTabs.forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        var mode = tab.getAttribute('data-mode');
+        smsPanel.classList.toggle('hidden', mode !== 'sms');
+        manualPanel.classList.toggle('hidden', mode !== 'manual');
+      });
+    });
+
+    function addTransaction(catId, memo, amount, currency, payType) {
+      if (!expenseLog[catId]) expenseLog[catId] = [];
+      expenseLog[catId].push({ memo: memo, amount: amount, currency: currency, payType: payType });
+      saveExpenseLog(expenseLog);
+      renderBudget();
+    }
+
+    // ===== ① 카드 승인 문자 자동 파싱 & 등록 =====
+    var smsInputEl = document.getElementById('smsInput');
+    var smsCategorySelectEl = document.getElementById('smsCategorySelect');
+    document.getElementById('btnParseSms').addEventListener('click', function () {
+      var raw = smsInputEl.value;
+      var parsed = parseCardSMS(raw);
+      if (!parsed || !parsed.isValid) {
+        if (window.showToast) window.showToast('문자에서 금액을 인식하지 못했습니다');
+        return;
+      }
+      var chosenCat = smsCategorySelectEl.value === 'auto'
+        ? getCategoryByMerchant(parsed.merchant, raw)
+        : smsCategorySelectEl.value;
+      var memo = parsed.merchant + (parsed.dateStr ? ' · ' + parsed.dateStr : '');
+      addTransaction(chosenCat, memo, parsed.amount, parsed.currency, 'card');
+      smsInputEl.value = '';
+      if (window.showToast) window.showToast('가계부에 등록되었습니다 (' + memo + ')');
+    });
+
+    // ===== ② 직접 입력 (현금/카드) =====
+    var manualCategorySelectEl = document.getElementById('manualCategorySelect');
+    var manualMemoInputEl = document.getElementById('manualMemoInput');
+    var manualCurrencySelectEl = document.getElementById('manualCurrencySelect');
+    var manualAmountInputEl = document.getElementById('manualAmountInput');
+    var manualPayTypeSelectEl = document.getElementById('manualPayTypeSelect');
+    document.getElementById('btnManualAdd').addEventListener('click', function () {
+      var amount = parseFloat(manualAmountInputEl.value);
+      if (isNaN(amount) || amount <= 0) {
+        if (window.showToast) window.showToast('금액을 올바르게 입력해주세요');
+        return;
+      }
+      var memo = manualMemoInputEl.value.trim() || '기타 지출';
+      addTransaction(manualCategorySelectEl.value, memo, amount, manualCurrencySelectEl.value, manualPayTypeSelectEl.value);
+      manualMemoInputEl.value = '';
+      manualAmountInputEl.value = '';
+      if (window.showToast) window.showToast('가계부에 등록되었습니다 (' + memo + ')');
+    });
 
     renderBudget();
   })();
@@ -2380,6 +2685,7 @@
         toast.classList.remove('show');
       }, 2000);
     }
+    window.showToast = showToast; // 가계부 등 다른 스크립트에서 재사용
 
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.copy-btn');
