@@ -393,6 +393,30 @@
   .nav-tab.active{color:var(--gold);}
   .nav-tab.active .tab-icon{transform:scale(1.1);filter:drop-shadow(0 2px 6px rgba(255,184,77,.4));}
 
+  /* ===== 테마파크 전략 공략집 ===== */
+  .strategy-guide-section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.25);}
+  .guide-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px;}
+  .guide-title-wrap{display:flex;align-items:center;gap:8px;}
+  .guide-header h2{font-size:18.5px;font-weight:700;color:var(--text);margin:0;}
+  .guide-badge{background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:4px;}
+  .guide-park-tabs{display:flex;gap:8px;}
+  .park-tab{background:var(--card-2);border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .2s ease;}
+  .park-tab.active{background:rgba(46,196,182,.18);border-color:var(--teal);color:var(--teal);}
+  .park-panel.hidden{display:none !important;}
+  .guide-summary-box{background:rgba(255,184,77,.08);border-left:4px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0;font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:16px;}
+  .timeline-strategy{margin-bottom:20px;}
+  .timeline-strategy h3{font-size:13.5px;color:var(--teal);margin:0 0 10px 0;}
+  .strategy-steps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .strategy-steps li{display:flex;gap:10px;font-size:12px;line-height:1.45;background:var(--card-2);padding:8px 12px;border-radius:6px;border:1px solid var(--line);}
+  .step-time{color:var(--gold);font-weight:700;white-space:nowrap;font-size:11.5px;}
+  .step-desc{color:var(--text);}
+  .lands-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media (min-width:768px){.lands-grid{grid-template-columns:repeat(3,1fr);}}
+  .land-card{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:12px;}
+  .land-card h4{font-size:12.5px;color:var(--coral);margin:0 0 8px 0;border-bottom:1px dashed var(--line);padding-bottom:6px;}
+  .land-card p{font-size:11.5px;color:var(--muted);margin:0 0 6px 0;line-height:1.4;}
+  .land-card p:last-child{margin-bottom:0;}
+
   /* ===== TAB PANELS ===== */
   .tab-panel{display:none;opacity:0;transition:opacity .25s ease;}
   .tab-panel.active{display:block;opacity:1;}
@@ -600,6 +624,88 @@
   </main>
 
   <main id="tab-schedule" class="tab-panel active">
+
+  <!-- 테마파크 완전정복 전략 공략집 -->
+  <section class="strategy-guide-section">
+    <div class="guide-header">
+      <div class="guide-title-wrap">
+        <h2>🏰 테마파크 완전정복 공략집</h2>
+        <span class="guide-badge">STRATEGY GUIDE</span>
+      </div>
+      <div class="guide-park-tabs">
+        <button type="button" class="park-tab active" data-park="disney">디즈니랜드 (10/6)</button>
+        <button type="button" class="park-tab" data-park="universal">유니버셜 스튜디오 (10/7~8)</button>
+      </div>
+    </div>
+
+    <!-- 1. 디즈니랜드 공략 패널 -->
+    <div class="park-panel" id="panelDisney">
+      <div class="guide-summary-box">
+        <strong>🎯 핵심 전략:</strong> 08:00 로프드롭 직후 좌측(스타워즈/인디아나) 선공략 ➔ 오후 중앙/투모로우랜드 분산 ➔ 21:00 캐슬 불꽃놀이
+      </div>
+
+      <div class="timeline-strategy">
+        <h3>⏰ 추천 시간대별 동선</h3>
+        <ul class="strategy-steps">
+          <li><span class="step-time">07:30~08:00</span> <span class="step-desc">입구 게이트 도착 &amp; 센트럴 플라자 대기</span></li>
+          <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 더 레지스탕스 ➔ 인디아나 존스 ➔ 빅 선더 마운틴</span></li>
+          <li><span class="step-time">10:30~13:30</span> <span class="step-desc">캐리비안의 해적 ➔ 헌티드 맨션 ➔ 앱 모바일 오더 점심</span></li>
+          <li><span class="step-time">14:00~17:00</span> <span class="step-desc">미키&amp;미니 런어웨이 ➔ 스몰월드 ➔ 디즈니랜드 철도 휴식</span></li>
+          <li><span class="step-time">18:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ 저녁 식사 ➔ 잠자는 숲속의 공주 성 불꽃쇼</span></li>
+        </ul>
+      </div>
+
+      <div class="lands-grid">
+        <div class="land-card">
+          <h4>🌌 Star Wars: Galaxy's Edge (최심부)</h4>
+          <p>• <b>라이즈 오브 더 레지스탕스:</b> 파크 최고 인기 어트랙션, 오픈 직후 대기 40분 이내일 때 필수 공략</p>
+          <p>• <b>밀레니엄 팔콘:</b> 6인 탑승 조종 시뮬레이터 (파일럿 좌석 추천)</p>
+        </div>
+        <div class="land-card">
+          <h4>🤠 Adventure / Frontier / Bayou (좌측)</h4>
+          <p>• <b>인디아나 존스:</b> 다이내믹 지프 라이드 (허리/목 주의)</p>
+          <p>• <b>빅 선더 마운틴:</b> 일몰 시간대 탑승 시 풍경 베스트</p>
+          <p>• <b>티아나의 바유 어드벤처:</b> 로그 플룸 워터 라이드</p>
+        </div>
+        <div class="land-card">
+          <h4>🚀 Tomorrowland &amp; Fantasyland (우측/중앙)</h4>
+          <p>• <b>스페이스 마운틴:</b> 암흑 속 실내 롤러코스터</p>
+          <p>• <b>매터혼 봅슬레이 &amp; 피터팬:</b> 패밀리 인기 클래식 어트랙션</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 유니버셜 스튜디오 공략 패널 -->
+    <div class="park-panel hidden" id="panelUniversal">
+      <div class="guide-summary-box">
+        <strong>🎯 핵심 전략:</strong> Starway 이동 최소화! 1일차 오후 Lower Lot(닌텐도/쥬라기/머미) 몰아치기 ➔ 2일차 Upper Lot(해리포터/스튜디오투어/워터월드) 완주
+      </div>
+
+      <div class="timeline-strategy">
+        <h3>⏰ 2일 분할 추천 동선</h3>
+        <ul class="strategy-steps">
+          <li><span class="step-time">[1일차 14:00~]</span> <span class="step-desc"><b>Lower Lot 집중:</b> 입장 직후 하부 이동 ➔ 마리오 카트 ➔ 파워업밴드 챌린지 ➔ 쥬라기 월드 ➔ 머미 ➔ 시티워크 저녁</span></li>
+          <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot 집중:</b> 해리포터 포비든 저니 ➔ 스튜디오 투어(60분 트램, 좌측 좌석) ➔ 워터월드 쇼 ➔ 마이펫&amp;미니언즈</span></li>
+        </ul>
+      </div>
+
+      <div class="lands-grid">
+        <div class="land-card">
+          <h4>🔻 Lower Lot (하부 - 스릴 &amp; 닌텐도)</h4>
+          <p>• <b>마리오 카트 (쿠파의 도전):</b> AR 고글 착용 레이싱. 대기 길면 싱글라이더 활용</p>
+          <p>• <b>쥬라기 월드:</b> 마지막 25m 급하강 워터 스플래시 (우비 필수)</p>
+          <p>• <b>머미 (Revenge of the Mummy):</b> 급가속 실내 코스터. 무료 락커에 가방/폰 전량 보관 필수</p>
+        </div>
+        <div class="land-card">
+          <h4>🔺 Upper Lot (상부 - 쇼 &amp; 스튜디오)</h4>
+          <p>• <b>스튜디오 투어 (60분):</b> 실제 할리우드 영화 세트장 투어 (트램 왼쪽 탑승 추천)</p>
+          <p>• <b>해리포터 포비든 저니:</b> 호그와트 성 내부 로봇 암 라이드 (멀미 취약 시 멀미약 권장)</p>
+          <p>• <b>워터월드:</b> 실감나는 하이라이트 스턴트 쇼 (파란색 좌석은 침수 구역)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="date-nav-wrap">
     <div class="date-nav-track">
       <button type="button" class="date-pill active" data-target="day-1">D1 · 10/1</button>
@@ -2596,6 +2702,28 @@
           } else if (filterType === 'pending') {
             card.style.display = isPendingOrTodo ? 'block' : 'none';
           }
+        });
+      });
+    });
+  })();
+
+  /* ==========================================================
+     [4-0] 테마파크 전략 공략집: 디즈니랜드 / 유니버셜 탭 전환
+  ========================================================== */
+  (function initStrategyGuideTabs() {
+    var parkTabs = document.querySelectorAll('.guide-park-tabs .park-tab');
+    var panels = { disney: document.getElementById('panelDisney'), universal: document.getElementById('panelUniversal') };
+    if (!parkTabs.length) return;
+
+    parkTabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var park = tab.getAttribute('data-park');
+
+        parkTabs.forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+
+        Object.keys(panels).forEach(function(key) {
+          if (panels[key]) panels[key].classList.toggle('hidden', key !== park);
         });
       });
     });
