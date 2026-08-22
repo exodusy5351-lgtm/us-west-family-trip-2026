@@ -95,7 +95,7 @@
     height:2px;
     background:repeating-linear-gradient(90deg, var(--muted-2) 0 8px, transparent 8px 16px);
   }
-  .stop{position:relative;display:flex;flex-direction:column;align-items:center;width:25%;}
+  .stop{position:relative;display:flex;flex-direction:column;align-items:center;width:20%;}
   .stop .dot{
     width:30px;height:30px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
@@ -181,6 +181,7 @@
     z-index:1;
   }
   .day.highlight::before{border-color:var(--coral);background:var(--coral);}
+  .day.highlight.confirmed::before{border-color:var(--green);background:var(--green);}
   .day summary{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent;}
   .day summary::-webkit-details-marker{display:none;}
   .d-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 10px;margin:-2px -10px;border-radius:10px;transition:background-color .15s;}
@@ -343,7 +344,7 @@
   </div>
 
   <div class="route">
-    <div class="route-title">Route — LAS → JT → ANA → LAX</div>
+    <div class="route-title">Route — LAS → JT → ANA → UNI → LAX</div>
     <div class="route-track">
       <div class="stop active">
         <div class="dot">🎰</div>
@@ -361,9 +362,14 @@
         <div class="nights">10/5–10/7</div>
       </div>
       <div class="stop active">
+        <div class="dot">🎬</div>
+        <div class="place">유니버설시티</div>
+        <div class="nights">10/7–10/8</div>
+      </div>
+      <div class="stop active">
         <div class="dot">🌴</div>
         <div class="place">할리우드</div>
-        <div class="nights">10/7–10/11</div>
+        <div class="nights">10/8–10/11</div>
       </div>
     </div>
   </div>
@@ -371,7 +377,7 @@
   <section>
     <div class="section-head">
       <h2>예약 현황</h2>
-      <span class="count">8 / 12 완료</span>
+      <span class="count">8 / 14 완료</span>
     </div>
     <div class="cards">
       <div class="card">
@@ -399,9 +405,9 @@
         <div class="amount">130,000pt</div>
       </div>
       <div class="card">
-        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
+        <div class="top"><span class="icon">🏨</span><span class="badge pending">재예약필요</span></div>
         <div class="name">로어스 할리우드</div>
-        <div class="detail">10/7–11 · 4박 · #3892645</div>
+        <div class="detail">10/8-11·3박·#3892645</div>
         <div class="amount">₩1,627,179</div>
       </div>
       <div class="card" data-img="images/joshua-tree-airbnb-confirmation.png">
@@ -426,7 +432,7 @@
         <div class="top"><span class="icon">⚾</span><span class="badge pending">9/27 오픈</span></div>
         <div class="name">다저 스타디움 투어</div>
         <div class="detail">10/10 오전 유력 · 반나절 · 9/27 포스트시즌 일정 확정 시 공식 사이트 티켓팅 오픈 · 14세 이하 어린이 요금 적용</div>
-        <div class="amount">$149.00 (성인2+어린이2)</div>
+        <div class="amount">$149.00(성인2+어린이2)</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🏰</span><span class="badge pending">발권대기</span></div>
@@ -436,15 +442,27 @@
       </div>
       <div class="card">
         <div class="top"><span class="icon">🎬</span><span class="badge pending">발권대기</span></div>
-        <div class="name">유니버설 티켓</div>
-        <div class="detail">1일 일반권 · 성인3+아동1 · 10/8 사용 · 발권 후 전용 앱 티켓/결제카드 등록 필요</div>
-        <div class="amount">₩648,666</div>
+        <div class="name">유니버설 티켓(2일권)</div>
+        <div class="detail">2일 일반권 · 10/7 오후+10/8 전일 · 성인3+아동1 · 발권 후 전용 앱 티켓/결제카드 등록 필요</div>
+        <div class="amount">₩616,233</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🖼️</span><span class="badge todo">예약필요</span></div>
         <div class="name">게티센터 시간지정 티켓</div>
         <div class="detail">10/9(금) 오전 10:00 · 입장 무료 · 공식 웹사이트 사전 시간지정 예약 필수</div>
         <div class="amount">무료 (예약 필수)</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🏨</span><span class="badge todo">미예약</span></div>
+        <div class="name">유니버설 인근 숙소</div>
+        <div class="detail">10/7 1박 · 유니버설시티</div>
+        <div class="amount">가격 확인 필요</div>
+      </div>
+      <div class="card">
+        <div class="top"><span class="icon">🚌</span><span class="badge done">완료</span></div>
+        <div class="name">LA 종일투어</div>
+        <div class="detail">게티+그리피스+명예의거리+산타모니카 등 · 10/9</div>
+        <div class="amount">₩626,850</div>
       </div>
     </div>
   </section>
@@ -1052,264 +1070,56 @@
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">애너하임 → 할리우드 이동 &amp; 그리피스 야경</span></div>
-            <div class="d-line">11:00 애너하임 체크아웃 → 우버 할리우드 이동 → 명예의 거리/TCL/돌비 도보관광 → 15:00 K&amp;L Wine Merchants 위스키 쇼핑 → 16:00 로어스 체크인 → 그리피스 천문대 야경(17:30~20:30) → 저녁</div>
+            <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">유니버설 이동</span></div>
+            <div class="d-line">애너하임 체크아웃 → 우버 유니버설시티 직행(1h) → 유니버설 1일차</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">애너하임 → 할리우드 이동 &amp; 그리피스 야경</div>
-        <div class="d-desc">렌터카 없이 우버로 할리우드 이동, 도보 관광 후 로어스 체크인, 저녁엔 그리피스 천문대에서 LA 야경 감상</div>
-        <div class="sched-list">
-
-          <div class="sched-block">
-            <div class="sched-time">🚕 11:00–12:30</div>
-            <div class="sched-title">애너하임 체크아웃 &amp; 할리우드 이동</div>
-            <span class="uber-badge">🚕 이동: UberXL 필수 (4인+캐리어4개 수납, 약 $80~110 / 1시간)</span>
-            <div class="sched-note">우버로 LA 할리우드로 이동 (약 1시간)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">⭐ 12:30–15:30</div>
-            <div class="sched-title">할리우드 명소 도보 관광 &amp; 점심</div>
-            <div class="sched-sub">
-              <div class="nav-card">
-                <div class="nav-card-label">⭐ Walk of Fame</div>
-                <div class="nav-card-note">할리우드 명예의 거리 스타 명판 구경하며 산책</div>
-              </div>
-              <div class="nav-card">
-                <div class="nav-card-label">🎬 TCL 차이니즈 시어터</div>
-                <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=TCL+Chinese+Theatre+Los+Angeles+CA" target="_blank" rel="noopener noreferrer">📍 TCL Chinese Theatre, LA</a>
-                <div class="nav-card-note">안성기·이병헌 등 스타 핸드프린팅 구경</div>
-              </div>
-              <div class="nav-card">
-                <div class="nav-card-label">🏆 돌비 극장</div>
-                <div class="nav-card-note">오스카 시상식이 열리는 돌비 극장 앞 계단에서 인증샷</div>
-              </div>
-            </div>
-            <div class="sched-note">오베이션 몰에서 점심 식사</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🥃 15:00–15:45</div>
-            <div class="sched-title">[위스키 성지 쇼핑] K&amp;L Wine Merchants (Hollywood)</div>
-            <span class="uber-badge">🚕 이동: UberX (편도 약 $8~12 / 5분)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=K%26L+Wine+Merchants+1400+Vine+St+Hollywood+CA" target="_blank" rel="noopener noreferrer">📍 K&amp;L Wine Merchants, 1400 Vine St</a>
-            <div class="sched-note">로어스 할리우드 호텔에서 차량 5분 거리 · 캘리포니아 최고의 프리미엄 위스키 전문샵 — K&amp;L 단독 배럴 픽(Store Pick Single Barrel) 버번, 희귀 싱글몰트/독립병입자 보틀 등 귀국 소장용 및 선물용 프리미엄 위스키 쇼핑</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🏨 16:00</div>
-            <div class="sched-title">로어스 할리우드 호텔(Loews Hollywood) 체크인</div>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">📍 Loews Hollywood Hotel</a>
-            <div class="sched-note">체크인 및 짐 정리 (4박)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🔭 17:30–20:30</div>
-            <div class="sched-title">그리피스 천문대 (Griffith Observatory)</div>
-            <span class="uber-badge">🚕 이동: UberX/Comfort (왕복 약 $35~45, 주차난 대비 우버 추천)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Griffith+Observatory+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Griffith Observatory, LA</a>
-            <div class="sched-note">일몰 및 LA 시내 파노라마 야경 감상</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍽️ 21:00</div>
-            <div class="sched-title">[저녁] 할리우드 로컬 다이닝</div>
-            <div class="sched-note">할리우드 인근 레스토랑 저녁 식사 및 휴식</div>
-          </div>
-
-        </div>
-
-        <div class="tip-note">
-          <div class="tip-note-title">💡 7일차 체크포인트</div>
-          <ol class="cheat-list">
-            <li><b>우버 이용</b> — 이날부터 렌터카 없이 우버/도보로만 이동 (전날 애너하임에서 렌터카 최종 반납 완료).</li>
-            <li><b>그리피스 방한</b> — 천문대는 산 정상에 위치해 일몰 후 쌀쌀하므로 경량 겉옷 지참.</li>
-          </ol>
-        </div>
+        <div class="d-title">애너하임 체크아웃 → 우버 유니버설시티 직행(1h) → 유니버설 1일차</div>
+        <div class="d-desc">숙소 체크인 → 오후 유니버설 스튜디오 입장(2일권 1일차) → 시티워크 저녁</div>
         </div></div>
       </details>
 
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 스튜디오 1일 분 단위 완벽 공략</span></div>
-            <div class="d-line">08:30 메트로 B라인+셔틀 → 슈퍼 닌텐도 월드/해리포터/스튜디오투어/트랜스포머 전일 관람 → Three Broomsticks 점심 → Bubba Gump 저녁 → 우버 복귀</div>
+            <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 2일차 → 할리우드 이동</span></div>
+            <div class="d-line">유니버설 스튜디오 전일 관람 → 로어스 할리우드 체크인(3박)</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">유니버설 스튜디오 할리우드 전일</div>
-        <div class="d-desc">지하철+셔틀로 이동, 전일 관람 후 시티워크에서 씨푸드 저녁</div>
-        <div class="sched-list">
+        <div class="d-title">유니버설 스튜디오 전일 관람 → 로어스 할리우드 체크인(3박)</div>
+        <div class="d-desc">저녁 체크아웃 후 우버로 로어스 이동</div>
+        </div></div>
+      </details>
 
-          <div class="sched-block">
-            <div class="sched-time">🚇 08:30–09:00</div>
-            <div class="sched-title">유니버설 스튜디오 이동</div>
-            <span class="uber-badge">🚇 이동: 메트로 B라인 (지하철 $7)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Universal+Studios+Hollywood" target="_blank" rel="noopener noreferrer">📍 Universal Studios Hollywood</a>
-            <div class="sched-note">호텔 앞 메트로 B라인(지하철) 탑승 → 유니버설역 무료 셔틀 환승</div>
+      <details class="day highlight confirmed">
+        <summary class="d-summary">
+          <div class="d-summary-main">
+            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">LA 종일투어 (예약완료)</span></div>
+            <div class="d-line">게티센터·비버리힐스·그레이스톤맨션·핑크월·파머스마켓 → 명예의거리·할리우드사인·그리피스천문대·산타모니카</div>
           </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🎬 09:00–17:30</div>
-            <div class="sched-title">유니버설 스튜디오 전일 관람</div>
-            <div class="sched-note">
-              슈퍼 닌텐도 월드(마리오 카트: 쿠파의 도전)<br>
-              해리포터 포비든 저니(빗자루 비행 시뮬레이터)<br>
-              스튜디오 투어(실제 영화 세트장 트램)<br>
-              트랜스포머 3D, 쥬라기 월드 더 라이드
-            </div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍗 12:30–13:30</div>
-            <div class="sched-title">[점심] Three Broomsticks (쓰리 브룸스틱스)</div>
-            <div class="sched-note">해리포터 구역 영국식 로스트 치킨 / 립 플래터 &amp; 버터맥주</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍤 17:30–20:00</div>
-            <div class="sched-title">[저녁] Bubba Gump Shrimp Co. (유니버설 시티워크)</div>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Bubba+Gump+Shrimp+Co+Universal+CityWalk" target="_blank" rel="noopener noreferrer">📍 Bubba Gump Shrimp Co., CityWalk</a>
-            <div class="sched-note">유니버설 시티워크 쇼핑 및 씨푸드/쉬림프 저녁 식사</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🚕 20:30</div>
-            <div class="sched-title">호텔 복귀</div>
-            <span class="uber-badge">🚕 숙소 복귀: UberX (약 $15~22)</span>
-            <div class="sched-note">우버 탑승 후 로어스 할리우드 호텔 복귀</div>
-          </div>
-
-        </div>
-
-        <div class="tip-note">
-          <div class="tip-note-title">💡 유니버설 스튜디오 체크포인트</div>
-          <ol class="cheat-list">
-            <li><b>무료 락커 팁</b> — 미이라와 해리포터 탑승 전 가방 보관 필수(일행 중 1명의 지문으로 통일 등록).</li>
-            <li><b>싱글 라이더 활용</b> — 마리오카트, 쥬라기, 미이라, 해리포터 대기 50분 이상 시 싱글라이더 라인으로 15분 내 탑승 가능.</li>
-            <li><b>메트로 이용</b> — 아침 러시아워 혼잡할 수 있으니 여유 있게 출발.</li>
-          </ol>
-        </div>
+          <span class="d-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="d-body"><div class="d-body-inner">
+        <div class="d-title">게티센터·비버리힐스·그레이스톤맨션·핑크월·파머스마켓 → 명예의거리·할리우드사인·그리피스천문대·산타모니카</div>
+        <div class="d-desc">전문 도슨트 동반 종일투어, 4인 626,850원 결제완료</div>
         </div></div>
       </details>
 
       <details class="day">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">LA 서부 &amp; 해변 투어 (게티/로데오/산타모니카)</span></div>
-            <div class="d-line">10:00 게티 센터 → 비벌리힐스 &amp; 로데오 드라이브 → 산타모니카 피어(일몰) → 씨푸드 디너</div>
+            <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">다저스타디움 · LACMA · 한인타운</span></div>
+            <div class="d-line">다저 스타디움 투어(10-12시) → 점심 → LACMA(14:30-17:30) → 한인타운 저녁</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">게티 센터, 로데오 드라이브, 산타모니카 해변까지 LA 서부 하루</div>
-        <div class="d-desc">명작 감상 → 명품거리 산책 → 태평양 일몰 &amp; 해산물 디너</div>
-        <div class="sched-list">
-
-          <div class="sched-block">
-            <div class="sched-time">🖼️ 10:00–13:00</div>
-            <div class="sched-title">게티 센터 (The Getty Center)</div>
-            <span class="uber-badge">🚕 UberX (약 $25~35)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Getty+Center+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Getty Center</a>
-            <div class="sched-note">무료 사전 시간지정(10:00) 관람 — 트램, 명화 전시관, 센트럴 가든</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">☕ 13:00–15:30</div>
-            <div class="sched-title">[점심 &amp; 거리 산책] 비벌리힐스 &amp; 로데오 드라이브</div>
-            <span class="uber-badge">🚕 UberX (약 $18~25)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Rodeo+Drive+Beverly+Hills" target="_blank" rel="noopener noreferrer">📍 Rodeo Drive, Beverly Hills</a>
-            <div class="sched-note">명품 거리 로데오 드라이브 산책 및 카페/테라스 런치</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🌊 16:00–19:30</div>
-            <div class="sched-title">산타모니카 피어 (Santa Monica Pier) &amp; 해변</div>
-            <span class="uber-badge">🚕 UberX (약 $20~28)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Santa+Monica+Pier+CA" target="_blank" rel="noopener noreferrer">📍 Santa Monica Pier</a>
-            <div class="sched-note">피어 산책, 루트 66 종점 표지판 포토존, 태평양 일몰 감상</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🦞 19:30–21:00</div>
-            <div class="sched-title">[저녁] 산타모니카 오션뷰 씨푸드</div>
-            <span class="uber-badge">🚕 호텔 복귀: UberX (약 $35~48)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Water+Grill+Santa+Monica" target="_blank" rel="noopener noreferrer">📍 Water Grill / The Boathouse, Santa Monica</a>
-            <div class="sched-note">해변가 프리미엄 해산물 요리 저녁 식사 후 호텔 복귀</div>
-          </div>
-
-        </div>
-
-        <div class="tip-note">💡 <b>9일차 우버 예상 총액</b> — 약 $100~135 (렌터카 없이 우버 4회 이동 기준)</div>
-
-        <div class="tip-note">
-          <div class="tip-note-title">💡 9일차 체크포인트</div>
-          <ol class="cheat-list">
-            <li><b>게티센터 예약</b> — 입장 자체는 무료지만 시간지정(Timed-entry) 예약 필수. getty.edu에서 방문 전 미리 예약.</li>
-            <li><b>주차 대신 발레/우버</b> — 로데오 드라이브·산타모니카 피어 인근은 주차가 비싸고 혼잡하니 발레파킹이나 우버 이용 권장.</li>
-            <li><b>일몰 시간 확인</b> — 10월 초 LA 일몰은 대략 18:40~18:50경, 피어에서 여유 있게 자리 잡기.</li>
-          </ol>
-        </div>
-        </div></div>
-      </details>
-
-      <details class="day">
-        <summary class="d-summary">
-          <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">LA 다운타운 &amp; 미드윌셔 (다저스/파머스마켓/LACMA)</span></div>
-            <div class="d-line">10:00 다저 스타디움 투어 → 12:30 파머스마켓&amp;더그로브(Pampas Grill 점심) → 15:30 LACMA 어반라이트 → 18:30 한인타운 파이널 디너 → 짐 패킹</div>
-          </div>
-          <span class="d-chevron" aria-hidden="true">⌄</span>
-        </summary>
-        <div class="d-body"><div class="d-body-inner">
-        <div class="d-title">다저 스타디움 · 파머스마켓 · LACMA · 한인타운 (다운타운&amp;미드윌셔 동선)</div>
-        <div class="d-desc">파머스마켓과 LACMA가 바로 인접해 있어 함께 묶어 동선 낭비 차단 · 여행 마지막 저녁은 한식으로 마무리</div>
-        <div class="sched-list">
-
-          <div class="sched-block">
-            <div class="sched-time">⚾ 10:00–12:00</div>
-            <div class="sched-title">다저 스타디움 (Dodger Stadium) 공식 투어</div>
-            <span class="uber-badge">🚕 UberX (약 $18~25)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Dodger+Stadium+1000+Vin+Scully+Ave+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Dodger Stadium</a>
-            <div class="sched-note">선수 라커룸, 더그아웃, 필드 워크 투어 (9/27 포스트시즌 일정 확정 연동)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🥩 12:30–15:00</div>
-            <div class="sched-title">[점심 &amp; 쇼핑] 오리지널 파머스 마켓 &amp; 더 그로브</div>
-            <span class="uber-badge">🚕 UberX (약 $20~28)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Original+Farmers+Market+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Original Farmers Market</a>
-            <div class="sched-note">팜파스 그릴(Pampas Grill) 브라질식 슈하스코/바비큐 점심 식사 &amp; 쇼핑몰 구경</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">💡 15:30–17:30</div>
-            <div class="sched-title">LACMA (로스앤젤레스 카운티 미술관)</div>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=LACMA+Urban+Light+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 LACMA Urban Light</a>
-            <div class="sched-note">어반 라이트(Urban Light) 야외 설치 조형물 관람 및 가족 기념사진</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍲 18:30–20:30</div>
-            <div class="sched-title">[파이널 디너] LA 한인타운 한식 마무리</div>
-            <span class="uber-badge">🚕 UberX (약 $12~16)</span>
-            <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=BCD+Tofu+House+Koreatown+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 BCD 북창동순두부, 한인타운</a>
-            <div class="sched-note">BCD 북창동 순두부 본점 또는 한식 갈비/고깃집에서 얼큰하고 든든한 귀국 전 가족 만찬</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🧳 21:00 이후</div>
-            <div class="sched-title">로어스 할리우드 복귀 &amp; 귀국 짐 최종 패킹</div>
-            <span class="uber-badge">🚕 UberX (약 $15~20)</span>
-            <div class="sched-note">위탁수하물 23kg 무게 체크, 액체류 패킹 → 10/11 오전 10:50 출국 모바일 체크인</div>
-          </div>
-
-        </div>
-
-        <div class="tip-note">💡 <b>10일차 우버 예상 총액</b> — 약 $65~90 (렌터카 없이 우버 4회 이동 기준, 파머스마켓→LACMA는 도보)</div>
+        <div class="d-title">다저 스타디움 투어(10-12시) → 점심 → LACMA(14:30-17:30) → 한인타운 저녁</div>
+        <div class="d-desc">21시 로어스 복귀 및 귀국 짐 최종 패킹</div>
         </div></div>
       </details>
 
@@ -1359,8 +1169,8 @@
     </div>
     <div class="budget-total">
       <div class="label">TOTAL ESTIMATE</div>
-      <div class="value">약 1,358만원</div>
-      <div class="range">우버비 등 변동 가능</div>
+      <div class="value">약 1,340만원(재조정 중)</div>
+      <div class="range">숙소 재예약 반영 전 잠정치</div>
     </div>
 
     <div id="budget-live"></div>
@@ -1441,14 +1251,15 @@
   <section>
     <div class="section-head">
       <h2>남은 할 일</h2>
-      <span class="count">6 ITEMS</span>
+      <span class="count">7 ITEMS</span>
     </div>
     <div class="todo-list">
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">게티센터 시간지정 티켓 예약 <span class="tag">— 10/9(금) 오전 10:00 · 무료, getty.edu 사전예약</span></div></div>
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 10/10 오전 유력 · 9/27 정규시즌 종료 후 dodgers365.com에서 예약 오픈 확인</span></div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">여행사 컨설팅 문의 발송</div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 발권 &amp; 앱 등록 <span class="tag">— 9월 재확인</span></div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">유니버설 티켓 발권 &amp; 앱 등록</div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">유니버설 인근 숙소 예약 <span class="tag">— 10/7 1박</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">로어스 할리우드 4박→3박 재예약 <span class="tag">— 10/8~10/11</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 얼리액세스 마감 9/27 임박</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">조슈아트리 숙소 예약 확정 <span class="tag">— 환불가능 옵션 권장</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">그랜드캐년 투어 예약 <span class="tag">— 요한투어 VIP, 콘래드/베네치안 픽업 확정</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 구매</div></div>
       <div class="todo-item"><div class="chk"></div><div class="txt">둘째 딸 카시트 필요 여부 확인</div></div>
     </div>
   </section>
