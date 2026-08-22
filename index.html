@@ -34,7 +34,7 @@
     color:var(--text);
     font-family:'Work Sans',sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:60px;
+    padding-bottom:90px;
   }
   .wrap{max-width:640px;margin:0 auto;padding:0 18px;}
   .eyebrow{
@@ -328,6 +328,30 @@
   .pack-item.checked .pack-item-label{text-decoration:line-through;color:var(--muted);}
 
   footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
+
+  /* ===== BOTTOM NAV (mobile app-style tab bar) ===== */
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(26,22,37,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:64px;display:flex;justify-content:space-around;align-items:center;max-width:640px;margin:0 auto;}
+  .nav-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--muted-2);font-family:'Work Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;padding:6px 12px;transition:color .2s,transform .1s;-webkit-tap-highlight-color:transparent;}
+  .nav-tab .tab-icon{font-size:18px;line-height:1;}
+  .nav-tab.active{color:var(--gold);}
+  .nav-tab.active .tab-icon{transform:scale(1.1);filter:drop-shadow(0 2px 6px rgba(255,184,77,.4));}
+
+  /* ===== TAB PANELS ===== */
+  .tab-panel{display:none;opacity:0;transition:opacity .25s ease;}
+  .tab-panel.active{display:block;opacity:1;}
+
+  /* ===== DATE QUICK-JUMP PILLS (schedule tab) ===== */
+  .date-nav-wrap{position:sticky;top:0;z-index:100;background:rgba(26,22,37,.95);backdrop-filter:blur(10px);padding:10px 0;margin:0 -18px 16px;border-bottom:1px solid rgba(58,49,80,.6);overflow-x:auto;scrollbar-width:none;}
+  .date-nav-wrap::-webkit-scrollbar{display:none;}
+  .date-nav-track{display:flex;gap:6px;padding:0 18px;}
+  .date-pill{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 12px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:all .15s;}
+  .date-pill:hover{border-color:var(--teal);color:var(--text);}
+  .date-pill.active{background:linear-gradient(135deg,var(--coral),var(--gold));color:#1a1625;font-weight:700;border-color:transparent;box-shadow:0 2px 8px rgba(255,107,74,.35);}
+
+  /* ===== RESERVATION FILTER CHIPS ===== */
+  .card-filters{display:flex;gap:8px;margin-bottom:14px;}
+  .filter-chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;}
+  .filter-chip.active{background:var(--teal);color:#1a1625;font-weight:700;border-color:var(--teal);}
 </style>
 </head>
 <body>
@@ -367,6 +391,13 @@
         <div class="nights">10/7–10/11 · 4박</div>
       </div>
     </div>
+  </div>
+
+  <main id="tab-reservations" class="tab-panel">
+  <div class="card-filters">
+    <button type="button" class="filter-chip active" data-filter="all">전체보기</button>
+    <button type="button" class="filter-chip" data-filter="done">완료 8</button>
+    <button type="button" class="filter-chip" data-filter="pending">대기/예정 5</button>
   </div>
 
   <section>
@@ -458,12 +489,46 @@
 
   <section>
     <div class="section-head">
+      <h2>남은 할 일</h2>
+      <span class="count">7 ITEMS</span>
+    </div>
+    <div class="todo-list">
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">LA 종일투어 일정 확정 및 결제 <span class="tag">— 10/9(금)</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">유니버셜 스튜디오 1+1 티켓 결제 <span class="tag">(₩525,400)</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈</span></div></div>
+      <div class="todo-item priority"><div class="chk"></div><div class="txt">조슈아트리 숙소 예약 확정 <span class="tag">— 환불가능 옵션 권장</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">게티센터 무료 티켓 예약 <span class="tag">(LA투어 미이용 시)</span></div></div>
+      <div class="todo-item"><div class="chk"></div><div class="txt">둘째 딸 카시트 필요 여부 확인</div></div>
+    </div>
+  </section>
+  </main>
+
+  <main id="tab-schedule" class="tab-panel active">
+  <div class="date-nav-wrap">
+    <div class="date-nav-track">
+      <button type="button" class="date-pill active" data-target="day-1">D1 · 10/1</button>
+      <button type="button" class="date-pill" data-target="day-2">D2 · 10/2</button>
+      <button type="button" class="date-pill" data-target="day-3">D3 · 10/3</button>
+      <button type="button" class="date-pill" data-target="day-4">D4 · 10/4</button>
+      <button type="button" class="date-pill" data-target="day-5">D5 · 10/5</button>
+      <button type="button" class="date-pill" data-target="day-6">D6 · 10/6</button>
+      <button type="button" class="date-pill" data-target="day-7">D7 · 10/7</button>
+      <button type="button" class="date-pill" data-target="day-8">D8 · 10/8</button>
+      <button type="button" class="date-pill" data-target="day-9">D9 · 10/9</button>
+      <button type="button" class="date-pill" data-target="day-10">D10 · 10/10</button>
+      <button type="button" class="date-pill" data-target="day-11">D11 · 10/11</button>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-head">
       <h2>일자별 일정</h2>
       <span class="count">11 DAYS</span>
     </div>
     <div class="timeline">
 
-      <details class="day">
+      <details class="day" id="day-1">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/1 목</span><span class="d-tag">LAX 입국 &amp; 베가스 로드트립 (콘래드 체크인)</span></div>
@@ -541,7 +606,7 @@
         </div></div>
       </details>
 
-      <details class="day highlight">
+      <details class="day highlight" id="day-2">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
@@ -662,7 +727,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-3">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/3 토</span><span class="d-tag">그랜드캐년 VIP 투어(요한투어) &amp; 복귀</span></div>
@@ -852,7 +917,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-4">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">유카밸리 장보기 &amp; 조슈아트리 사막 힐링</span></div>
@@ -932,7 +997,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-5">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">애너하임 이동 &amp; 다운타운 디즈니</span></div>
@@ -984,7 +1049,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-6">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드 1일 완벽 정복 (로프드랍~불꽃놀이)</span></div>
@@ -1062,7 +1127,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-7">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/7 수</span><span class="d-tag">애너하임 → 로어스 할리우드 체크인 &amp; 유니버설 1일차(하부)</span></div>
@@ -1133,7 +1198,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-8">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 2일차(상부 오픈런·해리포터·스튜디오투어) &amp; 할리우드 나이트</span></div>
@@ -1196,7 +1261,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-9">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">LA 핵심 종일 투어 (도슨트 &amp; 미니밴 11시간)</span></div>
@@ -1287,7 +1352,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-10">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/10 토</span><span class="d-tag">다저스타디움 · LACMA · 한인타운</span></div>
@@ -1337,7 +1402,7 @@
         </div></div>
       </details>
 
-      <details class="day">
+      <details class="day" id="day-11">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/11 일</span><span class="d-tag">귀국 출국</span></div>
@@ -1375,7 +1440,9 @@
 
     </div>
   </section>
+  </main>
 
+  <main id="tab-budget" class="tab-panel">
   <section>
     <div class="section-head">
       <h2>예상 경비</h2>
@@ -1473,23 +1540,9 @@
     renderBudget();
   })();
   </script>
+  </main>
 
-  <section>
-    <div class="section-head">
-      <h2>남은 할 일</h2>
-      <span class="count">7 ITEMS</span>
-    </div>
-    <div class="todo-list">
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">LA 종일투어 일정 확정 및 결제 <span class="tag">— 10/9(금)</span></div></div>
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">유니버셜 스튜디오 1+1 티켓 결제 <span class="tag">(₩525,400)</span></div></div>
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈</span></div></div>
-      <div class="todo-item priority"><div class="chk"></div><div class="txt">조슈아트리 숙소 예약 확정 <span class="tag">— 환불가능 옵션 권장</span></div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">게티센터 무료 티켓 예약 <span class="tag">(LA투어 미이용 시)</span></div></div>
-      <div class="todo-item"><div class="chk"></div><div class="txt">둘째 딸 카시트 필요 여부 확인</div></div>
-    </div>
-  </section>
-
+  <main id="tab-packing" class="tab-panel">
   <section>
     <div class="section-head">
       <h2>🎒 준비물 체크리스트</h2>
@@ -1513,9 +1566,29 @@
 
     <div class="pack-list" id="pack-list"></div>
   </section>
+  </main>
 
   <footer>SEUNGHYUN SHIN FAMILY · US WEST 2026</footer>
 </div>
+
+<nav class="bottom-nav">
+  <button type="button" class="nav-tab active" data-tab="tab-schedule">
+    <span class="tab-icon">📅</span>
+    <span>일정</span>
+  </button>
+  <button type="button" class="nav-tab" data-tab="tab-reservations">
+    <span class="tab-icon">🎫</span>
+    <span>예약/할일</span>
+  </button>
+  <button type="button" class="nav-tab" data-tab="tab-budget">
+    <span class="tab-icon">💰</span>
+    <span>경비</span>
+  </button>
+  <button type="button" class="nav-tab" data-tab="tab-packing">
+    <span class="tab-icon">🎒</span>
+    <span>준비물</span>
+  </button>
+</nav>
 
 <div class="img-modal" id="img-modal">
   <span class="img-modal-close" id="img-modal-close" role="button" aria-label="닫기" tabindex="0">✕</span>
@@ -1897,6 +1970,132 @@
     renderTabs();
     renderList();
     updateProgress();
+  })();
+</script>
+
+<script>
+  /* ==========================================================
+     [3-1] 하단 네비게이션 탭 전환 & URL Hash 라우팅
+  ========================================================== */
+  (function initTabNavigation() {
+    var navTabs = document.querySelectorAll('.bottom-nav .nav-tab');
+    var tabPanels = document.querySelectorAll('.tab-panel');
+
+    function switchTab(targetTabId, updateHash) {
+      var targetPanel = document.getElementById(targetTabId);
+      if (!targetPanel) return;
+
+      // 1. 모든 탭 버튼 및 패널 비활성화
+      navTabs.forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-tab') === targetTabId) {
+          btn.classList.add('active');
+        }
+      });
+
+      tabPanels.forEach(function(panel) {
+        panel.classList.remove('active');
+      });
+
+      // 2. 대상 패널 활성화
+      targetPanel.classList.add('active');
+
+      // 3. 브라우저 URL Hash 업데이트
+      if (updateHash) {
+        var hash = targetTabId.replace('tab-', '');
+        history.replaceState(null, '', '#' + hash);
+      }
+
+      // 4. 탭 전환 시 화면 상단으로 부드럽게 복귀
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 탭 버튼 클릭 이벤트 등록
+    navTabs.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tabId = this.getAttribute('data-tab');
+        switchTab(tabId, true);
+      });
+    });
+
+    // 페이지 로드 시 Hash 확인 (새로고침/링크 진입 대응)
+    var initialHash = window.location.hash.replace('#', '');
+    var validTabs = ['schedule', 'reservations', 'budget', 'packing'];
+    if (validTabs.indexOf(initialHash) !== -1) {
+      switchTab('tab-' + initialHash, false);
+    }
+  })();
+
+  /* ==========================================================
+     [3-2] 일정 탭: 날짜 퀵점프(Date Pill) & 스마트 아코디언 연동
+  ========================================================== */
+  (function initDateQuickJump() {
+    var pills = document.querySelectorAll('.date-pill');
+    var dayDetails = document.querySelectorAll('.timeline details.day');
+
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        var targetDayId = this.getAttribute('data-target'); // 예: "day-3"
+        var targetElement = document.getElementById(targetDayId);
+        if (!targetElement) return;
+
+        // 1. 활성 칩 스타일 토글
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+
+        // 2. 다른 날짜는 닫고, 선택한 날짜만 강제 열기 (Accordion Sync)
+        dayDetails.forEach(function(detail) {
+          if (detail.id === targetDayId) {
+            detail.open = true;
+            var body = detail.querySelector('.d-body');
+            if (body) body.style.maxHeight = 'none';
+          } else {
+            detail.open = false;
+            var otherBody = detail.querySelector('.d-body');
+            if (otherBody) otherBody.style.maxHeight = '';
+          }
+        });
+
+        // 3. 퀵점프 바 높이(약 60px)를 고려한 정밀 스크롤 이동
+        var offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 70;
+        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+      });
+    });
+  })();
+
+  /* ==========================================================
+     [3-3] 예약 탭: 상태 필터 칩 (전체 / 완료 / 대기) 실시간 필터링
+  ========================================================== */
+  (function initReservationFilters() {
+    var filterChips = document.querySelectorAll('.card-filters .filter-chip');
+    var cards = document.querySelectorAll('.cards .card');
+
+    if (!filterChips.length || !cards.length) return;
+
+    filterChips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var filterType = this.getAttribute('data-filter'); // "all", "done", "pending"
+
+        // 1. 칩 액티브 스타일 전환
+        filterChips.forEach(function(c) { c.classList.remove('active'); });
+        this.classList.add('active');
+
+        // 2. 카드 필터링 표시/숨김 처리
+        cards.forEach(function(card) {
+          var isDone = !!card.querySelector('.badge.done');
+          var isPendingOrTodo = !!card.querySelector('.badge.pending') || !!card.querySelector('.badge.todo');
+
+          if (filterType === 'all') {
+            card.style.display = 'block';
+          } else if (filterType === 'done') {
+            card.style.display = isDone ? 'block' : 'none';
+          } else if (filterType === 'pending') {
+            card.style.display = isPendingOrTodo ? 'block' : 'none';
+          }
+        });
+      });
+    });
   })();
 </script>
 </body>
