@@ -1445,7 +1445,7 @@
   <section>
     <div class="section-head">
       <h2>예상 경비</h2>
-      <span class="count" id="budget-count">16 ITEMS</span>
+      <span class="count" id="budget-count">21 ITEMS</span>
     </div>
     <div class="budget-total">
       <div class="label">TOTAL ESTIMATED BUDGET</div>
@@ -1483,14 +1483,24 @@
       { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", krw: 525400, usd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
       { cat: "액티비티", item: "LA 종일투어 사전결제", krw: 626850, usd: 0, note: "견적 확인 (11시간 도슨트)", done: false },
       { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", krw: 0, usd: 170.00, note: "가이드팁 $80 + 주차비/픽업비", done: false },
-      { cat: "액티비티", item: "다저 스타디움 투어", krw: 0, usd: 149.00, note: "9/27 티켓팅 오픈 예정", done: false }
+      { cat: "액티비티", item: "다저 스타디움 투어", krw: 0, usd: 149.00, note: "9/27 티켓팅 오픈 예정", done: false },
+
+      // 렌터카 & 교통 추가 항목
+      { cat: "렌터카", item: "렌터카 주유비 (Jeep Compass 기준)", krw: 0, usd: 105.00, note: "1차 LAX-베가스($45) + 2차 베가스-조슈아트리-애너하임($60)", done: false },
+
+      // 식비 (10박 11일 4인 가족 예상)
+      { cat: "식비", item: "라스베이거스 식비 (1~3일차)", krw: 0, usd: 635.00, note: "인앤아웃·타코·장보기·Buddy V's·Black Tap 등", done: false },
+      { cat: "식비", item: "조슈아트리 & 아울렛 식비 (4~5일차)", krw: 0, usd: 235.00, note: "로컬 브런치·바비큐·아울렛 푸드코트·디즈니다운타운", done: false },
+      { cat: "식비", item: "테마파크 식비 (6~8일차)", krw: 0, usd: 780.00, note: "디즈니랜드(Puesto) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
+      { cat: "식비", item: "LA & 한인타운 식비 (9~11일차)", krw: 0, usd: 530.00, note: "파머스마켓·BCD순두부·한인타운 페어웰 숯불갈비", done: false }
     ];
 
     var CAT_COLOR = {
       "항공": "var(--coral)",
       "렌터카": "var(--teal)",
       "숙박": "var(--pink)",
-      "액티비티": "var(--amber)"
+      "액티비티": "var(--amber)",
+      "식비": "var(--green)"
     };
 
     function renderBudget() {
