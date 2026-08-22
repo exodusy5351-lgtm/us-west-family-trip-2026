@@ -3605,14 +3605,14 @@
   /* ==========================================================
      [4-5] 네트워크 오프라인/온라인 상태 감지 배너
   ========================================================== */
-  (function initNetworkStatusBanner() {
+  (function initNetworkObserver() {
     window.addEventListener('offline', function() {
-      if (window.showToast) window.showToast('⚡ 오프라인 모드: 저장된 캐시 데이터로 동작 중', 'offline');
-      if (window.triggerHaptic) window.triggerHaptic('warning');
+      if (window.showToast) window.showToast('⚡ 오프라인 모드: 저장된 캐시 데이터로 작동 중', 'offline');
+      triggerHaptic('warning');
     });
     window.addEventListener('online', function() {
-      if (window.showToast) window.showToast('✅ 온라인 연결 복구됨');
-      if (window.triggerHaptic) window.triggerHaptic('success');
+      if (window.showToast) window.showToast('🌐 네트워크 연결이 복구되었습니다');
+      triggerHaptic('light');
     });
   })();
 </script>
