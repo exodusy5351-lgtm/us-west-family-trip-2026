@@ -417,6 +417,30 @@
   .land-card p{font-size:11.5px;color:var(--muted);margin:0 0 6px 0;line-height:1.4;}
   .land-card p:last-child{margin-bottom:0;}
 
+  /* ===== 어트랙션 스토리 & 실전 도감 (접이식) ===== */
+  .att-guide-section{margin-top:16px;}
+  .att-guide-section h3{font-size:13.5px;color:var(--teal);margin:0 0 10px 0;}
+  .att-fold{background:var(--card-2);border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .att-fold-sum{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;}
+  .att-fold-sum::-webkit-details-marker{display:none;}
+  .att-fold[open] .att-fold-sum{border-bottom:1px solid var(--line);}
+  .att-sum-left{display:flex;align-items:center;gap:9px;min-width:0;}
+  .att-icon{font-size:18px;flex-shrink:0;}
+  .att-title-ko{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.3;}
+  .att-title-en{font-size:9.5px;color:var(--muted-2);margin-top:1px;}
+  .att-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+  .att-badge.tier1{background:rgba(255,107,74,.15);color:var(--coral);border:1px solid rgba(255,107,74,.3);}
+  .att-badge.tier2{background:rgba(255,184,77,.15);color:var(--gold);border:1px solid rgba(255,184,77,.3);}
+  .att-badge.tier3{background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);}
+  .att-fold-body{padding:10px 12px 12px;}
+  .att-meta{display:flex;flex-wrap:wrap;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:8px;}
+  .att-story{font-size:11.5px;color:var(--muted);line-height:1.55;margin:0 0 6px 0;}
+  .att-story b{color:var(--text);}
+  .att-cheat{background:rgba(255,184,77,.08);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 10px;margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5;}
+  .att-cheat b{color:var(--gold);}
+  .att-cheat ul{margin:6px 0 0;padding-left:16px;display:flex;flex-direction:column;gap:5px;}
+  .att-cheat li{font-size:11px;color:var(--muted);line-height:1.5;}
+
   /* ===== TAB PANELS ===== */
   .tab-panel{display:none;opacity:0;transition:opacity .25s ease;}
   .tab-panel.active{display:block;opacity:1;}
@@ -2210,7 +2234,7 @@
   </button>
 </nav>
 
-<!-- 테마파크 플로팅 공략 버튼 (Day 6, 7, 8 뷰포트에서 노출) -->
+<!-- 테마파크 플로팅 공략 버튼 -->
 <button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" style="display:none;" aria-label="테마파크 공략집 열기">
   <span>🏰</span> <span>테마파크 치트시트</span>
 </button>
@@ -2222,70 +2246,439 @@
 
   <div class="guide-header">
     <div class="guide-title-wrap">
-      <h2>🏰 테마파크 완전정복 치트시트</h2>
-      <span class="guide-badge">STRATEGY</span>
+      <h2>🏰 테마파크 완전정복 가이드북</h2>
+      <span class="guide-badge">FIELD GUIDE</span>
     </div>
     <button type="button" id="closeBottomSheetBtn" class="section-action-btn" aria-label="닫기">✕</button>
   </div>
 
-  <div class="guide-park-tabs" style="margin-bottom:14px;">
+  <div class="guide-park-tabs">
     <button type="button" class="park-tab active" data-sheet-park="disney">디즈니랜드 (10/6)</button>
     <button type="button" class="park-tab" data-sheet-park="universal">유니버셜 스튜디오 (10/7~8)</button>
   </div>
 
-  <!-- 디즈니랜드 패널 -->
+  <!-- ==================== 1. 디즈니랜드 패널 ==================== -->
   <div class="sheet-park-panel" id="sheetPanelDisney">
     <div class="guide-summary-box">
       <strong>🎯 핵심 전략:</strong> 08:00 로프드롭 직후 좌측(스타워즈/인디아나) 선공략 ➔ 오후 중앙/투모로우랜드 분산 ➔ 21:00 캐슬 불꽃놀이
     </div>
+
+    <!-- 1-1. 타임라인 동선 -->
     <div class="timeline-strategy">
-      <h3>⏰ 추천 시간대별 동선</h3>
+      <h3>⏰ 분초 단위 추천 동선</h3>
       <ul class="strategy-steps">
-        <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 레지스탕스 ➔ 인디아나 존스 ➔ 빅 선더 마운틴</span></li>
-        <li><span class="step-time">10:30~13:30</span> <span class="step-desc">캐리비안의 해적 ➔ 헌티드 맨션 ➔ 앱 모바일 오더 점심</span></li>
-        <li><span class="step-time">14:00~17:00</span> <span class="step-desc">미키&amp;미니 런어웨이 ➔ 스몰월드 ➔ 디즈니 철도 휴식</span></li>
-        <li><span class="step-time">18:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ Puesto 저녁 ➔ 캐슬 불꽃쇼</span></li>
+        <li><span class="step-time">07:15</span> <span class="step-desc">숙소 출발 ➔ Harbor Blvd 게이트 보안검색 ➔ 07:40 허브 좌측 로프 대기</span></li>
+        <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 레지스탕스 ➔ 밀레니엄 팔콘 ➔ 정글 크루즈</span></li>
+        <li><span class="step-time">10:45~13:30</span> <span class="step-desc">모바일오더 점심(Docking Bay 7 / Plaza Inn) ➔ 캐리비안의 해적 ➔ 헌티드 맨션</span></li>
+        <li><span class="step-time">14:00~16:30</span> <span class="step-desc"><b>[체력방어]</b> 디즈니랜드 철도(20분 휴식) ➔ 미키&amp;미니 런어웨이 ➔ Dole Whip 간식</span></li>
+        <li><span class="step-time">17:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ Puesto 저녁 ➔ 20:00 빅선더 야간탑승 ➔ 21:00 불꽃놀이</span></li>
       </ul>
     </div>
-    <div class="lands-grid">
-      <div class="land-card">
-        <h4>🌌 Star Wars: Galaxy's Edge</h4>
-        <p>• <b>라이즈 오브 더 레지스탕스:</b> 개장 직후 대기 40분 이내일 때 필수 공략</p>
-        <p>• <b>밀레니엄 팔콘:</b> 6인 탑승 시뮬레이터 (파일럿 좌석 추천)</p>
-      </div>
-      <div class="land-card">
-        <h4>🤠 Adventure / Frontier</h4>
-        <p>• <b>인디아나 존스:</b> 다이내믹 지프 라이드</p>
-        <p>• <b>빅 선더 마운틴:</b> 일몰 시간대 탑승 시 뷰 베스트</p>
-      </div>
+
+    <!-- 1-2. 8대 어트랙션 스토리 & 실전 도감 -->
+    <div class="att-guide-section">
+      <h3>🎢 핵심 어트랙션 스토리 &amp; 공략 도감 (탭하여 펼치기)</h3>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🌌</span>
+            <div>
+              <div class="att-title-ko">스타워즈: 라이즈 오브 더 레지스탕스</div>
+              <div class="att-title-en">Star Wars: Rise of the Resistance</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Tier 1 · 08:00 직행</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Galaxy's Edge</span> <span>📏 키 102cm</span> <span>⏱️ 18분 트랙리스 다크라이드</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 외계 행성 바투의 레지스탕스 비밀 기지에서 신병으로 합류했으나 퍼스트 오더 전함에 나포되어 카일로 렌의 심문을 받다 무궤도 드로이드로 탈출하는 초대형 여정.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 1:1 스케일 스톰트루퍼 50인 도열 격납고, 2층 높이 거대 AT-AT 보행 병기, 천장을 뚫고 내려오는 붉은 광선검 기믹.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>08:00 로프드롭 직후 최우선 공략 (대기 40분 이내 컷). 미오픈 시 즉시 인디아나 존스로 피벗.</li>
+              <li>1열은 전방 파노라마 시야, 2열은 카일로 렌 광선검 천장 연출 관람 최고 명당.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🚀</span>
+            <div>
+              <div class="att-title-ko">밀레니엄 팔콘: 스머글러스 런</div>
+              <div class="att-title-en">Millennium Falcon: Smugglers Run</div>
+            </div>
+          </div>
+          <span class="att-badge tier2">Tier 2 · 인터랙티브</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Galaxy's Edge</span> <span>📏 키 97cm</span> <span>⏱️ 6인 실시간 시뮬레이터</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 우주 해적 혼도 오나카의 의뢰로 전설의 고철 우주선 팔콘호를 몰고 은하계 코액슘 연료 밀수를 감행.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 6인의 실제 조작(파일럿/포수/엔지니어)에 따라 실시간 렌더링 물리 엔진으로 요동치는 조종석.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>아이들은 무조건 전방 <b>파일럿(Pilot)</b> 좌석 배정 (우측 파일럿이 하이퍼스페이스 워프 레버 조작).</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🤠</span>
+            <div>
+              <div class="att-title-ko">인디아나 존스 어드벤처</div>
+              <div class="att-title-en">Indiana Jones Adventure</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Tier 1 · 다이내믹</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Adventureland</span> <span>📏 키 117cm</span> <span>⏱️ EMV 군용 지프 모션</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 1935년 '금지된 눈의 사원'. 마라 신의 눈을 마주치지 말라는 경고를 어긴 탐험대를 구출하는 위험천만한 모험.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 요동치는 군용 지프, 불을 뿜는 거대 석상, 전방에서 굴러떨어지는 5m 초대형 바위 트릭.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>차량 좌측 바깥 좌석이 시야 최고. 흔들림이 매우 강하므로 중앙 안전바 파지 필수.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🚂</span>
+            <div>
+              <div class="att-title-ko">빅 선더 마운틴 레일로드</div>
+              <div class="att-title-en">Big Thunder Mountain Railroad</div>
+            </div>
+          </div>
+          <span class="att-badge tier2">야간 추천</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Frontierland</span> <span>📏 키 102cm</span> <span>⏱️ 고속 광산 롤러코스터</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 1850년대 골드러시 광산. 원주민의 저주로 기관사 없이 붉은 협곡을 폭주하는 유령 광산 열차.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 붉은 바위 협곡을 급선회하며 갱도 내 타들어가는 도화선과 다이너마이트 폭발 연출.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li><b>일몰 직후 또는 20:00 야간 탑승</b> 시 조명 켜진 협곡 야경과 함께 만족도 200% 극대화. 열차 맨 뒤 칸(5~6번)이 에어타임 명당.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🌌</span>
+            <div>
+              <div class="att-title-ko">스페이스 마운틴</div>
+              <div class="att-title-en">Space Mountain</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">실내 코스터</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Tomorrowland</span> <span>📏 키 102cm</span> <span>⏱️ 암흑 속 우주 코스터</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> Space Station 77에서 출발하여 미지의 소행성대와 블랙홀로 빨려 들어가는 심우주 탐사 로켓.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 칠흑 같은 암흑 속 성운 레이저와 마이클 지아키노의 오케스트라 사운드트랙 싱크.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>트랙 방향을 예측할 수 없으므로 시선 정면 유지. 급하강 없는 뱅킹 코스터라 롤러코스터 입문용으로 최적.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🏴‍☠️</span>
+            <div>
+              <div class="att-title-ko">캐리비안의 해적</div>
+              <div class="att-title-en">Pirates of the Caribbean</div>
+            </div>
+          </div>
+          <span class="att-badge tier3">낮 피크 구원투수</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 New Orleans Square</span> <span>📏 키 제한 없음</span> <span>⏱️ 대형 보트 다크라이드</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 루이지애나 늪지대에서 시작해 17세기 카리브해 해적들의 항구 약탈과 불타는 보물창고로의 시간 여행.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 120여 개의 애니매트로닉스, 실제 화약/바다 냄새, 보물창고를 지키는 잭 스패로우 피규어.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>피크타임(12~14시)에도 대기 20분 내외 유지. 초반 동굴 완만 슬라이드 낙하 2회(1열 약간의 물튐).</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">👻</span>
+            <div>
+              <div class="att-title-ko">헌티드 맨션</div>
+              <div class="att-title-en">Haunted Mansion</div>
+            </div>
+          </div>
+          <span class="att-badge tier3">클래식 명작</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 New Orleans Square</span> <span>📏 키 제한 없음</span> <span>⏱️ 둠 버기 다크라이드</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 999명의 유령들이 사는 대저택에 1,000번째 유령으로 초대받아 유쾌한 심령 연회 관람.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 투명 유령들의 연회장 댄스(Pepper's Ghost 착시), 거울 속 히치하이킹 유령.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>스트레칭 룸 퇴장 시 문 열리는 쪽(벽난로 반대편 벽) 선점으로 승강장 빠른 진입.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🎪</span>
+            <div>
+              <div class="att-title-ko">미키 &amp; 미니의 런어웨이 레일웨이</div>
+              <div class="att-title-en">Mickey &amp; Minnie's Runaway Railway</div>
+            </div>
+          </div>
+          <span class="att-badge tier2">가족 힐링 1위</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Mickey's Toontown</span> <span>📏 키 제한 없음</span> <span>⏱️ 무궤도 2.5D 라이드</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 미키 단편 애니 시사회 중 스크린이 폭발하며 구피가 모는 기차를 타고 2D 만화 세상으로 진입.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 3D 안경 없는 2.5D 프로젝션 매핑과 방마다 왈츠를 추며 분리되는 무궤도 열차.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>14~16시 체력 방전 시간대 쾌적한 실내 에어컨과 함께 즐기는 가족 힐링 코스.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- 1-3. F&B & 비상 팁 -->
+    <div class="tip-note" style="margin-top:16px;">
+      <div class="tip-note-title">💡 디즈니랜드 식음 &amp; 현장 필수 팁</div>
+      <ol class="cheat-list">
+        <li><b>모바일 오더 필수</b> — 11:30~13:30 식당 대기열은 40분 이상 소요. 30분 전 디즈니 앱 모바일 오더로 주문 완료할 것.</li>
+        <li><b>불꽃놀이 명당</b> — 캐슬 앞 혼잡을 피하고 <b>메인 스트리트 Emporium 앞 또는 기차역 계단 부근</b> 확보 시 퇴장 5분 컷.</li>
+      </ol>
     </div>
   </div>
 
-  <!-- 유니버셜 스튜디오 패널 -->
+  <!-- ==================== 2. 유니버셜 스튜디오 패널 ==================== -->
   <div class="sheet-park-panel hidden" id="sheetPanelUniversal">
     <div class="guide-summary-box">
       <strong>🎯 핵심 전략:</strong> Starway 이동 최소화! 1일차 오후 Lower Lot(닌텐도/쥬라기/머미) 몰아치기 ➔ 2일차 Upper Lot(해리포터/스튜디오투어/워터월드) 완주
     </div>
+
+    <!-- 2-1. 2일 분할 타임라인 -->
     <div class="timeline-strategy">
       <h3>⏰ 2일 분할 추천 동선</h3>
       <ul class="strategy-steps">
-        <li><span class="step-time">[1일차 14:00~]</span> <span class="step-desc"><b>Lower Lot:</b> 마리오 카트 ➔ 닌텐도 챌린지 ➔ 쥬라기 월드 ➔ 머미</span></li>
-        <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot:</b> 해리포터 ➔ 스튜디오 투어(트램 좌측) ➔ 워터월드 ➔ 미니언즈</span></li>
+        <li><span class="step-time">[1일차 12:30~]</span> <span class="step-desc"><b>Lower Lot:</b> 입장 즉시 스타웨이 하강 ➔ 마리오카트 ➔ 쥬라기월드 ➔ 머미 ➔ 시티워크 디너</span></li>
+        <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot:</b> 09:00 오픈런 해리포터 ➔ 10:00 스튜디오투어(60분) ➔ 쓰리브룸스틱스 ➔ 13:00 워터월드 ➔ 16:30 조기퇴장</span></li>
       </ul>
     </div>
-    <div class="lands-grid">
-      <div class="land-card">
-        <h4>🔻 Lower Lot (하부)</h4>
-        <p>• <b>마리오 카트:</b> 대기 길면 싱글라이더 활용</p>
-        <p>• <b>쥬라기 월드:</b> 마지막 25m 급하강 워터 스플래시 (우비 필수)</p>
-        <p>• <b>머미:</b> 무료 락커에 짐/스마트폰 전량 보관 필수</p>
-      </div>
-      <div class="land-card">
-        <h4>🔺 Upper Lot (상부)</h4>
-        <p>• <b>스튜디오 투어 (60분):</b> 실제 영화 세트장 (트램 왼쪽 추천)</p>
-        <p>• <b>해리포터 포비든 저니:</b> 호그와트 성 로봇 암 라이드 (멀미약 권장)</p>
-        <p>• <b>워터월드:</b> 라이브 스턴트 쇼 (파란색 좌석 침수)</p>
-      </div>
+
+    <!-- 2-2. 7대 어트랙션 스토리 & 실전 도감 -->
+    <div class="att-guide-section">
+      <h3>🎢 핵심 어트랙션 스토리 &amp; 공략 도감 (탭하여 펼치기)</h3>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🍄</span>
+            <div>
+              <div class="att-title-ko">마리오 카트: 쿠파의 도전</div>
+              <div class="att-title-en">Mario Kart: Bowser's Challenge</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Lower Lot · AR 레이싱</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Super Nintendo World</span> <span>📏 키 107cm</span> <span>⏱️ AR 고글 인터랙티브</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 쿠파 성 내부. 마리오 팀이 되어 무지개 로드에서 쿠파 군단과 황금 컵을 두고 레이싱 대결.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 자석 탈착식 AR 고글, 실물 세트와 디지털 홀로그램의 결합, 핸들 조작 및 등껍질 발사.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>코너 진입 시 노란 화살표 방향으로 핸들을 꺾어야 드리프트 코인 획득 (100코인 이상 시 승리).</li>
+              <li>대기 70분 이상 시 <b>싱글 라이더(Single Rider)</b> 활용 (20분 컷).</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🦖</span>
+            <div>
+              <div class="att-title-ko">쥬라기 월드 더 라이드</div>
+              <div class="att-title-en">Jurassic World - The Ride</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Lower Lot · 워터 드롭</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Lower Lot</span> <span>📏 키 107cm</span> <span>⏱️ 25m 급하강 보트</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 평화로운 투어 보트가 인도미누스 렉스의 탈출로 최상위 육식공룡 구역에 갇히며 조난.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 거대 모사사우루스 수족관 스크린, T-렉스 vs 인도미누스 격돌 직후 25m(84피트) 급하강 낙하.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li><b>1~2열은 머리부터 발끝까지 젖는 Soak Zone (우비 필수)</b>. 소지품은 발밑 방수 포켓에 밀어 넣을 것.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">⚡</span>
+            <div>
+              <div class="att-title-ko">리벤지 오브 더 미이라</div>
+              <div class="att-title-en">Revenge of the Mummy - The Ride</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Lower Lot · 급발진</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Lower Lot</span> <span>📏 키 122cm</span> <span>⏱️ 72km/h 실내 롤러코스터</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 이집트 무덤 발굴 중 부활한 파라오 이모텝의 저주로 스카라베와 언데드 군단에 쫓김.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 천장 실제 화염 불바다, 어둠 속에서 갑자기 <b>후진으로 곤두박질치는 역방향 트랙</b>.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>입구 좌측 <b>무료 락커에 스마트폰/가방 100% 보관 필수</b>. 목 꺾임 방지를 위해 헤드레스트 밀착.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🏰</span>
+            <div>
+              <div class="att-title-ko">해리포터 앤 더 포비든 저니</div>
+              <div class="att-title-en">Harry Potter and the Forbidden Journey</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">Upper Lot · 로봇암</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Hogsmeade</span> <span>📏 키 122cm</span> <span>⏱️ 360도 피벗 로봇암</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 헤르미온느의 플루 가루 마법으로 날아다니는 벤치를 타고 퀴디치 경기장과 금지된 숲 비행.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 산업용 로봇 암 끝에 매달려 공중 360도 회전, 실물 크기 디멘터의 키스 공격.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>호그와트 성 내부(말하는 초상화, 분류 모자) 포토존. <b>멀미 유발도가 높으므로 멀미약 사전 복용 권장</b>.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🎬</span>
+            <div>
+              <div class="att-title-ko">세계적인 스튜디오 투어 (60분)</div>
+              <div class="att-title-en">World-Famous Studio Tour</div>
+            </div>
+          </div>
+          <span class="att-badge tier1">USH 시그니처</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 60분 4단 트램 투어</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 실제 할리우드 영화/드라마 400에이커 제작 현장을 4단 트램으로 탐방하는 USH의 심장.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 킹콩 360 3D, 플래시 플러드 홍수, &lt;죠스&gt; 식인상어 폭발, &lt;우주전쟁&gt; 보잉 747 잔해, &lt;싸이코&gt; 베이츠 모텔 살인마 노먼 베이츠 시체 유기 퍼포먼스.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li><b>트램 2~3번째 칸의 '왼쪽(좌측 좌석)'</b> 탑승 필수 (모든 핵심 쇼가 좌측에 배치됨).</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🌊</span>
+            <div>
+              <div class="att-title-ko">워터월드 라이브 스턴트 쇼</div>
+              <div class="att-title-en">WaterWorld</div>
+            </div>
+          </div>
+          <span class="att-badge tier2">라이브 스턴트</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 20분 해상 스턴트 쇼</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 물로 뒤덮인 미래 지구. '드라이랜드'를 지키기 위한 주민들과 스모커 악당들의 해상 요새 전투.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 15m 고공 다이빙, 제트스키 기동, 불길 화염 폭발, <b>실물 수상 비행기 풀장 추락 스턴트</b>.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>앞쪽 녹색 벤치는 물벼락 구역. <b>중앙 상단 은색 벤치</b>가 젖지 않고 전체 와이드 뷰를 감상하는 최고 명당.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="att-fold">
+        <summary class="att-fold-sum">
+          <div class="att-sum-left">
+            <span class="att-icon">🐶</span>
+            <div>
+              <div class="att-title-ko">마이펫의 이중생활: 오프 더 리쉬</div>
+              <div class="att-title-en">The Secret Life of Pets</div>
+            </div>
+          </div>
+          <span class="att-badge tier3">퇴장 전 힐링</span>
+        </summary>
+        <div class="att-fold-body">
+          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 모션캡처 다크라이드</span></div>
+          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 뉴욕 골목길 유기견 강아지가 되어 새로운 가족에게 입양되기 위해 아파트를 탐험하는 모험.</p>
+          <p class="att-story"><b>🎬 연출 하이라이트:</b> 거울을 지날 때 <b>탑승자의 얼굴과 손동작이 귀여운 강아지 아바타로 실시간 투영</b>.</p>
+          <div class="att-cheat">
+            <b>⚡ 실전 탑승 치트키:</b>
+            <ul>
+              <li>출구 근처에 위치해 15:30~16:00 퇴장 직전 가족 힐링 마무리 코스로 최적.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- 2-3. USH 필수 체크포인트 -->
+    <div class="tip-note" style="margin-top:16px;">
+      <div class="tip-note-title">💡 유니버셜 스튜디오 필수 체크포인트</div>
+      <ol class="cheat-list">
+        <li><b>스타웨이 이동 제한</b> — 상·하부 왕복은 하루 단 1회로 제한하여 체력 손실 방지.</li>
+        <li><b>10/8(목) 조기 마감 주의</b> — 야간 HHN 행사로 17:30 주간 마감되므로 16:30 퇴장 권장.</li>
+      </ol>
     </div>
   </div>
 </div>
@@ -2867,32 +3260,26 @@
       });
     });
 
-    // Day 6/7/8이 뷰포트에 보일 때만 플로팅 버튼 노출 (스크롤 기반 rect 체크 — 구형 브라우저/환경 호환성 우선)
+    // 상태 기반 노출: 현재 탭 === 'tab-schedule' AND (day-6/7/8 중 하나라도 open)일 때만 노출
     var relevantDays = ['day-6', 'day-7', 'day-8']
       .map(function(id) { return document.getElementById(id); })
       .filter(Boolean);
 
     if (relevantDays.length) {
-      var ticking = false;
-      function updateFloatBtnVisibility() {
-        ticking = false;
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var anyVisible = relevantDays.some(function(el) {
-          var r = el.getBoundingClientRect();
-          return r.bottom > 0 && r.top < vh;
-        });
-        floatBtn.style.display = anyVisible ? 'flex' : 'none';
+      function isScheduleTabActive() {
+        var scheduleTab = document.getElementById('tab-schedule');
+        return !!scheduleTab && scheduleTab.classList.contains('active');
       }
-      window.addEventListener('scroll', function() {
-        if (!ticking) {
-          ticking = true;
-          setTimeout(updateFloatBtnVisibility, 100);
-        }
-      }, { passive: true });
-      window.addEventListener('resize', updateFloatBtnVisibility);
-      document.querySelectorAll('.nav-tab').forEach(function(t) { t.addEventListener('click', function() { setTimeout(updateFloatBtnVisibility, 100); }); });
-      document.querySelectorAll('.timeline details.day').forEach(function(d) {
-        d.addEventListener('toggle', function() { setTimeout(updateFloatBtnVisibility, 350); });
+      function updateFloatBtnVisibility() {
+        var anyOpen = relevantDays.some(function(el) { return el.open; });
+        floatBtn.style.display = (isScheduleTabActive() && anyOpen) ? 'flex' : 'none';
+      }
+
+      relevantDays.forEach(function(d) {
+        d.addEventListener('toggle', updateFloatBtnVisibility);
+      });
+      document.querySelectorAll('.bottom-nav .nav-tab').forEach(function(t) {
+        t.addEventListener('click', function() { setTimeout(updateFloatBtnVisibility, 50); });
       });
       updateFloatBtnVisibility();
     }
@@ -2922,21 +3309,22 @@
   })();
 
   /* ==========================================================
-     [4-0d] 일자별 1초 퀵 액션 바 (내비/확인번호 복사/지출 기록)
+     [4-0d] 일자별 퀵 액션 바 (확인번호 복사 / 당일 지출 기록)
+     - 아코디언 본문(.d-body-inner) 최상단에 주입
   ========================================================== */
   (function initDayQuickActions() {
     var QUICK_ACTIONS_DATA = {
-      "day-1": { navLink: "https://www.google.com/maps/search/?api=1&query=Hertz+Rent+A+Car+Los+Angeles+International+Airport+CA", cat: "food-vegas" },
-      "day-2": { navLink: "https://www.google.com/maps/search/?api=1&query=Sphere+Las+Vegas", cat: "food-vegas" },
-      "day-3": { navLink: "https://www.google.com/maps/search/?api=1&query=Welcome+to+Fabulous+Las+Vegas+Sign", confNum: "EXP-20260822-00000491", cat: "food-vegas" },
-      "day-4": { navLink: "https://www.google.com/maps/search/?api=1&query=Joshua+Tree+National+Park+West+Entrance+CA", cat: "food-jt" },
-      "day-5": { navLink: "https://www.google.com/maps/search/?api=1&query=Desert+Hills+Premium+Outlets+Cabazon+CA", cat: "food-jt" },
-      "day-6": { navLink: "https://www.google.com/maps/search/?api=1&query=Disneyland+Park+Anaheim+CA", cat: "food-theme" },
-      "day-7": { navLink: "https://www.google.com/maps/search/?api=1&query=Loews+Hollywood+Hotel", confNum: "3892645", cat: "food-theme" },
-      "day-8": { navLink: "https://www.google.com/maps/search/?api=1&query=Universal+Studios+Hollywood", cat: "food-theme" },
-      "day-9": { navLink: "https://www.google.com/maps/search/?api=1&query=Santa+Monica+Pier+CA", cat: "food-la" },
-      "day-10": { navLink: "https://www.google.com/maps/search/?api=1&query=Dodger+Stadium+1000+Vin+Scully+Ave+Los+Angeles", cat: "food-la" },
-      "day-11": { navLink: "https://www.google.com/maps/search/?api=1&query=Tom+Bradley+International+Terminal+LAX", cat: "food-la" }
+      "day-1": { cat: "food-vegas" },
+      "day-2": { cat: "food-vegas" },
+      "day-3": { confNum: "EXP-20260822-00000491", cat: "food-vegas" },
+      "day-4": { cat: "food-jt" },
+      "day-5": { cat: "food-jt" },
+      "day-6": { cat: "food-theme" },
+      "day-7": { confNum: "3892645", cat: "food-theme" },
+      "day-8": { cat: "food-theme" },
+      "day-9": { cat: "food-la" },
+      "day-10": { cat: "food-la" },
+      "day-11": { cat: "food-la" }
     };
 
     function copyText(text) {
@@ -2969,26 +3357,18 @@
     document.querySelectorAll('.timeline details.day').forEach(function(detail) {
       var data = QUICK_ACTIONS_DATA[detail.id];
       if (!data) return;
-      var summary = detail.querySelector(':scope > summary');
-      if (!summary) return;
+      var bodyInner = detail.querySelector(':scope > .d-body > .d-body-inner');
+      if (!bodyInner) return;
 
       var bar = document.createElement('div');
       bar.className = 'day-quick-actions';
-
-      var navA = document.createElement('a');
-      navA.href = data.navLink;
-      navA.target = '_blank';
-      navA.rel = 'noopener noreferrer';
-      navA.className = 'quick-btn nav-btn';
-      navA.innerHTML = '<span>📍</span> <span>내비 실행</span>';
-      bar.appendChild(navA);
 
       var copyBtn = document.createElement('button');
       copyBtn.type = 'button';
       copyBtn.className = 'quick-btn copy-btn';
       if (data.confNum) {
         copyBtn.setAttribute('data-copy', data.confNum);
-        copyBtn.innerHTML = '<span>📋</span> <span>확인번호 복사</span>';
+        copyBtn.innerHTML = '<span>📋</span> <span>확인번호: ' + data.confNum + '</span>';
       } else {
         copyBtn.style.display = 'none';
       }
@@ -2998,18 +3378,10 @@
       expenseBtn.type = 'button';
       expenseBtn.className = 'quick-btn expense-btn';
       expenseBtn.setAttribute('data-target-cat', data.cat);
-      expenseBtn.innerHTML = '<span>💵</span> <span>$ 지출 기록</span>';
+      expenseBtn.innerHTML = '<span>💵</span> <span>당일 지출 기록</span>';
       bar.appendChild(expenseBtn);
 
-      // 아코디언(summary) 클릭 토글을 막기 위해 이 바 안에서는 항상 stopPropagation
       bar.addEventListener('click', function(e) {
-        e.stopPropagation();
-
-        if (e.target.closest('.nav-btn')) {
-          triggerHaptic('light');
-          return; // 기본 링크 동작(새 탭 열기) 유지
-        }
-
         var cBtn = e.target.closest('.copy-btn');
         if (cBtn) {
           e.preventDefault();
@@ -3037,7 +3409,7 @@
         }
       });
 
-      summary.appendChild(bar);
+      bodyInner.insertBefore(bar, bodyInner.firstChild);
     });
   })();
 
