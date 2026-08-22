@@ -1,0 +1,14 @@
+{
+  "name": "미서부 가족여행 대시보드",
+  "short_name": "US West Trip",
+  "description": "2026.10.1 - 10.11 미서부 가족여행 일정/예약/경비/준비물 대시보드",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1625",
+  "theme_color": "#1a1625",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
