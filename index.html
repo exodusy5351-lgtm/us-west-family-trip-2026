@@ -275,7 +275,19 @@
   }
   .bar-row.subtotal .br-top{font-weight:700;margin-bottom:0;}
   .bar-row.subtotal .br-top .amt{color:var(--gold);font-size:14px;font-weight:700;}
-  .cat-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:10px;margin-right:6px;letter-spacing:.02em;white-space:nowrap;}
+  .cat-badge{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-right:6px;vertical-align:middle;line-height:1.2;}
+
+  /* ===== 3단 예산 요약 그리드 ===== */
+  .budget-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+  .budget-metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 8px;text-align:center;}
+  .budget-metric-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .budget-metric-val{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;margin-top:5px;}
+  .budget-metric-sub{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted-2);margin-top:3px;}
+
+  /* ===== 차액(Variance) 뱃지 ===== */
+  .diff-badge{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700;}
+  .diff-saved{background:rgba(95,215,123,.15);color:var(--green);border:1px solid rgba(95,215,123,.3);}
+  .diff-over{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3);}
 
   /* ===== CHECKLIST ===== */
   .todo-list{display:flex;flex-direction:column;gap:8px;}
@@ -1445,13 +1457,26 @@
   <main id="tab-budget" class="tab-panel">
   <section>
     <div class="section-head">
-      <h2>예상 경비</h2>
+      <h2>예상 경비 &amp; 정산 현황</h2>
       <span class="count" id="budget-count">22 ITEMS</span>
     </div>
-    <div class="budget-total">
-      <div class="label">TOTAL ESTIMATED BUDGET</div>
-      <div class="value" id="budget-total-val">₩0</div>
-      <div class="range" id="budget-status-val">결제완료 + 현장지출/예정액 합산</div>
+
+    <div class="budget-summary-grid">
+      <div class="budget-metric-card">
+        <div class="budget-metric-label">총 계획 예산</div>
+        <div class="budget-metric-val" id="total-plan-val" style="color:var(--text);">₩0</div>
+        <div class="budget-metric-sub">초기 목표치</div>
+      </div>
+      <div class="budget-metric-card">
+        <div class="budget-metric-label">확정 집행액</div>
+        <div class="budget-metric-val" id="total-actual-val" style="color:var(--gold);">₩0</div>
+        <div class="budget-metric-sub" id="actual-count-sub">0건 완료</div>
+      </div>
+      <div class="budget-metric-card">
+        <div class="budget-metric-label">완료분 차액</div>
+        <div class="budget-metric-val" id="total-diff-val">₩0</div>
+        <div class="budget-metric-sub" id="diff-status-sub">예산 일치</div>
+      </div>
     </div>
 
     <div id="budget-live"></div>
@@ -1461,38 +1486,39 @@
   (function() {
     var USD_RATE = 1400; // 환율 기준
 
+    // est = 초기 계획치, act = 실집행치(미결제 시 0), done = 결제완료 여부
     var BUDGET_DATA = [
       // 항공
-      { cat: "항공", item: "에어프레미아 왕복 (4인)", krw: 4075800, usd: 0, note: "결제 완료 (YP101/YP102)", done: true },
+      { cat: "항공", item: "에어프레미아 왕복 (4인)", estKrw: 4075800, estUsd: 0, actKrw: 4075800, actUsd: 0, note: "결제 완료 (YP101/YP102)", done: true },
 
       // 렌터카 & 교통
-      { cat: "렌터카", item: "Hertz 1차 렌트 (LAX→베가스)", krw: 0, usd: 40.55, note: "결제 완료 (Key Drop 반납)", done: true },
-      { cat: "렌터카", item: "Hertz 2차 렌트 (베가스→애너하임)", krw: 0, usd: 120.22, note: "결제 완료 (Katella 반납)", done: true },
-      { cat: "렌터카", item: "렌터카 주유비 (Jeep Compass 기준)", krw: 0, usd: 105.00, note: "1차 LAX-베가스($45) + 2차 베가스-조슈아트리-애너하임($60)", done: false },
-      { cat: "렌터카", item: "LA & 시내 우버/교통비 (예상)", krw: 0, usd: 350.00, note: "우버XL/UberX 이동 (공항/파크/호텔간)", done: false },
+      { cat: "렌터카", item: "Hertz 1차 렌트 (LAX→베가스)", estKrw: 0, estUsd: 40.55, actKrw: 0, actUsd: 40.55, note: "결제 완료 (Key Drop 반납)", done: true },
+      { cat: "렌터카", item: "Hertz 2차 렌트 (베가스→애너하임)", estKrw: 0, estUsd: 120.22, actKrw: 0, actUsd: 120.22, note: "결제 완료 (Katella 반납)", done: true },
+      { cat: "렌터카", item: "렌터카 주유비 (Jeep Compass 기준)", estKrw: 0, estUsd: 105.00, actKrw: 0, actUsd: 0, note: "1차 LAX-베가스($45) + 2차 베가스-조슈아트리-애너하임($60)", done: false },
+      { cat: "렌터카", item: "LA & 시내 우버/교통비 (예상)", estKrw: 0, estUsd: 350.00, actKrw: 0, actUsd: 0, note: "우버XL/UberX 이동 (공항/파크/호텔간)", done: false },
 
       // 숙박
-      { cat: "숙박", item: "콘래드 라스베가스 (2박 분할)", krw: 900000, usd: 0, note: "결제 완료 (150,000pt · 1pt=6원 환산)", done: true },
-      { cat: "숙박", item: "Home2 Suites 애너하임 (2박)", krw: 780000, usd: 0, note: "결제 완료 (130,000pt · 1pt=6원 환산)", done: true },
-      { cat: "숙박", item: "조슈아트리 에어비앤비 (1박)", krw: 0, usd: 292.11, note: "결제 완료 (4인 독채)", done: true },
-      { cat: "숙박", item: "로어스 할리우드 (4박)", krw: 1627179, usd: 0, note: "결제 완료 (#3892645, 리조트피 포함)", done: true },
+      { cat: "숙박", item: "콘래드 라스베가스 (2박 분할)", estKrw: 900000, estUsd: 0, actKrw: 900000, actUsd: 0, note: "결제 완료 (150,000pt · 1pt=6원 환산)", done: true },
+      { cat: "숙박", item: "Home2 Suites 애너하임 (2박)", estKrw: 780000, estUsd: 0, actKrw: 780000, actUsd: 0, note: "결제 완료 (130,000pt · 1pt=6원 환산)", done: true },
+      { cat: "숙박", item: "조슈아트리 에어비앤비 (1박)", estKrw: 0, estUsd: 292.11, actKrw: 0, actUsd: 292.11, note: "결제 완료 (4인 독채)", done: true },
+      { cat: "숙박", item: "로어스 할리우드 (4박)", estKrw: 1627179, estUsd: 0, actKrw: 1627179, actUsd: 0, note: "결제 완료 (#3892645, 리조트피 포함)", done: true },
 
       // 투어 & 액티비티
-      { cat: "액티비티", item: "스피어 쇼 (오즈의 마법사 4인)", krw: 906999, usd: 0, note: "결제 완료 (406구역)", done: true },
-      { cat: "액티비티", item: "그랜드캐년 투어 사전결제", krw: 632954, usd: 0, note: "마이리얼트립 결제 완료", done: true },
-      { cat: "액티비티", item: "그랜드캐년 현장 정산금 (Cash)", krw: 0, usd: 688.00, note: "가이드 수납 $680 + 나바호팁 $8", done: false },
-      { cat: "액티비티", item: "조슈아트리 국립공원 입장료", krw: 0, usd: 30.00, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
-      { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", krw: 1043684, usd: 0, note: "발권 예정 (성인3+아동1)", done: false },
-      { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", krw: 525400, usd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
-      { cat: "액티비티", item: "LA 종일투어 사전결제", krw: 626850, usd: 0, note: "견적 확인 (11시간 도슨트)", done: false },
-      { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", krw: 0, usd: 170.00, note: "가이드팁 $80 + 주차비/픽업비", done: false },
-      { cat: "액티비티", item: "다저 스타디움 투어", krw: 0, usd: 149.00, note: "9/27 티켓팅 오픈 예정", done: false },
+      { cat: "액티비티", item: "스피어 쇼 (오즈의 마법사 4인)", estKrw: 906999, estUsd: 0, actKrw: 906999, actUsd: 0, note: "결제 완료 (406구역)", done: true },
+      { cat: "액티비티", item: "그랜드캐년 투어 사전결제", estKrw: 632954, estUsd: 0, actKrw: 632954, actUsd: 0, note: "마이리얼트립 결제 완료", done: true },
+      { cat: "액티비티", item: "그랜드캐년 현장 정산금 (Cash)", estKrw: 0, estUsd: 688.00, actKrw: 0, actUsd: 0, note: "가이드 수납 $680 + 나바호팁 $8", done: false },
+      { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
+      { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 0, note: "발권 예정 (성인3+아동1)", done: false },
+      { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 525400, estUsd: 0, actKrw: 525400, actUsd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
+      { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 626850, estUsd: 0, actKrw: 0, actUsd: 0, note: "견적 확인 (11시간 도슨트)", done: false },
+      { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", estKrw: 0, estUsd: 170.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비/픽업비", done: false },
+      { cat: "액티비티", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "9/27 티켓팅 오픈 예정", done: false },
 
       // 식비 (10박 11일 4인 가족 예상)
-      { cat: "식비", item: "라스베이거스 식비 (1~3일차)", krw: 0, usd: 635.00, note: "인앤아웃·타코·장보기·Buddy V's·Black Tap 등", done: false },
-      { cat: "식비", item: "조슈아트리 & 아울렛 식비 (4~5일차)", krw: 0, usd: 235.00, note: "로컬 브런치·바비큐·아울렛 푸드코트·디즈니다운타운", done: false },
-      { cat: "식비", item: "테마파크 식비 (6~8일차)", krw: 0, usd: 780.00, note: "디즈니랜드(Puesto) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
-      { cat: "식비", item: "LA & 한인타운 식비 (9~11일차)", krw: 0, usd: 530.00, note: "파머스마켓·BCD순두부·한인타운 페어웰 숯불갈비", done: false }
+      { cat: "식비", item: "라스베이거스 식비 (1~3일차)", estKrw: 0, estUsd: 635.00, actKrw: 0, actUsd: 0, note: "인앤아웃·타코·장보기·Buddy V's·Black Tap 등", done: false },
+      { cat: "식비", item: "조슈아트리 & 아울렛 식비 (4~5일차)", estKrw: 0, estUsd: 235.00, actKrw: 0, actUsd: 0, note: "로컬 브런치·바비큐·아울렛 푸드코트·디즈니다운타운", done: false },
+      { cat: "식비", item: "테마파크 식비 (6~8일차)", estKrw: 0, estUsd: 780.00, actKrw: 0, actUsd: 0, note: "디즈니랜드(Puesto) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
+      { cat: "식비", item: "LA & 한인타운 식비 (9~11일차)", estKrw: 0, estUsd: 530.00, actKrw: 0, actUsd: 0, note: "파머스마켓·BCD순두부·한인타운 페어웰 숯불갈비", done: false }
     ];
 
     var CAT_COLOR = {
@@ -1511,28 +1537,46 @@
       "식비": "🍽️"
     };
 
+    function fmtAmount(krw, usd) {
+      if (krw > 0 && usd > 0) return "₩" + krw.toLocaleString() + " + $" + usd.toFixed(2);
+      if (krw > 0) return "₩" + krw.toLocaleString();
+      if (usd > 0) return "$" + usd.toFixed(2) + " (약 " + Math.round(usd * USD_RATE / 10000) + "만)";
+      return "포인트 결제";
+    }
+
     function renderBudget() {
-      var totalKrw = 0;
-      var paidKrw = 0;
+      var totalPlanKrw = 0;
+      var totalActualKrw = 0;
+      var totalDiffKrw = 0; // 완료된 항목만 집계 (계획 - 실집행)
+      var doneCount = 0;
       var html = "";
 
       BUDGET_DATA.forEach(function(item) {
-        var itemTotal = item.krw + (item.usd * USD_RATE);
-        totalKrw += itemTotal;
-        if (item.done) paidKrw += itemTotal;
+        var planKrw = item.estKrw + (item.estUsd * USD_RATE);
+        var actualKrw = item.actKrw + (item.actUsd * USD_RATE);
+        totalPlanKrw += planKrw;
 
         var color = CAT_COLOR[item.cat] || "var(--muted-2)";
         var icon = CAT_ICON[item.cat] || "📌";
 
-        var amtStr = "";
-        if (item.krw > 0 && item.usd > 0) {
-          amtStr = "₩" + item.krw.toLocaleString() + " + $" + item.usd.toFixed(2);
-        } else if (item.krw > 0) {
-          amtStr = "₩" + item.krw.toLocaleString();
-        } else if (item.usd > 0) {
-          amtStr = "$" + item.usd.toFixed(2) + " (약 " + Math.round(item.usd * USD_RATE / 10000) + "만)";
+        var amtStr;
+        var diffBadgeHtml = "";
+
+        if (item.done) {
+          doneCount++;
+          totalActualKrw += actualKrw;
+          var diff = planKrw - actualKrw;
+          totalDiffKrw += diff;
+
+          amtStr = fmtAmount(item.actKrw, item.actUsd);
+
+          if (Math.round(diff) !== 0) {
+            var diffCls = diff > 0 ? 'diff-saved' : 'diff-over';
+            var diffSign = diff > 0 ? '−' : '+';
+            diffBadgeHtml = '<span class="diff-badge ' + diffCls + '">' + diffSign + '₩' + Math.abs(Math.round(diff)).toLocaleString() + '</span>';
+          }
         } else {
-          amtStr = "포인트 결제";
+          amtStr = fmtAmount(item.estKrw, item.estUsd) + " 예정";
         }
 
         html += '<div class="bar-row" style="border-left:3px solid ' + color + ';padding-left:10px;">';
@@ -1541,7 +1585,7 @@
         html += '<span class="cat-badge" style="background:rgba(255,255,255,0.06);color:' + color + ';border:1px solid ' + color + ';">' + icon + ' ' + item.cat + '</span>';
         html += item.item;
         html += '</span>';
-        html += '<span class="amt" style="' + (item.done ? 'color:var(--green);' : '') + '">' + amtStr + '</span>';
+        html += '<span class="amt" style="' + (item.done ? 'color:var(--green);' : '') + '">' + amtStr + diffBadgeHtml + '</span>';
         html += '</div>';
         if (item.note) {
           html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : '⏳ ') + item.note + '</div>';
@@ -1550,8 +1594,27 @@
       });
 
       document.getElementById('budget-live').innerHTML = html;
-      document.getElementById('budget-total-val').textContent = "약 ₩" + Math.round(totalKrw / 10000).toLocaleString() + "만원";
-      document.getElementById('budget-status-val').textContent = "결제완료 약 ₩" + Math.round(paidKrw / 10000).toLocaleString() + "만 / 현장·예정 약 ₩" + Math.round((totalKrw - paidKrw) / 10000).toLocaleString() + "만 (환율 1,400원 기준)";
+      document.getElementById('total-plan-val').textContent = "약 ₩" + Math.round(totalPlanKrw / 10000).toLocaleString() + "만원";
+      document.getElementById('total-actual-val').textContent = "약 ₩" + Math.round(totalActualKrw / 10000).toLocaleString() + "만원";
+      document.getElementById('actual-count-sub').textContent = doneCount + "건 완료";
+
+      var diffValEl = document.getElementById('total-diff-val');
+      var diffSubEl = document.getElementById('diff-status-sub');
+      var diffAbsStr = "₩" + Math.round(Math.abs(totalDiffKrw) / 10000).toLocaleString() + "만원";
+      if (Math.round(totalDiffKrw) === 0) {
+        diffValEl.textContent = "₩0";
+        diffValEl.style.color = "var(--text)";
+        diffSubEl.textContent = "예산 일치";
+      } else if (totalDiffKrw > 0) {
+        diffValEl.textContent = "-" + diffAbsStr;
+        diffValEl.style.color = "var(--green)";
+        diffSubEl.textContent = diffAbsStr + " 절약";
+      } else {
+        diffValEl.textContent = "+" + diffAbsStr;
+        diffValEl.style.color = "var(--red)";
+        diffSubEl.textContent = diffAbsStr + " 초과";
+      }
+
       document.getElementById('budget-count').textContent = BUDGET_DATA.length + " ITEMS";
     }
 
