@@ -289,6 +289,13 @@
   .diff-saved{background:rgba(95,215,123,.15);color:var(--green);border:1px solid rgba(95,215,123,.3);}
   .diff-over{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3);}
 
+  /* ===== 가계부식 실지출 입력 ===== */
+  .ledger-row{display:flex;align-items:center;gap:6px;margin-top:8px;}
+  .ledger-input{flex:1;min-width:0;background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);}
+  .ledger-input:focus{outline:none;border-color:var(--teal);}
+  .ledger-input::placeholder{color:var(--muted-2);}
+  .ledger-unit{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);flex-shrink:0;}
+
   /* ===== CHECKLIST ===== */
   .todo-list{display:flex;flex-direction:column;gap:8px;}
   .todo-item{
@@ -1544,31 +1551,52 @@
       return "포인트 결제";
     }
 
+    // 가계부식 실지출 기록 (미확정 항목만 대상, 브라우저 로컬 저장)
+    var LEDGER_KEY = "us_trip_budget_ledger_2026";
+    function loadLedger() {
+      try {
+        var raw = localStorage.getItem(LEDGER_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveLedger(ledger) {
+      try { localStorage.setItem(LEDGER_KEY, JSON.stringify(ledger)); } catch (e) {}
+    }
+    var ledger = loadLedger(); // { "항목명": 입력된 실지출 금액(해당 항목 통화 기준) }
+
     function renderBudget() {
       var totalPlanKrw = 0;
       var totalActualKrw = 0;
-      var totalDiffKrw = 0; // 완료된 항목만 집계 (계획 - 실집행)
+      var totalDiffKrw = 0; // 확정(예약완료 또는 실지출 기록)된 항목만 집계 (계획 - 실집행)
       var doneCount = 0;
       var html = "";
 
-      BUDGET_DATA.forEach(function(item) {
+      BUDGET_DATA.forEach(function(item, idx) {
+        var isKrwItem = item.estKrw > 0;
         var planKrw = item.estKrw + (item.estUsd * USD_RATE);
-        var actualKrw = item.actKrw + (item.actUsd * USD_RATE);
         totalPlanKrw += planKrw;
 
         var color = CAT_COLOR[item.cat] || "var(--muted-2)";
         var icon = CAT_ICON[item.cat] || "📌";
 
+        var loggedVal = ledger[item.item];
+        var hasLogged = typeof loggedVal === "number" && !isNaN(loggedVal) && loggedVal > 0;
+        var settled = item.done || hasLogged;
+
+        var actKrw = item.done ? item.actKrw : (isKrwItem ? (hasLogged ? loggedVal : 0) : 0);
+        var actUsd = item.done ? item.actUsd : (!isKrwItem ? (hasLogged ? loggedVal : 0) : 0);
+        var actualKrw = actKrw + (actUsd * USD_RATE);
+
         var amtStr;
         var diffBadgeHtml = "";
 
-        if (item.done) {
+        if (settled) {
           doneCount++;
           totalActualKrw += actualKrw;
           var diff = planKrw - actualKrw;
           totalDiffKrw += diff;
 
-          amtStr = fmtAmount(item.actKrw, item.actUsd);
+          amtStr = fmtAmount(actKrw, actUsd);
 
           if (Math.round(diff) !== 0) {
             var diffCls = diff > 0 ? 'diff-saved' : 'diff-over';
@@ -1585,10 +1613,16 @@
         html += '<span class="cat-badge" style="background:rgba(255,255,255,0.06);color:' + color + ';border:1px solid ' + color + ';">' + icon + ' ' + item.cat + '</span>';
         html += item.item;
         html += '</span>';
-        html += '<span class="amt" style="' + (item.done ? 'color:var(--green);' : '') + '">' + amtStr + diffBadgeHtml + '</span>';
+        html += '<span class="amt" style="' + (settled ? 'color:var(--green);' : '') + '">' + amtStr + diffBadgeHtml + '</span>';
         html += '</div>';
         if (item.note) {
-          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : '⏳ ') + item.note + '</div>';
+          html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : (hasLogged ? '📝 ' : '⏳ ')) + item.note + '</div>';
+        }
+        if (!item.done) {
+          html += '<div class="ledger-row">';
+          html += '<input type="number" inputmode="decimal" step="0.01" class="ledger-input" data-idx="' + idx + '" placeholder="실지출 입력' + (hasLogged ? '' : ' (가계부 기록)') + '"' + (hasLogged ? ' value="' + loggedVal + '"' : '') + '>';
+          html += '<span class="ledger-unit">' + (isKrwItem ? '원' : 'USD') + '</span>';
+          html += '</div>';
         }
         html += '</div>';
       });
@@ -1616,6 +1650,25 @@
       }
 
       document.getElementById('budget-count').textContent = BUDGET_DATA.length + " ITEMS";
+
+      Array.prototype.forEach.call(document.querySelectorAll('.ledger-input'), function (input) {
+        function commit() {
+          var idx = parseInt(input.getAttribute('data-idx'), 10);
+          var item = BUDGET_DATA[idx];
+          var val = parseFloat(input.value);
+          if (!isNaN(val) && val > 0) {
+            ledger[item.item] = val;
+          } else {
+            delete ledger[item.item];
+          }
+          saveLedger(ledger);
+          renderBudget();
+        }
+        input.addEventListener('change', commit);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+        });
+      });
     }
 
     renderBudget();
