@@ -402,7 +402,7 @@
   .guide-park-tabs{display:flex;gap:8px;}
   .park-tab{background:var(--card-2);border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .2s ease;}
   .park-tab.active{background:rgba(46,196,182,.18);border-color:var(--teal);color:var(--teal);}
-  .park-panel.hidden{display:none !important;}
+  .park-panel.hidden,.sheet-park-panel.hidden{display:none !important;}
   .guide-summary-box{background:rgba(255,184,77,.08);border-left:4px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0;font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:16px;}
   .timeline-strategy{margin-bottom:20px;}
   .timeline-strategy h3{font-size:13.5px;color:var(--teal);margin:0 0 10px 0;}
@@ -428,6 +428,102 @@
   .date-pill{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 12px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:all .15s;}
   .date-pill:hover{border-color:var(--teal);color:var(--text);}
   .date-pill.active{background:linear-gradient(135deg,var(--coral),var(--gold));color:#1a1625;font-weight:700;border-color:transparent;box-shadow:0 2px 8px rgba(255,107,74,.35);}
+
+  /* ===== Today 펄스 애니메이션 ===== */
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 184, 77, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 184, 77, 0); }
+  }
+  .date-pill.today-pulse {
+    border-color: var(--gold) !important;
+    animation: pulseGlow 2s infinite;
+  }
+
+  /* ===== 일자별 1초 퀵 액션 바 ===== */
+  .day-quick-actions {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0 4px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .day-quick-actions::-webkit-scrollbar { display: none; }
+  .quick-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    min-height: 36px;
+  }
+  .quick-btn:hover, .quick-btn:focus-visible {
+    border-color: var(--teal);
+    color: var(--gold);
+  }
+
+  /* ===== 플로팅 공략집 버튼 & 바텀시트 ===== */
+  .floating-guide-btn {
+    position: fixed;
+    right: 18px;
+    bottom: 80px;
+    z-index: 850;
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    color: #1a1625;
+    border: none;
+    border-radius: 24px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .floating-guide-btn:hover { transform: scale(1.05); }
+
+  .bottom-sheet-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 16, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 950;
+  }
+  .bottom-sheet-backdrop.open { display: block; }
+
+  .bottom-sheet {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    border-radius: 20px 20px 0 0;
+    padding: 16px 20px 34px;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .bottom-sheet.open { transform: translateY(0); }
+  .sheet-handle {
+    width: 36px; height: 4px;
+    background: var(--muted-2);
+    border-radius: 2px;
+    margin: 0 auto 14px auto;
+  }
 
   /* ===== RESERVATION FILTER CHIPS ===== */
   .card-filters{display:flex;gap:8px;margin-bottom:14px;}
@@ -624,87 +720,6 @@
   </main>
 
   <main id="tab-schedule" class="tab-panel active">
-
-  <!-- 테마파크 완전정복 전략 공략집 -->
-  <section class="strategy-guide-section">
-    <div class="guide-header">
-      <div class="guide-title-wrap">
-        <h2>🏰 테마파크 완전정복 공략집</h2>
-        <span class="guide-badge">STRATEGY GUIDE</span>
-      </div>
-      <div class="guide-park-tabs">
-        <button type="button" class="park-tab active" data-park="disney">디즈니랜드 (10/6)</button>
-        <button type="button" class="park-tab" data-park="universal">유니버셜 스튜디오 (10/7~8)</button>
-      </div>
-    </div>
-
-    <!-- 1. 디즈니랜드 공략 패널 -->
-    <div class="park-panel" id="panelDisney">
-      <div class="guide-summary-box">
-        <strong>🎯 핵심 전략:</strong> 08:00 로프드롭 직후 좌측(스타워즈/인디아나) 선공략 ➔ 오후 중앙/투모로우랜드 분산 ➔ 21:00 캐슬 불꽃놀이
-      </div>
-
-      <div class="timeline-strategy">
-        <h3>⏰ 추천 시간대별 동선</h3>
-        <ul class="strategy-steps">
-          <li><span class="step-time">07:30~08:00</span> <span class="step-desc">입구 게이트 도착 &amp; 센트럴 플라자 대기</span></li>
-          <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 더 레지스탕스 ➔ 인디아나 존스 ➔ 빅 선더 마운틴</span></li>
-          <li><span class="step-time">10:30~13:30</span> <span class="step-desc">캐리비안의 해적 ➔ 헌티드 맨션 ➔ 앱 모바일 오더 점심</span></li>
-          <li><span class="step-time">14:00~17:00</span> <span class="step-desc">미키&amp;미니 런어웨이 ➔ 스몰월드 ➔ 디즈니랜드 철도 휴식</span></li>
-          <li><span class="step-time">18:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ 저녁 식사 ➔ 잠자는 숲속의 공주 성 불꽃쇼</span></li>
-        </ul>
-      </div>
-
-      <div class="lands-grid">
-        <div class="land-card">
-          <h4>🌌 Star Wars: Galaxy's Edge (최심부)</h4>
-          <p>• <b>라이즈 오브 더 레지스탕스:</b> 파크 최고 인기 어트랙션, 오픈 직후 대기 40분 이내일 때 필수 공략</p>
-          <p>• <b>밀레니엄 팔콘:</b> 6인 탑승 조종 시뮬레이터 (파일럿 좌석 추천)</p>
-        </div>
-        <div class="land-card">
-          <h4>🤠 Adventure / Frontier / Bayou (좌측)</h4>
-          <p>• <b>인디아나 존스:</b> 다이내믹 지프 라이드 (허리/목 주의)</p>
-          <p>• <b>빅 선더 마운틴:</b> 일몰 시간대 탑승 시 풍경 베스트</p>
-          <p>• <b>티아나의 바유 어드벤처:</b> 로그 플룸 워터 라이드</p>
-        </div>
-        <div class="land-card">
-          <h4>🚀 Tomorrowland &amp; Fantasyland (우측/중앙)</h4>
-          <p>• <b>스페이스 마운틴:</b> 암흑 속 실내 롤러코스터</p>
-          <p>• <b>매터혼 봅슬레이 &amp; 피터팬:</b> 패밀리 인기 클래식 어트랙션</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. 유니버셜 스튜디오 공략 패널 -->
-    <div class="park-panel hidden" id="panelUniversal">
-      <div class="guide-summary-box">
-        <strong>🎯 핵심 전략:</strong> Starway 이동 최소화! 1일차 오후 Lower Lot(닌텐도/쥬라기/머미) 몰아치기 ➔ 2일차 Upper Lot(해리포터/스튜디오투어/워터월드) 완주
-      </div>
-
-      <div class="timeline-strategy">
-        <h3>⏰ 2일 분할 추천 동선</h3>
-        <ul class="strategy-steps">
-          <li><span class="step-time">[1일차 14:00~]</span> <span class="step-desc"><b>Lower Lot 집중:</b> 입장 직후 하부 이동 ➔ 마리오 카트 ➔ 파워업밴드 챌린지 ➔ 쥬라기 월드 ➔ 머미 ➔ 시티워크 저녁</span></li>
-          <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot 집중:</b> 해리포터 포비든 저니 ➔ 스튜디오 투어(60분 트램, 좌측 좌석) ➔ 워터월드 쇼 ➔ 마이펫&amp;미니언즈</span></li>
-        </ul>
-      </div>
-
-      <div class="lands-grid">
-        <div class="land-card">
-          <h4>🔻 Lower Lot (하부 - 스릴 &amp; 닌텐도)</h4>
-          <p>• <b>마리오 카트 (쿠파의 도전):</b> AR 고글 착용 레이싱. 대기 길면 싱글라이더 활용</p>
-          <p>• <b>쥬라기 월드:</b> 마지막 25m 급하강 워터 스플래시 (우비 필수)</p>
-          <p>• <b>머미 (Revenge of the Mummy):</b> 급가속 실내 코스터. 무료 락커에 가방/폰 전량 보관 필수</p>
-        </div>
-        <div class="land-card">
-          <h4>🔺 Upper Lot (상부 - 쇼 &amp; 스튜디오)</h4>
-          <p>• <b>스튜디오 투어 (60분):</b> 실제 할리우드 영화 세트장 투어 (트램 왼쪽 탑승 추천)</p>
-          <p>• <b>해리포터 포비든 저니:</b> 호그와트 성 내부 로봇 암 라이드 (멀미 취약 시 멀미약 권장)</p>
-          <p>• <b>워터월드:</b> 실감나는 하이라이트 스턴트 쇼 (파란색 좌석은 침수 구역)</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <div class="date-nav-wrap">
     <div class="date-nav-track">
@@ -2075,6 +2090,7 @@
       saveExpenseLog(expenseLog);
       renderBudget();
       if (window.showToast) window.showToast('내역이 삭제되었습니다');
+      if (window.triggerHaptic) window.triggerHaptic('warning');
     });
 
     // ===== 2-Way 지출 등록: 모드 전환 탭 =====
@@ -2088,6 +2104,7 @@
         var mode = tab.getAttribute('data-mode');
         smsPanel.classList.toggle('hidden', mode !== 'sms');
         manualPanel.classList.toggle('hidden', mode !== 'manual');
+        if (window.triggerHaptic) window.triggerHaptic('light');
       });
     });
 
@@ -2106,6 +2123,7 @@
       var parsed = parseCardSMS(raw);
       if (!parsed || !parsed.isValid) {
         if (window.showToast) window.showToast('문자에서 금액을 인식하지 못했습니다');
+        if (window.triggerHaptic) window.triggerHaptic('warning');
         return;
       }
       var chosenCat = smsCategorySelectEl.value === 'auto'
@@ -2115,6 +2133,7 @@
       addTransaction(chosenCat, memo, parsed.amount, parsed.currency, 'card');
       smsInputEl.value = '';
       if (window.showToast) window.showToast('가계부에 등록되었습니다 (' + memo + ')');
+      if (window.triggerHaptic) window.triggerHaptic('success');
     });
 
     // ===== ② 직접 입력 (현금/카드) =====
@@ -2127,6 +2146,7 @@
       var amount = parseFloat(manualAmountInputEl.value);
       if (isNaN(amount) || amount <= 0) {
         if (window.showToast) window.showToast('금액을 올바르게 입력해주세요');
+        if (window.triggerHaptic) window.triggerHaptic('warning');
         return;
       }
       var memo = manualMemoInputEl.value.trim() || '기타 지출';
@@ -2134,6 +2154,7 @@
       manualMemoInputEl.value = '';
       manualAmountInputEl.value = '';
       if (window.showToast) window.showToast('가계부에 등록되었습니다 (' + memo + ')');
+      if (window.triggerHaptic) window.triggerHaptic('success');
     });
 
     renderBudget();
@@ -2188,6 +2209,86 @@
     <span>준비물</span>
   </button>
 </nav>
+
+<!-- 테마파크 플로팅 공략 버튼 (Day 6, 7, 8 뷰포트에서 노출) -->
+<button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" style="display:none;" aria-label="테마파크 공략집 열기">
+  <span>🏰</span> <span>테마파크 치트시트</span>
+</button>
+
+<!-- 바텀시트 백드롭 & 컨테이너 -->
+<div id="bottomSheetBackdrop" class="bottom-sheet-backdrop"></div>
+<div id="parkGuideBottomSheet" class="bottom-sheet" role="dialog" aria-modal="true">
+  <div class="sheet-handle"></div>
+
+  <div class="guide-header">
+    <div class="guide-title-wrap">
+      <h2>🏰 테마파크 완전정복 치트시트</h2>
+      <span class="guide-badge">STRATEGY</span>
+    </div>
+    <button type="button" id="closeBottomSheetBtn" class="section-action-btn" aria-label="닫기">✕</button>
+  </div>
+
+  <div class="guide-park-tabs" style="margin-bottom:14px;">
+    <button type="button" class="park-tab active" data-sheet-park="disney">디즈니랜드 (10/6)</button>
+    <button type="button" class="park-tab" data-sheet-park="universal">유니버셜 스튜디오 (10/7~8)</button>
+  </div>
+
+  <!-- 디즈니랜드 패널 -->
+  <div class="sheet-park-panel" id="sheetPanelDisney">
+    <div class="guide-summary-box">
+      <strong>🎯 핵심 전략:</strong> 08:00 로프드롭 직후 좌측(스타워즈/인디아나) 선공략 ➔ 오후 중앙/투모로우랜드 분산 ➔ 21:00 캐슬 불꽃놀이
+    </div>
+    <div class="timeline-strategy">
+      <h3>⏰ 추천 시간대별 동선</h3>
+      <ul class="strategy-steps">
+        <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 레지스탕스 ➔ 인디아나 존스 ➔ 빅 선더 마운틴</span></li>
+        <li><span class="step-time">10:30~13:30</span> <span class="step-desc">캐리비안의 해적 ➔ 헌티드 맨션 ➔ 앱 모바일 오더 점심</span></li>
+        <li><span class="step-time">14:00~17:00</span> <span class="step-desc">미키&amp;미니 런어웨이 ➔ 스몰월드 ➔ 디즈니 철도 휴식</span></li>
+        <li><span class="step-time">18:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ Puesto 저녁 ➔ 캐슬 불꽃쇼</span></li>
+      </ul>
+    </div>
+    <div class="lands-grid">
+      <div class="land-card">
+        <h4>🌌 Star Wars: Galaxy's Edge</h4>
+        <p>• <b>라이즈 오브 더 레지스탕스:</b> 개장 직후 대기 40분 이내일 때 필수 공략</p>
+        <p>• <b>밀레니엄 팔콘:</b> 6인 탑승 시뮬레이터 (파일럿 좌석 추천)</p>
+      </div>
+      <div class="land-card">
+        <h4>🤠 Adventure / Frontier</h4>
+        <p>• <b>인디아나 존스:</b> 다이내믹 지프 라이드</p>
+        <p>• <b>빅 선더 마운틴:</b> 일몰 시간대 탑승 시 뷰 베스트</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 유니버셜 스튜디오 패널 -->
+  <div class="sheet-park-panel hidden" id="sheetPanelUniversal">
+    <div class="guide-summary-box">
+      <strong>🎯 핵심 전략:</strong> Starway 이동 최소화! 1일차 오후 Lower Lot(닌텐도/쥬라기/머미) 몰아치기 ➔ 2일차 Upper Lot(해리포터/스튜디오투어/워터월드) 완주
+    </div>
+    <div class="timeline-strategy">
+      <h3>⏰ 2일 분할 추천 동선</h3>
+      <ul class="strategy-steps">
+        <li><span class="step-time">[1일차 14:00~]</span> <span class="step-desc"><b>Lower Lot:</b> 마리오 카트 ➔ 닌텐도 챌린지 ➔ 쥬라기 월드 ➔ 머미</span></li>
+        <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot:</b> 해리포터 ➔ 스튜디오 투어(트램 좌측) ➔ 워터월드 ➔ 미니언즈</span></li>
+      </ul>
+    </div>
+    <div class="lands-grid">
+      <div class="land-card">
+        <h4>🔻 Lower Lot (하부)</h4>
+        <p>• <b>마리오 카트:</b> 대기 길면 싱글라이더 활용</p>
+        <p>• <b>쥬라기 월드:</b> 마지막 25m 급하강 워터 스플래시 (우비 필수)</p>
+        <p>• <b>머미:</b> 무료 락커에 짐/스마트폰 전량 보관 필수</p>
+      </div>
+      <div class="land-card">
+        <h4>🔺 Upper Lot (상부)</h4>
+        <p>• <b>스튜디오 투어 (60분):</b> 실제 영화 세트장 (트램 왼쪽 추천)</p>
+        <p>• <b>해리포터 포비든 저니:</b> 호그와트 성 로봇 암 라이드 (멀미약 권장)</p>
+        <p>• <b>워터월드:</b> 라이브 스턴트 쇼 (파란색 좌석 침수)</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="img-modal" id="img-modal">
   <span class="img-modal-close" id="img-modal-close" role="button" aria-label="닫기" tabindex="0">✕</span>
@@ -2614,6 +2715,7 @@
       btn.addEventListener('click', function() {
         var tabId = this.getAttribute('data-tab');
         switchTab(tabId, true);
+        if (window.triggerHaptic) window.triggerHaptic('light');
       });
     });
 
@@ -2708,24 +2810,234 @@
   })();
 
   /* ==========================================================
-     [4-0] 테마파크 전략 공략집: 디즈니랜드 / 유니버셜 탭 전환
+     [4-0] 공통 햅틱 피드백 엔진
   ========================================================== */
-  (function initStrategyGuideTabs() {
-    var parkTabs = document.querySelectorAll('.guide-park-tabs .park-tab');
-    var panels = { disney: document.getElementById('panelDisney'), universal: document.getElementById('panelUniversal') };
-    if (!parkTabs.length) return;
+  function triggerHaptic(type) {
+    if (!navigator.vibrate) return;
+    try {
+      if (type === 'light') {
+        navigator.vibrate(25); // 탭, 버튼 클릭
+      } else if (type === 'success') {
+        navigator.vibrate([30, 50, 30]); // 지출 등록, 복사 완료
+      } else if (type === 'warning') {
+        navigator.vibrate(70); // 오류, 삭제
+      }
+    } catch (e) {}
+  }
 
-    parkTabs.forEach(function(tab) {
+  /* ==========================================================
+     [4-0b] 테마파크 플로팅 버튼 & 바텀시트
+     - Day 6(디즈니랜드)/7/8(유니버셜) 뷰포트에서만 플로팅 버튼 노출
+  ========================================================== */
+  (function initParkBottomSheet() {
+    var floatBtn = document.getElementById('floatingParkGuideBtn');
+    var backdrop = document.getElementById('bottomSheetBackdrop');
+    var sheet = document.getElementById('parkGuideBottomSheet');
+    var closeBtn = document.getElementById('closeBottomSheetBtn');
+    if (!floatBtn || !sheet) return;
+
+    var sheetTabs = sheet.querySelectorAll('.guide-park-tabs .park-tab');
+    var sheetPanels = { disney: document.getElementById('sheetPanelDisney'), universal: document.getElementById('sheetPanelUniversal') };
+
+    function openSheet() {
+      backdrop.classList.add('open');
+      sheet.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      triggerHaptic('light');
+    }
+    function closeSheet() {
+      backdrop.classList.remove('open');
+      sheet.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    floatBtn.addEventListener('click', openSheet);
+    closeBtn.addEventListener('click', closeSheet);
+    backdrop.addEventListener('click', closeSheet);
+
+    sheetTabs.forEach(function(tab) {
       tab.addEventListener('click', function() {
-        var park = tab.getAttribute('data-park');
-
-        parkTabs.forEach(function(t) { t.classList.remove('active'); });
+        var park = tab.getAttribute('data-sheet-park');
+        sheetTabs.forEach(function(t) { t.classList.remove('active'); });
         tab.classList.add('active');
-
-        Object.keys(panels).forEach(function(key) {
-          if (panels[key]) panels[key].classList.toggle('hidden', key !== park);
+        Object.keys(sheetPanels).forEach(function(key) {
+          if (sheetPanels[key]) sheetPanels[key].classList.toggle('hidden', key !== park);
         });
+        triggerHaptic('light');
       });
+    });
+
+    // Day 6/7/8이 뷰포트에 보일 때만 플로팅 버튼 노출 (스크롤 기반 rect 체크 — 구형 브라우저/환경 호환성 우선)
+    var relevantDays = ['day-6', 'day-7', 'day-8']
+      .map(function(id) { return document.getElementById(id); })
+      .filter(Boolean);
+
+    if (relevantDays.length) {
+      var ticking = false;
+      function updateFloatBtnVisibility() {
+        ticking = false;
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var anyVisible = relevantDays.some(function(el) {
+          var r = el.getBoundingClientRect();
+          return r.bottom > 0 && r.top < vh;
+        });
+        floatBtn.style.display = anyVisible ? 'flex' : 'none';
+      }
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          ticking = true;
+          setTimeout(updateFloatBtnVisibility, 100);
+        }
+      }, { passive: true });
+      window.addEventListener('resize', updateFloatBtnVisibility);
+      document.querySelectorAll('.nav-tab').forEach(function(t) { t.addEventListener('click', function() { setTimeout(updateFloatBtnVisibility, 100); }); });
+      document.querySelectorAll('.timeline details.day').forEach(function(d) {
+        d.addEventListener('toggle', function() { setTimeout(updateFloatBtnVisibility, 350); });
+      });
+      updateFloatBtnVisibility();
+    }
+  })();
+
+  /* ==========================================================
+     [4-0c] Today 자동 포커스 & 펄스
+  ========================================================== */
+  (function initTodayFocus() {
+    var TRIP_START = new Date("2026-10-01T00:00:00+09:00");
+    var TRIP_END = new Date("2026-10-11T23:59:59+09:00");
+    var now = new Date();
+
+    var dayNum = 1;
+    if (now >= TRIP_START && now <= TRIP_END) {
+      var diffDays = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24)) + 1;
+      dayNum = Math.min(Math.max(diffDays, 1), 11);
+    }
+
+    var targetDayId = 'day-' + dayNum;
+    var pill = document.querySelector('.date-pill[data-target="' + targetDayId + '"]');
+    if (pill) pill.classList.add('today-pulse');
+
+    if (now >= TRIP_START && now <= TRIP_END && window.jumpToDay) {
+      window.jumpToDay(targetDayId);
+    }
+  })();
+
+  /* ==========================================================
+     [4-0d] 일자별 1초 퀵 액션 바 (내비/확인번호 복사/지출 기록)
+  ========================================================== */
+  (function initDayQuickActions() {
+    var QUICK_ACTIONS_DATA = {
+      "day-1": { navLink: "https://www.google.com/maps/search/?api=1&query=Hertz+Rent+A+Car+Los+Angeles+International+Airport+CA", cat: "food-vegas" },
+      "day-2": { navLink: "https://www.google.com/maps/search/?api=1&query=Sphere+Las+Vegas", cat: "food-vegas" },
+      "day-3": { navLink: "https://www.google.com/maps/search/?api=1&query=Welcome+to+Fabulous+Las+Vegas+Sign", confNum: "EXP-20260822-00000491", cat: "food-vegas" },
+      "day-4": { navLink: "https://www.google.com/maps/search/?api=1&query=Joshua+Tree+National+Park+West+Entrance+CA", cat: "food-jt" },
+      "day-5": { navLink: "https://www.google.com/maps/search/?api=1&query=Desert+Hills+Premium+Outlets+Cabazon+CA", cat: "food-jt" },
+      "day-6": { navLink: "https://www.google.com/maps/search/?api=1&query=Disneyland+Park+Anaheim+CA", cat: "food-theme" },
+      "day-7": { navLink: "https://www.google.com/maps/search/?api=1&query=Loews+Hollywood+Hotel", confNum: "3892645", cat: "food-theme" },
+      "day-8": { navLink: "https://www.google.com/maps/search/?api=1&query=Universal+Studios+Hollywood", cat: "food-theme" },
+      "day-9": { navLink: "https://www.google.com/maps/search/?api=1&query=Santa+Monica+Pier+CA", cat: "food-la" },
+      "day-10": { navLink: "https://www.google.com/maps/search/?api=1&query=Dodger+Stadium+1000+Vin+Scully+Ave+Los+Angeles", cat: "food-la" },
+      "day-11": { navLink: "https://www.google.com/maps/search/?api=1&query=Tom+Bradley+International+Terminal+LAX", cat: "food-la" }
+    };
+
+    function copyText(text) {
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          if (window.showToast) window.showToast('확인번호가 복사되었습니다');
+          triggerHaptic('success');
+        }).catch(function() {
+          fallback();
+          if (window.showToast) window.showToast('확인번호가 복사되었습니다');
+          triggerHaptic('success');
+        });
+      } else {
+        fallback();
+        if (window.showToast) window.showToast('확인번호가 복사되었습니다');
+        triggerHaptic('success');
+      }
+    }
+
+    document.querySelectorAll('.timeline details.day').forEach(function(detail) {
+      var data = QUICK_ACTIONS_DATA[detail.id];
+      if (!data) return;
+      var summary = detail.querySelector(':scope > summary');
+      if (!summary) return;
+
+      var bar = document.createElement('div');
+      bar.className = 'day-quick-actions';
+
+      var navA = document.createElement('a');
+      navA.href = data.navLink;
+      navA.target = '_blank';
+      navA.rel = 'noopener noreferrer';
+      navA.className = 'quick-btn nav-btn';
+      navA.innerHTML = '<span>📍</span> <span>내비 실행</span>';
+      bar.appendChild(navA);
+
+      var copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'quick-btn copy-btn';
+      if (data.confNum) {
+        copyBtn.setAttribute('data-copy', data.confNum);
+        copyBtn.innerHTML = '<span>📋</span> <span>확인번호 복사</span>';
+      } else {
+        copyBtn.style.display = 'none';
+      }
+      bar.appendChild(copyBtn);
+
+      var expenseBtn = document.createElement('button');
+      expenseBtn.type = 'button';
+      expenseBtn.className = 'quick-btn expense-btn';
+      expenseBtn.setAttribute('data-target-cat', data.cat);
+      expenseBtn.innerHTML = '<span>💵</span> <span>$ 지출 기록</span>';
+      bar.appendChild(expenseBtn);
+
+      // 아코디언(summary) 클릭 토글을 막기 위해 이 바 안에서는 항상 stopPropagation
+      bar.addEventListener('click', function(e) {
+        e.stopPropagation();
+
+        if (e.target.closest('.nav-btn')) {
+          triggerHaptic('light');
+          return; // 기본 링크 동작(새 탭 열기) 유지
+        }
+
+        var cBtn = e.target.closest('.copy-btn');
+        if (cBtn) {
+          e.preventDefault();
+          var text = cBtn.getAttribute('data-copy');
+          if (text) copyText(text);
+          return;
+        }
+
+        var eBtn = e.target.closest('.expense-btn');
+        if (eBtn) {
+          e.preventDefault();
+          triggerHaptic('light');
+          var targetCat = eBtn.getAttribute('data-target-cat');
+          if (window.switchTab) window.switchTab('tab-budget', true);
+          setTimeout(function() {
+            var manualTab = document.querySelector('.mode-tab[data-mode="manual"]');
+            if (manualTab) manualTab.click();
+            var catSelect = document.getElementById('manualCategorySelect');
+            if (catSelect) catSelect.value = targetCat;
+            var entryCard = document.querySelector('.expense-entry-card');
+            if (entryCard) entryCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            var amountInput = document.getElementById('manualAmountInput');
+            if (amountInput) amountInput.focus();
+          }, 80);
+        }
+      });
+
+      summary.appendChild(bar);
     });
   })();
 
@@ -2748,6 +3060,7 @@
       });
 
       btn.textContent = nextOpen ? '전체 접기' : '전체 펼치기';
+      if (window.triggerHaptic) window.triggerHaptic('light');
     });
   })();
 
@@ -2838,13 +3151,16 @@
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() {
           showToast('예약번호가 복사되었습니다');
+          if (window.triggerHaptic) window.triggerHaptic('success');
         }).catch(function() {
           fallbackCopy();
           showToast('예약번호가 복사되었습니다');
+          if (window.triggerHaptic) window.triggerHaptic('success');
         });
       } else {
         fallbackCopy();
         showToast('예약번호가 복사되었습니다');
+        if (window.triggerHaptic) window.triggerHaptic('success');
       }
     });
   })();
