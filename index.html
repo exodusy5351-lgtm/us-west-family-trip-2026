@@ -551,7 +551,6 @@
     justify-content: center;
     touch-action: none; /* 드래그 핸들 영역만 제스처 전용, 본문 스크롤(overflow-y:auto)은 보존 */
   }
-  #sheetHeaderDrag { touch-action: none; }
   .sheet-handle {
     width: 44px; height: 5px;
     background: var(--muted);
@@ -3239,6 +3238,7 @@
     var backdrop = document.getElementById('bottomSheetBackdrop');
     var sheet = document.getElementById('parkGuideBottomSheet');
     var closeBtn = document.getElementById('closeBottomSheetBtn');
+    var handleWrap = sheet ? sheet.querySelector('.sheet-handle-wrap') || sheet.querySelector('.sheet-handle') : null;
     if (!floatBtn || !sheet) return;
 
     var sheetTabs = sheet.querySelectorAll('.guide-park-tabs .park-tab');
@@ -3247,60 +3247,22 @@
     function openSheet() {
       backdrop.classList.add('open');
       sheet.classList.add('open');
+      sheet.style.transform = 'translateY(0)';
       document.body.style.overflow = 'hidden';
       triggerHaptic('light');
     }
+
     function closeSheet() {
       backdrop.classList.remove('open');
       sheet.classList.remove('open');
+      sheet.style.transform = '';
       document.body.style.overflow = '';
+      triggerHaptic('light');
     }
 
     floatBtn.addEventListener('click', openSheet);
-    closeBtn.addEventListener('click', closeSheet);
-    backdrop.addEventListener('click', closeSheet);
-
-    // ===== 스와이프 다운(Drag-to-Dismiss) 제스처 =====
-    var DISMISS_THRESHOLD = 70;
-    var dragStartY = 0;
-    var dragCurrentY = 0;
-    var dragging = false;
-
-    function onDragStart(e) {
-      dragStartY = e.touches[0].clientY;
-      dragCurrentY = dragStartY;
-      dragging = true;
-      sheet.classList.add('dragging');
-    }
-    function onDragMove(e) {
-      if (!dragging) return;
-      dragCurrentY = e.touches[0].clientY;
-      var delta = dragCurrentY - dragStartY;
-      if (delta > 0) {
-        sheet.style.transform = 'translateY(' + delta + 'px)';
-        e.preventDefault();
-      }
-    }
-    function onDragEnd() {
-      if (!dragging) return;
-      dragging = false;
-      sheet.classList.remove('dragging');
-      sheet.style.transform = '';
-      var delta = dragCurrentY - dragStartY;
-      if (delta > DISMISS_THRESHOLD) {
-        closeSheet();
-        if (window.triggerHaptic) window.triggerHaptic('light');
-      }
-      // 70px 미만이면 transform 초기화만으로 CSS 트랜지션이 자동 스냅백 처리
-    }
-
-    [document.getElementById('sheetHandleWrap'), document.getElementById('sheetHeaderDrag')].forEach(function(el) {
-      if (!el) return;
-      el.addEventListener('touchstart', onDragStart, { passive: true });
-      el.addEventListener('touchmove', onDragMove, { passive: false });
-      el.addEventListener('touchend', onDragEnd);
-      el.addEventListener('touchcancel', onDragEnd);
-    });
+    if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+    if (backdrop) backdrop.addEventListener('click', closeSheet);
 
     sheetTabs.forEach(function(tab) {
       tab.addEventListener('click', function() {
@@ -3314,7 +3276,44 @@
       });
     });
 
-    // 상태 기반 노출: 현재 탭 === 'tab-schedule' AND (day-6/7/8 중 하나라도 open)일 때만 노출
+    // 터치 스와이프 다운 (Drag-to-dismiss)
+    var startY = 0;
+    var currentY = 0;
+    var isDragging = false;
+
+    var dragArea = handleWrap || sheet;
+
+    dragArea.addEventListener('touchstart', function(e) {
+      if (sheet.scrollTop > 5 && e.target !== handleWrap) return; // 내부 스크롤 최상단일 때만 동작
+      startY = e.touches[0].clientY;
+      isDragging = true;
+      sheet.classList.add('dragging');
+    }, { passive: true });
+
+    dragArea.addEventListener('touchmove', function(e) {
+      if (!isDragging) return;
+      currentY = e.touches[0].clientY;
+      var deltaY = currentY - startY;
+      if (deltaY > 0) { // 아래로 드래그할 때만
+        sheet.style.transform = 'translateY(' + deltaY + 'px)';
+      }
+    }, { passive: true });
+
+    dragArea.addEventListener('touchend', function(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      sheet.classList.remove('dragging');
+      var deltaY = currentY - startY;
+      if (deltaY > 75) {
+        closeSheet();
+      } else {
+        sheet.style.transform = 'translateY(0)';
+      }
+      startY = 0;
+      currentY = 0;
+    });
+
+    // 상태 기반 플로팅 버튼 노출
     var relevantDays = ['day-6', 'day-7', 'day-8']
       .map(function(id) { return document.getElementById(id); })
       .filter(Boolean);
