@@ -12,21 +12,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#1a1625;
-    --bg-2:#211b30;
-    --card:#251f37;
-    --card-2:#2c243f;
-    --line:#3a3150;
-    --text:#f4eee3;
-    --muted:#a99bc2;
-    --muted-2:#7d6f98;
-    --coral:#ff6b4a;
-    --gold:#ffb84d;
-    --teal:#2ec4b6;
+    --bg:#161220;
+    --bg-2:#1e182c;
+    --card:#261f36;
+    --card-2:#2f2644;
+    --line:#453b5e;
+    --text:#f7f3eb;
+    --muted:#c2b5db;
+    --muted-2:#988ab2;
+    --coral:#ff7557;
+    --gold:#ffc05c;
+    --teal:#36d6c7;
     --pink:#c74b8c;
-    --green:#5fd77b;
+    --green:#68e284;
     --amber:#f2b94b;
-    --red:#ff6b6b;
+    --red:#ff7878;
     --radius:14px;
   }
   *{box-sizing:border-box;}
@@ -146,7 +146,7 @@
   .badge.todo{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3);}
   .card .name{font-size:13.5px;font-weight:600;margin-top:10px;line-height:1.3;}
   .card .detail{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4;}
-  .card .amount{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);margin-top:8px;font-weight:700;}
+  .card .amount{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--gold);margin-top:8px;font-weight:700;letter-spacing:.02em;}
   .card[data-img]{cursor:pointer;transition:border-color .15s,transform .15s;}
   .card[data-img]:hover,.card[data-img]:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
   .card[data-img] .name::after{content:"🖼";margin-left:6px;font-size:11px;opacity:.75;}
@@ -207,7 +207,7 @@
   .d-body{overflow:hidden;transition:max-height .3s ease;}
   .d-body-inner{padding:2px 10px 14px;}
   .day .d-title{font-size:14.5px;font-weight:600;}
-  .day .d-desc{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
+  .day .d-desc{font-size:13px;color:#ded5ee;margin-top:6px;line-height:1.6;}
   .day.todo-day .d-title{color:var(--amber);}
   .d-title .d-link{color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;font-weight:700;transition:color .15s,text-decoration-color .15s;}
   .d-title .d-link:hover,.d-title .d-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
@@ -227,33 +227,33 @@
   .dine-item .dine-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
   .dine-item .dine-note{font-size:10.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
   .dine-item.static{cursor:default;}
-  .tip-note{margin-top:2px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.28);border-radius:10px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.55;}
+  .tip-note{margin-top:2px;background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.28);border-radius:12px;padding:12px 14px;font-size:12px;color:var(--muted);line-height:1.55;}
   .tip-note b{color:var(--gold);}
   .tip-note-title{font-size:11.5px;font-weight:700;color:var(--gold);margin-bottom:7px;}
 
   /* ===== 일자별 구글맵 통합 네비 배너 ===== */
   .route-nav-banner{margin:10px 0 4px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;}
-  .route-nav-text{font-size:11px;color:var(--muted);line-height:1.5;}
+  .route-nav-text{font-size:12px;color:var(--muted);line-height:1.5;}
   .route-nav-text b{color:var(--text);}
   .route-nav-link{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;background:var(--teal);color:#0d211f;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:transform .15s ease;}
   .route-nav-link:hover,.route-nav-link:focus-visible{transform:scale(1.03);outline:none;}
   .cheat-list{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:7px;}
-  .cheat-list li{font-size:11px;color:var(--muted);line-height:1.55;}
+  .cheat-list li{font-size:12.5px;color:var(--muted);line-height:1.65;}
   .cheat-list li b{color:var(--text);}
 
   /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
   .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
   .sched-block{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;}
-  .sched-time{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--teal);font-weight:700;letter-spacing:.02em;margin-bottom:5px;}
+  .sched-time{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--teal);font-weight:700;letter-spacing:.03em;margin-bottom:5px;}
   .sched-title{font-size:13px;font-weight:700;color:var(--text);}
   .sched-title-link{font-size:13px;font-weight:700;color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;display:inline-block;}
   .sched-title-link:hover,.sched-title-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
-  .sched-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.55;}
+  .sched-note{font-size:13px;color:#ded5ee;margin-top:5px;line-height:1.6;}
   .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
   .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
 
   /* ===== NAV BADGE (English destination, one-click maps) ===== */
-  .nav-badge{display:inline-flex;align-items:center;gap:4px;margin-top:7px;padding:4px 9px 4px 8px;border-radius:20px;background:rgba(46,196,182,.12);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.01em;text-decoration:none;transition:background-color .15s,border-color .15s;}
+  .nav-badge{display:inline-flex;align-items:center;gap:4px;margin-top:7px;padding:6px 11px;min-height:32px;border-radius:20px;background:rgba(46,196,182,.12);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.01em;text-decoration:none;transition:background-color .15s,border-color .15s;}
   .nav-badge:hover,.nav-badge:focus-visible{background:rgba(46,196,182,.24);border-color:var(--teal);outline:none;}
   .nav-badge::after{content:"↗";color:var(--muted-2);margin-left:2px;}
   .nav-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
@@ -261,7 +261,7 @@
   .nav-card-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
   .nav-card-label{font-size:12.5px;font-weight:700;color:var(--text);}
   .nav-card-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
-  .nav-card-note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5;}
+  .nav-card-note{font-size:13px;color:#ded5ee;margin-top:5px;line-height:1.6;}
   .uber-badge{display:inline-flex;align-items:center;gap:4px;margin-top:6px;margin-right:6px;padding:3px 8px;border-radius:20px;background:rgba(255,107,74,.12);border:1px solid rgba(255,107,74,.32);color:var(--coral);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.01em;white-space:nowrap;}
 
   /* ===== BUDGET ===== */
@@ -296,7 +296,7 @@
   /* ===== 3단 예산 요약 그리드 ===== */
   .budget-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
   .budget-metric-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 8px;text-align:center;}
-  .budget-metric-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .budget-metric-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
   .budget-metric-val{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;margin-top:5px;}
   .budget-metric-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px;}
 
@@ -626,7 +626,7 @@
   .currency-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
   .currency-badge{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;}
   .currency-badge-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
-  .currency-badge-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--gold);margin-top:4px;}
+  .currency-badge-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--gold);margin-top:4px;}
 
   /* ===== SECTION HEAD ACTION BUTTON (expand/collapse all 등) ===== */
   .section-action-btn{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:5px 11px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s;}
@@ -700,7 +700,7 @@
   .calc-result-list{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:4px 14px;}
   .calc-result-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--line);}
   .calc-result-row:last-child{border-bottom:none;}
-  .calc-result-row .val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:13.5px;}
+  .calc-result-row .val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:13.5px;letter-spacing:.02em;}
   .calc-result-row.total .val{color:var(--gold);font-size:16px;}
   .calc-result-row.krw .val{color:var(--teal);}
 
@@ -1139,7 +1139,7 @@
             <div class="sched-time">✈️ 08:20–11:30</div>
             <div class="sched-title">LAX 공항 입국심사 &amp; Hertz 1차 렌터카 픽업</div>
             <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Rent+A+Car+Los+Angeles+International+Airport+CA" target="_blank" rel="noopener noreferrer">📍 Hertz Car Rental, LAX</a>
-            <div class="sched-note">에어프레미아 YP101 입국심사 후 셔틀 탑승, Hertz LAX 픽업(1차 렌트 $40.55) 및 모하비 사막 고속도로(I-15 N) 진입</div>
+            <div class="sched-note">에어프레미아 YP101 입국심사 후 터미널 밖 'Rental Car Shuttles(보라색 표지판)' 구역에서 Hertz 무료 셔틀 탑승 → Hertz LAX 픽업(1차 렌트 $40.55) 및 I-15 N 고속도로 진입</div>
           </div>
 
           <div class="sched-block">
@@ -1246,7 +1246,7 @@
             <div class="sched-time">🔮 16:00–17:00</div>
             <div class="sched-title">스피어 16:00 도어오픈 &amp; 아트리움(Atrium) 체험</div>
             <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Sphere+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Sphere, Las Vegas</a>
-            <div class="sched-note">보안검색대 통과 후 16:00 정각 입장 · 1층 아트리움 인터랙티브 전시 60분 관람 (AI 휴머노이드 로봇 '아우라 Aura' 대화, 360도 아바타 스캔, 3D 홀로그램 전시)</div>
+            <div class="sched-note">15:50 도착 필수 → 16:00 정각 입장 후 1층 로봇 '아우라(Aura)' 대화 및 인터랙티브 전시 체험(60분) → 17:00 메인 볼륨 착석(406구역)</div>
           </div>
 
           <div class="sched-block">
@@ -1380,7 +1380,7 @@
         </div>
         <div class="bar-row" style="border-left:3px solid var(--teal);padding-left:10px;">
           <div class="br-top"><span>가이드</span><span class="amt">1인가이드 확정</span></div>
-          <div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">4인 기준 · 8명까지 1인, 9~12명은 2인 배정</div>
+          <div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">4인 기준 확정</div>
         </div>
         <div class="bar-row" style="border-left:3px solid var(--teal);padding-left:10px;">
           <div class="br-top"><span>조식</span><span class="amt">일정 포함</span></div>
@@ -1505,7 +1505,7 @@
         <div class="tip-note">
           <div class="tip-note-title">💡 3일차 체크포인트</div>
           <ol class="cheat-list">
-            <li><b>현금 준비</b> — 가이드 전달용 $680 + 나바호 가이드 직접 전달용 소액권($1~$2 지폐 약 $10) 사전 준비.</li>
+            <li><b>현금 준비</b> — 가이드 정산 $680 + 나바호팁 $8 사전 준비.</li>
             <li><b>수하물 규정</b> — 차량 내 1인당 백팩 1개만 허용. 캐리어는 출발 전 콘래드 벨데스크에 보관.</li>
             <li><b>단체 카톡방</b> — 투어 D-1 점심경 담당 가이드가 단체 카카오톡방을 개설해 세부 픽업 순서를 안내.</li>
             <li><b>새벽 방한 대책</b> — 사우스림·이스트림 일출 관람 시간대는 기온이 크게 떨어지므로 방한 외투 필수.</li>
@@ -1518,16 +1518,15 @@
         <div class="tip-note">
           <div class="tip-note-title">✅ 여행사 확인 완료 사항</div>
           <ol class="cheat-list">
-            <li><b>가이드</b> — 4인 기준 1인가이드 확정 (8명까지 1인, 9~12명은 2인).</li>
+            <li><b>가이드</b> — 4인 기준 1인가이드 확정.</li>
             <li><b>픽업/드롭</b> — 콘래드(리조트월드) 로비 픽업 → 동일 장소 드롭. 정확한 픽업 시간은 투어 전날 가이드 연결 시 안내.</li>
             <li><b>로워 앤텔롭캐년</b> — 예약 확정, 확정 코스에 포함.</li>
             <li><b>조식</b> — 일정 포함(유부초밥/맥도날드), 다만 조식비 1인 $5는 현장 현금 결제.</li>
             <li><b>카시트/부스터</b> — 유아용 카시트 투어 포함 서비스로 공식 확인.</li>
             <li><b>쉼터</b> — 운영하지 않음, 호텔 픽업/드롭만 가능.</li>
-            <li><b>현장결제</b> — 카드 불가, 현금만 가능. 가이드 일괄 정산금 $680(성인 $205×2 + 아동 $135×2) + 나바호 가이드 팁 $8 별도.</li>
+            <li><b>현장결제</b> — 카드 불가, 현금만 가능 (금액은 상단 체크포인트 참고).</li>
           </ol>
           <div style="margin-top:8px;font-size:11px;color:var(--muted);"><b style="color:var(--gold);">다음 액션</b> — ✅ 예약·결제 완료. 투어 전날 픽업시간 최종 안내(카카오톡 yohantour) 확인만 남음</div>
-          <div style="margin-top:6px;font-size:10.5px;color:var(--muted-2);">※ 자이언캐년은 검토 후 이번 코스에서 제외</div>
         </div>
         </div></div>
       </details>
@@ -1562,7 +1561,7 @@
           <div class="sched-block">
             <div class="sched-time">🛣️ 09:50–13:30</div>
             <div class="sched-title">모하비 사막 드라이브</div>
-            <div class="sched-note">조슈아트리로 이동 (약 3.5~4시간)</div>
+            <div class="sched-note">조슈아트리로 이동 (약 3.5h) · 중간 유카밸리(Yucca Valley) 대형마트/휴게소 경유하여 화장실 및 필요 간식 정비</div>
           </div>
 
           <div class="sched-block">
@@ -1576,7 +1575,7 @@
             <div class="sched-time">🎫 입장</div>
             <div class="sched-title">조슈아트리 서쪽 게이트(West Entrance) 입장</div>
             <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Joshua+Tree+National+Park+West+Entrance+CA" target="_blank" rel="noopener noreferrer">📍 Joshua Tree National Park, West Entrance</a>
-            <div class="sched-note">차량당 $30 입장료, 신용카드 결제 (현금 불가 구간 있음)</div>
+            <div class="sched-note">차량당 $30 (신용카드 결제)</div>
           </div>
 
           <div class="sched-block">
