@@ -81,6 +81,11 @@
   }
   .countdown .label{color:var(--muted);font-size:13px;line-height:1.4;}
 
+  /* ===== 탭별 헤더 가변 노출 (일정 탭 외 Hero/Route 숨김) ===== */
+  body.compact-header .hero,
+  body.compact-header .route { display: none; }
+  body.compact-header .wrap { padding-top: 18px; }
+
   /* ===== ROUTE LINE (signature element) ===== */
   .route{margin:30px 0 6px;}
   .route-title{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
@@ -501,27 +506,75 @@
     color: var(--gold);
   }
 
-  /* ===== 플로팅 공략집 버튼 & 바텀시트 ===== */
-  .floating-guide-btn {
+  /* ===== 플로팅 스피드다이얼 (테마파크 가이드 + 계산기 통합) & 바텀시트 =====
+     - 좌/우 분산 배치되던 두 FAB를 우측 하단 단일 스피드다이얼로 통합
+     - 메인 버튼(.fab-main-btn) 탭 시 하단 Nav 위로 서브메뉴가 펼쳐짐 */
+  .fab-main-btn {
     position: fixed;
     right: 18px;
     bottom: 80px;
-    z-index: 850;
+    z-index: 900;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
     background: linear-gradient(135deg, var(--coral), var(--gold));
     color: #1a1625;
     border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 1;
+    transition: transform 0.25s ease;
+  }
+  .fab-main-btn.open { transform: rotate(45deg); }
+  .fab-main-btn .fab-badge-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 2px solid var(--bg);
+    display: none;
+  }
+  .fab-main-btn.has-guide .fab-badge-dot { display: block; }
+
+  .floating-guide-btn,
+  .floating-calc-btn {
+    position: fixed;
+    right: 18px;
+    left: auto;
+    z-index: 899;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--line);
     border-radius: 24px;
     padding: 9px 16px;
     font-size: 12px;
     font-weight: 700;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     cursor: pointer;
-    display: flex;
     align-items: center;
     gap: 6px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px) scale(0.9);
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .floating-guide-btn:hover { transform: scale(1.05); }
+  .floating-calc-btn { display: flex; bottom: 140px; }
+  .floating-guide-btn { display: none; bottom: 202px; }
+  .floating-guide-btn.fab-item-available { display: flex; }
+
+  body.fab-dial-open .floating-calc-btn,
+  body.fab-dial-open .floating-guide-btn.fab-item-available {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
 
   .bottom-sheet-backdrop {
     display: none;
@@ -617,28 +670,6 @@
 
   /* ===== 일자별 선셋(골든아워) 뱃지 ===== */
   .sunset-badge{background:rgba(255,107,74,.15);border:1px solid rgba(255,107,74,.4);color:var(--coral);font-family:'JetBrains Mono',monospace;font-size:10.5px;border-radius:12px;padding:2px 7px;}
-
-  /* ===== 하단 플로팅 팁/세금 계산기 버튼 (FAB) ===== */
-  .floating-calc-btn{
-    position: fixed;
-    left: 18px;
-    bottom: 80px;
-    z-index: 850;
-    background: linear-gradient(135deg, var(--coral), var(--gold));
-    color: #1a1625;
-    border: none;
-    border-radius: 24px;
-    padding: 9px 16px;
-    font-size: 12px;
-    font-weight: 700;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-  .floating-calc-btn:hover{transform:scale(1.05);}
 
   /* ===== 2-in-1 팁 & 쇼핑세금 계산기 모달 ===== */
   .calc-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(10,8,16,.7);backdrop-filter:blur(4px);z-index:1150;}
@@ -874,6 +905,30 @@
 
     // 최초 로드시 비동기(Non-blocking) 조회 — 페이지 첫 렌더링을 막지 않음
     window.refreshTripRate();
+  })();
+</script>
+<script>
+  /* ==========================================================
+     [0-2] 모달 히스토리 내비게이션 헬퍼
+     - 모달 오픈 시 history.pushState()로 가상 히스토리 엔트리 추가
+     - 모바일 뒤로가기 제스처(popstate) 시 페이지 이탈 대신 모달만 닫히도록
+     - UI 닫기 버튼(X/백드롭)도 동일하게 history.back()을 거쳐 상태를 정리
+  ========================================================== */
+  (function initTripModalNav() {
+    window.pushModalNavState = function () {
+      try { history.pushState({ tripModal: true }, ''); } catch (e) {}
+    };
+    // isOpenCheckFn: 이 모달이 현재 열려있는지 반환하는 함수, closeFn: 실제 UI 닫힘 처리 함수
+    window.closeModalWithHistory = function (isOpenCheckFn, closeFn) {
+      if (isOpenCheckFn() && window.history.state && window.history.state.tripModal) {
+        history.back(); // popstate 발생 → 아래 리스너가 실제 closeFn 호출
+      } else {
+        closeFn();
+      }
+    };
+    window.addEventListener('popstate', function () {
+      document.dispatchEvent(new CustomEvent('tripModalPop'));
+    });
   })();
 </script>
 <div class="wrap">
@@ -2611,7 +2666,7 @@
 </nav>
 
 <!-- 테마파크 플로팅 공략 버튼 -->
-<button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" style="display:none;" aria-label="테마파크 공략집 열기">
+<button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" aria-label="테마파크 공략집 열기">
   <span>🏰</span> <span>테마파크 치트시트</span>
 </button>
 
@@ -3604,6 +3659,9 @@
       // 2. 대상 패널 활성화
       targetPanel.classList.add('active');
 
+      // 2b. 일정 탭 외에는 Hero/Route 영역을 숨겨 Thumb Zone 및 화면 가시 영역 확보
+      document.body.classList.toggle('compact-header', targetTabId !== 'tab-schedule');
+
       // 3. 브라우저 URL Hash 업데이트
       if (updateHash) {
         var hash = targetTabId.replace('tab-', '');
@@ -3750,6 +3808,7 @@
       sheet.style.transform = 'translateY(0)';
       document.body.style.overflow = 'hidden';
       triggerHaptic('light');
+      if (window.pushModalNavState) window.pushModalNavState();
     }
 
     function closeSheet() {
@@ -3760,9 +3819,20 @@
       triggerHaptic('light');
     }
 
+    function requestCloseSheet() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return sheet.classList.contains('open'); }, closeSheet);
+      } else {
+        closeSheet();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (sheet.classList.contains('open')) closeSheet();
+    });
+
     floatBtn.addEventListener('click', openSheet);
-    if (closeBtn) closeBtn.addEventListener('click', closeSheet);
-    if (backdrop) backdrop.addEventListener('click', closeSheet);
+    if (closeBtn) closeBtn.addEventListener('click', requestCloseSheet);
+    if (backdrop) backdrop.addEventListener('click', requestCloseSheet);
 
     sheetTabs.forEach(function(tab) {
       tab.addEventListener('click', function() {
@@ -3805,7 +3875,7 @@
       sheet.classList.remove('dragging');
       var deltaY = currentY - startY;
       if (deltaY > 75) {
-        closeSheet();
+        requestCloseSheet();
       } else {
         sheet.style.transform = 'translateY(0)';
       }
@@ -3825,7 +3895,9 @@
       }
       function updateFloatBtnVisibility() {
         var anyOpen = relevantDays.some(function(el) { return el.open; });
-        floatBtn.style.display = (isScheduleTabActive() && anyOpen) ? 'flex' : 'none';
+        var available = isScheduleTabActive() && anyOpen;
+        floatBtn.classList.toggle('fab-item-available', available);
+        document.dispatchEvent(new CustomEvent('fabGuideAvailabilityChange', { detail: { available: available } }));
       }
 
       relevantDays.forEach(function(d) {
@@ -4092,6 +4164,7 @@
       updateTipResult();
       updateTaxResult();
       setTimeout(function() { if (billInput) billInput.focus(); }, 0);
+      if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
       backdrop.classList.remove('open');
@@ -4099,12 +4172,22 @@
       document.body.style.overflow = '';
       triggerHaptic('light');
     }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
 
     document.addEventListener('click', function (e) {
       if (e.target.closest('#floatingCalcBtn')) openModal();
     });
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
   })();
 
   /* ==========================================================
@@ -4281,6 +4364,7 @@
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
       applyFilters();
+      if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
       backdrop.classList.remove('open');
@@ -4288,13 +4372,23 @@
       document.body.style.overflow = '';
       if (window.triggerHaptic) window.triggerHaptic('light');
     }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
 
     document.addEventListener('click', function (e) {
       if (e.target.closest('.tj-trigger-btn')) openModal();
     });
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (footerCloseBtn) footerCloseBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
 
     if (tabRow) {
       tabRow.querySelectorAll('.tj-tab').forEach(function (tab) {
@@ -4430,6 +4524,7 @@
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
       applyFilters();
+      if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
       backdrop.classList.remove('open');
@@ -4437,13 +4532,23 @@
       document.body.style.overflow = '';
       if (window.triggerHaptic) window.triggerHaptic('light');
     }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
 
     document.addEventListener('click', function (e) {
       if (e.target.closest('.costco-trigger-btn')) openModal();
     });
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (footerCloseBtn) footerCloseBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
 
     if (tabRow) {
       tabRow.querySelectorAll('.costco-tab').forEach(function (tab) {
@@ -4461,6 +4566,74 @@
 
     listContainer.addEventListener('change', function (e) {
       if (e.target.matches('[data-costco-check]')) updateCheckedCount();
+    });
+  })();
+
+  /* ==========================================================
+     [4-0i] 플로팅 스피드다이얼 (테마파크 가이드 + 계산기 통합)
+     - 좌/우로 분산되던 두 FAB를 우측 하단 단일 다이얼로 통합해 하단 스크롤 가림 해소
+  ========================================================== */
+  (function initFabSpeedDial() {
+    // fabMainBtn/floatingCalcBtn은 이 스크립트보다 뒤(</body> 직전)에 위치하므로
+    // 파싱 시점 getElementById 대신 이벤트 위임으로 동작 — DOM 순서에 안전
+    var open = false;
+
+    function setOpen(next) {
+      open = next;
+      document.body.classList.toggle('fab-dial-open', open);
+      var mainBtn = document.getElementById('fabMainBtn');
+      if (mainBtn) {
+        mainBtn.classList.toggle('open', open);
+        mainBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      var mainIcon = document.getElementById('fabMainIcon');
+      if (mainIcon) mainIcon.textContent = open ? '✕' : '☰';
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#fabMainBtn')) {
+        setOpen(!open);
+        if (window.triggerHaptic) window.triggerHaptic('light');
+        return;
+      }
+      // 서브메뉴 아이템(계산기/테마파크 가이드) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
+      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn')) {
+        setOpen(false);
+        return;
+      }
+      // 다이얼이 열린 상태에서 바깥 영역 탭 시 닫기
+      if (open) setOpen(false);
+    });
+
+    // 테마파크 가이드 항목이 노출 가능해질 때 메인 버튼에 뱃지 점 표시 (다이얼이 접혀있어도 존재를 알림)
+    document.addEventListener('fabGuideAvailabilityChange', function (e) {
+      var mainBtn = document.getElementById('fabMainBtn');
+      if (mainBtn) mainBtn.classList.toggle('has-guide', !!(e.detail && e.detail.available));
+    });
+  })();
+
+  /* ==========================================================
+     [4-0j] 구글맵 앱 딥링크 최적화 (Android 전용)
+     - google.com/maps/search, /dir 형식은 iOS·데스크톱에서 이미 공식 유니버설 링크로
+       설치된 앱을 자동으로 여는 정식 포맷이라 그대로 두고, Android에서만
+       intent:// 스킴 + S.browser_fallback_url로 앱 우선 오픈을 보강
+  ========================================================== */
+  (function initMapsDeepLink() {
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    if (!isAndroid) return;
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a.nav-badge, a.route-nav-link');
+      if (!link) return;
+      var href = link.getAttribute('href') || '';
+      if (href.indexOf('google.com/maps') === -1) return;
+
+      e.preventDefault();
+      var withoutProtocol = href.replace(/^https?:\/\//, '');
+      var intentUrl = 'intent://' + withoutProtocol +
+        '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' +
+        encodeURIComponent(href) + ';end';
+      window.location.href = intentUrl;
     });
   })();
 
@@ -4628,10 +4801,16 @@
   }
 </script>
 
-<!-- 2-in-1 팁 & 쇼핑세금 계산기 플로팅 버튼 (FAB) -->
+<!-- 2-in-1 팁 & 쇼핑세금 계산기 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
 <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
   <span class="fab-icon">🧮</span>
   <span class="fab-label">팁/세금</span>
+</button>
+
+<!-- 플로팅 스피드다이얼 메인 버튼 -->
+<button type="button" id="fabMainBtn" class="fab-main-btn" aria-label="빠른 메뉴 열기" aria-expanded="false">
+  <span class="fab-badge-dot"></span>
+  <span id="fabMainIcon">☰</span>
 </button>
 </body>
 </html>
