@@ -626,9 +626,129 @@
   .calc-result-row .val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:13.5px;}
   .calc-result-row.total .val{color:var(--gold);font-size:16px;}
   .calc-result-row.krw .val{color:var(--teal);}
+
+  /* ===== 실시간 환율 엔진 뱃지 ===== */
+  .rate-badge-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+  .rate-badge{flex:1;min-width:0;background:rgba(46,196,182,.12);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;border-radius:12px;padding:6px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rate-badge.stale{background:rgba(242,185,75,.14);border-color:rgba(242,185,75,.4);color:var(--amber);}
+  .rate-refresh-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;background:var(--card-2);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer;transition:color .15s,border-color .15s;}
+  .rate-refresh-btn:hover,.rate-refresh-btn:focus-visible{color:var(--teal);border-color:var(--teal);outline:none;}
+  .rate-refresh-btn.spinning{animation:rateSpin .7s linear infinite;}
+  @keyframes rateSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
+<script>
+  /* ==========================================================
+     [0-1] 실시간 환율 엔진 — 네이버(1순위) → 글로벌 API(2순위) → 로컬 캐시(3순위)
+     - DOM 렌더링과 무관하게 즉시 실행되는 순수 데이터 모듈
+     - window.TRIP_RATE / window.TRIP_RATE_META 를 갱신하고 'tripRateUpdated' 이벤트로 전파
+  ========================================================== */
+  (function initTripRateEngine() {
+    var CACHE_KEY = 'us_trip_rate_cache_2026';
+    var FALLBACK_RATE = 1400;
+    var FETCH_TIMEOUT = 3000;
+
+    function readCache() {
+      try {
+        var raw = localStorage.getItem(CACHE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) { return null; }
+    }
+    function writeCache(meta) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(meta)); } catch (e) {}
+    }
+    function nowLabel() {
+      var d = new Date();
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      return pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+
+    // 캐시가 있으면 즉시 반영 (첫 렌더부터 사용 가능하도록 동기 처리)
+    var cached = readCache();
+    window.TRIP_RATE = (cached && cached.rate) || FALLBACK_RATE;
+    window.TRIP_RATE_META = cached || { rate: FALLBACK_RATE, source: 'default', time: '' };
+
+    function fetchWithTimeout(url, ms) {
+      if (!window.AbortController) return fetch(url);
+      var controller = new AbortController();
+      var timer = setTimeout(function () { controller.abort(); }, ms);
+      return fetch(url, { signal: controller.signal }).then(function (res) {
+        clearTimeout(timer);
+        return res;
+      }, function (err) {
+        clearTimeout(timer);
+        throw err;
+      });
+    }
+
+    // 네이버 응답 스키마가 배열/래핑 객체 등 여러 형태일 수 있어 방어적으로 탐색
+    function extractClosePrice(json) {
+      var candidates = [];
+      if (Array.isArray(json)) candidates = json;
+      else if (json && Array.isArray(json.result)) candidates = json.result;
+      else if (json && Array.isArray(json.datas)) candidates = json.datas;
+      else if (json && Array.isArray(json.data)) candidates = json.data;
+      else if (json && json.result && typeof json.result === 'object') candidates = [json.result];
+      else if (json) candidates = [json];
+      for (var i = 0; i < candidates.length; i++) {
+        if (candidates[i] && candidates[i].closePrice != null) return candidates[i].closePrice;
+      }
+      return null;
+    }
+
+    function applyRate(rate, source) {
+      rate = parseFloat(rate);
+      if (!rate || isNaN(rate) || rate <= 0) return false;
+      var meta = { rate: rate, source: source, time: nowLabel() };
+      window.TRIP_RATE = rate;
+      window.TRIP_RATE_META = meta;
+      if (source === 'naver' || source === 'global') writeCache(meta);
+      document.dispatchEvent(new CustomEvent('tripRateUpdated', { detail: meta }));
+      return true;
+    }
+
+    // 1순위: 네이버 금융 실시간 환율 (allorigins 프록시 경유)
+    function fetchNaver() {
+      var url = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://m.stock.naver.com/front-api/v1/marketIndex/prices?itemCode=FX_USDKRW');
+      return fetchWithTimeout(url, FETCH_TIMEOUT)
+        .then(function (res) { return res.json(); })
+        .then(function (json) {
+          var closePriceStr = extractClosePrice(json);
+          if (closePriceStr == null) throw new Error('no closePrice in naver response');
+          var rate = parseFloat(String(closePriceStr).replace(/,/g, ''));
+          if (!applyRate(rate, 'naver')) throw new Error('invalid naver rate');
+        });
+    }
+
+    // 2순위: 글로벌 오픈 환율 API
+    function fetchGlobal() {
+      return fetchWithTimeout('https://open.er-api.com/v6/latest/USD', FETCH_TIMEOUT)
+        .then(function (res) { return res.json(); })
+        .then(function (json) {
+          var rate = json && json.rates && json.rates.KRW;
+          if (!applyRate(rate, 'global')) throw new Error('invalid global rate');
+        });
+    }
+
+    // 3순위: 로컬 캐시, 캐시도 없으면 기본값
+    function fallbackCache() {
+      var cache = readCache();
+      if (cache && cache.rate) {
+        applyRate(cache.rate, 'cache');
+      } else {
+        applyRate(FALLBACK_RATE, 'default');
+      }
+    }
+
+    window.refreshTripRate = function () {
+      return fetchNaver().catch(fetchGlobal).catch(fallbackCache);
+    };
+
+    // 최초 로드시 비동기(Non-blocking) 조회 — 페이지 첫 렌더링을 막지 않음
+    window.refreshTripRate();
+  })();
+</script>
 <div class="wrap">
 
   <div class="hero">
@@ -1785,6 +1905,11 @@
       <span class="count" id="budget-count">23 ITEMS</span>
     </div>
 
+    <div class="rate-badge-row">
+      <span class="rate-badge stale" data-rate-badge-text>🟡 캐시 환율 1 USD = ₩1,400.00 (오프라인)</span>
+      <button type="button" class="rate-refresh-btn" data-rate-refresh aria-label="환율 새로고침">🔄</button>
+    </div>
+
     <!-- 2-Way 지출 퀵 등록 컴포넌트 -->
     <div class="expense-entry-card">
       <div class="entry-mode-tabs">
@@ -1858,7 +1983,7 @@
 
   <script>
   (function() {
-    var USD_RATE = 1400; // 환율 기준
+    var USD_RATE = window.TRIP_RATE || 1400; // 실시간 환율 엔진 값 우선 사용, 미수신 시 기본값
 
     // est = 초기 계획치, act = 실집행치(미결제 시 0), done = 결제완료 여부
     var BUDGET_DATA = [
@@ -2271,6 +2396,12 @@
       manualAmountInputEl.value = '';
       if (window.showToast) window.showToast('가계부에 등록되었습니다 (' + memo + ')');
       if (window.triggerHaptic) window.triggerHaptic('success');
+    });
+
+    // 실시간 환율 엔진에서 새 환율 수신 시 즉시 재계산 반영
+    document.addEventListener('tripRateUpdated', function (e) {
+      USD_RATE = e.detail.rate;
+      renderBudget();
     });
 
     renderBudget();
@@ -2789,6 +2920,11 @@
   <div class="calc-modal-head">
     <h3 id="calcModalTitle">🧮 팁 &amp; 쇼핑세금 계산기</h3>
     <button type="button" id="calcCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+  </div>
+
+  <div class="rate-badge-row">
+    <span class="rate-badge stale" data-rate-badge-text>🟡 캐시 환율 1 USD = ₩1,400.00 (오프라인)</span>
+    <button type="button" class="rate-refresh-btn" data-rate-refresh aria-label="환율 새로고침">🔄</button>
   </div>
 
   <div class="calc-tab-bar">
@@ -3617,7 +3753,12 @@
     var closeBtn = document.getElementById('calcCloseBtn');
     if (!openBtn || !modal || !backdrop) return;
 
-    var EXCHANGE_RATE = 1400;
+    var EXCHANGE_RATE = window.TRIP_RATE || 1400;
+    document.addEventListener('tripRateUpdated', function (e) {
+      EXCHANGE_RATE = e.detail.rate;
+      updateTipResult();
+      updateTaxResult();
+    });
     var tabs = modal.querySelectorAll('.calc-tab');
     var panels = {
       tip: document.getElementById('calcTabTip'),
@@ -3740,6 +3881,52 @@
     openBtn.addEventListener('click', openModal);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+  })();
+
+  /* ==========================================================
+     [4-0f] 실시간 환율 뱃지 UI 바인딩 (계산기 모달 + 가계부 공용)
+  ========================================================== */
+  (function initRateBadgeUI() {
+    var texts = document.querySelectorAll('[data-rate-badge-text]');
+    var refreshBtns = document.querySelectorAll('[data-rate-refresh]');
+    if (!texts.length) return;
+
+    function fmtRate(n) {
+      return n.toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function renderBadgeState(meta) {
+      if (!meta) return;
+      var isLive = meta.source === 'naver' || meta.source === 'global';
+      var label;
+      if (meta.source === 'naver') {
+        label = '🟢 네이버 실시간 1 USD = ₩' + fmtRate(meta.rate);
+      } else if (meta.source === 'global') {
+        label = '🟢 실시간 1 USD = ₩' + fmtRate(meta.rate);
+      } else {
+        label = '🟡 캐시 환율 1 USD = ₩' + fmtRate(meta.rate) + ' (오프라인)';
+      }
+      texts.forEach(function (el) {
+        el.textContent = label;
+        var badge = el.closest('.rate-badge');
+        if (badge) badge.classList.toggle('stale', !isLive);
+      });
+    }
+
+    renderBadgeState(window.TRIP_RATE_META);
+    document.addEventListener('tripRateUpdated', function (e) { renderBadgeState(e.detail); });
+
+    refreshBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        triggerHaptic('light');
+        btn.classList.add('spinning');
+        if (!window.refreshTripRate) { btn.classList.remove('spinning'); return; }
+        window.refreshTripRate().then(function () {
+          btn.classList.remove('spinning');
+        }).catch(function () {
+          btn.classList.remove('spinning');
+        });
+      });
+    });
   })();
 
   /* ==========================================================
