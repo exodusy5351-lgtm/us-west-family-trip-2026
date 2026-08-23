@@ -586,6 +586,46 @@
   .toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:rgba(26,22,37,.96);border:1px solid var(--line);border-radius:10px;padding:10px 18px;font-size:12.5px;color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:1100;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .offline-banner{background:rgba(242,185,75,.18) !important;border-color:var(--amber) !important;color:var(--gold) !important;}
+
+  /* ===== 일자별 선셋(골든아워) 뱃지 ===== */
+  .sunset-badge{background:rgba(255,107,74,.15);border:1px solid rgba(255,107,74,.4);color:var(--coral);font-family:'JetBrains Mono',monospace;font-size:10.5px;border-radius:12px;padding:2px 7px;}
+
+  /* ===== HERO 계산기 진입 버튼 ===== */
+  .hero-calc-btn{margin-top:14px;width:100%;justify-content:center;padding:11px 14px;font-size:12.5px;background:linear-gradient(135deg,rgba(255,107,74,.16),rgba(255,184,77,.1));border-color:rgba(255,184,77,.3);}
+  .hero-calc-btn:hover,.hero-calc-btn:focus-visible{border-color:var(--gold);color:var(--gold);}
+
+  /* ===== 2-in-1 팁 & 쇼핑세금 계산기 모달 ===== */
+  .calc-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(10,8,16,.7);backdrop-filter:blur(4px);z-index:1150;}
+  .calc-modal-backdrop.open{display:block;}
+  .calc-modal{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 36px);max-width:400px;max-height:85vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;z-index:1200;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+  .calc-modal.open{display:block;}
+  .calc-modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .calc-modal-head h3{font-size:16px;}
+  .calc-close-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--card-2);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:14px;cursor:pointer;flex-shrink:0;}
+  .calc-close-btn:hover,.calc-close-btn:focus-visible{color:var(--text);border-color:var(--teal);outline:none;}
+  .calc-tab-bar{display:flex;gap:6px;margin-bottom:16px;background:var(--card-2);border-radius:10px;padding:4px;}
+  .calc-tab{flex:1;padding:9px 6px;border:none;background:none;color:var(--muted);font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;transition:background-color .15s,color .15s;}
+  .calc-tab.active{background:linear-gradient(135deg,var(--coral),var(--gold));color:#1a1625;}
+  .calc-panel{display:none;}
+  .calc-panel.active{display:block;}
+  .calc-field label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;}
+  .calc-input-row{display:flex;align-items:center;gap:8px;background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px;}
+  .calc-input-row .curr-prefix{font-family:'JetBrains Mono',monospace;color:var(--gold);font-weight:700;}
+  .calc-input-row input{flex:1;background:none;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;outline:none;min-width:0;}
+  .calc-opt-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+  .calc-opt-row.stacked{flex-direction:column;}
+  .calc-opt-row.stacked .calc-opt-btn{text-align:left;padding:10px 12px;}
+  .calc-opt-btn{flex:1;min-width:64px;padding:9px 4px;background:var(--card-2);border:1px solid var(--line);border-radius:9px;color:var(--muted);font-size:11.5px;font-weight:700;cursor:pointer;text-align:center;transition:border-color .15s,color .15s,background-color .15s;}
+  .calc-opt-btn.active{border-color:var(--teal);color:var(--teal);background:rgba(46,196,182,.12);}
+  .calc-custom-pct-row{display:none;margin:-8px 0 16px;}
+  .calc-custom-pct-row.show{display:block;}
+  .calc-custom-pct-row input{width:100%;background:var(--card-2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;box-sizing:border-box;}
+  .calc-result-list{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:4px 14px;}
+  .calc-result-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--line);}
+  .calc-result-row:last-child{border-bottom:none;}
+  .calc-result-row .val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text);font-size:13.5px;}
+  .calc-result-row.total .val{color:var(--gold);font-size:16px;}
+  .calc-result-row.krw .val{color:var(--teal);}
 </style>
 </head>
 <body>
@@ -599,6 +639,7 @@
       <div class="num" id="dday">–</div>
       <div class="label">출국까지 남은 일수<br><span id="ddate" style="font-family:'JetBrains Mono',monospace;"></span></div>
     </div>
+    <button type="button" id="openCalcModalBtn" class="quick-btn hero-calc-btn"><span>🧮</span> <span>1초 팁 &amp; 쇼핑세금 계산기</span></button>
   </div>
 
   <div class="route">
@@ -861,7 +902,7 @@
       <details class="day highlight" id="day-2">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span></div>
+            <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span><span class="sunset-badge">🌅 Sunset 18:24</span></div>
             <div class="d-line">09:00 수영 → ~14:00 체크아웃&amp;짐보관 → 14:15 서커스서커스 → 16:00 스피어 → 18:50 칙필레/치폴레 저녁 → 20:00 벨라지오 분수쇼 → 21:45 콘래드 복귀/환복/휴식 → 23:45 투어 픽업</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
@@ -1191,7 +1232,7 @@
       <details class="day" id="day-4">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">유카밸리 장보기 &amp; 조슈아트리 사막 힐링</span></div>
+            <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">유카밸리 장보기 &amp; 조슈아트리 사막 힐링</span><span class="sunset-badge">🌅 Sunset 18:22 (Keys View 골든아워)</span></div>
             <div class="d-line">09:00 콘래드 체크아웃 &amp; Hertz 2차 렌터카 픽업 → 모하비 사막 이동(3.5h) → 조슈아트리 로컬 카페 점심 → 서쪽 게이트($30/차량) → 히든밸리/키즈뷰/스컬락 → 선셋·별 감상 → 조슈아트리 인근 숙소 체크인</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
@@ -1334,7 +1375,7 @@
       <details class="day" id="day-6">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드 1일 완벽 정복 (로프드랍~불꽃놀이)</span></div>
+            <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드 1일 완벽 정복 (로프드랍~불꽃놀이)</span><span class="sunset-badge">🌅 Sunset 18:25</span></div>
             <div class="d-line">07:30 로프드랍 → 스타워즈/어드벤처(라이즈 오브 레지스탕스) → 클래식&amp;패밀리 → 투모로우랜드(스페이스마운틴) → Puesto 저녁 → 20:30 빅썬더&amp;불꽃놀이</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
@@ -1483,7 +1524,7 @@
       <details class="day" id="day-8">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 2일차(상부 오픈런·해리포터·스튜디오투어) &amp; 할리우드 나이트</span></div>
+            <div class="d-head"><span class="d-date">10/8 목</span><span class="d-tag">유니버설 2일차(상부 오픈런·해리포터·스튜디오투어) &amp; 할리우드 나이트</span><span class="sunset-badge">🌅 Sunset 18:23</span></div>
             <div class="d-line">08:30 우버 이동 → 09:00 오픈런(해리포터) → 스튜디오 투어(60분) → 워터월드 쇼 → 16:30 파크 아웃 → 우버 복귀 → 명예의 거리 산책 &amp; 저녁</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
@@ -1547,7 +1588,7 @@
       <details class="day" id="day-9">
         <summary class="d-summary">
           <div class="d-summary-main">
-            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">LA 핵심 종일 투어 (도슨트 &amp; 미니밴 11시간)</span></div>
+            <div class="d-head"><span class="d-date">10/9 금</span><span class="d-tag">LA 핵심 종일 투어 (도슨트 &amp; 미니밴 11시간)</span><span class="sunset-badge">🌅 Sunset 18:21 (그리피스 골든아워)</span></div>
             <div class="d-line">08:30 로어스 픽업 → 산타모니카 피어 → 게티센터(도슨트 1.5h) → 비벌리힐스(차창)&amp;그레이스톤맨션 → 폴스미스 핑크월 → 파머스마켓&amp;더그로브(점심) → 명예의거리·돌비극장 → 할리우드사인 → 그리피스천문대(야경) → 19:30 호텔 드롭</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
@@ -2742,6 +2783,64 @@
 </div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
+<!-- 2-in-1 팁 & 쇼핑세금 계산기 모달 -->
+<div id="tripCalcModalBackdrop" class="calc-modal-backdrop"></div>
+<div id="tripCalcModal" class="calc-modal" role="dialog" aria-modal="true" aria-labelledby="calcModalTitle">
+  <div class="calc-modal-head">
+    <h3 id="calcModalTitle">🧮 팁 &amp; 쇼핑세금 계산기</h3>
+    <button type="button" id="calcCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+  </div>
+
+  <div class="calc-tab-bar">
+    <button type="button" class="calc-tab active" data-tab="tip">🍽️ 식당 팁 계산</button>
+    <button type="button" class="calc-tab" data-tab="tax">🛍️ 쇼핑 세금 계산</button>
+  </div>
+
+  <div class="calc-panel active" id="calcTabTip">
+    <div class="calc-field">
+      <label for="tipBillInput">음식 청구 금액 (USD)</label>
+      <div class="calc-input-row">
+        <span class="curr-prefix">$</span>
+        <input type="number" id="tipBillInput" inputmode="decimal" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="calc-opt-row" id="tipPctRow">
+      <button type="button" class="calc-opt-btn" data-pct="15">15%</button>
+      <button type="button" class="calc-opt-btn active" data-pct="18">18%</button>
+      <button type="button" class="calc-opt-btn" data-pct="20">20%</button>
+      <button type="button" class="calc-opt-btn" data-pct="custom">직접입력</button>
+    </div>
+    <div class="calc-custom-pct-row" id="tipCustomPctRow">
+      <input type="number" id="tipCustomPctInput" inputmode="decimal" placeholder="원하는 팁 비율(%) 입력" min="0" step="1">
+    </div>
+    <div class="calc-result-list">
+      <div class="calc-result-row"><span>팁 금액</span><span class="val" id="tipResultAmount">$0.00</span></div>
+      <div class="calc-result-row total"><span>팁 포함 최종 결제액</span><span class="val" id="tipResultTotal">$0.00</span></div>
+      <div class="calc-result-row krw"><span>원화 환산액 (₩1,400)</span><span class="val" id="tipResultKrw">₩0</span></div>
+    </div>
+  </div>
+
+  <div class="calc-panel" id="calcTabTax">
+    <div class="calc-field">
+      <label for="taxPriceInput">상품 가격표 금액 (USD)</label>
+      <div class="calc-input-row">
+        <span class="curr-prefix">$</span>
+        <input type="number" id="taxPriceInput" inputmode="decimal" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="calc-opt-row stacked" id="taxRegionRow">
+      <button type="button" class="calc-opt-btn active" data-rate="7.75">🌵 데저트힐스/애너하임 7.75%</button>
+      <button type="button" class="calc-opt-btn" data-rate="8.38">🎰 라스베가스 8.38%</button>
+      <button type="button" class="calc-opt-btn" data-rate="9.50">🌴 LA / 할리우드 9.50%</button>
+    </div>
+    <div class="calc-result-list">
+      <div class="calc-result-row"><span>소비세(Tax) 부과액</span><span class="val" id="taxResultAmount">$0.00</span></div>
+      <div class="calc-result-row total"><span>계산대 최종 결제액</span><span class="val" id="taxResultTotal">$0.00</span></div>
+      <div class="calc-result-row krw"><span>원화 환산액 (₩1,400)</span><span class="val" id="taxResultKrw">₩0</span></div>
+    </div>
+  </div>
+</div>
+
 <script>
   (function () {
     var modal = document.getElementById('img-modal');
@@ -3506,6 +3605,141 @@
 
       bodyInner.insertBefore(bar, bodyInner.firstChild);
     });
+  })();
+
+  /* ==========================================================
+     [4-0e] 2-in-1 팁 & 쇼핑세금 계산기 모달
+  ========================================================== */
+  (function initTripCalcModal() {
+    var openBtn = document.getElementById('openCalcModalBtn');
+    var backdrop = document.getElementById('tripCalcModalBackdrop');
+    var modal = document.getElementById('tripCalcModal');
+    var closeBtn = document.getElementById('calcCloseBtn');
+    if (!openBtn || !modal || !backdrop) return;
+
+    var EXCHANGE_RATE = 1400;
+    var tabs = modal.querySelectorAll('.calc-tab');
+    var panels = {
+      tip: document.getElementById('calcTabTip'),
+      tax: document.getElementById('calcTabTax')
+    };
+
+    var billInput = document.getElementById('tipBillInput');
+    var tipPctRow = document.getElementById('tipPctRow');
+    var tipCustomPctRow = document.getElementById('tipCustomPctRow');
+    var tipCustomPctInput = document.getElementById('tipCustomPctInput');
+    var tipResultAmount = document.getElementById('tipResultAmount');
+    var tipResultTotal = document.getElementById('tipResultTotal');
+    var tipResultKrw = document.getElementById('tipResultKrw');
+    var currentTipPct = 18;
+
+    var priceInput = document.getElementById('taxPriceInput');
+    var taxRegionRow = document.getElementById('taxRegionRow');
+    var taxResultAmount = document.getElementById('taxResultAmount');
+    var taxResultTotal = document.getElementById('taxResultTotal');
+    var taxResultKrw = document.getElementById('taxResultKrw');
+    var currentTaxRate = 7.75;
+
+    function fmtUsd(n) { return '$' + n.toFixed(2); }
+    function fmtKrw(n) { return '₩' + Math.round(n).toLocaleString('ko-KR'); }
+
+    function updateTipResult() {
+      var bill = parseFloat(billInput.value) || 0;
+      var tipAmt = bill * currentTipPct / 100;
+      var total = bill + tipAmt;
+      tipResultAmount.textContent = fmtUsd(tipAmt);
+      tipResultTotal.textContent = fmtUsd(total);
+      tipResultKrw.textContent = fmtKrw(total * EXCHANGE_RATE);
+    }
+
+    function updateTaxResult() {
+      var price = parseFloat(priceInput.value) || 0;
+      var taxAmt = price * currentTaxRate / 100;
+      var total = price + taxAmt;
+      taxResultAmount.textContent = fmtUsd(taxAmt);
+      taxResultTotal.textContent = fmtUsd(total);
+      taxResultKrw.textContent = fmtKrw(total * EXCHANGE_RATE);
+    }
+
+    // 탭 전환
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var key = tab.getAttribute('data-tab');
+        tabs.forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        Object.keys(panels).forEach(function(k) {
+          if (panels[k]) panels[k].classList.toggle('active', k === key);
+        });
+        triggerHaptic('light');
+        setTimeout(function() {
+          if (key === 'tip' && billInput) billInput.focus();
+          if (key === 'tax' && priceInput) priceInput.focus();
+        }, 0);
+      });
+    });
+
+    // 팁 % 버튼
+    if (tipPctRow) {
+      tipPctRow.querySelectorAll('.calc-opt-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          tipPctRow.querySelectorAll('.calc-opt-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          triggerHaptic('light');
+          var pct = btn.getAttribute('data-pct');
+          if (pct === 'custom') {
+            tipCustomPctRow.classList.add('show');
+            currentTipPct = parseFloat(tipCustomPctInput.value) || 0;
+            tipCustomPctInput.focus();
+          } else {
+            tipCustomPctRow.classList.remove('show');
+            currentTipPct = parseFloat(pct);
+          }
+          updateTipResult();
+        });
+      });
+    }
+    if (tipCustomPctInput) {
+      tipCustomPctInput.addEventListener('input', function() {
+        currentTipPct = parseFloat(tipCustomPctInput.value) || 0;
+        updateTipResult();
+      });
+    }
+    if (billInput) billInput.addEventListener('input', updateTipResult);
+
+    // 쇼핑 세금 지역 버튼
+    if (taxRegionRow) {
+      taxRegionRow.querySelectorAll('.calc-opt-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          taxRegionRow.querySelectorAll('.calc-opt-btn').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          triggerHaptic('light');
+          currentTaxRate = parseFloat(btn.getAttribute('data-rate'));
+          updateTaxResult();
+        });
+      });
+    }
+    if (priceInput) priceInput.addEventListener('input', updateTaxResult);
+
+    // 모달 열기/닫기
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      triggerHaptic('light');
+      updateTipResult();
+      updateTaxResult();
+      setTimeout(function() { if (billInput) billInput.focus(); }, 0);
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      triggerHaptic('light');
+    }
+
+    openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
   })();
 
   /* ==========================================================
