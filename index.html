@@ -674,6 +674,45 @@
   .rate-refresh-btn:hover,.rate-refresh-btn:focus-visible{color:var(--teal);border-color:var(--teal);outline:none;}
   .rate-refresh-btn.spinning{animation:rateSpin .7s linear infinite;}
   @keyframes rateSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+  /* ===== 트레이더 조(Trader Joe's) 쇼핑 리스트 모달 ===== */
+  .tj-open-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 14px;border-radius:20px;background:linear-gradient(135deg,var(--coral),var(--gold));border:none;color:#1a1625;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s ease;}
+  .tj-open-btn:hover,.tj-open-btn:focus-visible{transform:scale(1.03);outline:none;}
+
+  .tj-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(10,8,16,.7);backdrop-filter:blur(4px);z-index:1150;}
+  .tj-modal-backdrop.open{display:block;}
+  .tj-modal{display:none;flex-direction:column;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:720px;max-height:88vh;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);z-index:1200;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;}
+  .tj-modal.open{display:flex;}
+  .tj-modal-head{padding:16px 18px;border-bottom:1px solid var(--line);background:rgba(255,107,74,.06);flex-shrink:0;}
+  .tj-modal-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
+  .tj-modal-title-row h3{font-size:15px;line-height:1.3;}
+  .tj-modal-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+  .tj-filter-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;}
+  .tj-tab-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+  .tj-tab-row::-webkit-scrollbar{display:none;}
+  .tj-tab{flex-shrink:0;padding:6px 12px;border-radius:14px;background:var(--card-2);border:1px solid var(--line);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;cursor:pointer;white-space:nowrap;transition:background-color .15s,color .15s,border-color .15s;}
+  .tj-tab.active{background:linear-gradient(135deg,var(--coral),var(--gold));color:#1a1625;font-weight:700;border-color:transparent;}
+  .tj-search-input{font-size:12px;padding:7px 12px;border-radius:14px;background:var(--card-2);border:1px solid var(--line);color:var(--text);width:150px;flex-shrink:0;outline:none;}
+  .tj-search-input:focus{border-color:var(--teal);}
+  .tj-search-input::placeholder{color:var(--muted-2);}
+
+  .tj-list-container{flex:1;overflow-y:auto;padding:6px 14px;}
+  .tj-empty{text-align:center;padding:40px 0;font-size:12px;color:var(--muted-2);}
+  .tj-item-row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);}
+  .tj-item-row:last-child{border-bottom:none;}
+  .tj-item-checkbox{width:16px;height:16px;flex-shrink:0;accent-color:var(--teal);cursor:pointer;}
+  .tj-item-img{width:44px;height:44px;border-radius:9px;object-fit:cover;background:var(--card-2);border:1px solid var(--line);flex-shrink:0;}
+  .tj-item-body{flex:1;min-width:0;}
+  .tj-item-top{display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
+  .tj-item-tag{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:8px;font-family:'JetBrains Mono',monospace;}
+  .tj-tag-room{background:rgba(255,184,77,.16);color:var(--gold);}
+  .tj-tag-cold{background:rgba(46,196,182,.16);color:var(--teal);}
+  .tj-item-name{font-size:12.5px;font-weight:700;color:var(--text);}
+  .tj-item-star{font-size:11px;color:var(--gold);}
+  .tj-item-note{font-size:11px;color:var(--muted);margin:3px 0 0;line-height:1.4;}
+  .tj-item-price{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap;}
+
+  .tj-modal-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--line);background:var(--card-2);flex-shrink:0;font-size:11.5px;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -1502,6 +1541,7 @@
             <div class="sched-title">[트렁크 활용 쇼핑] Trader Joe's (Orange점 · 2114 N Tustin St)</div>
             <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Trader+Joe%27s+2114+N+Tustin+St+Orange+CA" target="_blank" rel="noopener noreferrer">📍 Trader Joe's, Orange CA</a>
             <div class="sched-note">고속도로 출구 인근 위치. 렌터카가 있는 상태에서 귀국 선물(에코백, 시즈닝, 과자) 및 디즈니랜드 간식/음료를 대량 구매 후 차량 트렁크에 여유롭게 적재</div>
+            <button type="button" id="tjOpenBtn" class="tj-open-btn">🛒 트레이더조 추천 꿀템 전체보기</button>
           </div>
 
           <div class="sched-block">
@@ -2952,6 +2992,38 @@
 </div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
+<!-- 트레이더 조(Trader Joe's) 쇼핑 리스트 모달 -->
+<div id="tjModalBackdrop" class="tj-modal-backdrop"></div>
+<div id="tjModal" class="tj-modal" role="dialog" aria-modal="true" aria-labelledby="tjModalTitle">
+  <div class="tj-modal-head">
+    <div class="tj-modal-title-row">
+      <div>
+        <h3 id="tjModalTitle">🛒 트레이더조(Trader Joe's) 쇼핑 리스트 마스터 DB</h3>
+        <div class="tj-modal-sub">상온 귀국 선물템부터 현지 단백질/간편식 쟁여템까지 총망라</div>
+      </div>
+      <button type="button" id="tjCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+    </div>
+    <div class="tj-filter-bar">
+      <div class="tj-tab-row" id="tjTabRow">
+        <button type="button" class="tj-tab active" data-tj-filter="all">전체보기</button>
+        <button type="button" class="tj-tab" data-tj-filter="귀국선물">🎁 귀국선물(상온)</button>
+        <button type="button" class="tj-tab" data-tj-filter="시즈닝소스">🧂 시즈닝/오일</button>
+        <button type="button" class="tj-tab" data-tj-filter="스낵디저트">🍫 스낵/초코</button>
+        <button type="button" class="tj-tab" data-tj-filter="굿즈뷰티">🛍️ 굿즈/뷰티</button>
+        <button type="button" class="tj-tab" data-tj-filter="현지단백질">🥩 현지 체류/단백질</button>
+      </div>
+      <input type="text" id="tjSearchInput" class="tj-search-input" placeholder="아이템명 검색...">
+    </div>
+  </div>
+
+  <div class="tj-list-container" id="tjListContainer"></div>
+
+  <div class="tj-modal-footer">
+    <span id="tjCheckedCount">0개 선택됨</span>
+    <button type="button" id="tjFooterCloseBtn" class="section-action-btn">닫기</button>
+  </div>
+</div>
+
 <!-- 2-in-1 팁 & 쇼핑세금 계산기 모달 -->
 <div id="tripCalcModalBackdrop" class="calc-modal-backdrop"></div>
 <div id="tripCalcModal" class="calc-modal" role="dialog" aria-modal="true" aria-labelledby="calcModalTitle">
@@ -3974,6 +4046,159 @@
           btn.classList.remove('spinning');
         }
       });
+    });
+  })();
+
+  /* ==========================================================
+     [4-0g] 트레이더 조(Trader Joe's) 쇼핑 리스트 모달
+  ========================================================== */
+  (function initTjModal() {
+    var backdrop = document.getElementById('tjModalBackdrop');
+    var modal = document.getElementById('tjModal');
+    var closeBtn = document.getElementById('tjCloseBtn');
+    var footerCloseBtn = document.getElementById('tjFooterCloseBtn');
+    var listContainer = document.getElementById('tjListContainer');
+    var searchInput = document.getElementById('tjSearchInput');
+    var tabRow = document.getElementById('tjTabRow');
+    var checkedCountEl = document.getElementById('tjCheckedCount');
+    if (!modal || !backdrop || !listContainer) return;
+
+    var TJ_FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%232c243f'/%3E%3Ctext x='24' y='28' font-size='14' fill='%23a99bc2' text-anchor='middle' font-family='sans-serif'%3ETJ%3C/text%3E%3C/svg%3E";
+
+    var tjMasterData = [
+      // 1. 굿즈 & 뷰티
+      { id: 1, cat: "굿즈뷰티", tag: "귀국선물", name: "캔버스 토트백 (Canvas Tote Bag)", price: "$4.99 / $2.99", star: "★★★", img: "https://images.stockx.com/images/Trader-Joes-Mini-Canvas-Tote-Bag-Set-of-4.jpg?fit=fill&bg=FFFFFF&w=480&h=320&q=60&dpr=1&trim=color&updated_at=1727157658", note: "시그니처 굿즈. 신상 그린 컬러 및 미니 사이즈 선물용 1위." },
+      { id: 2, cat: "굿즈뷰티", tag: "귀국선물", name: "미국 주(State)별 리유저블 쇼핑백", price: "$0.99", star: "★★★", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=100&auto=format&fit=crop&q=60", note: "폴리프로필렌 방수 가방. 지역 한정 일러스트로 가성비 단체 선물 최강." },
+      { id: 3, cat: "굿즈뷰티", tag: "귀국선물", name: "미니 / 대형 보냉백 (Insulated Bag)", price: "$3.99 / $8.99", star: "★★★", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=100&auto=format&fit=crop&q=60", note: "파스텔톤 감성 컬러와 뛰어난 보냉력. 현지 품절 대란템." },
+      { id: 4, cat: "굿즈뷰티", tag: "귀국선물", name: "100% 퓨어 호호바 오일 (Jojoba Oil)", price: "$7.99", star: "★★★", img: "https://images.unsplash.com/photo-1608248597359-bb48227b6059?w=100&auto=format&fit=crop&q=60", note: "피지와 유사한 성분으로 흡수가 빠른 페이스/바디 멀티 보습 오일." },
+      { id: 5, cat: "굿즈뷰티", tag: "귀국선물", name: "바닐라 립 마스크 (Vanilla Lip Mask)", price: "$5.99", star: "★★", img: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=100&auto=format&fit=crop&q=60", note: "쫀쫀한 제형의 밤샘 고보습 립밤. 바닐라 향 선호자 추천." },
+      { id: 6, cat: "굿즈뷰티", tag: "귀국선물", name: "펌프형 시어버터 무향 핸드크림", price: "약 $4.99", star: "★★", img: "https://images.unsplash.com/photo-1617897903246-719242758050?w=100&auto=format&fit=crop&q=60", note: "스쿠알란 함유로 끈적임 없이 촉촉하며 펌핑형이라 편리." },
+      { id: 7, cat: "굿즈뷰티", tag: "귀국선물", name: "유기농 과일 & 채소 세정 스프레이", price: "약 $4.49", star: "★★", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=100&auto=format&fit=crop&q=60", note: "식초·자몽씨 추출물 등 천연 성분으로 잔류 농약과 왁스 세정." },
+      { id: 8, cat: "굿즈뷰티", tag: "귀국선물", name: "스탠드업 그로서리 백", price: "$3.99", star: "★", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=100&auto=format&fit=crop&q=60", note: "바닥 보강판이 있어 각이 유지되는 대용량 장바구니." },
+
+      // 2. 시즈닝 & 오일 & 소스
+      { id: 9, cat: "시즈닝소스", tag: "귀국선물", name: "그리스산 단일품종 EV 올리브 오일", price: "약 $9.00", star: "★★★", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=100&auto=format&fit=crop&q=60", note: "단일 품종 엑스트라 버진. 샐러드·빵 마무리 오일 가성비 종결템." },
+      { id: 10, cat: "시즈닝소스", tag: "귀국선물", name: "알리오 올리오 시즈닝 블렌드", price: "$2.49", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m20906/77636.png/jcr:content/renditions/cq5dam.web.1280.1280", note: "마늘·파슬리·페퍼론치노 배합. 삶은 면과 오일에 뿌려 즉석 완성." },
+      { id: 11, cat: "시즈닝소스", tag: "귀국선물", name: "에브리띵 벗 더 엘로테 시즈닝", price: "$1.99", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m20906/66804.png/jcr:content/renditions/cq5dam.web.1280.1280", note: "멕시칸 치즈·칠리·라임 시즈닝. 계란, 샐러드, 나초 만능 토핑." },
+      { id: 12, cat: "시즈닝소스", tag: "귀국선물", name: "칠리 갈릭 크런치 오일 / 스프링클", price: "$2.49 ~ $4.49", star: "★★", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=100&auto=format&fit=crop&q=60", note: "바삭한 마늘·양파·칠리 플레이크가 들어간 매콤 감칠맛 토핑." },
+      { id: 13, cat: "시즈닝소스", tag: "귀국선물", name: "크런치 아몬드 버터 (무염)", price: "$6.49", star: "★★", img: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=100&auto=format&fit=crop&q=60", note: "100% 볶은 아몬드만 갈아 만든 고소하고 꾸덕한 건강 스프레드." },
+      { id: 14, cat: "시즈닝소스", tag: "귀국선물", name: "바닐라 빈 페이스트 / 버번 익스트랙", price: "$4.99 ~ $8.99", star: "★★", img: "https://images.unsplash.com/photo-1607672632458-9fe5667886a1?w=100&auto=format&fit=crop&q=60", note: "바닐라빈 알갱이가 살아있어 라테나 베이킹 풍미 극대화." },
+      { id: 15, cat: "시즈닝소스", tag: "귀국선물", name: "핫 앤 스위트 할라피뇨스 피클", price: "$2.49", star: "★★", img: "https://images.unsplash.com/photo-1592417817098-8f3d6910985b?w=100&auto=format&fit=crop&q=60", note: "매콤달콤 절임 할라피뇨. 피자, 타코, 샌드위치용 추천." },
+      { id: 16, cat: "시즈닝소스", tag: "귀국선물", name: "100% 진저 파우더 스틱 (7포입)", price: "약 $2.99", star: "★★", img: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=100&auto=format&fit=crop&q=60", note: "개별 포장된 순수 생강가루. 생강차 및 요리 잡내 제거용." },
+      { id: 17, cat: "시즈닝소스", tag: "귀국선물", name: "북아프리카 하리사 칠리 페이스트", price: "약 $2.99", star: "★", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=100&auto=format&fit=crop&q=60", note: "칼칼하고 톡 쏘는 매운맛. 국물 요리나 파스타 소스용." },
+      { id: 18, cat: "시즈닝소스", tag: "귀국선물", name: "에그플랜트 갈릭 스프레드", price: "약 $2.99", star: "★", img: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=100&auto=format&fit=crop&q=60", note: "구운 가지, 토마토, 마늘 베이스로 바게트/크래커 토핑용." },
+
+      // 3. 스낵 & 디저트 & 통조림
+      { id: 19, cat: "스낵디저트", tag: "귀국선물", name: "다크 초콜릿 바크 (퀴노아 & 라즈베리)", price: "$5.49", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m21002/78299.png", note: "퀴노아 퍼프와 동결건조 라즈베리가 들어간 바삭한 고급 초콜릿." },
+      { id: 20, cat: "스낵디저트", tag: "귀국선물", name: "모카라테 초코 프레첼", price: "$2.99", star: "★★", img: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=100&auto=format&fit=crop&q=60", note: "모카라테 초코 코팅 단짠 과자. 지퍼백 밀봉 포장." },
+      { id: 21, cat: "스낵디저트", tag: "귀국선물", name: "유기농 초콜릿칩 그래놀라 바 (8개입)", price: "약 $3.99", star: "★★", img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=100&auto=format&fit=crop&q=60", note: "USDA 95% 유기농 인증. 낱개 포장으로 직장/단체 선물용 최적." },
+      { id: 22, cat: "스낵디저트", tag: "귀국선물", name: "브루키 캐러멜 캔디 클러스터", price: "$3.99", star: "★★", img: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=100&auto=format&fit=crop&q=60", note: "브라우니+쿠키+캐러멜+다크초코+씨솔트 단짠 스낵." },
+      { id: 23, cat: "스낵디저트", tag: "귀국선물", name: "트레일 믹스 크래커", price: "$3.49", star: "★★", img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=100&auto=format&fit=crop&q=60", note: "호박씨·해바라기씨·건과일이 박힌 고소하고 바삭한 크래커." },
+      { id: 24, cat: "스낵디저트", tag: "귀국선물", name: "올리브 오일 훈제 홍합 캔", price: "약 $2.29", star: "★", img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?w=100&auto=format&fit=crop&q=60", note: "올리브 오일에 담긴 훈제 홍합. 와인 안주 카나페용." },
+      { id: 25, cat: "스낵디저트", tag: "귀국선물", name: "올리브 오일 정어리 캔", price: "약 $1.99", star: "★", img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?w=100&auto=format&fit=crop&q=60", note: "뼈째 부드럽게 씹히는 훈연 정어리. 비린맛 없이 고소함." },
+
+      // 4. 현지 체류/단백질 쟁여템 (냉장/냉동)
+      { id: 26, cat: "현지단백질", tag: "현지단백질", name: "미소 마리네이드 은대구 (Black Cod)", price: "$9.99 (10oz)", star: "★★★", img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=100&auto=format&fit=crop&q=60", note: "미소 양념 완료. 굽기만 하면 버터처럼 녹아내리는 레스토랑급 1위." },
+      { id: 27, cat: "현지단백질", tag: "현지단백질", name: "샤와르마 치킨 싸이 (Chicken Thighs)", price: "약 $6.99", star: "★★★", img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=100&auto=format&fit=crop&q=60", note: "중동 향신료 닭다리살. 피타 브레드나 또띠아 랩 샌드위치용." },
+      { id: 28, cat: "현지단백질", tag: "현지단백질", name: "자연산 아르헨티나 생새우 (1 lb)", price: "약 $9.99", star: "★★★", img: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=100&auto=format&fit=crop&q=60", note: "살이 크고 탱탱해 랍스터 같은 식감과 단맛을 내는 냉동 생새우." },
+      { id: 29, cat: "현지단백질", tag: "현지단백질", name: "자연산 파타고니아 관자 (16oz)", price: "$9.99", star: "★★★", img: "https://images.unsplash.com/photo-1534482421-64566f976cfa?w=100&auto=format&fit=crop&q=60", note: "가성비 뛰어난 냉동 관자. 버터구이나 파스타/리조또용." },
+      { id: 30, cat: "현지단백질", tag: "현지단백질", name: "알래스카 삭아이 홍연어 필레", price: "약 $11.99", star: "★★", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=100&auto=format&fit=crop&q=60", note: "살의 밀도가 높고 쫄깃한 고단백 자연산 연어." },
+      { id: 31, cat: "현지단백질", tag: "현지단백질", name: "갈릭 브레디드 치즈", price: "$4.29", star: "★★", img: "https://images.unsplash.com/photo-1552767059-ce182ead6c1b?w=100&auto=format&fit=crop&q=60", note: "30초 데워 꿀이나 토마토 소스에 찍어 먹는 구운 마늘 치즈." },
+      { id: 32, cat: "현지단백질", tag: "현지단백질", name: "맥앤치즈 바이트 (Mac & Cheese Bites)", price: "약 $3.99", star: "★★", img: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=100&auto=format&fit=crop&q=60", note: "풍부한 치즈 레이어에 바삭한 판코 튀김옷을 입힌 에피타이저." },
+      { id: 33, cat: "현지단백질", tag: "현지단백질", name: "발라디 포켓 브레드 (5개입)", price: "$2.49", star: "★★", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=100&auto=format&fit=crop&q=60", note: "데운 뒤 안에 치킨이나 고기/채소를 넣어 먹는 대형 피타 브레드." },
+      { id: 34, cat: "현지단백질", tag: "현지단백질", name: "포르투갈식 커스터드 에그타르트", price: "약 $3.99", star: "★★", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=100&auto=format&fit=crop&q=60", note: "바삭한 페이스트리 속 달콤한 커스터드 크림이 가득한 디저트." }
+    ];
+
+    var activeFilter = 'all';
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function renderItems(data) {
+      if (!data.length) {
+        listContainer.innerHTML = '<div class="tj-empty">일치하는 아이템이 없습니다.</div>';
+        return;
+      }
+      listContainer.innerHTML = data.map(function (item) {
+        var isRoomTemp = item.tag === '귀국선물';
+        return (
+          '<div class="tj-item-row">' +
+            '<input type="checkbox" class="tj-item-checkbox" data-tj-check>' +
+            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="tj-item-img" loading="lazy" onerror="this.onerror=null;this.src=\'' + TJ_FALLBACK_IMG + '\';">' +
+            '<div class="tj-item-body">' +
+              '<div class="tj-item-top">' +
+                '<span class="tj-item-tag ' + (isRoomTemp ? 'tj-tag-room' : 'tj-tag-cold') + '">' + (isRoomTemp ? '상온' : '냉장/냉동') + '</span>' +
+                '<span class="tj-item-name">' + escapeHtml(item.name) + '</span>' +
+                '<span class="tj-item-star">' + item.star + '</span>' +
+              '</div>' +
+              '<p class="tj-item-note">' + escapeHtml(item.note) + '</p>' +
+            '</div>' +
+            '<div class="tj-item-price">' + escapeHtml(item.price) + '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    function applyFilters() {
+      var query = (searchInput.value || '').toLowerCase();
+      var result = tjMasterData;
+      if (activeFilter === '귀국선물') result = result.filter(function (i) { return i.tag === '귀국선물'; });
+      else if (activeFilter === '현지단백질') result = result.filter(function (i) { return i.tag === '현지단백질'; });
+      else if (activeFilter !== 'all') result = result.filter(function (i) { return i.cat === activeFilter; });
+      if (query) {
+        result = result.filter(function (i) {
+          return i.name.toLowerCase().indexOf(query) !== -1 || i.note.toLowerCase().indexOf(query) !== -1;
+        });
+      }
+      renderItems(result);
+      updateCheckedCount();
+    }
+
+    function updateCheckedCount() {
+      var count = listContainer.querySelectorAll('[data-tj-check]:checked').length;
+      checkedCountEl.textContent = count + '개 선택됨';
+    }
+
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      applyFilters();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#tjOpenBtn')) openModal();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (footerCloseBtn) footerCloseBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    if (tabRow) {
+      tabRow.querySelectorAll('.tj-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabRow.querySelectorAll('.tj-tab').forEach(function (t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+          activeFilter = tab.getAttribute('data-tj-filter');
+          if (window.triggerHaptic) window.triggerHaptic('light');
+          applyFilters();
+        });
+      });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+    listContainer.addEventListener('change', function (e) {
+      if (e.target.matches('[data-tj-check]')) updateCheckedCount();
     });
   })();
 
