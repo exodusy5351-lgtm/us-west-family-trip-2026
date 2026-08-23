@@ -249,13 +249,13 @@
   .sched-title-link{font-size:13px;font-weight:700;color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;display:inline-block;}
   .sched-title-link:hover,.sched-title-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
   .sched-note{font-size:12px;line-height:1.5;color:#ded5ee;margin-top:4px;}
-  .inline-btn-badge{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:12px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);cursor:pointer;vertical-align:middle;margin-left:6px;}
+  .inline-btn-badge{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:12px;background:rgba(255,184,77,.15);color:var(--gold);border:1px solid rgba(255,184,77,.35);cursor:pointer;vertical-align:middle;margin-left:4px;}
   .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
   .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
 
   /* ===== NAV BADGE (English destination, one-click maps) ===== */
-  .nav-badge{display:inline-flex;align-items:center;gap:4px;margin-top:7px;padding:6px 11px;min-height:32px;border-radius:20px;background:rgba(46,196,182,.12);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.01em;text-decoration:none;transition:background-color .15s,border-color .15s;}
-  .nav-badge:hover,.nav-badge:focus-visible{background:rgba(46,196,182,.24);border-color:var(--teal);outline:none;}
+  .nav-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:12px;background:rgba(46,196,182,.14);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-decoration:none;vertical-align:middle;margin-left:6px;white-space:nowrap;transition:background-color .15s,border-color .15s;}
+  .nav-badge:hover,.nav-badge:focus-visible{background:rgba(46,196,182,.28);border-color:var(--teal);outline:none;}
   .nav-badge::after{content:"↗";color:var(--muted-2);margin-left:2px;}
   .nav-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
   .nav-card + .nav-card{margin-top:6px;}
@@ -1138,39 +1138,39 @@
 
           <div class="sched-block">
             <div class="sched-time">✈️ 08:20–11:30</div>
-            <div class="sched-title">[LAX 입국 &amp; 렌터카]</div>
+            <div class="sched-title">LAX 공항 입국 &amp; Hertz 1차 렌터카 픽업 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Rent+A+Car+Los+Angeles+International+Airport+CA" target="_blank" rel="noopener noreferrer">📍 Hertz LAX</a></div>
             <div class="sched-note">🚏 셔틀: 터미널 밖 'Rental Car Shuttles(보라색 표지판)' 탑승 | 🚗 렌트: Hertz LAX ($40.55) | 🛣️ 이동: I-15 N 진입</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🍔 13:30–14:30</div>
-            <div class="sched-title">[중간 휴게 &amp; 점심] 바스토우 In-N-Out</div>
+            <div class="sched-title">[중간 휴게 &amp; 점심] 바스토우 In-N-Out <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=In-N-Out+Burger+Barstow+CA" target="_blank" rel="noopener noreferrer">📍 In-N-Out Barstow</a></div>
             <div class="sched-note">🍔 식사: 더블더블 &amp; 애니멀 프라이 | 🚻 정비: 화장실 이용</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎨 16:30–17:00</div>
-            <div class="sched-title">[사막 포토존] 세븐 매직 마운틴스</div>
+            <div class="sched-title">[사막 포토존] 세븐 매직 마운틴스 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Seven+Magic+Mountains+NV" target="_blank" rel="noopener noreferrer">📍 Seven Magic Mountains</a></div>
             <div class="sched-note">📸 관람: 형광 거석 7개 기념촬영 (체류 20분)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🛒 17:30–18:35</div>
             <div class="sched-title">[주유 &amp; 장보기] 코스트코 헨더슨 + 트레이더 조</div>
-            <div class="sched-note">⛽ 코스트코: 풀주유(한국 회원권) + 생수 1~2박스 <button type="button" id="costcoOpenBtn" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
-            <div class="sched-note">🛒 트조: 상온 과일/간식 소량 구매 <button type="button" id="tjOpenBtn2" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
+            <div class="sched-note">⛽ 코스트코: 풀주유(한국 회원권 지참) + 생수 벌크 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Costco+Wholesale+St+Rose+Pkwy+Henderson+NV" target="_blank" rel="noopener noreferrer">📍 Costco Henderson</a> <button type="button" id="costcoOpenBtn" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
+            <div class="sched-note">🛒 트조: 상온 과일/간식 소량 구매 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Trader+Joe%27s+E+Serene+Ave+Henderson+NV" target="_blank" rel="noopener noreferrer">📍 Trader Joe's Serene</a> <button type="button" id="tjOpenBtn2" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏨 19:00–19:45</div>
-            <div class="sched-title">[체크인 &amp; 렌터카 반납] 콘래드 &amp; Hertz</div>
-            <div class="sched-note">🏨 체크인: 콘래드 짐 입실 | 🚗 반납: 리조트월드 Hertz 키드롭(무인, $40.55)</div>
+            <div class="sched-title">콘래드 체크인 &amp; Hertz 1차 렌터카 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Car+Rental+Las+Vegas+Resorts+World" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
+            <div class="sched-note">🏨 체크인: 콘래드 짐 입실 | 🚗 반납: 리조트월드 Hertz 키드롭(무인 반납, $40.55)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🌮 20:00–21:00</div>
-            <div class="sched-title">[저녁] Tacos El Gordo</div>
-            <div class="sched-note">🌮 메뉴: 아도바다(스파이시 포크) &amp; 카르네 아사다 (고기별 줄 확인)</div>
+            <div class="sched-title">[저녁 식사] Tacos El Gordo <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Tacos+El+Gordo+3041+S+Las+Vegas+Blvd" target="_blank" rel="noopener noreferrer">📍 Tacos El Gordo</a></div>
+            <div class="sched-note">🌮 메뉴: 아도바다(스파이시 포크) &amp; 카르네 아사다 (호텔 맞은편 도보 7분, 고기별 줄 확인)</div>
           </div>
 
         </div>
@@ -1201,50 +1201,50 @@
 
           <div class="sched-block">
             <div class="sched-time">🏊 09:00–11:30</div>
-            <div class="sched-title">[수영 &amp; 중식] 콘래드 풀</div>
-            <div class="sched-note">🏊 풀장 휴식 | 🍽️ 중식: F&amp;B 크레딧 $50 룸차지 (Junior's 또는 Sun's Out)</div>
+            <div class="sched-title">콘래드 풀장 수영 &amp; 중식 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Junior%27s+Restaurant+Resorts+World+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Junior's 델리</a></div>
+            <div class="sched-note">🏊 풀장 휴식 | 🍽️ 중식: F&amp;B 크레딧 $50 룸차지 (Junior's 또는 Sun's Out Buns Out)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🛎️ ~14:00</div>
-            <div class="sched-title">[체크아웃 &amp; 짐보관]</div>
-            <div class="sched-note">🛎️ 14:00 레이트체크아웃 | 🧳 보관: 투어용 백팩 전량 콘래드 보관 (스피어 10×10×2인치 규정)</div>
+            <div class="sched-title">콘래드 레이트 체크아웃 &amp; 투어 짐 보관</div>
+            <div class="sched-note">🧳 짐보관: 스피어 가방 규정(10×10×2인치)으로 투어용 백팩 전량 벨데스크 보관</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎪 14:15–15:15</div>
-            <div class="sched-title">[서커스서커스]</div>
-            <div class="sched-note">🎪 도보 이동 · 무료 서커스 관람 &amp; 아케이드</div>
+            <div class="sched-title">서커스서커스 (Circus Circus) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Circus+Circus+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Circus Circus</a></div>
+            <div class="sched-note">🎪 도보 이동 · 무료 서커스 공연 관람 &amp; 아케이드 게임</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🔮 16:00–18:15</div>
-            <div class="sched-title">[스피어 본공연]</div>
-            <div class="sched-note">🔮 15:50 도착 ➔ 16:00 로봇 '아우라' 체험(60분) ➔ 17:00 '오즈의 마법사' 관람(406구역)</div>
+            <div class="sched-title">스피어 본공연 (오즈의 마법사) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Sphere+Las+Vegas+Rideshare+Drop-off" target="_blank" rel="noopener noreferrer">📍 Sphere</a></div>
+            <div class="sched-note">🚖 우버X 이동 | 🤖 15:50 도착 ➔ 16:00 로봇 '아우라' 체험(60분) ➔ 17:00 본공연 관람(406구역)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🍗 18:50–19:50</div>
-            <div class="sched-title">[저녁] 칙필레 / 치폴레 (하몬 코너)</div>
-            <div class="sched-note">🍗 칙필레 또는 🌯 치폴레 (패스트캐주얼 1시간 컷)</div>
+            <div class="sched-time">🍔 18:50–19:50</div>
+            <div class="sched-title">[저녁] 칙필레 또는 치폴레 (하몬 코너) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Harmon+Corner+Las+Vegas+NV" target="_blank" rel="noopener noreferrer">📍 Harmon Corner</a></div>
+            <div class="sched-note">🍗 칙필레(치킨샌드위치/와플프라이) 또는 🌯 치폴레(부리토볼) 1시간 패스트캐주얼 컷</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">⛲ 20:00–21:00</div>
-            <div class="sched-title">[분수쇼] 벨라지오</div>
-            <div class="sched-note">⛲ 호수 앞 야간 분수쇼 2회 감상</div>
+            <div class="sched-title">[야경] 벨라지오 분수쇼 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Bellagio+Fountains+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Bellagio Fountains</a></div>
+            <div class="sched-note">⛲ 하몬코너 육교 건너 호수 앞 명당에서 15분 간격 야간 분수쇼 2회 감상</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🧳 21:45–23:45</div>
-            <div class="sched-title">[환복 &amp; 휴식] 콘래드 로비</div>
-            <div class="sched-note">🧳 투어 백팩 픽업 | 🧥 방한복 환복(경량패딩/기모) | 🔋 기기 완충 및 로비 대기</div>
+            <div class="sched-title">콘래드 복귀, 방한복 환복 &amp; 투어 대기 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">📍 Conrad Las Vegas</a></div>
+            <div class="sched-note">🧳 투어 백팩 픽업 | 🧥 방한복 환복(새벽 일출 추위 대비) | 🔋 기기 완충 및 로비 소파 대기</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🚐 23:45</div>
-            <div class="sched-title">[투어 픽업]</div>
-            <div class="sched-note">🚐 요한투어 전용 밴 탑승 ➔ 야간 이동 (자정 출발)</div>
+            <div class="sched-title">요한투어 픽업 &amp; 그랜드캐년 투어 출발</div>
+            <div class="sched-note">콘래드 로비 픽업 탑승 ➔ 전용 밴 야간 취침 이동</div>
           </div>
 
         </div>
@@ -1363,22 +1363,22 @@
         <div class="sched-list" style="margin-top:14px;">
 
           <div class="sched-block">
-            <div class="sched-time">🌄 23:45~19:00</div>
-            <div class="sched-title">[그랜드캐년 VIP 투어 (요한투어 코스2)]</div>
-            <div class="sched-note">💵 현금: 가이드 정산 $680 + 나바호팁 $8 | 🧳 수하물: 인당 백팩 1개</div>
-            <div class="sched-note">📍 코스: 웰컴사인 ➔ 별자리 ➔ 조식($5) ➔ 사우스/이스트림 ➔ 앤텔롭($80+$70) ➔ 홀슈밴드($5) ➔ 중식 ➔ 글렌댐</div>
+            <div class="sched-time">🚐 23:45~19:00</div>
+            <div class="sched-title">그랜드캐년 VIP 투어 (요한투어 코스2)</div>
+            <div class="sched-note">💵 현금: 가이드 정산 $680 + 나바호팁 $8 | 🧳 인당 백팩 1개</div>
+            <div class="sched-note">📍 웰컴사인 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Welcome+to+Fabulous+Las+Vegas+Sign" target="_blank" rel="noopener noreferrer">📍 웰컴사인</a> ➔ 별자리 ➔ 조식($5) ➔ 마더포인트 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Mather+Point+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Mather Point</a> ➔ 데저트뷰 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+View+Watchtower+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Desert View</a> ➔ 로워 앤텔롭 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Antelope+Canyon+Page+AZ" target="_blank" rel="noopener noreferrer">📍 Antelope Canyon</a> ➔ 홀스슈밴드 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Horseshoe+Bend+Page+AZ" target="_blank" rel="noopener noreferrer">📍 Horseshoe Bend</a> ➔ 중식 ➔ 글렌댐 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Glen+Canyon+Dam+Lake+Powell+AZ" target="_blank" rel="noopener noreferrer">📍 Glen Canyon Dam</a></div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏨 19:00–20:00</div>
-            <div class="sched-title">[복귀] 콘래드 재체크인</div>
-            <div class="sched-note">🏨 리조트월드 드롭 | 보관 캐리어 수령 &amp; 객실 입실</div>
+            <div class="sched-title">콘래드 복귀 &amp; 재체크인</div>
+            <div class="sched-note">🏨 리조트월드 정문 드롭 | 보관 캐리어 수령 &amp; 객실 입실</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🍽️ 20:00~</div>
-            <div class="sched-title">[저녁] Famous Foods / Junior's</div>
-            <div class="sched-note">🍽️ 호텔 1층 푸드홀 또는 델리에서 간편 식사/테이크아웃 후 빠른 숙면</div>
+            <div class="sched-time">🍽️ 20:00 이후</div>
+            <div class="sched-title">[저녁] 리조트월드 푸드홀 / Junior's <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Famous+Foods+Street+Eats+Resorts+World+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Famous Foods</a></div>
+            <div class="sched-note">🍽️ 16시간 투어 후 호텔 1층 Famous Foods 또는 Junior's에서 편안한 식사/테이크아웃</div>
           </div>
 
         </div>
@@ -1427,39 +1427,39 @@
 
           <div class="sched-block">
             <div class="sched-time">🚗 09:00</div>
-            <div class="sched-title">[체크아웃 &amp; 2차 렌터카]</div>
-            <div class="sched-note">🚗 Hertz 리조트월드 픽업 (2일권 $120.22, 10/5 애너하임 반납)</div>
+            <div class="sched-title">콘래드 체크아웃 &amp; Hertz 2차 렌터카 픽업 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Resorts+World+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
+            <div class="sched-note">리조트월드 Hertz 2차 픽업 (2일권 $120.22, 10/5 애너하임 Katella 반납)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🥃 09:20–09:50</div>
-            <div class="sched-title">[위스키 쇼핑] Total Wine Town Square</div>
-            <div class="sched-note">🥃 바비큐/자쿠지용 버번 구매 (I-15 South 진입로 위치)</div>
+            <div class="sched-title">[위스키 쇼핑] Total Wine Town Square South <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Total+Wine+%26+More+6885+S+Las+Vegas+Blvd+NV" target="_blank" rel="noopener noreferrer">📍 Total Wine Town Square</a></div>
+            <div class="sched-note">I-15 South 진입로 위치 · 조슈아트리 숙소 야외 화덕 바비큐/자쿠지용 버번 구매</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🛣️ 09:50–13:30</div>
-            <div class="sched-title">[사막 드라이브 &amp; 유카밸리 정비]</div>
-            <div class="sched-note">🛣️ 모하비 사막 이동(3.5h) | 🛒 유카밸리 대형마트 경유(간식/생수/화장실)</div>
+            <div class="sched-title">모하비 사막 드라이브 &amp; 유카밸리 정비</div>
+            <div class="sched-note">🛣️ 조슈아트리로 이동(3.5h) | 🛒 유카밸리(Yucca Valley) 대형마트 경유(생수/간식/화장실)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">☕ 13:30–14:30</div>
-            <div class="sched-title">[점심] 조슈아트리 로컬 카페</div>
-            <div class="sched-note">☕ 공원 입구 브런치/샌드위치 식사</div>
+            <div class="sched-title">[점심] 조슈아트리 로컬 카페 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Joshua+Tree+cafe+CA" target="_blank" rel="noopener noreferrer">📍 Joshua Tree Cafe</a></div>
+            <div class="sched-note">국립공원 서쪽 게이트 입구 로컬 브런치/샌드위치 식사</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🌵 14:30–17:30</div>
-            <div class="sched-title">[국립공원 투어]</div>
-            <div class="sched-note">🎫 입장: 서쪽 게이트 ($30 카드결제) | 📵 통신: 오프라인 맵 필수</div>
-            <div class="sched-note">🌵 코스: 히든밸리(둘레길) ➔ 스컬락(포토존) ➔ 키즈뷰(18:22 골든아워 일몰)</div>
+            <div class="sched-title">조슈아트리 국립공원 관광 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Joshua+Tree+National+Park+West+Entrance+CA" target="_blank" rel="noopener noreferrer">📍 서쪽 게이트</a></div>
+            <div class="sched-note">🎫 입장: 서쪽 게이트 ($30 카드결제) | 📵 오프라인 지도 필수</div>
+            <div class="sched-note">📍 히든밸리 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hidden+Valley+Nature+Trail+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Hidden Valley</a> ➔ 스컬락 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Skull+Rock+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Skull Rock</a> ➔ 키즈뷰 일몰(18:22) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Keys+View+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Keys View</a></div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🏡 18:00~</div>
-            <div class="sched-title">[숙소 &amp; 바비큐] 조슈아 트리의 집</div>
-            <div class="sched-note">🏡 체크인($292.11) | 🔥 야외 화덕 바비큐 &amp; ♨️ 자쿠지 &amp; 🌌 은하수 관측</div>
+            <div class="sched-time">🏡 18:00 이후</div>
+            <div class="sched-title">[숙소] 조슈아 트리의 집 (Airbnb)</div>
+            <div class="sched-note">체크인($292.11) ➔ 야외 화덕 바비큐 만찬, 자쿠지 온수욕 &amp; 밤하늘 은하수 관측</div>
           </div>
 
         </div>
@@ -1494,45 +1494,39 @@
         <div class="sched-list">
 
           <div class="sched-block">
-            <div class="sched-time">🛣️ 09:00–09:50</div>
-            <div class="sched-title">[이동] 데저트힐스 이동</div>
-            <div class="sched-note">🛣️ CA-62 W ➔ I-10 W (45분 소요)</div>
-          </div>
-
-          <div class="sched-block">
             <div class="sched-time">🛍️ 09:50–13:30</div>
-            <div class="sched-title">[아울렛 &amp; 점심] 데저트힐스</div>
-            <div class="sched-note">🛍️ 쇼핑 3.5h | 🍽️ 푸드코트 점심 (판다익스프레스/치폴레)</div>
+            <div class="sched-title">[쇼핑 &amp; 점심] 데저트힐스 프리미엄 아울렛 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+Hills+Premium+Outlets+48400+Seminole+Dr+Cabazon+CA+92230" target="_blank" rel="noopener noreferrer">📍 Desert Hills Outlets</a></div>
+            <div class="sched-note">🛍️ 3.5시간 쇼핑 | 🍽️ 푸드코트 점심 (판다익스프레스/치폴레)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🛒 14:45–15:30</div>
-            <div class="sched-title">[트렁크 쇼핑] Trader Joe's Orange점</div>
-            <div class="sched-note">🛒 상온 귀국선물(토트백/시즈닝/과자) 트렁크 적재 <button type="button" id="tjOpenBtn" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
+            <div class="sched-title">[트렁크 쇼핑 1차] Trader Joe's Orange점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Trader+Joe%27s+2114+N+Tustin+St+Orange+CA+92865" target="_blank" rel="noopener noreferrer">📍 Trader Joe's Orange</a> <button type="button" id="tjOpenBtn" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
+            <div class="sched-note">상온 귀국 선물(토트백, 시즈닝, 과자) &amp; 테마파크 간식 대량 구매 후 트렁크 적재</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">⛽ 15:40–16:25</div>
-            <div class="sched-title">[풀주유 &amp; 쇼핑] Costco Garden Grove</div>
-            <div class="sched-note">⛽ 반납용 Full Tank 풀주유 (갤런당 $1 절약) | 💊 영양제/위스키 <button type="button" id="costcoOpenBtn2" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
+            <div class="sched-title">[풀 주유 &amp; 쇼핑 2차] 코스트코 가든그로브점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Costco+Wholesale+11000+Garden+Grove+Blvd+Garden+Grove+CA+92843" target="_blank" rel="noopener noreferrer">📍 Costco Garden Grove</a> <button type="button" id="costcoOpenBtn2" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
+            <div class="sched-note">반납 대비 풀 주유 필수(갤런당 $1 절약, Visa 카드) + 영양제, 미국 한정 위스키 구매</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏨 16:40–17:05</div>
-            <div class="sched-title">[체크인] Home2 Suites 애너하임</div>
-            <div class="sched-note">🏨 로비 정차 후 전 짐 일괄 객실 하차</div>
+            <div class="sched-title">Home2 Suites 애너하임 체크인 &amp; 짐 하차 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Home2+Suites+by+Hilton+Anaheim+Resort+1441+S+Manchester+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Home2 Suites Anaheim</a></div>
+            <div class="sched-note">로비 정차 후 캐리어 및 모든 쇼핑 짐 일괄 객실 하차</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🚗 17:15–17:30</div>
-            <div class="sched-title">[렌터카 최종 반납] Hertz Katella</div>
-            <div class="sched-note">🚗 무인 키드롭 반납 완료($120.22) | 🚶 호텔 복귀(도보 10분/우버)</div>
+            <div class="sched-title">Hertz 애너하임(Katella Ave) 렌터카 최종 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+221+W+Katella+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Hertz Katella Ave</a></div>
+            <div class="sched-note">🚗 무인 키드롭(Key Drop) 안전 반납 완료($120.22) | 🚶 호텔 복귀 (도보 10분/우버)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🍽️ 18:00~</div>
-            <div class="sched-title">[저녁] 다운타운 디즈니</div>
-            <div class="sched-note">🍽️ 거리 다이닝 &amp; 익일 디즈니 오픈런 대비 조기 취침</div>
+            <div class="sched-time">🍽️ 18:00 이후</div>
+            <div class="sched-title">[저녁] 다운타운 디즈니 다이닝 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Downtown+Disney+District+Anaheim" target="_blank" rel="noopener noreferrer">📍 Downtown Disney</a></div>
+            <div class="sched-note">가족 다이닝 저녁 식사 및 익일 디즈니랜드 오픈런 대비 조기 휴식</div>
           </div>
 
         </div>
@@ -1554,44 +1548,44 @@
 
           <div class="sched-block">
             <div class="sched-time">🏰 07:30–08:00</div>
-            <div class="sched-title">[오픈런] 디즈니랜드 파크</div>
-            <div class="sched-note">🏰 도보 15분 | 07:40 로프드랍 대기 ➔ 08:00 정각 입장</div>
+            <div class="sched-title">디즈니랜드 파크 오픈런</div>
+            <div class="sched-note">Home2 Suites에서 도보 15분 | 07:40 허브 좌측 로프 대기 ➔ 08:00 정각 입장</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🚀 08:00–12:00</div>
-            <div class="sched-title">[스타워즈/어드벤처 선공략]</div>
-            <div class="sched-note">🚀 라이즈 오브 레지스탕스 ➔ 밀레니엄 팔콘 ➔ 인디아나 존스</div>
+            <div class="sched-title">스타워즈 &amp; 어드벤처 구역 선공략</div>
+            <div class="sched-note">라이즈 오브 레지스탕스 ➔ 밀레니엄 팔콘 ➔ 인디아나 존스 어드벤처 ➔ 정글 크루즈</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🍗 12:00–13:00</div>
-            <div class="sched-title">[점심] Plaza Inn / Docking Bay 7</div>
-            <div class="sched-note">🍗 모바일 오더 30분 전 사전 주문 (프라이드치킨/테마식)</div>
+            <div class="sched-title">[점심] Plaza Inn 또는 Docking Bay 7</div>
+            <div class="sched-note">디즈니 앱 30분 전 모바일 오더 (프라이드치킨 플래터 또는 스타워즈 테마식)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎈 13:00–17:00</div>
-            <div class="sched-title">[클래식 &amp; 힐링]</div>
-            <div class="sched-note">🏴‍☠️ 캐리비안의 해적 ➔ 런어웨이 레일웨이 ➔ Dole Whip 파인애플 아이스크림</div>
+            <div class="sched-title">클래식 &amp; 패밀리 어트랙션</div>
+            <div class="sched-note">캐리비안의 해적 ➔ 런어웨이 레일웨이(툰타운) ➔ Dole Whip 파인애플 간식</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🌌 17:00–18:30</div>
-            <div class="sched-title">[투모로우랜드]</div>
-            <div class="sched-note">🌌 스페이스 마운틴 ➔ 버즈 라이트이어</div>
+            <div class="sched-title">투모로우랜드</div>
+            <div class="sched-note">스페이스 마운틴 ➔ 버즈 라이트이어 ➔ 스타 투어즈</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🌮 18:30–20:00</div>
-            <div class="sched-title">[저녁] Puesto Anaheim</div>
-            <div class="sched-note">🌮 캘리포니아 모던 수제 타코 다이닝</div>
+            <div class="sched-title">[저녁] Puesto Anaheim <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Puesto+Anaheim+1040+W+Katella+Ave" target="_blank" rel="noopener noreferrer">📍 Puesto Anaheim</a></div>
+            <div class="sched-note">모던 캘리포니아 멕시칸 다이닝 &amp; 수제 타코 만찬</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎆 20:30–22:00</div>
-            <div class="sched-title">[야간 라이드 &amp; 불꽃놀이]</div>
-            <div class="sched-note">🚂 빅 선더 마운틴(야간) ➔ 🎆 21:00 캐슬 불꽃놀이 ➔ 숙소 복귀</div>
+            <div class="sched-title">빅 썬더 마운틴(야간) &amp; 캐슬 불꽃놀이</div>
+            <div class="sched-note">빅 선더 마운틴 야간 탑승 ➔ 21:00 잠자는 숲속의 공주 성 앞 불꽃놀이 감상 후 복귀</div>
           </div>
 
         </div>
@@ -1624,32 +1618,27 @@
 
           <div class="sched-block">
             <div class="sched-time">🚕 09:30–11:00</div>
-            <div class="sched-title">[호텔 이동] 애너하임 ➔ 할리우드</div>
-            <div class="sched-note">🚕 UberXL 이동 (4인+수하물 전량, 1h 소요)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🧳 11:00–12:00</div>
-            <div class="sched-title">[체크인 &amp; 짐보관] 로어스 할리우드</div>
-            <div class="sched-note">🏨 프런트 짐 보관 후 파크 외출 준비</div>
+            <div class="sched-title">애너하임 ➔ 로어스 할리우드 호텔 이동 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">📍 Loews Hollywood</a></div>
+            <div class="sched-note">🚕 UberXL 이동 (4인+수하물 전량, 50분 소요) ➔ 프런트 짐 보관 후 파크 외출</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎢 12:30–18:00</div>
             <div class="sched-title">[유니버설 1일차] 하부(Lower Lot) 완파</div>
-            <div class="sched-note">🍄 마리오카트(AR) ➔ 🦖 쥬라기월드(우비 필수) ➔ ⚡ 미이라(실내코스터)</div>
+            <div class="sched-note">🚖 UberX로 정문 이동 ➔ 스타웨이 에스컬레이터 하강</div>
+            <div class="sched-note">🍄 마리오카트: 쿠파의 도전 ➔ 🦖 쥬라기월드(우비 필수) ➔ ⚡ 리벤지 오브 더 미이라</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🍽️ 18:30–20:00</div>
-            <div class="sched-title">[저녁] 유니버설 시티워크</div>
-            <div class="sched-note">🍽️ Toothsome Chocolate 또는 Antojitos(멕시칸) 디너</div>
+            <div class="sched-title">[저녁] 유니버설 시티워크 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Universal+CityWalk+Hollywood" target="_blank" rel="noopener noreferrer">📍 Universal CityWalk</a></div>
+            <div class="sched-note">Toothsome Chocolate 또는 Antojitos(멕시칸) 디너 &amp; 시티워크 상점가 구경</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🚕 20:30</div>
-            <div class="sched-title">[호텔 복귀]</div>
-            <div class="sched-note">🚕 UberX로 로어스 할리우드 복귀</div>
+            <div class="sched-title">[호텔 복귀] 유니버설 시티워크 ➔ 로어스 할리우드</div>
+            <div class="sched-note">UberX 탑승 복귀 (10~15분 소요)</div>
           </div>
 
         </div>
@@ -1671,26 +1660,26 @@
 
           <div class="sched-block">
             <div class="sched-time">🏰 09:00–11:30</div>
-            <div class="sched-title">[유니버설 2일차] 상부(Upper Lot) 오픈런</div>
-            <div class="sched-note">🏰 해리포터 포비든 저니 ➔ 🍺 호그스미드 버터맥주 &amp; 지팡이 체험</div>
+            <div class="sched-title">[유니버설 2일차] 상부(Upper Lot) 해리포터 오픈런</div>
+            <div class="sched-note">🚖 UberX 이동 ➔ 🏰 포비든 저니 &amp; 히포그리프 ➔ 🍺 호그스미드 버터맥주 &amp; 지팡이 체험</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎬 11:30–14:30</div>
-            <div class="sched-title">[핵심 투어 &amp; 공연]</div>
-            <div class="sched-note">🎬 스튜디오 투어(60분 트램, 좌측 착석) ➔ 🍽️ 쓰리브룸스틱스 점심 ➔ 🌊 워터월드 쇼</div>
+            <div class="sched-title">[핵심 투어 &amp; 공연] 스튜디오 투어 &amp; 워터월드</div>
+            <div class="sched-note">🎬 스튜디오 투어(60분 트램, 좌측 좌석 착석) ➔ 🍽️ '쓰리 브룸스틱스' 점심 ➔ 🌊 워터월드 스턴트 쇼</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎠 14:30–16:30</div>
             <div class="sched-title">[패밀리 라이드 &amp; 조기 퇴장]</div>
-            <div class="sched-note">🐶 마이펫 ➔ ⚠️ HHN 행사로 17:30 마감(16:30 파크 아웃)</div>
+            <div class="sched-note">🐶 마이펫 ➔ 미니언즈 ➔ ⚠️ 야간 HHN 행사로 17:30 마감되므로 16:30 퇴장</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🌃 18:00~</div>
-            <div class="sched-title">[할리우드 도보 산책 &amp; 저녁]</div>
-            <div class="sched-note">⭐ 명예의 거리 &amp; 돌비 극장 산책 ➔ 🍽️ Ovation 몰 저녁 식사</div>
+            <div class="sched-time">🌃 18:00 이후</div>
+            <div class="sched-title">[할리우드 저녁] 명예의 거리 &amp; Ovation 몰 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Ovation+Hollywood+6801+Hollywood+Blvd" target="_blank" rel="noopener noreferrer">📍 Ovation Hollywood</a></div>
+            <div class="sched-note">호텔 앞 명예의 거리, 돌비 극장 도보 산책 &amp; Ovation 몰 저녁 식사</div>
           </div>
 
         </div>
@@ -1712,21 +1701,20 @@
 
           <div class="sched-block">
             <div class="sched-time">🚙 08:30</div>
-            <div class="sched-title">[투어 출발] 로어스 앞 미팅</div>
-            <div class="sched-note">🚙 LA 핵심 종일투어 (전문 도슨트 미니밴 11시간, 생수 제공)</div>
-            <div class="sched-note">💵 현장비: 가이드팁 $80 + 주차/픽업비 $90 (현금 $170 준비)</div>
+            <div class="sched-title">LA 핵심 종일 투어 미팅 (11시간)</div>
+            <div class="sched-note">로어스 호텔 앞 가이드 미팅 (최신형 미니밴, 생수 제공) | 💵 현장비: 팁 $80 + 주차/픽업비 $90 (현금 $170)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🎡 09:00–19:30</div>
-            <div class="sched-title">[9대 코스 순차 투어]</div>
-            <div class="sched-note">🎡 산타모니카 피어 ➔ 🏛️ 게티센터(도슨트 1.5h) ➔ 🎬 비벌리힐스 ➔ 🏰 그레이스톤맨션 ➔ 📸 핑크월 ➔ 🍔 파머스마켓/더그로브(점심) ➔ ⛰️ 할리우드사인 ➔ 🔭 그리피스천문대(일몰/야경)</div>
+            <div class="sched-title">LA 9대 핵심 코스 투어</div>
+            <div class="sched-note">산타모니카 피어 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Santa+Monica+Pier+CA" target="_blank" rel="noopener noreferrer">📍 Santa Monica</a> ➔ 게티센터 도슨트 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Getty+Center+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Getty Center</a> ➔ 비벌리힐스 ➔ 그레이스톤 맨션 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Greystone+Mansion+Beverly+Hills" target="_blank" rel="noopener noreferrer">📍 Greystone Mansion</a> ➔ 폴스미스 핑크월 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Paul+Smith+Pink+Wall+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Pink Wall</a> ➔ 파머스마켓 점심 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Original+Farmers+Market+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Farmers Market</a> ➔ 할리우드사인 뷰포인트 ➔ 그리피스 천문대 야경 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Griffith+Observatory+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Griffith Observatory</a></div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏨 19:30</div>
-            <div class="sched-title">[호텔 드롭]</div>
-            <div class="sched-note">🏨 로어스 복귀 후 휴식</div>
+            <div class="sched-title">투어 종료 &amp; 호텔 복귀</div>
+            <div class="sched-note">로어스 할리우드 호텔 드롭 및 휴식</div>
           </div>
 
         </div>
@@ -1750,45 +1738,45 @@
 
           <div class="sched-block">
             <div class="sched-time">⚾ 09:30–12:00</div>
-            <div class="sched-title">[다저스타디움] 공식 투어</div>
-            <div class="sched-note">⚾ 더그아웃/라커룸 투어 &amp; 팀스토어 굿즈 쇼핑 (9/27 티켓오픈)</div>
+            <div class="sched-title">[다저스타디움] 공식 투어 관람 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Dodger+Stadium+1000+Vin+Scully+Ave+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Dodger Stadium</a></div>
+            <div class="sched-note">🚖 UberX(15분) | 더그아웃/라커룸 공식 투어 &amp; 팀스토어 굿즈 쇼핑 (9/27 티켓오픈)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🥪 12:30–13:30</div>
-            <div class="sched-title">[점심] 그랜드 센트럴 마켓</div>
-            <div class="sched-note">🥪 에그슬럿 본점 / 정통 타코 / 수제버거 자유 점심</div>
+            <div class="sched-title">[점심] 다운타운 그랜드 센트럴 마켓 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Grand+Central+Market+Los+Angeles+CA" target="_blank" rel="noopener noreferrer">📍 Grand Central Market</a></div>
+            <div class="sched-note">🚖 UberX(8분) | 100년 전통 푸드홀: 에그슬럿 본점 / 정통 타코 / 수제버거 자유 점심</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏛️ 13:30–15:30</div>
-            <div class="sched-title">[다운타운 문화 도보 산책]</div>
-            <div class="sched-note">🚋 엔젤스 플라이트($1) ➔ 🎨 더 브로드(무료예약) &amp; 디즈니 콘서트홀 정원</div>
+            <div class="sched-title">[다운타운 문화 도보 산책] 엔젤스 플라이트 ➔ 더 브로드 &amp; 디즈니 콘서트홀</div>
+            <div class="sched-note">🚋 엔젤스 플라이트($1) 탑승 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Angels+Flight+Railway+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Angels Flight</a> ➔ 🎨 더 브로드 현대미술관(무료 사전예약) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Broad+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Broad</a> ➔ 월트 디즈니 콘서트홀 외관/정원 산책</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">📚 15:30–16:30</div>
-            <div class="sched-title">[포토존] 더 라스트 북스토어</div>
-            <div class="sched-note">📚 책 터널(Book Tunnel) 기념사진</div>
+            <div class="sched-title">[포토존] 더 라스트 북스토어 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Last+Bookstore+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Last Bookstore</a></div>
+            <div class="sched-note">캘리포니아 최대 서점 · 2층 '책 터널(Book Tunnel)' 앞 가족 기념사진 촬영</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🏨 17:00–18:00</div>
-            <div class="sched-title">[호텔 복귀 &amp; 휴식]</div>
-            <div class="sched-note">🏨 로어스 복귀, 환복 및 체력 충전</div>
+            <div class="sched-title">[호텔 복귀 &amp; 휴식] 로어스 할리우드</div>
+            <div class="sched-note">🚖 UberX(15~20분) | 호텔 복귀 후 환복 및 마지막 밤 만찬 준비</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🍽️ 18:00–20:30</div>
             <div class="sched-title">[페어웰 디너 후보지 2선]</div>
-            <div class="sched-note">🥇 [추천] Musso &amp; Frank Grill: 100년 전통 스테이크 &amp; 알프레도 (도보 7분, 예약권장)</div>
-            <div class="sched-note">🥈 [편의] CPK Ovation Mall: BBQ 치킨 피자 &amp; 파스타 (호텔 도보 1분, 새벽출국 대비)</div>
+            <div class="sched-note">🥇 <b>[추천] Musso &amp; Frank Grill:</b> 100년 전통 스테이크 &amp; 페투치니 알프레도 (도보 7분, OpenTable 예약 권장) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Musso+%26+Frank+Grill+6667+Hollywood+Blvd" target="_blank" rel="noopener noreferrer">📍 Musso &amp; Frank</a></div>
+            <div class="sched-note">🥈 <b>[편의] CPK Ovation Mall:</b> BBQ 치킨 피자 &amp; 파스타 (호텔 도보 1분, 새벽출국 대비 최고 편의) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=California+Pizza+Kitchen+at+Ovation+Hollywood" target="_blank" rel="noopener noreferrer">📍 CPK Ovation</a></div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🧳 20:30~</div>
-            <div class="sched-title">[최종 패킹]</div>
-            <div class="sched-note">🧳 위탁수하물 23kg 손저울 측정 &amp; 위스키 에어캡 완충 패킹 완료</div>
+            <div class="sched-time">🧳 20:30 이후</div>
+            <div class="sched-title">[최종 패킹] 귀국 짐 정리 &amp; 수하물 무게 측정</div>
+            <div class="sched-note">에어프레미아 위탁수하물 무게(인당 23kg 이하) 손저울 측정 및 위스키 완충재 패킹 완료 후 익일 새벽 출국 대비 취침</div>
           </div>
 
         </div>
@@ -1819,20 +1807,20 @@
 
           <div class="sched-block">
             <div class="sched-time">🚕 06:30–07:00</div>
-            <div class="sched-title">[공항 이동]</div>
-            <div class="sched-note">🚕 UberXL 탑승 (4인+수하물 전량, 40분 소요, 약 $70~95)</div>
+            <div class="sched-title">호텔 체크아웃 &amp; LAX 공항 이동</div>
+            <div class="sched-note">🚕 UberXL 필수 (4인+전체 수하물/위스키 패킹, 약 $70~95 / 40분 소요)</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">🛫 08:00–10:50</div>
-            <div class="sched-title">[출국 수속] LAX 톰 브래들리</div>
-            <div class="sched-note">🛫 에어프레미아 카운터 수하물 위탁 &amp; 보안검색</div>
+            <div class="sched-title">탑승 수속 &amp; 출국 (LAX 톰 브래들리 터미널)</div>
+            <div class="sched-note">에어프레미아 카운터 수하물 위탁 및 보안검색 통과</div>
           </div>
 
           <div class="sched-block">
             <div class="sched-time">✈️ 10:50</div>
-            <div class="sched-title">[출국] YP102 탑승</div>
-            <div class="sched-note">✈️ 10/12(월) 15:50 인천(ICN) 도착</div>
+            <div class="sched-title">에어프레미아 YP102 탑승 / LAX 출발</div>
+            <div class="sched-note">10/12(월) 15:50 인천국제공항(ICN) 도착</div>
           </div>
 
         </div>
