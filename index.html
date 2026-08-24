@@ -3427,9 +3427,13 @@
       var targetElement = document.getElementById(targetDayId);
       if (!targetElement) return;
 
-      // 1. 활성 칩 스타일 토글
+      // 1. 활성 칩 스타일 토글 및 칩 가로 스크롤 중앙 정렬
       pills.forEach(function(p) {
-        p.classList.toggle('active', p.getAttribute('data-target') === targetDayId);
+        var isActive = p.getAttribute('data-target') === targetDayId;
+        p.classList.toggle('active', isActive);
+        if (isActive) {
+          p.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
       });
 
       // 2. 다른 날짜는 닫고, 선택한 날짜만 강제 열기 (Accordion Sync)
