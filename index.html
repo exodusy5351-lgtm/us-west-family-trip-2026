@@ -188,9 +188,14 @@
     width:16px;height:16px;border-radius:50%;
     background:var(--bg);border:2px solid var(--teal);
     z-index:1;
+    transition:all .25s ease;
   }
-  .day.highlight::before{border-color:var(--coral);background:var(--coral);}
-  .day.highlight.confirmed::before{border-color:var(--green);background:var(--green);}
+  .day[open]::before{
+    border-color:var(--gold);
+    background:linear-gradient(135deg,var(--coral),var(--gold));
+    box-shadow:0 0 0 4px rgba(255,184,77,.25);
+    transform:scale(1.15);
+  }
   .day summary{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent;}
   .day summary::-webkit-details-marker{display:none;}
   .d-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:12px 10px;margin:-2px -10px;border-radius:10px;transition:background-color .15s;}
@@ -1186,7 +1191,7 @@
         </div></div>
       </details>
 
-      <details class="day highlight" id="day-2">
+      <details class="day" id="day-2">
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/2 금</span><span class="d-tag">스피어 · 그랜드캐년 출발</span><span class="sunset-badge">🌅 Sunset 18:24</span></div>
