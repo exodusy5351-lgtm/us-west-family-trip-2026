@@ -248,21 +248,21 @@
   .sched-title{font-size:13px;font-weight:700;color:var(--text);}
   .sched-title-link{font-size:13px;font-weight:700;color:var(--coral);text-decoration:underline;text-decoration-color:rgba(255,107,74,.45);text-underline-offset:2px;display:inline-block;}
   .sched-title-link:hover,.sched-title-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
-  .sched-note{font-size:12px;line-height:1.5;color:#ded5ee;margin-top:4px;}
+  .sched-note,.nav-card-note{font-size:12.5px;line-height:1.55;color:#ded5ee;margin-top:4px;}
   .inline-btn-badge{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:12px;background:rgba(255,184,77,.15);color:var(--gold);border:1px solid rgba(255,184,77,.35);cursor:pointer;vertical-align:middle;margin-left:4px;}
   .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
   .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
 
   /* ===== NAV BADGE (English destination, one-click maps) ===== */
-  .nav-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:12px;background:rgba(46,196,182,.14);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-decoration:none;vertical-align:middle;margin-left:6px;white-space:nowrap;transition:background-color .15s,border-color .15s;}
+  .nav-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:12px;background:rgba(46,196,182,.14);border:1px solid rgba(46,196,182,.35);color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-decoration:none;vertical-align:middle;margin-left:6px;white-space:nowrap;transition:transform .1s ease,background-color .15s;}
   .nav-badge:hover,.nav-badge:focus-visible{background:rgba(46,196,182,.28);border-color:var(--teal);outline:none;}
+  .nav-badge:active,.inline-btn-badge:active,.date-pill:active{transform:scale(0.95);}
   .nav-badge::after{content:"↗";color:var(--muted-2);margin-left:2px;}
   .nav-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;}
   .nav-card + .nav-card{margin-top:6px;}
   .nav-card-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;}
   .nav-card-label{font-size:12.5px;font-weight:700;color:var(--text);}
   .nav-card-price{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);white-space:nowrap;flex-shrink:0;}
-  .nav-card-note{font-size:13px;color:#ded5ee;margin-top:5px;line-height:1.6;}
   .uber-badge{display:inline-flex;align-items:center;gap:4px;margin-top:6px;margin-right:6px;padding:3px 8px;border-radius:20px;background:rgba(255,107,74,.12);border:1px solid rgba(255,107,74,.32);color:var(--coral);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.01em;white-space:nowrap;}
 
   /* ===== BUDGET ===== */
@@ -1478,7 +1478,7 @@
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/5 월</span><span class="d-tag">애너하임 이동 &amp; 다운타운 디즈니</span></div>
-            <div class="d-line">09:30 체크아웃 → 데저트힐스 아울렛 → 트레이더 조 → 코스트코 가든그로브(풀주유) → Home2 Suites 체크인 → Hertz 반납 → 다운타운 디즈니 저녁</div>
+            <div class="d-line">10:20 데저트힐스 아울렛 → 트레이더 조 → 코스트코 가든그로브(풀주유) → Home2 Suites 체크인 → 다운타운 디즈니 저녁 → Hertz 야간 반납(Key Drop)</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
@@ -1487,46 +1487,46 @@
         <div class="d-desc">완벽한 서쪽 일직선 동선, 렌터카 트렁크를 활용한 쇼핑 몰아치기 후 반납 직전 코스트코 풀 주유로 유류비 절감 &amp; 패널티 방지</div>
 
         <div class="route-nav-banner">
-          <span class="route-nav-text">🧭 <b>5일차 최단거리 동선:</b> 트조 → 코스트코 → 호텔 → Hertz 반납</span>
-          <a class="route-nav-link" href="https://www.google.com/maps/dir/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA+92865/Costco+Wholesale,+11000+Garden+Grove+Blvd,+Garden+Grove,+CA+92843/Home2+Suites+by+Hilton+Anaheim+Resort,+1441+S+Manchester+Ave,+Anaheim,+CA+92802/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA+92802" target="_blank" rel="noopener noreferrer">Google Maps 통합 네비 열기 ↗</a>
+          <span class="route-nav-text">🧭 <b>5일차 동선:</b> 트조 → 코스트코 → 호텔 → 다운타운 디즈니 → Hertz 야간 반납</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA+92865/Costco+Wholesale,+11000+Garden+Grove+Blvd,+Garden+Grove,+CA+92843/Home2+Suites+by+Hilton+Anaheim+Resort,+1441+S+Manchester+Ave,+Anaheim,+CA+92802/Downtown+Disney+District,+Anaheim,+CA/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA+92802" target="_blank" rel="noopener noreferrer">Google Maps 통합 네비 열기 ↗</a>
         </div>
 
         <div class="sched-list">
 
           <div class="sched-block">
-            <div class="sched-time">🛍️ 09:50–13:30</div>
+            <div class="sched-time">🛍️ 10:20–14:00</div>
             <div class="sched-title">[쇼핑 &amp; 점심] 데저트힐스 프리미엄 아울렛 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+Hills+Premium+Outlets+48400+Seminole+Dr+Cabazon+CA+92230" target="_blank" rel="noopener noreferrer">📍 Desert Hills Outlets</a></div>
-            <div class="sched-note">🛍️ 3.5시간 쇼핑 | 🍽️ 푸드코트 점심 (판다익스프레스/치폴레)</div>
+            <div class="sched-note">🛍️ 미서부 최대 아울렛 쇼핑 | 🍽️ 푸드코트 점심 (판다익스프레스/치폴레)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🛒 14:45–15:30</div>
+            <div class="sched-time">🛒 15:30–16:15</div>
             <div class="sched-title">[트렁크 쇼핑 1차] Trader Joe's Orange점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Trader+Joe%27s+2114+N+Tustin+St+Orange+CA+92865" target="_blank" rel="noopener noreferrer">📍 Trader Joe's Orange</a> <button type="button" id="tjOpenBtn" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
             <div class="sched-note">상온 귀국 선물(토트백, 시즈닝, 과자) &amp; 테마파크 간식 대량 구매 후 트렁크 적재</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">⛽ 15:40–16:25</div>
+            <div class="sched-time">⛽ 16:30–17:30</div>
             <div class="sched-title">[풀 주유 &amp; 쇼핑 2차] 코스트코 가든그로브점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Costco+Wholesale+11000+Garden+Grove+Blvd+Garden+Grove+CA+92843" target="_blank" rel="noopener noreferrer">📍 Costco Garden Grove</a> <button type="button" id="costcoOpenBtn2" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
-            <div class="sched-note">반납 대비 풀 주유 필수(갤런당 $1 절약, Visa 카드) + 영양제, 미국 한정 위스키 구매</div>
+            <div class="sched-note">반납 대비 풀 주유(Visa 카드) + 매장 내 영양제, 미국 한정 위스키, 대용량 생수 구매</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🏨 16:40–17:05</div>
-            <div class="sched-title">Home2 Suites 애너하임 체크인 &amp; 짐 하차 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Home2+Suites+by+Hilton+Anaheim+Resort+1441+S+Manchester+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Home2 Suites Anaheim</a></div>
-            <div class="sched-note">로비 정차 후 캐리어 및 모든 쇼핑 짐 일괄 객실 하차</div>
+            <div class="sched-time">🏨 17:45–18:30</div>
+            <div class="sched-title">Home2 Suites 애너하임 체크인 &amp; 짐 정리 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Home2+Suites+by+Hilton+Anaheim+Resort+1441+S+Manchester+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Home2 Suites Anaheim</a></div>
+            <div class="sched-note">호텔 체크인 후 모든 쇼핑 짐과 캐리어 객실 하차 및 편안한 복장 환복</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🚗 17:15–17:30</div>
-            <div class="sched-title">Hertz 애너하임(Katella Ave) 렌터카 최종 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+221+W+Katella+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Hertz Katella Ave</a></div>
-            <div class="sched-note">🚗 무인 키드롭(Key Drop) 안전 반납 완료($120.22) | 🚶 호텔 복귀 (도보 10분/우버)</div>
-          </div>
-
-          <div class="sched-block">
-            <div class="sched-time">🍽️ 18:00 이후</div>
+            <div class="sched-time">🍽️ 18:45–20:30</div>
             <div class="sched-title">[저녁] 다운타운 디즈니 다이닝 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Downtown+Disney+District+Anaheim" target="_blank" rel="noopener noreferrer">📍 Downtown Disney</a></div>
-            <div class="sched-note">가족 다이닝 저녁 식사 및 익일 디즈니랜드 오픈런 대비 조기 휴식</div>
+            <div class="sched-note">다운타운 디즈니에서 여유로운 가족 저녁 식사 및 거리 구경</div>
+          </div>
+
+          <div class="sched-block">
+            <div class="sched-time">🚗 20:45–21:15</div>
+            <div class="sched-title">Hertz 애너하임(Katella Ave) 렌터카 야간 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+221+W+Katella+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Hertz Katella Ave</a></div>
+            <div class="sched-note">🚗 무인 키드롭(After-hours Key Drop) 안전 반납 ($120.22) | 🚶 호텔 복귀 (도보 10분) 후 디즈니 오픈런 대비 취침</div>
           </div>
 
         </div>
