@@ -10,6 +10,8 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#161220;
@@ -115,6 +117,27 @@
   }
   .stop.active .dot{border-color:var(--gold);background:linear-gradient(135deg,var(--coral),var(--gold));box-shadow:0 0 0 4px rgba(255,184,77,.15);}
   .stop .place{font-size:11.5px;margin-top:8px;text-align:center;color:var(--text);font-weight:600;}
+
+  /* ===== TRIP ROUTE MAP (Leaflet) ===== */
+  .map-section.collapsed #tripMap,
+  .map-section.collapsed .map-fallback{display:none;}
+  .map-fallback{
+    height:auto;min-height:80px;width:100%;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--card);
+    padding:14px 16px;font-size:12px;color:var(--muted);line-height:1.6;
+  }
+  .map-fallback b{color:var(--text);}
+  .trip-map-marker{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--card-2);border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.4);
+  }
+  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);color:var(--text);}
+  .leaflet-container a.leaflet-popup-close-button{color:var(--muted);}
+  .leaflet-control-attribution{background:rgba(38,31,54,.75) !important;color:var(--muted-2) !important;font-size:9px !important;}
+  .leaflet-control-attribution a{color:var(--muted) !important;}
+  .leaflet-control-zoom a{background:var(--card) !important;color:var(--text) !important;border-color:var(--line) !important;}
   .stop .nights{font-size:10px;color:var(--muted);margin-top:2px;font-family:'JetBrains Mono',monospace;}
 
   /* ===== SECTION ===== */
@@ -973,6 +996,14 @@
         <div class="nights">10/7–10/11 · 4박</div>
       </button>
     </div>
+  </div>
+
+  <div class="map-section" style="margin: 20px 0;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <span class="eyebrow">🗺️ TRIP ROUTE MAP</span>
+      <button type="button" id="btnToggleMap" class="inline-btn-badge" style="background:rgba(54,214,199,0.15); color:var(--teal); border-color:var(--teal);">지도 접기/펼치기</button>
+    </div>
+    <div id="tripMap" style="height: 260px; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); z-index: 10;"></div>
   </div>
 
   <main id="tab-reservations" class="tab-panel">
@@ -4423,6 +4454,76 @@
         if (window.jumpToDay) window.jumpToDay(targetDayId);
       });
     });
+  })();
+
+  /* ==========================================================
+     [4-2b] 인터랙티브 트립 루트 맵 (Leaflet.js)
+     주의: Claude Artifact 배포본은 CSP로 unpkg.com 스크립트가 차단되어
+     window.L이 정의되지 않음 → 이 경우 자동으로 텍스트 폴백으로 전환.
+     GitHub Pages 배포본에서는 정상적으로 다크 타일 지도가 렌더링됨.
+  ========================================================== */
+  (function initTripMap() {
+    var mapEl = document.getElementById('tripMap');
+    var toggleBtn = document.getElementById('btnToggleMap');
+    var sectionEl = mapEl ? mapEl.closest('.map-section') : null;
+    if (!mapEl || !sectionEl) return;
+
+    var stops = [
+      { name: 'LAX 공항 (입국)', icon: '✈️', lat: 33.9425, lng: -118.4081 },
+      { name: '라스베가스', icon: '🎰', lat: 36.1215, lng: -115.1739 },
+      { name: '조슈아트리', icon: '🌵', lat: 34.1341, lng: -116.3140 },
+      { name: '애너하임', icon: '🎢', lat: 33.8121, lng: -117.9190 },
+      { name: '할리우드', icon: '🌴', lat: 34.1023, lng: -118.3267 },
+      { name: 'LAX 공항 (귀국)', icon: '✈️', lat: 33.9425, lng: -118.4081 }
+    ];
+
+    function showFallback() {
+      mapEl.outerHTML =
+        '<div id="tripMap" class="map-fallback">🗺️ 이 지도는 GitHub Pages 배포본에서만 표시됩니다 (Artifact 미리보기는 외부 지도 스크립트를 지원하지 않음).<br><br>' +
+        '<b>전체 동선:</b> ' + stops.map(function (s) { return s.icon + ' ' + s.name; }).join(' → ') +
+        '</div>';
+    }
+
+    if (typeof window.L === 'undefined') {
+      showFallback();
+      return;
+    }
+
+    try {
+      var map = L.map('tripMap', { zoomControl: true, attributionControl: true, scrollWheelZoom: false })
+        .setView([35.0, -117.0], 6);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+      }).addTo(map);
+
+      var latlngs = stops.map(function (s) { return [s.lat, s.lng]; });
+      L.polyline(latlngs, { color: '#ffc05c', weight: 3, dashArray: '6 6', opacity: 0.85 }).addTo(map);
+
+      stops.forEach(function (s) {
+        var icon = L.divIcon({
+          className: 'trip-map-marker-wrap',
+          html: '<div class="trip-map-marker">' + s.icon + '</div>',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+        L.marker([s.lat, s.lng], { icon: icon }).addTo(map).bindPopup(s.name);
+      });
+
+      map.fitBounds(latlngs, { padding: [24, 24] });
+    } catch (e) {
+      showFallback();
+      return;
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        sectionEl.classList.toggle('collapsed');
+        setTimeout(function () { map.invalidateSize(); }, 260);
+      });
+    }
   })();
 
   /* ==========================================================
