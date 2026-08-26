@@ -10,8 +10,6 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#161220;
@@ -117,27 +115,6 @@
   }
   .stop.active .dot{border-color:var(--gold);background:linear-gradient(135deg,var(--coral),var(--gold));box-shadow:0 0 0 4px rgba(255,184,77,.15);}
   .stop .place{font-size:11.5px;margin-top:8px;text-align:center;color:var(--text);font-weight:600;}
-
-  /* ===== TRIP ROUTE MAP (Leaflet) ===== */
-  .map-section.collapsed #tripMap,
-  .map-section.collapsed .map-fallback{display:none;}
-  .map-fallback{
-    height:auto;min-height:80px;width:100%;border-radius:var(--radius);
-    border:1px solid var(--line);background:var(--card);
-    padding:14px 16px;font-size:12px;color:var(--muted);line-height:1.6;
-  }
-  .map-fallback b{color:var(--text);}
-  .trip-map-marker{
-    width:28px;height:28px;border-radius:50%;
-    background:var(--card-2);border:2px solid var(--gold);
-    display:flex;align-items:center;justify-content:center;
-    font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.4);
-  }
-  .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--card);color:var(--text);}
-  .leaflet-container a.leaflet-popup-close-button{color:var(--muted);}
-  .leaflet-control-attribution{background:rgba(38,31,54,.75) !important;color:var(--muted-2) !important;font-size:9px !important;}
-  .leaflet-control-attribution a{color:var(--muted) !important;}
-  .leaflet-control-zoom a{background:var(--card) !important;color:var(--text) !important;border-color:var(--line) !important;}
   .stop .nights{font-size:10px;color:var(--muted);margin-top:2px;font-family:'JetBrains Mono',monospace;}
 
   /* ===== SECTION ===== */
@@ -605,6 +582,21 @@
     transform: translateY(0) scale(1);
   }
 
+  .fab-dial-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 898;
+    background: rgba(10,8,16,.55);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  body.fab-dial-open .fab-dial-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .bottom-sheet-backdrop {
     display: none;
     position: fixed;
@@ -998,14 +990,6 @@
     </div>
   </div>
 
-  <div class="map-section" style="margin: 20px 0;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <span class="eyebrow">🗺️ TRIP ROUTE MAP</span>
-      <button type="button" id="btnToggleMap" class="inline-btn-badge" style="background:rgba(54,214,199,0.15); color:var(--teal); border-color:var(--teal);">지도 접기/펼치기</button>
-    </div>
-    <div id="tripMap" style="height: 260px; width: 100%; border-radius: var(--radius); border: 1px solid var(--line); z-index: 10;"></div>
-  </div>
-
   <main id="tab-reservations" class="tab-panel">
   <div class="card-filters">
     <button type="button" class="filter-chip active" data-filter="all">전체보기</button>
@@ -1111,7 +1095,7 @@
         <div class="top"><span class="icon">🚌</span><span class="badge todo">견적확인</span></div>
         <div class="name">LA 종일투어</div>
         <div class="detail">10/9(금) 게티 도슨트 &amp; LA 핵심 코스 (11시간)</div>
-        <div class="amount">₩626,850 (현장팁·주차비 별도)</div>
+        <div class="amount">₩621,270 (쿠폰 적용가 · 현장팁·주차비 별도)</div>
       </div>
     </div>
   </section>
@@ -1168,6 +1152,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>1일차 동선:</b> LAX(ConRAC) ➔ 바스토우(인앤아웃) ➔ 세븐매직 ➔ 코스트코/트조 ➔ 콘래드</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/5251+W+98th+St,+Los+Angeles,+CA/In-N-Out+Burger,+Barstow,+CA/Seven+Magic+Mountains,+NV/Costco+Wholesale,+St+Rose+Pkwy,+Henderson,+NV/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">LAX 입국 &amp; 베가스 로드트립</div>
         <div class="d-desc">공항 입국 후 렌터카로 모하비 사막을 가로질러 라스베가스 콘래드까지, 중간 명소·장보기 포함 첫날 로드트립</div>
         <div class="sched-list">
@@ -1232,6 +1220,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>2일차 동선:</b> 콘래드 ➔ 서커스서커스 ➔ 스피어 ➔ 하몬코너(저녁) ➔ 벨라지오 분수 ➔ 콘래드</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Circus+Circus,+Las+Vegas/Sphere,+Las+Vegas/Harmon+Corner,+Las+Vegas/Bellagio+Fountains,+Las+Vegas/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">오전 수영 → 호텔 F&amp;B 크레딧($50) 중식 → 레이트체크아웃(~14:00) → 서커스서커스 → 스피어 16:00 도어오픈 → 칙필레/치폴레 저녁 → 벨라지오 분수쇼 → 콘래드 투어 픽업</div>
         <div class="d-desc">23:45 콘래드(리조트월드) 로비에서 그랜드캐년 투어(요한투어) 픽업 <span class="mini-badge">예약확정</span></div>
         <div class="sched-list">
@@ -1328,6 +1320,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 그랜드캐년 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Welcome+to+Fabulous+Las+Vegas+Sign/Mather+Point,+Grand+Canyon/Lower+Antelope+Canyon/Horseshoe+Bend,+Page,+AZ/Glen+Canyon+Dam/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 투어 코스 열기 ↗</a>
+        </div>
         <div class="d-title">그랜드캐년 VIP 당일투어 (요한투어 · 코스2)</div>
         <div class="d-desc">마이리얼트립 결제 완료 <span class="mini-badge">예약확정</span> — 예약번호 EXP-20260822-00000491</div>
 
@@ -1461,6 +1457,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>4일차 동선:</b> 콘래드 ➔ Total Wine ➔ 히든밸리 ➔ 스컬락 ➔ 키즈뷰(일몰) ➔ 숙소</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Total+Wine+%26+More,+6885+S+Las+Vegas+Blvd/Hidden+Valley+Nature+Trail,+Joshua+Tree/Skull+Rock,+Joshua+Tree/Keys+View,+Joshua+Tree/Joshua+Tree,+CA" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">라스베가스 → 조슈아트리 인근 숙소 1박 (3.5~4h)</div>
         <div class="d-desc">애너하임 직행이 아닌 조슈아트리 인근 숙소 1박 · 애너하임 이동은 5일차(10/5)로 별도 진행</div>
         <div class="sched-list">
@@ -1523,13 +1523,12 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>5일차 동선:</b> 조슈아트리 ➔ 데저트힐스 아울렛 ➔ 트조(Orange) ➔ 코스트코 ➔ Home2 Suites ➔ Hertz 반납</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Joshua+Tree,+CA/Desert+Hills+Premium+Outlets/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA/Costco+Wholesale,+Garden+Grove,+CA/Home2+Suites+by+Hilton+Anaheim+Resort/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">조슈아트리 → 데저트힐스 아울렛 → 트레이더 조 → 코스트코 → 애너하임</div>
         <div class="d-desc">완벽한 서쪽 일직선 동선, 렌터카 트렁크를 활용한 쇼핑 몰아치기 후 반납 직전 코스트코 풀 주유로 유류비 절감 &amp; 패널티 방지</div>
-
-        <div class="route-nav-banner">
-          <span class="route-nav-text">🧭 <b>5일차 동선:</b> 트조 → 코스트코 → 호텔 → 다운타운 디즈니 → Hertz 야간 반납</span>
-          <a class="route-nav-link" href="https://www.google.com/maps/dir/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA+92865/Costco+Wholesale,+11000+Garden+Grove+Blvd,+Garden+Grove,+CA+92843/Home2+Suites+by+Hilton+Anaheim+Resort,+1441+S+Manchester+Ave,+Anaheim,+CA+92802/Downtown+Disney+District,+Anaheim,+CA/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA+92802" target="_blank" rel="noopener noreferrer">Google Maps 통합 네비 열기 ↗</a>
-        </div>
 
         <div class="sched-list">
 
@@ -1582,6 +1581,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>6일차 동선:</b> Home2 Suites ➔ 디즈니랜드 파크(오픈런~불꽃놀이) ➔ Puesto ➔ Home2 Suites</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Disneyland+Park,+Anaheim/Puesto+Anaheim,+1040+W+Katella+Ave/Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">디즈니랜드 파크 전일 (1-Day 1-Park)</div>
         <div class="d-desc">티켓 권종(1 Day 1 Park Tier 4)에 맞춰 디즈니랜드 파크(메인 파크) 단일 집중 일정 · 캘리포니아 어드벤처(DCA) 미포함</div>
         <div class="sched-list">
@@ -1652,6 +1655,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>7일차 동선:</b> Home2 Suites ➔ 로어스 호텔(체크인) ➔ 유니버셜 스튜디오(하부) ➔ 시티워크 ➔ 로어스</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Universal+CityWalk+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">애너하임 → 로어스 할리우드 체크인 &amp; 유니버설 1일차(하부 로어랏)</div>
         <div class="d-desc">유니버설 2일권 1일차 · 로어스 할리우드(4박) 체크인 후 우버로 파크 왕복, 하부 구역 중심 공략</div>
         <div class="sched-list">
@@ -1693,6 +1700,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>8일차 동선:</b> 로어스 할리우드 ➔ 유니버셜 스튜디오(상부) ➔ Ovation 몰 / 명예의 거리 ➔ 로어스</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Ovation+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+        </div>
         <div class="d-title">유니버설 2일차(상부) &amp; 할리우드 나이트</div>
         <div class="d-desc">유니버설 2일권 2일차 · 상부 구역 오픈런, 로어스 할리우드 4박 체류 유지</div>
         <div class="sched-list">
@@ -1734,8 +1745,12 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>9일차 투어:</b> 로어스 ➔ 산타모니카 ➔ 게티센터 ➔ 비벌리힐스 ➔ 핑크월 ➔ 파머스마켓 ➔ 그리피스 ➔ 로어스</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Santa+Monica+Pier/The+Getty/Greystone+Mansion/Paul+Smith+Pink+Wall/The+Original+Farmers+Market/Griffith+Observatory/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 투어 전체 코스 열기 ↗</a>
+        </div>
         <div class="d-title">LA 핵심 종일 투어 (전문 도슨트 &amp; 미니밴 11시간)</div>
-        <div class="d-desc">견적 확인 중 (4인 ₩626,850) — 투어사 원문 코스 순서: 산타모니카 출발 → 그리피스 천문대 야경 마무리</div>
+        <div class="d-desc">견적 확인 중 (4인 쿠폰 적용가 ₩621,270) — 투어사 원문 코스 순서: 산타모니카 출발 → 그리피스 천문대 야경 마무리</div>
         <div class="sched-list">
 
           <div class="sched-block">
@@ -1774,6 +1789,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>10일차 DTLA 동선:</b> 다저스타디움 ➔ 그랜드센트럴 ➔ 엔젤스플라이트 ➔ 더브로드 ➔ 더라스트북스토어 ➔ 로어스</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Dodger+Stadium/Grand+Central+Market/Angels+Flight+Railway/The+Broad/The+Last+Bookstore/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps DTLA 코스 열기 ↗</a>
+        </div>
         <div class="d-title">다저 스타디움 &amp; 다운타운 LA 문화 도보 산책 (여행 마지막 온전한 하루)</div>
         <div class="d-desc">불필요한 지그재그 이동과 쇼핑을 덜어내고, 다저스타디움 공식 투어 후 다운타운 명소들을 원웨이 도보로 연결해 할리우드에서 품격 있는 만찬으로 마무리하는 최적화 동선</div>
         <div class="sched-list">
@@ -1843,6 +1862,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="route-nav-banner">
+          <span class="route-nav-text">🧭 <b>11일차 귀국:</b> 로어스 할리우드 호텔 ➔ LAX 톰 브래들리 국제선 터미널(TBIT 출발층)</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Tom+Bradley+International+Terminal,+Los+Angeles,+CA" target="_blank" rel="noopener noreferrer">Google Maps 공항 이동 열기 ↗</a>
+        </div>
         <div class="d-title">새벽 LAX 이동 → 10:50 출국 (YP102)</div>
         <div class="d-desc">10/12(월) 15:50 한국 도착 · 10/13(화) 출근</div>
         <div class="sched-list">
@@ -1984,7 +2007,7 @@
       { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
       { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 0, note: "발권 예정 (성인3+아동1)", done: false },
       { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 525400, estUsd: 0, actKrw: 525400, actUsd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
-      { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 626850, estUsd: 0, actKrw: 0, actUsd: 0, note: "견적 확인 (11시간 도슨트)", done: false },
+      { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 0, actUsd: 0, note: "견적 확인 (11시간 도슨트, 쿠폰 적용가)", done: false },
       { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", estKrw: 0, estUsd: 170.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비/픽업비", done: false },
       { cat: "액티비티", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "9/27 티켓팅 오픈 예정", done: false },
       { cat: "액티비티", item: "현장 기타 지출 (가계부 누적)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "우버·주차·팁 등 카드문자/직접입력으로 건별 기록", done: false },
@@ -4457,98 +4480,6 @@
   })();
 
   /* ==========================================================
-     [4-2b] 인터랙티브 트립 루트 맵 (Leaflet.js)
-     주의: Claude Artifact 배포본은 CSP로 unpkg.com 스크립트가 차단되어
-     window.L이 정의되지 않음 → 이 경우 자동으로 텍스트 폴백으로 전환.
-     GitHub Pages 배포본에서는 정상적으로 다크 타일 지도가 렌더링됨.
-  ========================================================== */
-  (function initTripMap() {
-    var mapEl = document.getElementById('tripMap');
-    var toggleBtn = document.getElementById('btnToggleMap');
-    if (!mapEl) return;
-
-    var spots = [
-      { name: "LAX 공항 (출발/귀국)", coords: [33.9416, -118.4085], color: "var(--coral)" },
-      { name: "🎰 라스베이거스 (1~4일차)", coords: [36.1312, -115.1633], color: "var(--gold)" },
-      { name: "🏜️ 그랜드캐년 투어", coords: [36.0544, -112.1401], color: "var(--amber)" },
-      { name: "🌵 조슈아트리 (4~5일차)", coords: [34.1347, -116.3131], color: "var(--green)" },
-      { name: "🎢 애너하임 (5~7일차)", coords: [33.8003, -117.9190], color: "var(--teal)" },
-      { name: "🌴 LA & 할리우드 (7~11일차)", coords: [34.1016, -118.3416], color: "var(--pink)" }
-    ];
-
-    function showFallback() {
-      mapEl.outerHTML =
-        '<div id="tripMap" class="map-fallback">🗺️ 이 지도는 GitHub Pages 배포본에서만 표시됩니다 (Artifact 미리보기는 외부 지도 스크립트를 지원하지 않음).<br><br>' +
-        '<b>전체 동선:</b> ' + spots.map(function (s) { return s.name; }).join(' → ') +
-        '</div>';
-    }
-
-    if (typeof window.L === 'undefined') {
-      showFallback();
-      return;
-    }
-
-    try {
-      // 미서부 중심 좌표 기준 맵 초기화
-      var map = L.map('tripMap', { zoomControl: false }).setView([35.2, -116.5], 6);
-
-      // CartoDB 다크 타일맵 적용 (대시보드 테마 일치)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO',
-        maxZoom: 18
-      }).addTo(map);
-
-      // 마커 및 팝업 등록
-      spots.forEach(function(s) {
-        var marker = L.circleMarker(s.coords, {
-          radius: 6,
-          fillColor: s.color,
-          color: "#fff",
-          weight: 1.5,
-          opacity: 1,
-          fillOpacity: 0.9
-        }).addTo(map);
-        marker.bindPopup("<b>" + s.name + "</b>");
-      });
-
-      // 로드트립 연결선 (LAX ➔ 베가스 ➔ 그랜드캐년 ➔ 베가스 복귀 ➔ 조슈아트리 ➔ 애너하임 ➔ 할리우드 ➔ LAX)
-      var routePath = [
-        [33.9416, -118.4085], // LAX
-        [36.1312, -115.1633], // 베가스
-        [36.0544, -112.1401], // 그랜드캐년
-        [36.1312, -115.1633], // 베가스 복귀
-        [34.1347, -116.3131], // 조슈아트리
-        [33.8003, -117.9190], // 애너하임
-        [34.1016, -118.3416], // 할리우드
-        [33.9416, -118.4085]  // LAX 출국
-      ];
-
-      L.polyline(routePath, {
-        color: '#36d6c7',
-        weight: 3,
-        opacity: 0.7,
-        dashArray: '6, 8'
-      }).addTo(map);
-
-      // 지도 접기/펼치기 토글
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-          if (mapEl.style.display === 'none') {
-            mapEl.style.display = 'block';
-            this.textContent = '지도 접기';
-            setTimeout(function() { map.invalidateSize(); }, 100);
-          } else {
-            mapEl.style.display = 'none';
-            this.textContent = '지도 펼치기';
-          }
-        });
-      }
-    } catch (e) {
-      showFallback();
-    }
-  })();
-
-  /* ==========================================================
      [4-3] 남은 할 일: 체크박스 상태 로컬스토리지 저장/복원
   ========================================================== */
   (function initTodoChecklist() {
@@ -4663,6 +4594,9 @@
     });
   }
 </script>
+
+<!-- 스피드다이얼 오픈 시 배경 딤 처리 (바깥 영역 탭하면 다이얼 닫힘) -->
+<div class="fab-dial-backdrop" aria-hidden="true"></div>
 
 <!-- 2-in-1 팁 & 쇼핑세금 계산기 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
 <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
