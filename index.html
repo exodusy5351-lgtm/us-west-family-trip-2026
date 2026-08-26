@@ -582,20 +582,15 @@
     transform: translateY(0) scale(1);
   }
 
-  .fab-dial-backdrop {
+  .fab-backdrop {
+    display: none;
     position: fixed;
     inset: 0;
-    z-index: 898;
-    background: rgba(10,8,16,.55);
-    backdrop-filter: blur(2px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+    background: rgba(10, 8, 16, 0.6);
+    backdrop-filter: blur(3px);
+    z-index: 890;
   }
-  body.fab-dial-open .fab-dial-backdrop {
-    opacity: 1;
-    pointer-events: auto;
-  }
+  body.fab-dial-open .fab-backdrop { display: block; }
 
   .bottom-sheet-backdrop {
     display: none;
@@ -1088,14 +1083,14 @@
       <div class="card">
         <div class="top"><span class="icon">🖼️</span><span class="badge todo">예약필요</span></div>
         <div class="name">게티센터 시간지정 티켓</div>
-        <div class="detail">10/9(금) 오전 시간지정 · LA 투어 미이용 시 개별 예약</div>
+        <div class="detail">10/9(금) 오전 시간지정 · LA 투어 결제 시 자동 포함</div>
         <div class="amount">무료</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🚌</span><span class="badge todo">견적확인</span></div>
-        <div class="name">LA 종일투어</div>
-        <div class="detail">10/9(금) 게티 도슨트 &amp; LA 핵심 코스 (11시간)</div>
-        <div class="amount">₩621,270 (쿠폰 적용가 · 현장팁·주차비 별도)</div>
+        <div class="name">LA 종일투어 (게티 도슨트)</div>
+        <div class="detail">10/9(금) 6인 소규모 · 마이리얼트립 쿠폰적용 대기</div>
+        <div class="amount">₩621,270 (현장팁·주차비 별도)</div>
       </div>
     </div>
   </section>
@@ -1106,7 +1101,7 @@
       <span class="count">5 ITEMS</span>
     </div>
     <div class="todo-list">
-      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-la-tour"><div class="txt">LA 종일투어 일정 확정 및 결제 <span class="tag">— 10/9(금)</span></div></div>
+      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-la-tour"><div class="txt">LA 종일투어 일정 확정 및 결제 <span class="tag">— 10/9(금) ₩621,270</span></div></div>
       <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-dodger"><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-disney"><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-musso"><div class="txt">Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/10 토)</span></div></div>
@@ -1750,7 +1745,7 @@
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Santa+Monica+Pier/The+Getty/Greystone+Mansion/Paul+Smith+Pink+Wall/The+Original+Farmers+Market/Griffith+Observatory/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 투어 전체 코스 열기 ↗</a>
         </div>
         <div class="d-title">LA 핵심 종일 투어 (전문 도슨트 &amp; 미니밴 11시간)</div>
-        <div class="d-desc">견적 확인 중 (4인 쿠폰 적용가 ₩621,270) — 투어사 원문 코스 순서: 산타모니카 출발 → 그리피스 천문대 야경 마무리</div>
+        <div class="d-desc">마이리얼트립 6인 소규모 도슨트 투어 진행 예정 (4인 ₩621,270) — 산타모니카 출발 → 게티센터 도슨트 → 그리피스 천문대 야경</div>
         <div class="sched-list">
 
           <div class="sched-block">
@@ -2007,7 +2002,7 @@
       { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
       { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 0, note: "발권 예정 (성인3+아동1)", done: false },
       { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 525400, estUsd: 0, actKrw: 525400, actUsd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
-      { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 0, actUsd: 0, note: "견적 확인 (11시간 도슨트, 쿠폰 적용가)", done: false },
+      { cat: "액티비티", item: "LA 종일투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 0, actUsd: 0, note: "마이리얼트립 6인 도슨트 투어 (쿠폰적용가 대기)", done: false },
       { cat: "액티비티", item: "LA 종일투어 현장비용 (Cash)", estKrw: 0, estUsd: 170.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비/픽업비", done: false },
       { cat: "액티비티", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "9/27 티켓팅 오픈 예정", done: false },
       { cat: "액티비티", item: "현장 기타 지출 (가계부 누적)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "우버·주차·팁 등 카드문자/직접입력으로 건별 기록", done: false },
@@ -4399,6 +4394,10 @@
       if (open) setOpen(false);
     });
 
+    // 백드롭 클릭 시 다이얼 닫기 (터치 오작동 방지)
+    var backdrop = document.getElementById('fabBackdrop');
+    if (backdrop) backdrop.addEventListener('click', function () { setOpen(false); });
+
     // 테마파크 가이드 항목이 노출 가능해질 때 메인 버튼에 뱃지 점 표시 (다이얼이 접혀있어도 존재를 알림)
     document.addEventListener('fabGuideAvailabilityChange', function (e) {
       var mainBtn = document.getElementById('fabMainBtn');
@@ -4595,9 +4594,6 @@
   }
 </script>
 
-<!-- 스피드다이얼 오픈 시 배경 딤 처리 (바깥 영역 탭하면 다이얼 닫힘) -->
-<div class="fab-dial-backdrop" aria-hidden="true"></div>
-
 <!-- 2-in-1 팁 & 쇼핑세금 계산기 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
 <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
   <span class="fab-icon">🧮</span>
@@ -4609,5 +4605,6 @@
   <span class="fab-badge-dot"></span>
   <span id="fabMainIcon">☰</span>
 </button>
+<div id="fabBackdrop" class="fab-backdrop"></div>
 </body>
 </html>
