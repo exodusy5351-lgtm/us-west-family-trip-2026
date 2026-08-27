@@ -589,9 +589,11 @@
   .floating-calc-btn { display: flex; bottom: 140px; }
   .floating-guide-btn { display: none; bottom: 202px; }
   .floating-guide-btn.fab-item-available { display: flex; }
+  #floatingOfflineMapBtn { display: flex; bottom: 264px; }
 
   body.fab-dial-open .floating-calc-btn,
-  body.fab-dial-open .floating-guide-btn.fab-item-available {
+  body.fab-dial-open .floating-guide-btn.fab-item-available,
+  body.fab-dial-open #floatingOfflineMapBtn {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0) scale(1);
@@ -768,6 +770,28 @@
   .rate-refresh-btn:hover,.rate-refresh-btn:focus-visible{color:var(--teal);border-color:var(--teal);outline:none;}
   .rate-refresh-btn.spinning{animation:rateSpin .7s linear infinite;}
   @keyframes rateSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+  /* ===== 오프라인 맵 다운로드 센터 모달 ===== */
+  .offline-map-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(10,8,16,.7);backdrop-filter:blur(4px);z-index:1150;}
+  .offline-map-modal-backdrop.open{display:block;}
+  .offline-map-modal{display:none;flex-direction:column;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 24px);max-width:520px;max-height:88vh;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);z-index:1200;box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;}
+  .offline-map-modal.open{display:flex;}
+  .offline-map-modal-head{padding:16px 18px;border-bottom:1px solid var(--line);background:rgba(46,196,182,.06);flex-shrink:0;}
+  .offline-map-modal-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .offline-map-modal-title-row h3{font-size:15px;line-height:1.3;}
+  .offline-map-modal-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+  .offline-map-body{flex:1;overflow-y:auto;padding:14px 18px 18px;}
+  .offline-map-howto{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .offline-map-howto b{color:var(--text);font-size:12px;}
+  .offline-map-howto ol{margin:6px 0 0;padding-left:18px;}
+  .offline-map-howto li{margin-bottom:2px;}
+  .offline-map-note{margin:8px 0 0;font-size:10.5px;color:var(--muted-2);}
+  .offline-map-row{border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:10px;background:var(--card-2);}
+  .offline-map-row:last-child{margin-bottom:0;}
+  .offline-map-row-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+  .offline-map-row-name{font-size:12.5px;font-weight:700;color:var(--text);}
+  .offline-map-check{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);cursor:pointer;}
+  .offline-map-check input{width:15px;height:15px;accent-color:var(--teal);cursor:pointer;}
 
   /* ===== 트레이더 조(Trader Joe's) 쇼핑 리스트 모달 ===== */
   .tj-open-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:7px 14px;border-radius:20px;background:linear-gradient(135deg,var(--coral),var(--gold));border:none;color:#1a1625;font-family:'Work Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:transform .15s ease;}
@@ -1109,7 +1133,7 @@
       <div class="card">
         <div class="top"><span class="icon">⚾</span><span class="badge pending">9/27 오픈</span></div>
         <div class="name">다저 스타디움 투어</div>
-        <div class="detail">10/10 오전 (반나절) · 포스트시즌 확정 시 오픈 (성인2+아동2)</div>
+        <div class="detail">10/10 오전 (반나절) · 9/27 오픈 예정, 포스트시즌 경기 일정에 따라 투어 코스 변동 가능 (성인2+아동2)</div>
         <div class="amount">$149.00</div>
       </div>
       <div class="card">
@@ -1145,7 +1169,7 @@
       <span class="count">4 ITEMS</span>
     </div>
     <div class="todo-list">
-      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-dodger"><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈</span></div></div>
+      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-dodger"><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈 (코스 변동 가능)</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-disney"><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-musso"><div class="txt">Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/10 토)</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-puesto"><div class="txt">Puesto Anaheim 저녁 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/6 화)</span></div></div>
@@ -1190,6 +1214,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (모하비 사막 &amp; I-15/Barstow 구간)</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>1일차 동선:</b> LAX(ConRAC) ➔ 바스토우(인앤아웃) ➔ 세븐매직 ➔ 코스트코/트조 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/5251+W+98th+St,+Los+Angeles,+CA/In-N-Out+Burger,+Barstow,+CA/Seven+Magic+Mountains,+NV/Costco+Wholesale,+St+Rose+Pkwy,+Henderson,+NV/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1358,6 +1383,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (그랜드캐년 &amp; 페이지(Page, AZ) 구간)</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 그랜드캐년 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Welcome+to+Fabulous+Las+Vegas+Sign/Mather+Point,+Grand+Canyon/Lower+Antelope+Canyon/Horseshoe+Bend,+Page,+AZ/Glen+Canyon+Dam/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 투어 코스 열기 ↗</a>
@@ -1495,6 +1521,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (모하비 사막 &amp; 조슈아트리 국립공원 구간)</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>4일차 통합 동선:</b> 콘래드 ➔ Total Wine ➔ 유카밸리(Stater Bros) ➔ 숙소(짐하차) ➔ 히든밸리 ➔ 스컬락 ➔ 키즈뷰(일몰) ➔ 숙소</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Total+Wine+%26+More,+6885+S+Las+Vegas+Blvd/Stater+Bros.+Markets,+57560+Twentynine+Palms+Highway,+Yucca+Valley,+CA+92284/60442+La+Mirada+Trail,+Joshua+Tree,+CA+92252/Hidden+Valley+Nature+Trail,+Joshua+Tree/Skull+Rock,+Joshua+Tree/Keys+View,+Joshua+Tree/60442+La+Mirada+Trail,+Joshua+Tree,+CA+92252" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1683,7 +1710,7 @@
           <div class="sched-block">
             <div class="sched-time">🎆 20:30–22:00</div>
             <div class="sched-title">빅 썬더 마운틴(야간) &amp; 원드러스 저니(Wondrous Journeys)</div>
-            <div class="sched-note">빅 선더 마운틴 야간 탑승 ➔ 21:00 잠자는 숲속의 공주 성 앞 원드러스 저니(프로젝션 맵핑+드론쇼, 피날레에 불꽃 일부 포함) 감상 후 복귀</div>
+            <div class="sched-note">빅 선더 마운틴 야간 탑승 ➔ 21:00 잠자는 숲속의 공주 성 앞 원드러스 저니(프로젝션 맵핑+드론쇼, 피날레에 불꽃 일부 포함) 감상 후 복귀 ✨ 명당: 캐슬 앞 정면 혼잡을 피하려면 메인 스트리트 Emporium 앞 또는 기차역 계단 부근에서 관람 시 시야 확보와 퇴장 모두 유리 ⚠️ 평일/비수기에는 쇼 시간·구성이 변경될 수 있으니 방문 당일 디즈니 앱 일정으로 최종 확인 권장</div>
           </div>
 
         </div>
@@ -1721,7 +1748,7 @@
           <div class="sched-block">
             <div class="sched-time">🚕 09:30–11:00</div>
             <div class="sched-title">애너하임 ➔ 로어스 할리우드 호텔 이동 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">📍 Loews Hollywood</a></div>
-            <div class="sched-note">🚕 UberXL 이동 (4인+수하물 전량, 50분 소요, 트렁크 부족 대비 SUV 옵션 요청 또는 큰 캐리어는 무릎/발밑 분산 대비) ➔ 프런트 짐 보관 후 파크 외출</div>
+            <div class="sched-note">🚕 UberXL 이동 (4인+대형 캐리어 4개+쇼핑백 전량, 50분 소요) — 배차 확정 후 앱에 뜨는 차량 사진/차종을 미리 확인, 트렁크가 좁아 보이면 배차 취소 후 Uber Black SUV(더 넓은 트렁크)로 업그레이드 요청 또는 큰 캐리어는 무릎/발밑 분산 대비 ➔ 프런트 짐 보관 후 파크 외출</div>
           </div>
 
           <div class="sched-block">
@@ -2466,7 +2493,7 @@
   <section>
     <div class="section-head">
       <h2>🎒 준비물 체크리스트</h2>
-      <span class="count">44 ITEMS</span>
+      <span class="count">45 ITEMS</span>
     </div>
 
     <div class="pack-progress">
@@ -2967,6 +2994,72 @@
 </div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
+<!-- 오프라인 맵 다운로드 센터 모달 -->
+<div id="offlineMapModalBackdrop" class="offline-map-modal-backdrop"></div>
+<div id="offlineMapModal" class="offline-map-modal" role="dialog" aria-modal="true" aria-labelledby="offlineMapModalTitle">
+  <div class="offline-map-modal-head">
+    <div class="offline-map-modal-title-row">
+      <div>
+        <h3 id="offlineMapModalTitle">🗺️ 오프라인 맵 다운로드 센터</h3>
+        <div class="offline-map-modal-sub">통신 음영 구간 대비 — 출발 전 숙소 Wi-Fi에서 미리 받아두세요</div>
+      </div>
+      <button type="button" id="offlineMapCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+    </div>
+  </div>
+
+  <div class="offline-map-body">
+    <div class="offline-map-howto">
+      <b>📥 구글맵 앱 오프라인 지도 받는 법</b>
+      <ol>
+        <li>구글맵 앱 우측 상단 프로필 아이콘(또는 ⋮ 메뉴) 탭</li>
+        <li>"오프라인 지도" → "나만의 지도 선택" 탭</li>
+        <li>다운로드할 영역을 손가락으로 조정 후 "다운로드" 탭</li>
+      </ol>
+      <p class="offline-map-note">※ Wi-Fi 환경 기준 영역 크기에 따라 1~2분 정도 소요될 수 있습니다. 출발 전 숙소 Wi-Fi에서 미리 받아두는 것을 권장합니다.</p>
+    </div>
+
+    <div class="offline-map-row" data-region="mojave">
+      <div class="offline-map-row-top">
+        <span class="offline-map-row-name">🏜️ 모하비 사막 &amp; I-15 (Barstow 거점)</span>
+        <a class="route-nav-link" href="https://www.google.com/maps/search/?api=1&query=Barstow+CA" target="_blank" rel="noopener noreferrer">구글맵 열기 ↗</a>
+      </div>
+      <label class="offline-map-check">
+        <input type="checkbox" data-offline-map-check="mojave"> 다운로드 완료 ✓
+      </label>
+    </div>
+
+    <div class="offline-map-row" data-region="joshuaTree">
+      <div class="offline-map-row-top">
+        <span class="offline-map-row-name">🌵 조슈아트리 국립공원</span>
+        <a class="route-nav-link" href="https://www.google.com/maps/search/?api=1&query=Joshua+Tree+National+Park" target="_blank" rel="noopener noreferrer">구글맵 열기 ↗</a>
+      </div>
+      <label class="offline-map-check">
+        <input type="checkbox" data-offline-map-check="joshuaTree"> 다운로드 완료 ✓
+      </label>
+    </div>
+
+    <div class="offline-map-row" data-region="grandCanyon">
+      <div class="offline-map-row-top">
+        <span class="offline-map-row-name">🏞️ 그랜드캐년 &amp; 페이지(Page, AZ)</span>
+        <a class="route-nav-link" href="https://www.google.com/maps/search/?api=1&query=Page+AZ" target="_blank" rel="noopener noreferrer">구글맵 열기 ↗</a>
+      </div>
+      <label class="offline-map-check">
+        <input type="checkbox" data-offline-map-check="grandCanyon"> 다운로드 완료 ✓
+      </label>
+    </div>
+
+    <div class="offline-map-row" data-region="la">
+      <div class="offline-map-row-top">
+        <span class="offline-map-row-name">🌆 LA 도심 &amp; 애너하임 권역</span>
+        <a class="route-nav-link" href="https://www.google.com/maps/search/?api=1&query=Los+Angeles+CA" target="_blank" rel="noopener noreferrer">구글맵 열기 ↗</a>
+      </div>
+      <label class="offline-map-check">
+        <input type="checkbox" data-offline-map-check="la"> 다운로드 완료 ✓
+      </label>
+    </div>
+  </div>
+</div>
+
 <!-- 트레이더 조(Trader Joe's) 쇼핑 리스트 모달 -->
 <div id="tjModalBackdrop" class="tj-modal-backdrop"></div>
 <div id="tjModal" class="tj-modal" role="dialog" aria-modal="true" aria-labelledby="tjModalTitle">
@@ -3280,16 +3373,17 @@
       { id: "doc6", cat: "doc", label: "미국 달러(USD) 현금", desc: "소액권(팁용 $100~$200) + 그랜드캐년 가이드 정산($680) + 나바호팁($8) + LA투어 현장비용(팁/주차비 약 $170) → 총 현금 약 $950~$1,050 USD 준비" },
       { id: "doc7", cat: "doc", label: "e-티켓 & 예약 바우처 PDF", desc: "항공권(에어프레미아), 숙소 4곳, 스피어, 투어 확인서 오프라인 저장" },
       { id: "doc8", cat: "doc", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
+      { id: "doc9", cat: "doc", label: "오프라인 지도 4개 권역 사전 다운로드 완료", desc: "모하비 사막/I-15, 조슈아트리, 그랜드캐년·페이지(Page AZ), LA·애너하임 — '오프라인 맵 다운로드 센터'에서 4개 권역 전부 체크 완료 확인" },
 
       { id: "elec1", cat: "elec", label: "디즈니랜드 앱 (Disneyland)", desc: "티켓 4인 등록, Family 그룹 연동, 결제 카드 등록 완료" },
       { id: "elec2", cat: "elec", label: "유니버설 스튜디오 앱", desc: "공식 앱 설치 및 지도 확인" },
-      { id: "elec3", cat: "elec", label: "구글 맵 오프라인 지도 다운로드", desc: "모하비 사막(I-15), 조슈아트리 국립공원, 그랜드캐년 일대 통신 음영 지역 사전 다운로드" },
       { id: "elec4", cat: "elec", label: "우버(Uber) / 리프트(Lyft) 앱", desc: "계정 생성 및 해외 결제 카드 등록" },
       { id: "elec5", cat: "elec", label: "110V 돼지코 변환 플러그 (4~5개)", desc: "호텔 객실 충전용 어댑터" },
       { id: "elec6", cat: "elec", label: "멀티탭 / 다구 고속 멀티 충전기", desc: "스마트폰 4대, 보조배터리 동시 충전용" },
       { id: "elec7", cat: "elec", label: "대용량 보조배터리 (2~3개)", desc: "테마파크 종일 사용 대비 (반드시 기내 수하물 휴대)" },
       { id: "elec8", cat: "elec", label: "차량용 스마트폰 거치대 & 시거잭 충전기", desc: "렌터카 내비게이션 거치용" },
       { id: "elec9", cat: "elec", label: "카메라 삼각대", desc: "조슈아트리 야간 은하수/별자리(Stargazing) 장노출 촬영용" },
+      { id: "elec10", cat: "elec", label: "차량용 USB-A/C 듀얼 충전 케이블", desc: "1일차 사막 로드트립, 4일차 조슈아트리 이동 등 장시간 드라이브 중 스마트폰 4대 동시 충전 대비" },
 
       { id: "wear1", cat: "wear", label: "새벽 사막/그랜드캐년 방한복 (가족 전원)", desc: "경량 패딩, 후리스, 기모 긴팔/긴바지, 윈드브레이커, 넥워머/비니" },
       { id: "wear2", cat: "wear", label: "일교차 대비 레이어드 의류", desc: "낮 기온 25~28℃, 밤 기온 15℃ 대비 반팔+가디건/셔츠 조합" },
@@ -4259,6 +4353,82 @@
   })();
 
   /* ==========================================================
+     [4-0g-2] 오프라인 맵 다운로드 센터 모달
+  ========================================================== */
+  (function initOfflineMapModal() {
+    var backdrop = document.getElementById('offlineMapModalBackdrop');
+    var modal = document.getElementById('offlineMapModal');
+    var closeBtn = document.getElementById('offlineMapCloseBtn');
+    if (!modal || !backdrop) return;
+
+    var STORAGE_KEY = 'us_trip_offline_maps_2026';
+
+    function loadState() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function applyState() {
+      var state = loadState();
+      modal.querySelectorAll('[data-offline-map-check]').forEach(function (box) {
+        var id = box.getAttribute('data-offline-map-check');
+        box.checked = !!state[id];
+      });
+    }
+
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      applyState();
+      if (window.pushModalNavState) window.pushModalNavState();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#floatingOfflineMapBtn')) openModal();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
+
+    modal.addEventListener('change', function (e) {
+      if (!e.target.matches('[data-offline-map-check]')) return;
+      var state = loadState();
+      state[e.target.getAttribute('data-offline-map-check')] = e.target.checked;
+      saveState(state);
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    });
+
+    // 페이지 로드 시점에도 저장된 체크 상태를 즉시 반영 (모달을 열지 않아도 상태 유지)
+    applyState();
+  })();
+
+  /* ==========================================================
      [4-0h] 코스트코(Costco) 쇼핑 가이드 모달
   ========================================================== */
   (function initCostcoModal() {
@@ -4445,8 +4615,8 @@
         if (window.triggerHaptic) window.triggerHaptic('light');
         return;
       }
-      // 서브메뉴 아이템(계산기/테마파크 가이드) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
-      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn')) {
+      // 서브메뉴 아이템(계산기/테마파크 가이드/오프라인 맵) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
+      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn')) {
         setOpen(false);
         return;
       }
@@ -4670,6 +4840,11 @@
 <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
   <span class="fab-icon">🧮</span>
   <span class="fab-label">팁/세금</span>
+</button>
+
+<!-- 오프라인 맵 다운로드 센터 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
+<button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 맵 다운로드 센터 열기">
+  <span>🗺️</span> <span>오프라인 맵</span>
 </button>
 
 <!-- 플로팅 스피드다이얼 메인 버튼 -->
