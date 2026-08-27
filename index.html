@@ -270,6 +270,7 @@
   .sched-title-link:hover,.sched-title-link:focus-visible{color:var(--gold);text-decoration-color:var(--gold);outline:none;}
   .sched-note,.nav-card-note{font-size:12.5px;line-height:1.55;color:#ded5ee;margin-top:4px;}
   .inline-btn-badge{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:12px;background:rgba(255,184,77,.15);color:var(--gold);border:1px solid rgba(255,184,77,.35);cursor:pointer;vertical-align:middle;margin-left:4px;}
+  .inline-btn-badge.teal{background:rgba(46,196,182,.15);color:var(--teal);border-color:rgba(46,196,182,.35);flex-shrink:0;}
   .sched-sub{margin-top:9px;display:flex;flex-direction:column;gap:6px;}
   .mini-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;padding:2px 7px;border-radius:20px;background:rgba(46,196,182,.15);color:var(--teal);border:1px solid rgba(46,196,182,.3);margin-left:7px;vertical-align:middle;}
 
@@ -671,7 +672,7 @@
   .stop:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
 
   /* ===== CALLOUT (핵심 주의사항) ===== */
-  .callout-warn{margin-top:8px;background:rgba(255,107,107,.09);border-left:3px solid var(--red);border-radius:8px;padding:9px 11px;font-size:11px;color:var(--muted);line-height:1.55;}
+  .callout-warn{margin-top:8px;background:rgba(255,107,107,.09);border-left:3px solid var(--red);border-radius:8px;padding:9px 11px;font-size:11px;color:var(--muted);line-height:1.55;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 
   /* ===== 예약번호 복사 버튼 & 토스트 ===== */
   .copy-btn {
@@ -1170,9 +1171,9 @@
     </div>
     <div class="todo-list">
       <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-dodger"><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 9/27 오픈 (코스 변동 가능)</span></div></div>
+      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-the-broad"><div class="txt">더 브로드(The Broad) 사전 무료 시간지정권 예매 <span class="tag">— 9/1 오픈 (10/10 13:30/14:00 슬롯)</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-disney"><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
       <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-musso"><div class="txt">Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/10 토)</span></div></div>
-      <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-puesto"><div class="txt">Puesto Anaheim 저녁 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/6 화)</span></div></div>
     </div>
   </section>
   </main>
@@ -1214,7 +1215,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (모하비 사막 &amp; I-15/Barstow 구간)</div>
+        <div class="callout-warn"><span>⚠️ <b>통신 음영 구간:</b> 사전 다운로드 맵 확인 (모하비 사막 &amp; I-15/Barstow 구간)</span><button type="button" class="inline-btn-badge teal open-map-modal-btn">🗺️ 오프라인 맵 열기</button></div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>1일차 동선:</b> LAX(ConRAC) ➔ 바스토우(인앤아웃) ➔ 세븐매직 ➔ 코스트코/트조 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/5251+W+98th+St,+Los+Angeles,+CA/In-N-Out+Burger,+Barstow,+CA/Seven+Magic+Mountains,+NV/Costco+Wholesale,+St+Rose+Pkwy,+Henderson,+NV/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1244,20 +1245,21 @@
           <div class="sched-block">
             <div class="sched-time">🛒 17:30–18:35</div>
             <div class="sched-title">[주유 &amp; 장보기] 코스트코 헨더슨 + 트레이더 조</div>
+            <div class="sched-note">⏱️ <b>속전속결 팁:</b> 체크인 전 마지막 스톱 — 생수·소량 간식 등 필수품만 빠르게 담고 매장 구경은 자제 (짧게 끝내야 다음 일정 버퍼 확보)</div>
             <div class="sched-note">⛽ 코스트코: 풀주유(한국 회원권 지참) + 생수 벌크 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Costco+Wholesale+St+Rose+Pkwy+Henderson+NV" target="_blank" rel="noopener noreferrer">📍 Costco Henderson</a> <button type="button" id="costcoOpenBtn" class="inline-btn-badge costco-trigger-btn">🏬 가이드</button></div>
             <div class="sched-note">🛒 트조: 상온 과일/간식 소량 구매 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Trader+Joe%27s+E+Serene+Ave+Henderson+NV" target="_blank" rel="noopener noreferrer">📍 Trader Joe's Serene</a> <button type="button" id="tjOpenBtn2" class="inline-btn-badge tj-trigger-btn">🛒 꿀템</button></div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🏨 19:00–19:45</div>
+            <div class="sched-time">🏨 19:00–20:15</div>
             <div class="sched-title">콘래드 체크인 &amp; Hertz 1차 렌터카 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Car+Rental+Las+Vegas+Resorts+World" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
-            <div class="sched-note">🏨 체크인: 콘래드 메인 로비 정차 후 짐 하차 ➔ 🚗 반납: 리조트월드 주차장(Self-Parking) 내 Hertz 전용 구역 주차 후 벽면 Key Drop Box에 키 투입 ($40.55)</div>
+            <div class="sched-note">🏨 체크인: 콘래드 메인 로비 정차 후 짐 하차 ➔ 🚗 반납: 리조트월드 주차장(Self-Parking) 내 Hertz 전용 구역 주차 후 벽면 Key Drop Box에 키 투입 ($40.55) — 75분 여유 확보로 4인 가족 짐 하차·체크인·반납까지 서두르지 않고 진행, 아이 동반 피로 최소화</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🌮 20:00–21:00</div>
+            <div class="sched-time">🌮 20:30–21:30</div>
             <div class="sched-title">[저녁 식사] Tacos El Gordo <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Tacos+El+Gordo+3041+S+Las+Vegas+Blvd" target="_blank" rel="noopener noreferrer">📍 Tacos El Gordo</a></div>
-            <div class="sched-note">🌮 메뉴: 아도바다(스파이시 포크) &amp; 카르네 아사다 (호텔 맞은편 도보 7분, 고기별 줄 확인)</div>
+            <div class="sched-note">🌮 메뉴: 아도바다(스파이시 포크) &amp; 카르네 아사다 (호텔 맞은편 도보 7분, 고기별 줄 확인) — 체크인 버퍼 확보 후 여유롭게 이동해 저녁 시작</div>
           </div>
 
         </div>
@@ -1383,7 +1385,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (그랜드캐년 &amp; 페이지(Page, AZ) 구간)</div>
+        <div class="callout-warn"><span>⚠️ <b>통신 음영 구간:</b> 사전 다운로드 맵 확인 (그랜드캐년 &amp; 페이지(Page, AZ) 구간)</span><button type="button" class="inline-btn-badge teal open-map-modal-btn">🗺️ 오프라인 맵 열기</button></div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 그랜드캐년 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Welcome+to+Fabulous+Las+Vegas+Sign/Mather+Point,+Grand+Canyon/Lower+Antelope+Canyon/Horseshoe+Bend,+Page,+AZ/Glen+Canyon+Dam/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 투어 코스 열기 ↗</a>
@@ -1521,7 +1523,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
-        <div class="callout-warn">⚠️ 통신 음영 구간: 사전 다운로드 맵 확인 (모하비 사막 &amp; 조슈아트리 국립공원 구간)</div>
+        <div class="callout-warn"><span>⚠️ <b>통신 음영 구간:</b> 사전 다운로드 맵 확인 (모하비 사막 &amp; 조슈아트리 국립공원 구간)</span><button type="button" class="inline-btn-badge teal open-map-modal-btn">🗺️ 오프라인 맵 열기</button></div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>4일차 통합 동선:</b> 콘래드 ➔ Total Wine ➔ 유카밸리(Stater Bros) ➔ 숙소(짐하차) ➔ 히든밸리 ➔ 스컬락 ➔ 키즈뷰(일몰) ➔ 숙소</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Total+Wine+%26+More,+6885+S+Las+Vegas+Blvd/Stater+Bros.+Markets,+57560+Twentynine+Palms+Highway,+Yucca+Valley,+CA+92284/60442+La+Mirada+Trail,+Joshua+Tree,+CA+92252/Hidden+Valley+Nature+Trail,+Joshua+Tree/Skull+Rock,+Joshua+Tree/Keys+View,+Joshua+Tree/60442+La+Mirada+Trail,+Joshua+Tree,+CA+92252" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1658,14 +1660,14 @@
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/6 화</span><span class="d-tag">디즈니랜드 1일 완벽 정복 (로프드랍~원드러스 저니)</span><span class="sunset-badge">🌅 Sunset 18:25</span></div>
-            <div class="d-line">07:30 로프드랍 → 스타워즈/어드벤처(라이즈 오브 레지스탕스) → 클래식&amp;패밀리 → 투모로우랜드(스페이스마운틴) → Puesto 저녁 → 20:30 빅썬더&amp;원드러스 저니</div>
+            <div class="d-line">07:30 로프드랍 → 스타워즈/어드벤처(라이즈 오브 레지스탕스) → 클래식&amp;패밀리 → 투모로우랜드(스페이스마운틴) → 파크 내부 저녁(Rancho del Zocalo) → 20:30 빅썬더&amp;원드러스 저니</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
         <div class="route-nav-banner">
-          <span class="route-nav-text">🧭 <b>6일차 동선:</b> Home2 Suites ➔ 디즈니랜드 파크(오픈런~원드러스 저니) ➔ Puesto ➔ Home2 Suites</span>
-          <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Disneyland+Park,+Anaheim/Puesto+Anaheim,+1040+W+Katella+Ave/Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <span class="route-nav-text">🧭 <b>6일차 동선:</b> Home2 Suites ➔ 디즈니랜드 파크(오픈런~원드러스 저니, 파크 내부에서 저녁까지 해결) ➔ Home2 Suites</span>
+          <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Disneyland+Park,+Anaheim/Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
         </div>
         <div class="d-title">디즈니랜드 파크 전일 (1-Day 1-Park)</div>
         <div class="d-desc">티켓 권종(1 Day 1 Park Tier 4)에 맞춰 디즈니랜드 파크(메인 파크) 단일 집중 일정 · 캘리포니아 어드벤처(DCA) 미포함</div>
@@ -1703,8 +1705,8 @@
 
           <div class="sched-block">
             <div class="sched-time">🌮 18:30–20:00</div>
-            <div class="sched-title">[저녁] Puesto Anaheim <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Puesto+Anaheim+1040+W+Katella+Ave" target="_blank" rel="noopener noreferrer">📍 Puesto Anaheim</a></div>
-            <div class="sched-note">모던 캘리포니아 멕시칸 다이닝 &amp; 수제 타코 만찬</div>
+            <div class="sched-title">[저녁] 파크 내부 Rancho del Zocalo (또는 Plaza Inn) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Rancho+del+Zocalo+Restaurante+Disneyland" target="_blank" rel="noopener noreferrer">📍 Rancho del Zocalo</a></div>
+            <div class="sched-note">🌮 프론티어랜드 멕시칸 다이닝(카르니타스·바비큐) — 파크 밖 Puesto 대신 <b>파크 내부에서 저녁 해결 권장</b>: 외출 시 왕복 도보+재입장 보안검색/가방검사 대기로 약 40분이 소요되어 저녁 라이드 시간이 줄어듦. 디즈니 앱으로 모바일 오더 미리 걸어두면 줄 서지 않고 바로 수령 가능</div>
           </div>
 
           <div class="sched-block">
@@ -1723,6 +1725,7 @@
             <li><b>보조배터리 &amp; 포토패스</b> — 디즈니 앱(지도, 대기시간, LL, 사진) 사용으로 배터리 소모 극심. 완충 보조배터리 필수.</li>
             <li><b>단축 팁</b> — 싱글라이더(Single Rider) 라인이 있는 어트랙션 적극 활용.</li>
             <li><b>소지품 팁</b> — 낮에는 덥고 밤 원드러스 저니 대기 시 쌀쌀하므로 얇은 겉옷/바람막이 챙기기.</li>
+            <li><b>저녁은 파크 내부에서</b> — 외출 후 재입장 시 보안검색대 대기가 다시 발생해 저녁 라이드 시간 손실. Rancho del Zocalo 등 파크 내 식당을 모바일 오더로 이용 권장.</li>
           </ol>
         </div>
         </div></div>
@@ -1894,7 +1897,7 @@
           <div class="sched-block">
             <div class="sched-time">🏛️ 13:30–15:30</div>
             <div class="sched-title">[다운타운 문화 도보 산책] 엔젤스 플라이트 ➔ 더 브로드 &amp; 디즈니 콘서트홀</div>
-            <div class="sched-note">🥪 마켓 점심 ➔ 맞은편 엔젤스 플라이트($1) 탑승(벙커힐 언덕 진입) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Angels+Flight+Railway+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Angels Flight</a> ➔ 🎨 더 브로드 &amp; 디즈니홀 외관 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Broad+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Broad</a> ➔ 남쪽 완만한 내리막 도보 6분 더 라스트 북스토어 (원웨이 도보 완결)</div>
+            <div class="sched-note">🥪 마켓 점심 ➔ 맞은편 엔젤스 플라이트($1) 탑승(벙커힐 언덕 진입) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Angels+Flight+Railway+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Angels Flight</a> ➔ 🎨 더 브로드(사전 예약 티켓 필수) &amp; 디즈니홀 외관 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Broad+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Broad</a> ➔ 남쪽 완만한 내리막 도보 6분 더 라스트 북스토어 (원웨이 도보 완결)</div>
           </div>
 
           <div class="sched-block">
@@ -1927,7 +1930,7 @@
         <div class="tip-note">
           <div class="tip-note-title">💡 10일차 핵심 체크포인트</div>
           <ol class="cheat-list">
-            <li><b>더 브로드(The Broad) 예약</b> — 입장료는 무료이나 공식 웹사이트에서 사전 시간지정 티켓(General Admission)을 미리 예매해야 대기 없이 바로 입장 가능.</li>
+            <li><b>더 브로드(The Broad) 예약 — 9/1 오픈 즉시 예매 권장</b> — 입장료는 무료이나 공식 웹사이트에서 사전 시간지정 티켓(General Admission)을 9/1부터 예매 가능하므로 오픈 즉시 13:30~14:00대 슬롯 선점 필요. 10/10은 토요일이라 사전 예약 없이는 워크업(Standby) 줄이 매우 길어질 수 있음.</li>
             <li><b>엔젤스 플라이트</b> — 탑승 요금은 편도 1달러(카드/현금 가능), 마켓에서 언덕 위 미술관으로 이동할 때 도보 계단을 대신해 훌륭한 이동 수단이자 체험이 됨.</li>
             <li><b>수하물 무게 확인</b> — 내일 아침 06:30 체크아웃이므로, 오늘 밤 손저울로 캐리어 4개의 무게를 23kg 이내로 완벽히 배분하여 패킹 마무리.</li>
           </ol>
@@ -2097,7 +2100,7 @@
       // 식비 (10박 11일 4인 가족 예상)
       { cat: "식비", item: "라스베이거스 식비 (1~3일차)", estKrw: 0, estUsd: 635.00, actKrw: 0, actUsd: 0, note: "인앤아웃·타코·코스트코장보기·칙필레/치폴레·리조트월드 푸드홀/주니어스", done: false },
       { cat: "식비", item: "조슈아트리 & 아울렛 식비 (4~5일차)", estKrw: 0, estUsd: 235.00, actKrw: 0, actUsd: 0, note: "로컬 브런치·바비큐·아울렛 푸드코트·디즈니다운타운", done: false },
-      { cat: "식비", item: "테마파크 식비 (6~8일차)", estKrw: 0, estUsd: 780.00, actKrw: 0, actUsd: 0, note: "디즈니랜드(Puesto) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
+      { cat: "식비", item: "테마파크 식비 (6~8일차)", estKrw: 0, estUsd: 780.00, actKrw: 0, actUsd: 0, note: "디즈니랜드(Rancho del Zocalo) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
       { cat: "식비", item: "LA & 한인타운 식비 (9~11일차)", estKrw: 0, estUsd: 530.00, actKrw: 0, actUsd: 0, note: "파머스마켓(투어)·그랜드센트럴마켓·할리우드 페어웰 디너(무소앤프랭크/CPK)", done: false }
     ];
 
@@ -2499,7 +2502,7 @@
     <div class="pack-progress">
       <div class="pack-progress-top">
         <span class="pack-progress-label">준비 완료</span>
-        <span class="pack-progress-count" id="pack-count">0 / 44 (0%)</span>
+        <span class="pack-progress-count" id="pack-count">0 / 45 (0%)</span>
       </div>
       <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
     </div>
@@ -2576,7 +2579,7 @@
         <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 레지스탕스 ➔ 밀레니엄 팔콘 ➔ 정글 크루즈</span></li>
         <li><span class="step-time">10:45~13:30</span> <span class="step-desc">모바일오더 점심(Docking Bay 7 / Plaza Inn) ➔ 캐리비안의 해적 ➔ 헌티드 맨션</span></li>
         <li><span class="step-time">14:00~16:30</span> <span class="step-desc"><b>[체력방어]</b> 디즈니랜드 철도(20분 휴식) ➔ 미키&amp;미니 런어웨이 ➔ Dole Whip 간식</span></li>
-        <li><span class="step-time">17:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ Puesto 저녁 ➔ 20:00 빅선더 야간탑승 ➔ 21:00 원드러스 저니</span></li>
+        <li><span class="step-time">17:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ 파크 내 Rancho del Zocalo 저녁 ➔ 20:00 빅선더 야간탑승 ➔ 21:00 원드러스 저니</span></li>
       </ul>
     </div>
 
@@ -4411,7 +4414,7 @@
     });
 
     document.addEventListener('click', function (e) {
-      if (e.target.closest('#floatingOfflineMapBtn')) openModal();
+      if (e.target.closest('#floatingOfflineMapBtn, .open-map-modal-btn')) openModal();
     });
     if (closeBtn) closeBtn.addEventListener('click', requestClose);
     backdrop.addEventListener('click', requestClose);
