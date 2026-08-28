@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>승현·지은·유나·수빈의 와일드 웨스트 U.S.A. · 미서부 2026</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a1625">
@@ -38,7 +38,7 @@
     color:var(--text);
     font-family:'Work Sans',sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding-bottom:90px;
+    padding-bottom:calc(90px + env(safe-area-inset-bottom, 0px));
   }
   .wrap{max-width:640px;margin:0 auto;padding:0 18px;}
 
@@ -261,6 +261,9 @@
   .cheat-list li{font-size:12.5px;color:var(--muted);line-height:1.65;}
   .cheat-list li b{color:var(--text);}
 
+  /* ===== 날씨/일몰 요약 카드 ===== */
+  .weather-sunset-card{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0 4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);line-height:1.5;}
+
   /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
   .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
   .sched-block{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;}
@@ -421,7 +424,7 @@
   footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
 
   /* ===== BOTTOM NAV (mobile app-style tab bar) ===== */
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(26,22,37,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:64px;display:flex;justify-content:space-around;align-items:center;max-width:640px;margin:0 auto;}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(26,22,37,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:calc(64px + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);display:flex;justify-content:space-around;align-items:center;max-width:640px;margin:0 auto;}
   .nav-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--muted-2);font-family:'Work Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;padding:6px 12px;transition:color .2s,transform .1s;-webkit-tap-highlight-color:transparent;}
   .nav-tab .tab-icon{font-size:18px;line-height:1;}
   .nav-tab.active{color:var(--gold);}
@@ -565,12 +568,22 @@
   }
   .fab-main-btn.has-guide .fab-badge-dot { display: block; }
 
-  .floating-guide-btn,
-  .floating-calc-btn {
+  .fab-container {
     position: fixed;
     right: 18px;
-    left: auto;
+    bottom: 140px;
     z-index: 899;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 14px;
+    pointer-events: none;
+  }
+
+  .floating-guide-btn,
+  .floating-calc-btn,
+  #floatingOfflineMapBtn {
+    position: static;
     background: var(--card);
     color: var(--text);
     border: 1px solid var(--line);
@@ -587,10 +600,10 @@
     transform: translateY(10px) scale(0.9);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  .floating-calc-btn { display: flex; bottom: 140px; }
-  .floating-guide-btn { display: none; bottom: 202px; }
+  .floating-calc-btn { display: flex; }
+  .floating-guide-btn { display: none; }
   .floating-guide-btn.fab-item-available { display: flex; }
-  #floatingOfflineMapBtn { display: flex; bottom: 264px; }
+  #floatingOfflineMapBtn { display: flex; }
 
   body.fab-dial-open .floating-calc-btn,
   body.fab-dial-open .floating-guide-btn.fab-item-available,
@@ -676,6 +689,7 @@
 
   /* ===== 예약번호 복사 버튼 & 토스트 ===== */
   .copy-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -692,6 +706,15 @@
     vertical-align: middle;
     transition: all 0.2s ease;
     -webkit-tap-highlight-color: transparent;
+  }
+  .copy-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
   }
   .copy-btn:hover, .copy-btn:focus-visible {
     background: rgba(54, 214, 199, 0.25);
@@ -886,7 +909,7 @@
   (function initTripRateEngine() {
     var CACHE_KEY = 'us_trip_rate_cache_2026';
     var FALLBACK_RATE = 1400;
-    var FETCH_TIMEOUT = 3000;
+    var FETCH_TIMEOUT = 1500;
 
     function readCache() {
       try {
@@ -1263,6 +1286,7 @@
           <ol class="cheat-list">
             <li><b>렌터카 셔틀 변경 안내</b> — LAX 렌터카 시설이 통합센터(ConRAC)로 이전되어 회사별 셔틀이 아닌 '공용 셔틀' 1종만 운행. 터미널 밖 보라색 표지판에서 탑승, 도보 이동 불가.</li>
             <li><b>사막 고속도로 운전</b> — I-15 고속도로는 대형 트럭이 많고 구간에 따라 통신이 약할 수 있으므로 구글 오프라인 맵 준비.</li>
+            <li><b>비상 휴게 백업 옵션</b> — 인앤아웃(바스토우) 외에도 I-15 선상 예르모(Yermo)의 <b>에디스월드(EddieWorld)</b>가 화장실/주유/기념품 겸용 비상 휴게소로 활용 가능 (대기 길거나 컨디션 저하 시 대체 스톱).</li>
             <li><b>코스트코 멤버십</b> — 주유 및 매장 입장을 위해 한국 코스트코 실물 회원권 카드(또는 앱 바코드) 지참.</li>
             <li><b>타코 주문 팁</b> — Tacos El Gordo는 고기 종류(Adobada, Asada 등)별로 줄을 따로 서서 주문하므로 줄 확인 후 대기.</li>
           </ol>
@@ -1379,6 +1403,7 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="weather-sunset-card">🏞️ 사우스림 기온: 아침 4℃ ~ 낮 24℃ (일출 06:40 / 일몰 18:25) · 새벽 영하권 체감온도 대비 경량 패딩 필수</div>
         <div class="callout-warn"><span>⚠️ <b>통신 음영 구간:</b> 사전 다운로드 맵 확인 (그랜드캐년 &amp; 페이지(Page, AZ) 구간)</span><button type="button" class="inline-btn-badge teal open-map-modal-btn">🗺️ 오프라인 맵 열기</button></div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 그랜드캐년 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
@@ -1460,7 +1485,7 @@
             <div class="sched-title">그랜드캐년 VIP 투어 (요한투어 코스2)</div>
             <div class="sched-note">
               💵 현금: 가이드 정산 $680 + 나바호팁 $8 | 🧳 인당 백팩 1개 (차량 내 취침용 목베개/담요 지참)<br>
-              📍 <b>오전:</b> 웰컴사인 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Welcome+to+Fabulous+Las+Vegas+Sign" target="_blank" rel="noopener noreferrer">📍 웰컴사인</a> ➔ 별자리 ➔ 조식($5) ➔ 마더포인트 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Mather+Point+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Mather Point</a> ➔ 데저트뷰 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+View+Watchtower+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Desert View</a><br>
+              📍 <b>오전:</b> 웰컴사인 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Welcome+to+Fabulous+Las+Vegas+Sign" target="_blank" rel="noopener noreferrer">📍 웰컴사인</a> ➔ 별자리 ➔ 조식(1인 $5, 가이드 정산금 $680에 포함) ➔ 마더포인트 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Mather+Point+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Mather Point</a> ➔ 데저트뷰 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Desert+View+Watchtower+Grand+Canyon" target="_blank" rel="noopener noreferrer">📍 Desert View</a><br>
               📍 <b>오후:</b> 로워 앤텔롭 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Antelope+Canyon+Page+AZ" target="_blank" rel="noopener noreferrer">📍 Antelope Canyon</a> ➔ 홀스슈밴드 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Horseshoe+Bend+Page+AZ" target="_blank" rel="noopener noreferrer">📍 Horseshoe Bend</a> ➔ 중식 ➔ 글렌댐 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Glen+Canyon+Dam+Lake+Powell+AZ" target="_blank" rel="noopener noreferrer">📍 Glen Canyon Dam</a>
             </div>
           </div>
@@ -1498,7 +1523,7 @@
             <li><b>가이드</b> — 4인 기준 1인가이드 확정.</li>
             <li><b>픽업/드롭</b> — 콘래드(리조트월드) 로비 픽업 → 동일 장소 드롭. 정확한 픽업 시간은 투어 전날 가이드 연결 시 안내.</li>
             <li><b>로워 앤텔롭캐년</b> — 예약 확정, 확정 코스에 포함.</li>
-            <li><b>조식</b> — 일정 포함(유부초밥/맥도날드), 다만 조식비 1인 $5는 현장 현금 결제.</li>
+            <li><b>조식</b> — 일정 포함(유부초밥/맥도날드), 조식비 1인 $5는 별도 추가 결제가 아니라 가이드 정산금 $680 총액에 이미 포함되어 있음(중복 청구 아님).</li>
             <li><b>카시트/부스터</b> — 유아용 카시트 투어 포함 서비스로 공식 확인.</li>
             <li><b>쉼터</b> — 운영하지 않음, 호텔 픽업/드롭만 가능.</li>
             <li><b>현장결제</b> — 카드 불가, 현금만 가능 (금액은 상단 체크포인트 참고).</li>
@@ -1512,11 +1537,12 @@
         <summary class="d-summary">
           <div class="d-summary-main">
             <div class="d-head"><span class="d-date">10/4 일</span><span class="d-tag">Total Wine 위스키 &amp; 조슈아트리 사막 힐링</span><span class="sunset-badge">🌅 Sunset 18:22 (Keys View 골든아워)</span></div>
-            <div class="d-line">09:00 콘래드 체크아웃 &amp; Hertz 2차 픽업 → Total Wine 위스키 → 모하비 사막 이동(3.5h) → 유카밸리 점심 &amp; 장보기(Stater Bros) → 숙소 얼리체크인/짐하차 → 서쪽 게이트 → 히든밸리/스컬락/키즈뷰(선셋 18:22) → 숙소 복귀 &amp; 화덕 바비큐/자쿠지</div>
+            <div class="d-line">10:30 콘래드 체크아웃 &amp; Hertz 2차 픽업 → Total Wine 위스키 → 모하비 사막 이동(3.5h) → 유카밸리 점심 &amp; 장보기(Stater Bros) → 숙소 얼리체크인/짐하차 → 서쪽 게이트 → 히든밸리/스컬락/키즈뷰(선셋 18:22) → 숙소 복귀 &amp; 화덕 바비큐/자쿠지</div>
           </div>
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="weather-sunset-card">🌵 고지대 기온: 낮 29℃ ➔ 해질녘 15℃ 이하 급강하 (Keys View 선셋 18:22) · 1,577m 강풍 대비 방한 외투 지참</div>
         <div class="callout-warn"><span>⚠️ <b>통신 음영 구간:</b> 사전 다운로드 맵 확인 (모하비 사막 &amp; 조슈아트리 국립공원 구간)</span><button type="button" class="inline-btn-badge teal open-map-modal-btn">🗺️ 오프라인 맵 열기</button></div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>4일차 통합 동선:</b> 콘래드 ➔ Total Wine ➔ 유카밸리(Stater Bros) ➔ 숙소(짐하차) ➔ 히든밸리 ➔ 스컬락 ➔ 키즈뷰(일몰) ➔ 숙소</span>
@@ -1527,49 +1553,49 @@
         <div class="sched-list">
 
           <div class="sched-block">
-            <div class="sched-time">🚗 09:00–09:20</div>
+            <div class="sched-time">🚗 10:30–11:00</div>
             <div class="sched-title">콘래드 체크아웃 &amp; Hertz 2차 렌터카 픽업 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Resorts+World+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
-            <div class="sched-note">리조트월드 Hertz 데스크에서 2차 렌터카 픽업 (2일권 $120.22, 10/5 애너하임 Katella 반납)</div>
+            <div class="sched-note">리조트월드 Hertz 데스크에서 2차 렌터카 픽업 (2일권 $120.22, 10/5 애너하임 Katella 반납) — 3일차 새벽 그랜드캐년 투어 복귀 후 충분한 휴식을 위해 체크아웃을 1.5시간 늦춤</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🥃 09:20–09:50</div>
+            <div class="sched-time">🥃 11:00–11:20</div>
             <div class="sched-title">[위스키 쇼핑] Total Wine Town Square South <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Total+Wine+%26+More+6885+S+Las+Vegas+Blvd+NV" target="_blank" rel="noopener noreferrer">📍 Total Wine Town Square</a></div>
-            <div class="sched-note">I-15 South 고속도로 진입로 위치 · 숙소 야외 화덕 바비큐 및 자쿠지용 버번 위스키 구매</div>
+            <div class="sched-note">I-15 South 고속도로 진입로 위치 · 숙소 야외 화덕 바비큐 및 자쿠지용 버번 위스키 빠르게 구매 (일정 지연 만회 위해 20분 컷)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🛣️ 09:50–13:30</div>
+            <div class="sched-time">🛣️ 11:20–15:00</div>
             <div class="sched-title">모하비 사막 드라이브 (I-15 S ➔ CA-62 E)</div>
             <div class="sched-note">모하비 사막 고속도로를 가로질러 유카밸리로 이동 (약 3.5시간 소요, 구글 오프라인 맵 가동)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🍔 13:30–14:30</div>
+            <div class="sched-time">🍔 15:00–15:45</div>
             <div class="sched-title">[점심 &amp; 바비큐 장보기] 유카밸리 (Yucca Valley) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Stater+Bros.+Markets+Yucca+Valley+CA" target="_blank" rel="noopener noreferrer">📍 Stater Bros. 유카밸리</a></div>
-            <div class="sched-note">🍽️ 유카밸리 로컬 카페/버거 점심 식사 ➔ 🛒 Stater Bros 대형마트에서 저녁 바비큐용 소고기, 야채, 숯/장작, 생수 및 간식 구매</div>
+            <div class="sched-note">🍽️ 유카밸리 로컬 카페/버거 빠른 점심 식사 ➔ 🛒 Stater Bros 대형마트에서 저녁 바비큐용 소고기, 야채, 숯/장작, 생수 및 간식 구매 (키즈뷰 일몰 시간 확보 위해 45분 컷)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🏡 14:30–15:15</div>
+            <div class="sched-time">🏡 15:45–16:20</div>
             <div class="sched-title">[얼리 체크인 &amp; 짐 하차] 조슈아 트리의 집 (Airbnb) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=60442+La+Mirada+Trail+Joshua+Tree+CA+92252" target="_blank" rel="noopener noreferrer">📍 60442 La Mirada Trail</a></div>
-            <div class="sched-note">🧳 트렁크의 무거운 캐리어 4개, 장본 식재료, 위스키 전량을 객실에 안전하게 하차/보관 (차량 도난 방지 및 뙤약볕 식품 변질 차단) ➔ 간편 복장 환복 후 공원 출발</div>
+            <div class="sched-note">🧳 트렁크의 무거운 캐리어 4개, 장본 식재료, 위스키 전량을 객실에 안전하게 하차/보관 (차량 도난 방지 및 뙤약볕 식품 변질 차단) ➔ 간편 복장 환복 후 신속히 공원 출발</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🎫 15:30–16:30</div>
+            <div class="sched-time">🎫 16:25–17:05</div>
             <div class="sched-title">[서쪽 게이트 입장 &amp; 트레킹] 히든밸리 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hidden+Valley+Nature+Trail+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Hidden Valley</a></div>
-            <div class="sched-note">🎫 서쪽 게이트 입장 ($30 차량 결제) ➔ 1.6km 완만 둘레길 기암괴석 및 조슈아트리 군락지 가족 트레킹 (통신 두절 대비 오프라인 지도 필수)</div>
+            <div class="sched-note">🎫 서쪽 게이트 입장 ($30 차량 결제) ➔ 1.6km 완만 둘레길 기암괴석 및 조슈아트리 군락지 가족 트레킹, 일정 지연으로 40분 단축 진행 (통신 두절 대비 오프라인 지도 필수)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">💀 16:45–17:30</div>
+            <div class="sched-time">💀 17:10–17:35</div>
             <div class="sched-title">[포토존] 스컬락 (Skull Rock) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Skull+Rock+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Skull Rock</a></div>
-            <div class="sched-note">Park Blvd 따라 동쪽 이동 · 해골 모양 자연 암석 앞 가족 기념 촬영</div>
+            <div class="sched-note">Park Blvd 따라 동쪽 이동 · 해골 모양 자연 암석 앞 가족 기념 촬영 (키즈뷰 일몰 시간 맞춰 짧게 25분 컷)</div>
           </div>
 
           <div class="sched-block">
-            <div class="sched-time">🌄 17:45–18:35</div>
+            <div class="sched-time">🌄 17:40–18:35</div>
             <div class="sched-title">[일몰 명소] 키즈뷰 (Keys View) 골든아워 &amp; 선셋 (18:22) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Keys+View+Joshua+Tree+CA" target="_blank" rel="noopener noreferrer">📍 Keys View</a></div>
             <div class="sched-note">남서쪽 고지대 전망대로 이동 (해발 1,577m) · 코첼라 밸리와 샌안드레아스 단층을 붉게 물들이는 일몰 감상 ⚠️ 고지대 강풍으로 기온 급강하하므로 방한 외투 필수</div>
           </div>
@@ -1824,12 +1850,13 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="weather-sunset-card">🌆 LA 야경 기온: 21℃ 쾌적 (그리피스 선셋 18:21) · 야외 테라스 바람 대비 가벼운 겉옷 추천</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>9일차 투어:</b> 로어스 ➔ 산타모니카 ➔ 게티센터 ➔ 비벌리힐스 ➔ 핑크월 ➔ 파머스마켓 ➔ 그리피스 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Santa+Monica+Pier/The+Getty/Greystone+Mansion/Paul+Smith+Pink+Wall/The+Original+Farmers+Market/Griffith+Observatory/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 투어 전체 코스 열기 ↗</a>
         </div>
         <div class="d-title">LA 핵심 종일 투어 (전문 도슨트 &amp; 미니밴 11시간)</div>
-        <div class="d-desc">마이리얼트립 6인 소규모 도슨트 투어 진행 예정 (4인 ₩621,270) — 산타모니카 출발 → 게티센터 도슨트 → 그리피스 천문대 야경</div>
+        <div class="d-desc">마이리얼트립 6인 소규모 도슨트 투어 진행 예정 (4인 ₩598,397, 결제완료) — 산타모니카 출발 → 게티센터 도슨트 → 그리피스 천문대 야경</div>
         <div class="sched-list">
 
           <div class="sched-block">
@@ -1899,7 +1926,7 @@
           <div class="sched-block">
             <div class="sched-time">🏛️ 13:30–15:30</div>
             <div class="sched-title">[다운타운 문화 도보 산책] 엔젤스 플라이트 ➔ 더 브로드 &amp; 디즈니 콘서트홀</div>
-            <div class="sched-note">🥪 마켓 점심 ➔ 맞은편 엔젤스 플라이트($1) 탑승(벙커힐 언덕 진입) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Angels+Flight+Railway+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Angels Flight</a> ➔ 🎨 더 브로드(사전 예약 티켓 필수) &amp; 디즈니홀 외관 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Broad+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Broad</a> ➔ 남쪽 완만한 내리막 도보 6분 더 라스트 북스토어 (원웨이 도보 완결)</div>
+            <div class="sched-note">🥪 마켓 점심 ➔ 맞은편 엔젤스 플라이트($1) 탑승(벙커힐 언덕 진입) <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Angels+Flight+Railway+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 Angels Flight</a> ➔ 🎨 더 브로드(사전 예약 티켓 필수) &amp; 디즈니홀 외관 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=The+Broad+Los+Angeles" target="_blank" rel="noopener noreferrer">📍 The Broad</a> ➔ 남쪽 완만한 내리막 도보 6분 더 라스트 북스토어 (Grand Ave ➔ 5th St 북측 인도 이용, 치안 안전 보행로 / 원웨이 도보 완결)</div>
           </div>
 
           <div class="sched-block">
@@ -1932,7 +1959,7 @@
         <div class="tip-note">
           <div class="tip-note-title">💡 10일차 핵심 체크포인트</div>
           <ol class="cheat-list">
-            <li><b>더 브로드(The Broad) 예약 — 9/1 오픈 즉시 예매 권장</b> — 입장료는 무료이나 공식 웹사이트에서 사전 시간지정 티켓(General Admission)을 9/1부터 예매 가능하므로 오픈 즉시 13:30~14:00대 슬롯 선점 필요. 10/10은 토요일이라 사전 예약 없이는 워크업(Standby) 줄이 매우 길어질 수 있음.</li>
+            <li><b>더 브로드(The Broad) 예약 — 9/1 오픈 즉시 예매 권장</b> — 입장료는 무료이나 공식 웹사이트에서 사전 시간지정 티켓(General Admission)을 9/1부터 예매 가능하므로 오픈 즉시 13:30~14:00대 슬롯 선점 필요. 10/10은 토요일이라 사전 예약 없이는 워크업(Standby) 줄이 매우 길어질 수 있음. 미국 9/1 오픈 ➔ 한국 시간 9/2(수) 02:00 KST 예매 오픈.</li>
             <li><b>엔젤스 플라이트</b> — 탑승 요금은 편도 1달러(카드/현금 가능), 마켓에서 언덕 위 미술관으로 이동할 때 도보 계단을 대신해 훌륭한 이동 수단이자 체험이 됨.</li>
             <li><b>수하물 무게 확인</b> — 내일 아침 06:30 체크아웃이므로, 오늘 밤 손저울로 캐리어 4개의 무게를 23kg 이내로 완벽히 배분하여 패킹 마무리.</li>
           </ol>
@@ -1993,6 +2020,12 @@
     <div class="rate-badge-row">
       <span class="rate-badge stale" data-rate-badge-text>🟡 캐시 환율 1 USD = ₩1,400.00 (오프라인)</span>
       <button type="button" class="rate-refresh-btn" data-rate-refresh aria-label="환율 새로고침">🔄</button>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
+      <button type="button" class="section-action-btn" id="btnBudgetBackup">📤 백업 (JSON)</button>
+      <button type="button" class="section-action-btn" id="btnBudgetRestore">📥 복구 (JSON)</button>
+      <input type="file" id="budget-restore-input" accept="application/json" style="display:none">
     </div>
 
     <!-- 2-Way 지출 퀵 등록 컴포넌트 -->
@@ -2219,7 +2252,7 @@
       fullText = fullText || "";
       var query = (merchant + " " + fullText).toLowerCase();
 
-      if (query.indexOf("disney") !== -1 || query.indexOf("universal") !== -1 || query.indexOf("puesto") !== -1 ||
+      if (query.indexOf("disney") !== -1 || query.indexOf("universal") !== -1 || query.indexOf("zocalo") !== -1 ||
           query.indexOf("broomstick") !== -1 || query.indexOf("citywalk") !== -1 || query.indexOf("theme") !== -1 || query.indexOf("anaheim") !== -1) {
         return "food-theme";
       }
@@ -2489,6 +2522,71 @@
       if (window.triggerHaptic) window.triggerHaptic('success');
     });
 
+    // ===== 가계부 JSON 백업 / 복구 =====
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
+    document.getElementById('btnBudgetBackup').addEventListener('click', function () {
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      try {
+        var payload = {
+          expenseLog: loadExpenseLog(),
+          ledger: loadLedger(),
+          exportedAt: new Date().toISOString()
+        };
+        var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var d = new Date();
+        var fname = 'trip-budget-backup-' + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + '.json';
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = fname;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        if (window.showToast) window.showToast('가계부 데이터를 백업했습니다 (' + fname + ')');
+        if (window.triggerHaptic) window.triggerHaptic('success');
+      } catch (e) {
+        if (window.showToast) window.showToast('백업 중 오류가 발생했습니다');
+        if (window.triggerHaptic) window.triggerHaptic('warning');
+      }
+    });
+
+    var budgetRestoreInputEl = document.getElementById('budget-restore-input');
+    document.getElementById('btnBudgetRestore').addEventListener('click', function () {
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      budgetRestoreInputEl.value = '';
+      budgetRestoreInputEl.click();
+    });
+    budgetRestoreInputEl.addEventListener('change', function () {
+      var file = budgetRestoreInputEl.files && budgetRestoreInputEl.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          var data = JSON.parse(String(reader.result));
+          if (!data || typeof data !== 'object' || typeof data.expenseLog !== 'object' || typeof data.ledger !== 'object' ||
+              data.expenseLog === null || data.ledger === null) {
+            throw new Error('unexpected backup shape');
+          }
+          saveExpenseLog(data.expenseLog);
+          saveLedger(data.ledger);
+          expenseLog = data.expenseLog;
+          ledger = data.ledger;
+          renderBudget();
+          if (window.showToast) window.showToast('가계부 데이터를 복구했습니다');
+          if (window.triggerHaptic) window.triggerHaptic('success');
+        } catch (e) {
+          if (window.showToast) window.showToast('복구 실패: 올바른 백업 파일이 아닙니다');
+          if (window.triggerHaptic) window.triggerHaptic('warning');
+        }
+      };
+      reader.onerror = function () {
+        if (window.showToast) window.showToast('파일을 읽는 중 오류가 발생했습니다');
+        if (window.triggerHaptic) window.triggerHaptic('warning');
+      };
+      reader.readAsText(file);
+    });
+
     // 실시간 환율 엔진에서 새 환율 수신 시 즉시 재계산 반영
     document.addEventListener('tripRateUpdated', function (e) {
       USD_RATE = e.detail.rate;
@@ -2547,11 +2645,6 @@
     <span>준비물</span>
   </button>
 </nav>
-
-<!-- 테마파크 플로팅 공략 버튼 -->
-<button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" aria-label="테마파크 공략집 열기">
-  <span>🏰</span> <span>테마파크 치트시트</span>
-</button>
 
 <!-- 바텀시트 백드롭 & 컨테이너 -->
 <div id="bottomSheetBackdrop" class="bottom-sheet-backdrop"></div>
@@ -3746,12 +3839,13 @@
      - Day 6(디즈니랜드)/7/8(유니버셜) 뷰포트에서만 플로팅 버튼 노출
   ========================================================== */
   (function initParkBottomSheet() {
-    var floatBtn = document.getElementById('floatingParkGuideBtn');
+    // #floatingParkGuideBtn은 .fab-container 안에서 이 스크립트보다 뒤(</body> 직전)에 위치하므로
+    // 파싱 시점 getElementById 캐싱 대신 이벤트 위임/지연 조회로 동작 — DOM 순서에 안전
     var backdrop = document.getElementById('bottomSheetBackdrop');
     var sheet = document.getElementById('parkGuideBottomSheet');
     var closeBtn = document.getElementById('closeBottomSheetBtn');
     var handleWrap = sheet ? sheet.querySelector('.sheet-handle-wrap') || sheet.querySelector('.sheet-handle') : null;
-    if (!floatBtn || !sheet) return;
+    if (!sheet) return;
 
     var sheetTabs = sheet.querySelectorAll('.guide-park-tabs .park-tab');
     var sheetPanels = { disney: document.getElementById('sheetPanelDisney'), universal: document.getElementById('sheetPanelUniversal') };
@@ -3784,7 +3878,9 @@
       if (sheet.classList.contains('open')) closeSheet();
     });
 
-    floatBtn.addEventListener('click', openSheet);
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#floatingParkGuideBtn')) openSheet();
+    });
     if (closeBtn) closeBtn.addEventListener('click', requestCloseSheet);
     if (backdrop) backdrop.addEventListener('click', requestCloseSheet);
 
@@ -3848,6 +3944,8 @@
         return !!scheduleTab && scheduleTab.classList.contains('active');
       }
       function updateFloatBtnVisibility() {
+        var floatBtn = document.getElementById('floatingParkGuideBtn');
+        if (!floatBtn) return;
         var anyOpen = relevantDays.some(function(el) { return el.open; });
         var available = isScheduleTabActive() && anyOpen;
         floatBtn.classList.toggle('fab-item-available', available);
@@ -4847,16 +4945,21 @@
   }
 </script>
 
-<!-- 2-in-1 팁 & 쇼핑세금 계산기 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
-<button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
-  <span class="fab-icon">🧮</span>
-  <span class="fab-label">팁/세금</span>
-</button>
+<!-- 스피드다이얼 서브메뉴 아이템 (flex 컨테이너로 스택 — 숨겨진 버튼이 있어도 빈 공간 없이 균일 정렬) -->
+<div class="fab-container">
+  <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
+    <span class="fab-icon">🧮</span>
+    <span class="fab-label">팁/세금</span>
+  </button>
 
-<!-- 오프라인 맵 다운로드 센터 플로팅 버튼 (스피드다이얼 서브메뉴 아이템) -->
-<button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 맵 다운로드 센터 열기">
-  <span>🗺️</span> <span>오프라인 맵</span>
-</button>
+  <button type="button" id="floatingParkGuideBtn" class="floating-guide-btn" aria-label="테마파크 공략집 열기">
+    <span>🏰</span> <span>테마파크 치트시트</span>
+  </button>
+
+  <button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 맵 다운로드 센터 열기">
+    <span>🗺️</span> <span>오프라인 맵</span>
+  </button>
+</div>
 
 <!-- 플로팅 스피드다이얼 메인 버튼 -->
 <button type="button" id="fabMainBtn" class="fab-main-btn" aria-label="빠른 메뉴 열기" aria-expanded="false">
