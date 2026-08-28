@@ -34,6 +34,7 @@
     --teal-text:#1e40af;
     --coral-text:#9a3412;
     --amber-text:#92400e;
+    --next-up-glow:rgba(0, 136, 255, 0.4);
     --radius:14px;
   }
   *{box-sizing:border-box;}
@@ -905,6 +906,47 @@
   .costco-item-price{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--gold-text);white-space:nowrap;text-align:right;}
 
   .costco-modal-footer{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--line);background:var(--card-2);flex-shrink:0;font-size:11.5px;color:var(--muted);}
+
+  /* ===== 라이트/다크 모드 토글 ===== */
+  [data-theme="dark"]{
+    --bg:#0f0e17;
+    --bg-2:#161523;
+    --card:#191825;
+    --card-2:#222035;
+    --line:#34314c;
+    --text:#f2f0ff;
+    --muted:#a7a3c2;
+    --muted-2:#747094;
+    --coral:#ff5757;
+    --gold:#ffb703;
+    --teal:#00f0ff;
+    --pink:#ff007f;
+    --green:#00ff9f;
+    --amber:#ffaa00;
+    --red:#ff3333;
+    --gold-text:#ffb703;
+    --green-text:#00ff9f;
+    --red-text:#ff3333;
+    --pink-text:#ff007f;
+    --teal-text:#00f0ff;
+    --coral-text:#ff5757;
+    --amber-text:#ffaa00;
+    --next-up-glow:rgba(0, 240, 255, 0.4);
+  }
+  [data-theme="dark"] body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(255, 87, 87, 0.15) 0%, transparent 60%),
+      var(--bg);
+  }
+  [data-theme="light"] {
+    --bg:#f4f7f6; --bg-2:#ebeeeb; --card:#ffffff; --card-2:#f8fafa;
+    --line:#e2e5e9; --text:#1a1c23; --muted:#5c6370; --muted-2:#8a92a3;
+  }
+  [data-theme="light"] body { background: radial-gradient(1200px 600px at 50% -10%, rgba(0, 136, 255, 0.12) 0%, transparent 60%), var(--bg); }
+
+  /* ===== Next-Up 진행중 일정 하이라이트 ===== */
+  @keyframes nextUpPulse { 0% { box-shadow: 0 0 0 0 var(--next-up-glow); } 70% { box-shadow: 0 0 0 10px rgba(0, 136, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 136, 255, 0); } }
+  .sched-block.next-up { border-color: var(--teal); animation: nextUpPulse 2s infinite; }
 </style>
 </head>
 <body>
@@ -1163,9 +1205,9 @@
         <div class="amount">₩632,954 + 현장 $688 (팁 포함)</div>
       </div>
       <div class="card">
-        <div class="top"><span class="icon">⚾</span><span class="badge pending">미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정</span></div>
+        <div class="top"><span class="icon">⚾</span><span class="badge pending">오픈대기</span></div>
         <div class="name">다저 스타디움 투어</div>
-        <div class="detail">10/10 오전 (반나절) · 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정, 포스트시즌 경기 일정에 따라 투어 코스 변동 가능 (성인2+아동2)</div>
+        <div class="detail">10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)</div>
         <div class="amount">$149.00</div>
       </div>
       <div class="card">
@@ -1183,8 +1225,8 @@
       <div class="card">
         <div class="top"><span class="icon">🚌</span><span class="badge done">완료</span></div>
         <div class="name">LA드림투어 (6인 소규모)</div>
-        <div class="detail">10/9(금) 게티센터 도슨트 · 예약확정 · 현장 정산금 $200(Cash)<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span></div>
-        <div class="amount">₩598,397</div>
+        <div class="detail">10/9(금) 게티센터 도슨트 · 예약확정<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span></div>
+        <div class="amount">₩598,397 <span style="font-size:12.5px;color:var(--muted);font-weight:500;">+ 현장 $200 (Cash)</span></div>
       </div>
     </div>
   </section>
@@ -4958,6 +5000,10 @@
   <button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 맵 다운로드 센터 열기">
     <span>🗺️</span> <span>오프라인 맵</span>
   </button>
+
+  <button type="button" id="themeToggleBtn" class="floating-calc-btn" aria-label="라이트/다크 모드 전환">
+    <span id="themeToggleIcon">🌙</span>
+  </button>
 </div>
 
 <!-- 플로팅 스피드다이얼 메인 버튼 -->
@@ -4966,5 +5012,96 @@
   <span id="fabMainIcon">☰</span>
 </button>
 <div id="fabBackdrop" class="fab-backdrop"></div>
+
+<script>
+  (function () {
+    var THEME_KEY = 'us_trip_theme';
+    var htmlEl = document.documentElement;
+    var toggleBtn = document.getElementById('themeToggleBtn');
+    var iconEl = document.getElementById('themeToggleIcon');
+
+    function applyTheme(theme) {
+      htmlEl.setAttribute('data-theme', theme);
+      if (iconEl) iconEl.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    var savedTheme = null;
+    try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) {}
+    applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        var current = htmlEl.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        var next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+<script>
+  (function () {
+    function parseTimesInText(text) {
+      return text.match(/\d{1,2}:\d{2}/g) || [];
+    }
+    function toMinutes(hhmm) {
+      var parts = hhmm.split(':');
+      return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+    }
+    function highlightNextUp(dayEl) {
+      var blocks = dayEl.querySelectorAll('.sched-block');
+      if (!blocks.length) return;
+
+      document.querySelectorAll('.sched-block.next-up').forEach(function (el) {
+        el.classList.remove('next-up');
+      });
+
+      var now = new Date();
+      var nowMin = now.getHours() * 60 + now.getMinutes();
+
+      var current = null;
+      var nearestFuture = null;
+      var nearestFutureDiff = Infinity;
+
+      blocks.forEach(function (block) {
+        var timeEl = block.querySelector('.sched-time');
+        if (!timeEl) return;
+        var times = parseTimesInText(timeEl.textContent);
+        if (!times.length) return;
+        var start = toMinutes(times[0]);
+        var end = times.length > 1 ? toMinutes(times[1]) : start;
+        var endAdj = end < start ? end + 1440 : end;
+
+        var inRange = (nowMin >= start && nowMin <= endAdj) ||
+          ((nowMin + 1440) >= start && (nowMin + 1440) <= endAdj);
+
+        if (inRange) {
+          current = block;
+          return;
+        }
+
+        var diff = start - nowMin;
+        if (diff < 0) diff += 1440;
+        if (diff < nearestFutureDiff) {
+          nearestFutureDiff = diff;
+          nearestFuture = block;
+        }
+      });
+
+      var target = current || nearestFuture;
+      if (!target) return;
+
+      target.classList.add('next-up');
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    document.addEventListener('toggle', function (e) {
+      if (e.target && e.target.matches && e.target.matches('details.day') && e.target.open) {
+        highlightNextUp(e.target);
+      }
+    }, true);
+  })();
+</script>
 </body>
 </html>
