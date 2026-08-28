@@ -75,8 +75,10 @@
 
   /* ===== HERO ===== */
   .hero{padding:36px 0 26px;}
-  .hero .eyebrow{margin-bottom:10px;}
+  .hero-top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .hero .eyebrow{margin-bottom:0;}
   .hero h1{
+    margin-top:10px;
     font-size:34px;
     font-weight:700;
     line-height:1.08;
@@ -86,23 +88,24 @@
     color:transparent;
   }
   .hero .sub{color:var(--muted);font-size:14px;margin-top:8px;}
-  .countdown{
-    margin-top:16px;
+  .countdown-mini{
     display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 18px;
+    align-items:baseline;
+    gap:5px;
+    padding:5px 12px;
     background:linear-gradient(135deg,rgba(255,107,74,.16),rgba(255,184,77,.08));
     border:1px solid rgba(255,184,77,.25);
-    border-radius:var(--radius);
+    border-radius:20px;
+    flex-shrink:0;
+    white-space:nowrap;
   }
-  .countdown .num{
+  .countdown-mini .num{
     font-family:'JetBrains Mono',monospace;
-    font-size:38px;
+    font-size:17px;
     font-weight:700;
     color:var(--gold-text);
   }
-  .countdown .label{color:var(--muted);font-size:13px;line-height:1.4;}
+  .countdown-mini .label{color:var(--muted);font-size:10.5px;}
 
   /* ===== 탭별 헤더 가변 노출 (일정 탭 외 Hero/Route 숨김) ===== */
   body.compact-header .hero,
@@ -1092,13 +1095,15 @@
   </div>
 
   <div class="hero">
-    <div class="eyebrow">승현·지은·유나·수빈의 서부 개척기</div>
+    <div class="hero-top-row">
+      <div class="eyebrow">승현·지은·유나·수빈의 서부 개척기</div>
+      <div class="countdown-mini">
+        <span class="num" id="dday">–</span>
+        <span class="label">일 남음</span>
+      </div>
+    </div>
     <h1>WILD WEST U.S.A. 2026</h1>
     <div class="sub">2026.10.1(목) – 10.11(일) · 붉은 사막부터 푸른 태평양까지 10박 11일</div>
-    <div class="countdown">
-      <div class="num" id="dday">–</div>
-      <div class="label">출국까지 남은 일수<br><span id="ddate" style="font-family:'JetBrains Mono',monospace;"></span></div>
-    </div>
   </div>
 
   <div class="route">
@@ -3462,7 +3467,6 @@
   var now = new Date();
   var diff = Math.ceil((target - now) / (1000*60*60*24));
   document.getElementById('dday').textContent = diff > 0 ? diff : (diff === 0 ? 'D' : '완료');
-  document.getElementById('ddate').textContent = "2026.10.1(목) 출국";
 </script>
 
 <script>
