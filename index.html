@@ -1130,13 +1130,13 @@
         <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
         <div class="name">콘래드 라스베가스</div>
         <div class="detail">10/1–2, 10/3–4 (총 2박) · 힐튼 포인트 결제 (2건 분할)</div>
-        <div class="amount">150,000 pt (약 ₩90만)</div>
+        <div class="amount">150,000 pt</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
         <div class="name">Home2 Suites 애너하임</div>
         <div class="detail">10/5–7 (2박) · 힐튼 포인트 결제</div>
-        <div class="amount">130,000 pt (약 ₩78만)</div>
+        <div class="amount">130,000 pt</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
@@ -1160,7 +1160,7 @@
         <div class="top"><span class="icon">🏜️</span><span class="badge done">완료</span></div>
         <div class="name">그랜드캐년 투어 (요한투어)</div>
         <div class="detail">마이리얼트립 VIP 당일 코스2 · #EXP-20260822-00000491</div>
-        <div class="amount">₩632,954 (현장 정산 $680+팁 별도)</div>
+        <div class="amount">₩632,954 + 현장 $688 (팁 포함)</div>
       </div>
       <div class="card">
         <div class="top"><span class="icon">⚾</span><span class="badge pending">9/27 오픈</span></div>
@@ -2298,7 +2298,7 @@
     function fmtAmount(krw, usd) {
       if (krw > 0 && usd > 0) return "₩" + krw.toLocaleString() + " + $" + usd.toFixed(2);
       if (krw > 0) return "₩" + krw.toLocaleString();
-      if (usd > 0) return "$" + usd.toFixed(2) + " (약 " + Math.round(usd * USD_RATE / 10000) + "만)";
+      if (usd > 0) return "$" + usd.toFixed(2);
       return "포인트 결제";
     }
 
@@ -2611,13 +2611,13 @@
   <section>
     <div class="section-head">
       <h2>🎒 준비물 체크리스트</h2>
-      <span class="count">45 ITEMS</span>
+      <span class="count">35 ITEMS</span>
     </div>
 
     <div class="pack-progress">
       <div class="pack-progress-top">
         <span class="pack-progress-label">준비 완료</span>
-        <span class="pack-progress-count" id="pack-count">0 / 45 (0%)</span>
+        <span class="pack-progress-count" id="pack-count">0 / 35 (0%)</span>
       </div>
       <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
     </div>
@@ -3507,27 +3507,17 @@
       { id: "wear7", cat: "wear", label: "챙 넓은 모자 & 자외선 차단제", desc: "SPF 50+ 선크림 및 선스틱" },
 
       { id: "med1", cat: "med", label: "멀미약", desc: "그랜드캐년 투어 밴 장거리 사막 도로 이동 대비" },
-      { id: "med2", cat: "med", label: "진통소염제 / 해열제", desc: "타이레놀, 이부프로펜" },
-      { id: "med3", cat: "med", label: "종합감기약, 소화제, 지사제", desc: "" },
       { id: "med4", cat: "med", label: "발/다리 피로 회복용 파스", desc: "휴족시간/쿨파스 · 테마파크 및 트레킹 후 취침 전 부착용" },
-      { id: "med5", cat: "med", label: "인공눈물 & 비염 스프레이", desc: "미서부 사막성 기후 극심한 건조함 대비" },
       { id: "med6", cat: "med", label: "밴드, 소독약, 연고", desc: "대일밴드, 물집방지패치, 소독약, 후시딘/마데카솔 연고" },
-      { id: "med7", cat: "med", label: "고보습 바디로션, 수분크림, 립밤, 핸드크림", desc: "극건조 기후 대비 대용량 보습제" },
       { id: "med8", cat: "med", label: "칫솔 & 치약 세트", desc: "미국 호텔 객실 기본 미제공 대비 가족 전원분" },
-      { id: "med9", cat: "med", label: "실내용 일회용 슬리퍼", desc: "미국 호텔 카펫 바닥 객실용" },
       { id: "med10", cat: "med", label: "휴대용 물티슈(캡형) & 손소독제", desc: "" },
 
-      { id: "tour1", cat: "tour", label: "투어용 분리 패킹 파우치 / 백팩", desc: "10/2 콘래드 체크아웃 시 대형 캐리어는 맡기고 투어용 짐만 분리 수납" },
       { id: "tour2", cat: "tour", label: "야간 사막 밴 / 기내 수면 세트", desc: "목베개, 수면 안대, 귀마개" },
       { id: "tour3", cat: "tour", label: "조슈아트리 바비큐용 한국 소포장 양념", desc: "허브솔트, 생와사비, 쌈장, 지퍼백 소량" },
       { id: "tour4", cat: "tour", label: "조슈아트리 별 관측용 붉은빛 조명 / 별자리 앱", desc: "SkyView 또는 Stellarium 앱 설치" },
-      { id: "tour5", cat: "tour", label: "테마파크용 경량 접이식 백팩 / 슬링백", desc: "놀이기구 탑승 시 발밑 간편 보관용" },
-      { id: "tour6", cat: "tour", label: "우비 / 판초", desc: "유니버설 쥬라기월드 등 물 튀는 어트랙션 대비" },
 
       { id: "shop1", cat: "shop", label: "접이식 대형 보조가방 (폴딩백 / 확장백)", desc: "아울렛 및 디즈니/유니버설 기념품 수납용" },
-      { id: "shop2", cat: "shop", label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁수하물 무게(23kg) 초과 사전 측정용" },
-      { id: "shop3", cat: "shop", label: "위스키/와인 전용 완충재 (에어캡 파우치 / 보틀 뽁뽁이)", desc: "Total Wine 및 K&L Wine Merchants에서 구매한 유리병 주류를 위탁수하물 캐리어에 안전하게 패킹하기 위한 완충 파우치 지참" },
-      { id: "shop4", cat: "shop", label: "주류 면세 한도 확인 (성인 2인 합산 최대 4병)", desc: "대한민국 관세청 1인 면세 한도 2병(2L, $400 이하) 기준 → 부부 합산 총 4병(4L, $800 이하) 무관세 반입 범위 체크" }
+      { id: "shop2", cat: "shop", label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁수하물 무게(23kg) 초과 사전 측정용" }
     ];
 
     var CATS = [
