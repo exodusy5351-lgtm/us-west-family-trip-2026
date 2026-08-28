@@ -176,10 +176,10 @@
   .card[data-img]{cursor:pointer;transition:border-color .15s,transform .15s;}
   .card[data-img]:hover,.card[data-img]:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
   .card[data-img] .name::after{content:"🖼";margin-left:6px;font-size:11px;opacity:.75;}
-  .top-right{display:flex;align-items:center;gap:6px;}
+  .top-right{display:flex;align-items:center;gap:8px;}
   .img-upload-btn{
     background:rgba(0,0,0,.06);border:1px solid var(--line);color:var(--muted);
-    border-radius:6px;width:22px;height:22px;flex-shrink:0;
+    border-radius:8px;width:38px;height:38px;flex-shrink:0;
     display:inline-flex;align-items:center;justify-content:center;
     font-size:11px;cursor:pointer;padding:0;
     transition:background-color .15s,color .15s,border-color .15s;
@@ -5111,6 +5111,56 @@
         highlightNextUp(e.target);
       }
     }, true);
+  })();
+</script>
+
+<script>
+  (function () {
+    var TRIP_YEAR = 2026;
+
+    function parseDayDate(text) {
+      var m = text.match(/(\d{1,2})\/(\d{1,2})/);
+      if (!m) return null;
+      return { month: parseInt(m[1], 10), day: parseInt(m[2], 10) };
+    }
+
+    function findTodayDayEl() {
+      var now = new Date();
+      if (now.getFullYear() !== TRIP_YEAR) return null;
+      var nowMonth = now.getMonth() + 1;
+      var nowDate = now.getDate();
+      var days = document.querySelectorAll('.timeline > details.day');
+      for (var i = 0; i < days.length; i++) {
+        var dateEl = days[i].querySelector('.d-date');
+        if (!dateEl) continue;
+        var parsed = parseDayDate(dateEl.textContent);
+        if (parsed && parsed.month === nowMonth && parsed.day === nowDate) {
+          return days[i];
+        }
+      }
+      return null;
+    }
+
+    function autoOpenToday() {
+      var scheduleTab = document.getElementById('tab-schedule');
+      if (!scheduleTab || !scheduleTab.classList.contains('active')) return;
+
+      var alreadyOpen = document.querySelector('.timeline > details.day[open]');
+      if (alreadyOpen) return;
+
+      var todayEl = findTodayDayEl();
+      if (!todayEl) return;
+
+      document.querySelectorAll('.date-pill').forEach(function (p) {
+        p.classList.toggle('active', p.getAttribute('data-target') === todayEl.id);
+      });
+
+      todayEl.open = true; // 네이티브 toggle 이벤트 발생 → 위 highlightNextUp 리스너가 자동 실행됨
+      var body = todayEl.querySelector(':scope > .d-body');
+      if (body) body.style.maxHeight = 'none';
+    }
+
+    autoOpenToday();
   })();
 </script>
 </body>
