@@ -1254,7 +1254,7 @@
 
   <div class="date-nav-wrap">
     <div class="date-nav-track">
-      <button type="button" class="date-pill active" data-target="day-1">D1 · 10/1</button>
+      <button type="button" class="date-pill" data-target="day-1">D1 · 10/1</button>
       <button type="button" class="date-pill" data-target="day-2">D2 · 10/2</button>
       <button type="button" class="date-pill" data-target="day-3">D3 · 10/3</button>
       <button type="button" class="date-pill" data-target="day-4">D4 · 10/4</button>
@@ -3436,18 +3436,50 @@
       });
     }
 
+    function formatByteSize(bytes) {
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + 'KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
+    }
+
     fileInput.addEventListener('change', function () {
       var file = fileInput.files[0];
       if (!file || !pendingCard) return;
       var reader = new FileReader();
       reader.onload = function () {
-        try {
-          localStorage.setItem(storageKey(pendingCard), reader.result);
-        } catch (err) {
-          alert('이미지 저장에 실패했습니다. 파일 용량을 줄여서 다시 시도해주세요.');
-          return;
-        }
-        applyImage(pendingCard, reader.result);
+        var originalDataUrl = reader.result;
+        var img = new Image();
+        img.onload = function () {
+          var MAX_DIM = 1200;
+          var w = img.naturalWidth;
+          var h = img.naturalHeight;
+          if (w > MAX_DIM || h > MAX_DIM) {
+            if (w >= h) {
+              h = Math.round(h * (MAX_DIM / w));
+              w = MAX_DIM;
+            } else {
+              w = Math.round(w * (MAX_DIM / h));
+              h = MAX_DIM;
+            }
+          }
+          var canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          var compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+          var origBytes = Math.round(originalDataUrl.length * 3 / 4);
+          var compBytes = Math.round(compressedDataUrl.length * 3 / 4);
+          console.log('이미지 압축: ' + formatByteSize(origBytes) + ' → ' + formatByteSize(compBytes));
+
+          try {
+            localStorage.setItem(storageKey(pendingCard), compressedDataUrl);
+          } catch (err) {
+            alert('이미지 저장에 실패했습니다. 파일 용량을 줄여서 다시 시도해주세요.');
+            return;
+          }
+          applyImage(pendingCard, compressedDataUrl);
+        };
+        img.src = originalDataUrl;
       };
       reader.readAsDataURL(file);
       fileInput.value = '';
@@ -5150,7 +5182,11 @@
       if (alreadyOpen) return;
 
       var todayEl = findTodayDayEl();
-      if (!todayEl) return;
+      if (!todayEl) {
+        var defaultPill = document.querySelector('.date-pill[data-target="day-1"]');
+        if (defaultPill) defaultPill.classList.add('active');
+        return;
+      }
 
       document.querySelectorAll('.date-pill').forEach(function (p) {
         p.classList.toggle('active', p.getAttribute('data-target') === todayEl.id);
