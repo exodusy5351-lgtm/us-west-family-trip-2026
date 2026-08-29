@@ -5011,7 +5011,7 @@
   </button>
 
   <button type="button" id="themeToggleBtn" class="floating-calc-btn" aria-label="라이트/다크 모드 전환">
-    <span id="themeToggleIcon">🌙</span>
+    <span id="themeToggleIcon">🌙</span> <span id="themeToggleLabel">다크모드</span>
   </button>
 </div>
 
@@ -5028,10 +5028,12 @@
     var htmlEl = document.documentElement;
     var toggleBtn = document.getElementById('themeToggleBtn');
     var iconEl = document.getElementById('themeToggleIcon');
+    var labelEl = document.getElementById('themeToggleLabel');
 
     function applyTheme(theme) {
       htmlEl.setAttribute('data-theme', theme);
       if (iconEl) iconEl.textContent = theme === 'dark' ? '☀️' : '🌙';
+      if (labelEl) labelEl.textContent = theme === 'dark' ? '라이트모드' : '다크모드';
     }
 
     var savedTheme = null;
