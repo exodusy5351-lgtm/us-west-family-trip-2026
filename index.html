@@ -1009,30 +1009,214 @@
   @keyframes nextUpPulse { 0% { box-shadow: 0 0 0 0 var(--next-up-glow); } 70% { box-shadow: 0 0 0 10px rgba(0, 136, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 136, 255, 0); } }
   .sched-block.next-up { border-color: var(--teal); animation: nextUpPulse 2s infinite; }
 
-  /* ===== 오늘의 미션 퀘스트 스탬프북 (4개 탭 마크업 밖의 독립 섹션) ===== */
-  .quest-stamp-section{max-width:640px;margin:0 auto 18px;padding:16px 18px 20px;}
-  .quest-stamp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
-  .quest-stamp-head h2{font-size:15px;font-weight:800;color:var(--text);}
-  .quest-stamp-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
-  .quest-stamp-bar-track{height:8px;border-radius:6px;background:var(--card-2);border:1px solid var(--line);overflow:hidden;margin-bottom:14px;}
-  .quest-stamp-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--coral));border-radius:6px;transition:width .4s ease;}
-  .quest-stamp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
-  .quest-stamp-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;cursor:pointer;overflow:hidden;transition:transform .15s ease,border-color .15s ease;}
-  .quest-stamp-card:hover,.quest-stamp-card:focus-visible{transform:translateY(-2px);border-color:var(--teal);outline:none;}
-  .quest-stamp-card .qs-icon{font-size:24px;line-height:1;}
-  .quest-stamp-card .qs-label{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.45;flex:1;}
-  .quest-stamp-card .qs-status{font-size:10.5px;font-weight:700;color:var(--muted);}
-  .quest-stamp-card.done{border-color:rgba(0,179,107,.5);background:rgba(0,179,107,.08);}
-  .quest-stamp-card.done .qs-status{color:var(--green-text);}
-  .quest-stamp-card .qs-stamp{position:absolute;top:8px;right:8px;font-size:26px;line-height:1;transform:rotate(14deg) scale(0);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;}
-  .quest-stamp-card.done .qs-stamp{transform:rotate(14deg) scale(1);opacity:1;}
-
   /* 컨페티 연출 (외부 라이브러리 없이 순수 CSS/JS) */
   .quest-confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:1200;overflow:hidden;}
   .quest-confetti-piece{position:absolute;top:-12px;width:8px;height:14px;opacity:.95;border-radius:2px;animation:questConfettiFall 1.15s ease-in forwards;}
   @keyframes questConfettiFall{
     0%{transform:translateY(0) rotate(0deg);opacity:1;}
     100%{transform:translateY(100vh) rotate(540deg);opacity:0;}
+  }
+
+  /* ===== 3D 패밀리 미국 여권 위젯 (화면 상단 배치) ===== */
+  .passport-widget {
+    background: linear-gradient(145deg, #1b263b, #0d1b2a);
+    border: 2px solid #c5a059;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin: 12px 0 18px 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
+    color: #f4f7f6;
+  }
+  .passport-widget::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 90% 10%, rgba(197,160,89,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .passport-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px dashed rgba(197,160,89,0.4);
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .passport-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .passport-emblem {
+    font-size: 20px;
+  }
+  .passport-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: #e0b970;
+    text-transform: uppercase;
+  }
+  .passport-total-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #e0b970;
+    background: rgba(197,160,89,0.15);
+    border: 1px solid rgba(197,160,89,0.3);
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
+
+  /* 11개 일자별 여권 스탬프 미니 트랙 */
+  .passport-stamps-strip {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 4px 2px;
+  }
+  .passport-stamps-strip::-webkit-scrollbar { display: none; }
+  .passport-day-pill {
+    flex-shrink: 0;
+    width: 44px;
+    height: 52px;
+    background: rgba(255,255,255,0.05);
+    border: 1px dashed rgba(197,160,89,0.3);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .passport-day-pill.all-cleared {
+    border: 1.5px solid #00ff9f;
+    background: rgba(0, 255, 159, 0.1);
+  }
+  .passport-day-pill .pdp-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #a7a3c2;
+  }
+  .passport-day-pill .pdp-mark {
+    font-size: 16px;
+    margin-top: 2px;
+    filter: grayscale(1);
+    opacity: 0.4;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .passport-day-pill.has-stamps .pdp-mark {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  /* ===== 일자별 아코디언 내부 퀘스트 스탬프 칩 UI ===== */
+  .day-quest-container {
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 10px 0 14px 0;
+  }
+  .dqc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .dqc-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .dqc-progress {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold-text);
+  }
+  .dqc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  @media (max-width: 480px) {
+    .dqc-grid { grid-template-columns: 1fr; }
+  }
+
+  .quest-stamp-btn {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    user-select: none;
+  }
+  .quest-stamp-btn:active {
+    transform: scale(0.97);
+  }
+  .quest-stamp-btn .qsb-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .quest-stamp-btn .qsb-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  /* 도장이 쿵 찍히는 3D 스탬프 마크 오버레이 */
+  .stamp-seal {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-12deg) scale(2.5);
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+  }
+
+  /* 일자별 잉크 색상 테마 테넌트 */
+  .stamp-theme-desert { color: #d9480f; border: 2px solid #d9480f; background: rgba(217,72,15,0.12); }
+  .stamp-theme-vegas  { color: #f59f00; border: 2px solid #f59f00; background: rgba(245,159,0,0.12); }
+  .stamp-theme-disney { color: #1971c2; border: 2px solid #1971c2; background: rgba(25,113,194,0.12); }
+  .stamp-theme-univ   { color: #e63995; border: 2px solid #e63995; background: rgba(230,57,149,0.12); }
+  .stamp-theme-la     { color: #0ca678; border: 2px solid #0ca678; background: rgba(12,166,120,0.12); }
+
+  .quest-stamp-btn.stamped {
+    border-color: rgba(197,160,89,0.5);
+  }
+  .quest-stamp-btn.stamped .qsb-text {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .quest-stamp-btn.stamped .stamp-seal {
+    opacity: 0.9;
+    transform: translateY(-50%) rotate(-12deg) scale(1);
   }
 </style>
 </head>
@@ -3002,58 +3186,180 @@
   <footer>SEUNGHYUN & JIEUN · YUNA & SUBIN · WILD WEST U.S.A. 2026</footer>
 </div>
 
-<!-- ===== 오늘의 미션 퀘스트 스탬프북 (4개 탭 경계 밖 독립 신규 섹션 · layout-agent 담당) ===== -->
-<section id="questStampSection" class="quest-stamp-section" aria-label="오늘의 미션 스탬프북">
-  <div class="quest-stamp-head">
-    <h2>🏕️ 오늘의 미션 스탬프북</h2>
-    <span class="quest-stamp-count" id="questStampCount">0 / 0 미션 완료</span>
-  </div>
-  <div class="quest-stamp-bar-track"><div class="quest-stamp-bar-fill" id="questStampBarFill" style="width:0%;"></div></div>
-  <div class="quest-stamp-grid" id="questStampGrid"></div>
-</section>
 <div id="questConfettiLayer" class="quest-confetti-layer" aria-hidden="true"></div>
 
 <script>
+  /* ==========================================================
+     Web Audio API 기반 묵직한 여권 도장 쾅! 타격음 합성기
+  ========================================================== */
+  var stampAudioCtx = null;
+  function playStampSound() {
+    try {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      if (!stampAudioCtx) stampAudioCtx = new AudioContext();
+      if (stampAudioCtx.state === 'suspended') stampAudioCtx.resume();
+
+      var now = stampAudioCtx.currentTime;
+
+      // 1. 묵직한 저음 충격파 (Thud)
+      var osc = stampAudioCtx.createOscillator();
+      var gain = stampAudioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(30, now + 0.12);
+
+      gain.gain.setValueAtTime(0.7, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+      osc.connect(gain);
+      gain.connect(stampAudioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.14);
+
+      // 2. 종이 마찰 고주파 (Paper Snap)
+      var snapOsc = stampAudioCtx.createOscillator();
+      var snapGain = stampAudioCtx.createGain();
+      snapOsc.type = 'triangle';
+      snapOsc.frequency.setValueAtTime(320, now);
+      snapOsc.frequency.exponentialRampToValueAtTime(80, now + 0.05);
+
+      snapGain.gain.setValueAtTime(0.3, now);
+      snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+      snapOsc.connect(snapGain);
+      snapGain.connect(stampAudioCtx.destination);
+
+      snapOsc.start(now);
+      snapOsc.stop(now + 0.06);
+    } catch (e) {}
+  }
+
+  window.TRIP_DATA = window.TRIP_DATA || {};
+  window.TRIP_DATA.dayThemes = {
+    "day-1": { theme: "stamp-theme-desert", sealText: "MOJAVE ENTRY", icon: "🌵" },
+    "day-2": { theme: "stamp-theme-vegas",  sealText: "VEGAS VIP",    icon: "🎰" },
+    "day-3": { theme: "stamp-theme-desert", sealText: "CANYON EXPLORER", icon: "🏜️" },
+    "day-4": { theme: "stamp-theme-desert", sealText: "JOSHUA TREE",  icon: "✨" },
+    "day-5": { theme: "stamp-theme-disney", sealText: "ANAHEIM PASS", icon: "🛍️" },
+    "day-6": { theme: "stamp-theme-disney", sealText: "DISNEY HERO",  icon: "🏰" },
+    "day-7": { theme: "stamp-theme-univ",   sealText: "SUPER MARIO",  icon: "🍄" },
+    "day-8": { theme: "stamp-theme-univ",   sealText: "HOGWARTS WIZARD", icon: "🪄" },
+    "day-9": { theme: "stamp-theme-la",     sealText: "HOLLYWOOD STAR", icon: "🌟" },
+    "day-10": { theme: "stamp-theme-la",    sealText: "DODGERS PRO",  icon: "⚾" },
+    "day-11": { theme: "stamp-theme-la",    sealText: "USA COMPLETE", icon: "✈️" }
+  };
+
+  window.TRIP_DATA.dayQuests = {
+    "day-1": [
+      { id: "q1-1", icon: "🇺🇸", label: "LAX 공항 도착해서 웰컴 표지판 앞 패밀리 입국 기념샷" },
+      { id: "q1-2", icon: "🍔", label: "인앤아웃 시크릿 메뉴 '애니멀 스타일' 감자튀김 맛보기" },
+      { id: "q1-3", icon: "🌵", label: "모하비 사막 고속도로에서 야생 선인장 찾아내기" },
+      { id: "q1-4", icon: "🎨", label: "세븐 매직 마운틴스 무지개 거석 앞에서 가족 점프샷 찍기" },
+      { id: "q1-5", icon: "🛒", label: "코스트코 & 트조에서 미국 여행 내내 먹을 최애 간식 카트에 담기" },
+      { id: "q1-6", icon: "🌮", label: "타코스 엘 고르도에서 불맛 가득 아도바다 타코 맛보기" }
+    ],
+    "day-2": [
+      { id: "q2-1", icon: "🏊", label: "콘래드 야외 풀장에서 라스베가스 하늘 보며 물놀이" },
+      { id: "q2-2", icon: "🎪", label: "서커스서커스 공중그네 곡예사 묘기 박수 치며 감상" },
+      { id: "q2-3", icon: "🤖", label: "스피어 미래 로비에서 말하는 AI 로봇 '아우라'와 인사하기" },
+      { id: "q2-4", icon: "🔮", label: "스피어 거대 돔 스크린 16K 초고화질 오즈의 마법사 몰입 감상" },
+      { id: "q2-5", icon: "🍗", label: "하몬코너 칙필레 시그니처 와플 감자튀김 소스 찍먹하기" },
+      { id: "q2-6", icon: "⛲", label: "벨라지오 호수 분수쇼 음악에 맞춰 춤추는 거대 물줄기 보기" }
+    ],
+    "day-3": [
+      { id: "q3-1", icon: "🌌", label: "사막 한가운데서 쏟아질 듯한 밤하늘 은하수 눈에 담기" },
+      { id: "q3-2", icon: "🏜️", label: "그랜드캐년 마더포인트 절벽 위에서 웅장한 대자연 감상" },
+      { id: "q3-3", icon: "🗼", label: "데저트뷰 워치타워 올라가서 굽이치는 콜로라도강 찾기" },
+      { id: "q3-4", icon: "🐎", label: "앤텔롭캐년 붉은 사암 틈 사이로 비치는 환상적인 빛줄기 포착" },
+      { id: "q3-5", icon: "📸", label: "가이드 삼촌이 알려주는 나바호 전설의 비밀 포토존 찾기" },
+      { id: "q3-6", icon: "🧲", label: "말발굽 닮은 300m 수직 절벽 홀스슈밴드 인생샷 남기기" }
+    ],
+    "day-4": [
+      { id: "q4-1", icon: "🍢", label: "야외 화덕 모닥불에 통통한 마시멜로 노릇노릇 구워 먹기" },
+      { id: "q4-2", icon: "🌵", label: "만세하고 서 있는 신비로운 조슈아트리 나무와 하이파이브" },
+      { id: "q4-3", icon: "🚶", label: "히든밸리 기암괴석 둘레길 가족과 손잡고 완주하기" },
+      { id: "q4-4", icon: "💀", label: "자연이 빚어낸 거대한 해골 바위 '스컬락' 앞에서 재미난 표정 짓기" },
+      { id: "q4-5", icon: "🌄", label: "해발 1,577m 키즈뷰 정상에서 붉게 물드는 사막 일몰 감상" },
+      { id: "q4-6", icon: "🥩", label: "사막 독채 숙소에서 야외 화덕 바비큐 파티 & 따뜻한 자쿠지" }
+    ],
+    "day-5": [
+      { id: "q5-1", icon: "🛍️", label: "데저트힐스 프리미엄 아울렛에서 나를 위한 인생 득템 선물 쇼핑하기" },
+      { id: "q5-2", icon: "🐼", label: "미국 푸드코트 명물 판다익스프레스 달콤한 오렌지치킨 먹기" },
+      { id: "q5-3", icon: "🧂", label: "트레이더 조에서 유명한 에브리띵 시즈닝 & 미니 토트백 장바구니 싹쓸이" },
+      { id: "q5-4", icon: "🏨", label: "애너하임 새 숙소에 짐 풀고 내일 파크를 위해 에너지 충전" },
+      { id: "q5-5", icon: "🧱", label: "다운타운 디즈니 레고스토어 거대 캐릭터 모형 앞에서 기념촬영" },
+      { id: "q5-6", icon: "✨", label: "월드 오브 디즈니 메가스토어에서 내일 쓸 깜찍한 머리띠 & 굿즈 쇼핑" }
+    ],
+    "day-6": [
+      { id: "q6-1", icon: "🏰", label: "잠자는 숲속의 공주 성 앞에서 미키 머리띠 쓰고 패밀리 인생샷 찍기" },
+      { id: "q6-2", icon: "🚀", label: "스타워즈 라이즈 오브 더 레지스탕스 타고 전함 탈출 작전 성공" },
+      { id: "q6-3", icon: "🛸", label: "밀레니엄 팔콘 조종석 파일럿 좌석 앉아서 하이퍼스페이스 워프!" },
+      { id: "q6-4", icon: "🍦", label: "디즈니랜드 시그니처 상큼달콤 돌휩(Dole Whip) 아이스크림 맛보기" },
+      { id: "q6-5", icon: "🚂", label: "조명 켜진 밤의 붉은 협곡을 질주하는 빅 썬더 마운틴 탑승" },
+      { id: "q6-6", icon: "🎆", label: "잠자는 숲속의 공주 성 위로 펼쳐지는 원드러스 저니 불꽃쇼 감상" }
+    ],
+    "day-7": [
+      { id: "q7-1", icon: "👑", label: "할리우드 배우들의 호텔 로어스 로비에서 영화 주인공 포즈 취하기" },
+      { id: "q7-2", icon: "🔭", label: "유니버설 스타웨이 위에서 할리우드 영화 스튜디오 전경 내려다보기" },
+      { id: "q7-3", icon: "🍄", label: "슈퍼닌텐도월드 마리오 모자 쓰고 카트 레이싱 100코인 달성!" },
+      { id: "q7-4", icon: "🦖", label: "쥬라기월드 25m 급하강 보트 타고 시원한 공룡 물벼락 맞기" },
+      { id: "q7-5", icon: "⚡", label: "암흑 속 무덤을 초고속으로 역주행하는 미이라 롤러코스터 정복" },
+      { id: "q7-6", icon: "🍄", label: "챙겨온 파워업 밴드로 마리오 월드 곳곳의 ?블록 치고 코인 모으기" }
+    ],
+    "day-8": [
+      { id: "q8-1", icon: "🏰", label: "호그와트 성 포비든 저니 타고 퀴디치 경기장 하늘 날기" },
+      { id: "q8-2", icon: "🍺", label: "달콤하고 부드러운 버터맥주 마시고 입술에 거품 수염 만들기" },
+      { id: "q8-3", icon: "🎬", label: "스튜디오 투어 트램 타고 킹콩 3D & 세트장 특수효과 체험" },
+      { id: "q8-4", icon: "🌊", label: "워터월드 해상 요새에서 수상 비행기 풀장 불시착 스턴트 관람" },
+      { id: "q8-5", icon: "🐶", label: "마이펫 라이드 마법 거울 보며 귀여운 강아지 아바타로 변신하기" },
+      { id: "q8-6", icon: "🪄", label: "내 마법 지팡이로 호그스미드 상점 창문 앞에서 주문 외우고 마법 발동하기" }
+    ],
+    "day-9": [
+      { id: "q9-1", icon: "🌊", label: "산타모니카 피어 나무 데크 걷고 루트 66 종점 표지판 찾기" },
+      { id: "q9-2", icon: "🖼️", label: "게티센터 아름다운 정원에서 가족사진 찍고 고흐 명화 감상" },
+      { id: "q9-3", icon: "💖", label: "멜로즈 폴스미스 핑크월 거대한 분홍 벽 앞에서 패밀리 점프샷" },
+      { id: "q9-4", icon: "🍓", label: "100년 전통 오리지널 파머스마켓에서 신선한 과일 & 간식 맛보기" },
+      { id: "q9-5", icon: "⛰️", label: "할리우드 사인을 손바닥 위에 올려놓는 원근감 착시 사진 찍기" },
+      { id: "q9-6", icon: "🔭", label: "그리피스 천문대 테라스에서 보석처럼 반짝이는 LA 파노라마 야경 감상" }
+    ],
+    "day-10": [
+      { id: "q10-1", icon: "⚾", label: "다저스타디움 관중석에서 푸른 메이저리그 잔디 그라운드 바라보기" },
+      { id: "q10-2", icon: "🧢", label: "다저 스타디움 공식 팀스토어에서 오리지널 다저스 모자 & 기념 굿즈 쇼핑" },
+      { id: "q10-3", icon: "🚃", label: "영화 라라랜드에 나온 세계에서 가장 짧은 기차 '엔젤스 플라이트' 타기" },
+      { id: "q10-4", icon: "📚", label: "더 라스트 북스토어에서 감성 엽서나 귀여운 빈티지 책 한 권 소장하기" },
+      { id: "q10-5", icon: "🍽️", label: "10박 11일 대장정 완주 기념! 맛있는 페어웰 만찬 건배하기" },
+      { id: "q10-6", icon: "🧳", label: "소중한 추억과 선물들 캐리어에 안전하게 정리해 귀국 짐 싸기" }
+    ],
+    "day-11": [
+      { id: "q11-1", icon: "🏨", label: "로어스 호텔 체크아웃 전 서랍과 침대 밑 빠진 물건 없나 확인" },
+      { id: "q11-2", icon: "🛂", label: "LAX 톰 브래들리 국제선 터미널에서 내 여권 들고 씩씩하게 수속하기" },
+      { id: "q11-3", icon: "✈️", label: "에어프레미아 비행기 창밖으로 펼쳐진 태평양 뭉게구름 사진 남기기" },
+      { id: "q11-4", icon: "🍱", label: "구름 위에서 즐기는 맛있는 기내식 가족과 함께 즐기기" },
+      { id: "q11-5", icon: "📝", label: "10박 11일 미서부 여행 중 나만의 가장 빛났던 순간 3가지 꼽아보기" },
+      { id: "q11-6", icon: "🇰🇷", label: "인천공항 안전 도착! 우리 가족 최고의 로드트립이었다고 서로 안아주기" }
+    ]
+  };
+
   (function () {
-    window.TRIP_DATA = window.TRIP_DATA || {};
-    window.TRIP_DATA.quests = [
-      { id: 'quest-inout', icon: '🍔', label: '인앤아웃 버거 애니멀스타일로 먹어보기' },
-      { id: 'quest-vegas-fountain', icon: '⛲', label: '벨라지오 분수쇼 앞에서 가족사진 찍기' },
-      { id: 'quest-joshua-star', icon: '🌌', label: '조슈아트리에서 밤하늘 별 관찰하기' },
-      { id: 'quest-disney-character', icon: '🏰', label: '디즈니랜드에서 캐릭터와 인사하기' },
-      { id: 'quest-universal-ride', icon: '🎢', label: '유니버설 스튜디오 놀이기구 3개 이상 타기' },
-      { id: 'quest-santa-monica', icon: '🌊', label: '산타모니카 해변에서 태평양 발 담그기' }
-    ];
-
-    var STORAGE_KEY = 'us_trip_quest_progress';
-    var gridEl = document.getElementById('questStampGrid');
-    var countEl = document.getElementById('questStampCount');
-    var fillEl = document.getElementById('questStampBarFill');
+    var STORAGE_KEY = 'us_west_passport_stamps_2026';
     var confettiLayer = document.getElementById('questConfettiLayer');
-    if (!gridEl) return;
+    var dayIds = Object.keys(window.TRIP_DATA.dayQuests);
 
-    function loadProgress() {
+    function loadStamps() {
       try {
         var raw = localStorage.getItem(STORAGE_KEY);
         return raw ? JSON.parse(raw) : {};
       } catch (e) { return {}; }
     }
-    function saveProgress(progress) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) {}
-    }
-
-    var progress = loadProgress();
-
-    function updateCount() {
-      var total = window.TRIP_DATA.quests.length;
-      var done = window.TRIP_DATA.quests.filter(function (q) { return !!progress[q.id]; }).length;
-      if (countEl) countEl.textContent = done + ' / ' + total + ' 미션 완료';
-      if (fillEl) fillEl.style.width = (total ? Math.round((done / total) * 100) : 0) + '%';
+    function saveStamps(state) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
     }
 
     function spawnConfetti() {
       if (!confettiLayer) return;
-      var colors = ['#ff6b4a', '#ff9d00', '#0088ff', '#e63995', '#00b36b'];
+      var colors = ['#ff6b4a', '#ff9d00', '#0088ff', '#e63995', '#00b36b', '#c5a059'];
       var pieceCount = 26;
       for (var i = 0; i < pieceCount; i++) {
         var piece = document.createElement('span');
@@ -3069,36 +3375,136 @@
       }
     }
 
-    function render() {
-      gridEl.innerHTML = window.TRIP_DATA.quests.map(function (q) {
-        var done = !!progress[q.id];
-        return '<button type="button" class="quest-stamp-card' + (done ? ' done' : '') + '" data-quest-id="' + q.id + '" aria-pressed="' + (done ? 'true' : 'false') + '">' +
-          '<span class="qs-stamp">✅</span>' +
-          '<span class="qs-icon">' + q.icon + '</span>' +
-          '<span class="qs-label">' + q.label + '</span>' +
-          '<span class="qs-status">' + (done ? '완료!' : '탭해서 완료 체크') + '</span>' +
-          '</button>';
-      }).join('');
-      updateCount();
+    function renderPassportWidget() {
+      var dateNavWrap = document.querySelector('#tab-schedule .date-nav-wrap');
+      if (!dateNavWrap || document.getElementById('passportWidget')) return;
+      var widget = document.createElement('div');
+      widget.className = 'passport-widget';
+      widget.id = 'passportWidget';
+      widget.innerHTML =
+        '<div class="passport-header">' +
+          '<div class="passport-title-wrap"><span class="passport-emblem">🦅</span><span class="passport-title">Family Adventure Passport</span></div>' +
+          '<span class="passport-total-badge" id="passportTotalBadge">0 / 0</span>' +
+        '</div>' +
+        '<div class="passport-stamps-strip" id="passportStampsStrip"></div>';
+      dateNavWrap.parentNode.insertBefore(widget, dateNavWrap);
     }
 
-    gridEl.addEventListener('click', function (e) {
-      var card = e.target.closest('.quest-stamp-card');
-      if (!card) return;
-      var id = card.getAttribute('data-quest-id');
-      var wasDone = !!progress[id];
-      progress[id] = !wasDone;
-      saveProgress(progress);
-      render();
-      if (!wasDone) {
-        if (window.triggerHaptic) window.triggerHaptic('success');
-        spawnConfetti();
-      } else {
-        if (window.triggerHaptic) window.triggerHaptic('light');
+    function updatePassportWidget() {
+      var stampsState = loadStamps();
+      var stripEl = document.getElementById('passportStampsStrip');
+      var badgeEl = document.getElementById('passportTotalBadge');
+      if (!stripEl || !badgeEl) return;
+
+      var totalQuests = 0, totalDone = 0;
+
+      stripEl.innerHTML = dayIds.map(function (dayId, idx) {
+        var quests = window.TRIP_DATA.dayQuests[dayId] || [];
+        var theme = window.TRIP_DATA.dayThemes[dayId] || {};
+        var dayState = stampsState[dayId] || {};
+        var doneCount = quests.filter(function (q) { return !!dayState[q.id]; }).length;
+        totalQuests += quests.length;
+        totalDone += doneCount;
+        var allCleared = quests.length > 0 && doneCount === quests.length;
+        var hasStamps = doneCount > 0;
+        return '<div class="passport-day-pill' + (allCleared ? ' all-cleared' : '') + (hasStamps ? ' has-stamps' : '') + '" data-target="' + dayId + '">' +
+          '<span class="pdp-day">D' + (idx + 1) + '</span>' +
+          '<span class="pdp-mark">' + (theme.icon || '⭐') + '</span>' +
+          '</div>';
+      }).join('');
+
+      badgeEl.textContent = totalDone + ' / ' + totalQuests;
+    }
+
+    function renderDayQuestContainers() {
+      dayIds.forEach(function (dayId) {
+        var dayEl = document.getElementById(dayId);
+        var quests = window.TRIP_DATA.dayQuests[dayId];
+        var theme = window.TRIP_DATA.dayThemes[dayId];
+        if (!dayEl || !quests || !theme) return;
+        var bodyInner = dayEl.querySelector(':scope > .d-body > .d-body-inner');
+        if (!bodyInner || bodyInner.querySelector('.day-quest-container')) return;
+
+        var container = document.createElement('div');
+        container.className = 'day-quest-container';
+        container.setAttribute('data-day-id', dayId);
+        container.innerHTML =
+          '<div class="dqc-head">' +
+            '<span class="dqc-title">' + theme.icon + ' ' + theme.sealText + ' 스탬프 퀘스트</span>' +
+            '<span class="dqc-progress">0 / ' + quests.length + '</span>' +
+          '</div>' +
+          '<div class="dqc-grid">' +
+            quests.map(function (q) {
+              return '<button type="button" class="quest-stamp-btn" data-day-id="' + dayId + '" data-quest-id="' + q.id + '" aria-pressed="false">' +
+                '<span class="qsb-icon">' + q.icon + '</span>' +
+                '<span class="qsb-text">' + q.label + '</span>' +
+                '<span class="stamp-seal ' + theme.theme + '">' + theme.sealText + '</span>' +
+                '</button>';
+            }).join('') +
+          '</div>';
+
+        bodyInner.insertBefore(container, bodyInner.firstChild);
+      });
+    }
+
+    function updateDayQuestUI(dayId) {
+      var stampsState = loadStamps();
+      var dayState = stampsState[dayId] || {};
+      var quests = window.TRIP_DATA.dayQuests[dayId] || [];
+      var container = document.querySelector('.day-quest-container[data-day-id="' + dayId + '"]');
+      if (!container) return;
+      var doneCount = 0;
+      container.querySelectorAll('.quest-stamp-btn').forEach(function (btn) {
+        var qId = btn.getAttribute('data-quest-id');
+        var done = !!dayState[qId];
+        if (done) doneCount++;
+        btn.classList.toggle('stamped', done);
+        btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+      });
+      var progressEl = container.querySelector('.dqc-progress');
+      if (progressEl) progressEl.textContent = doneCount + ' / ' + quests.length;
+    }
+
+    function updateAllDayQuestUI() {
+      dayIds.forEach(updateDayQuestUI);
+    }
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.quest-stamp-btn');
+      if (btn) {
+        var dayId = btn.getAttribute('data-day-id');
+        var questId = btn.getAttribute('data-quest-id');
+        var stampsState = loadStamps();
+        if (!stampsState[dayId]) stampsState[dayId] = {};
+        var wasDone = !!stampsState[dayId][questId];
+        stampsState[dayId][questId] = !wasDone;
+        saveStamps(stampsState);
+
+        updateDayQuestUI(dayId);
+        updatePassportWidget();
+
+        if (!wasDone) {
+          playStampSound();
+          if (window.triggerHaptic) window.triggerHaptic('success');
+          spawnConfetti();
+        } else {
+          if (window.triggerHaptic) window.triggerHaptic('light');
+        }
+        return;
+      }
+
+      var pill = e.target.closest('.passport-day-pill');
+      if (pill) {
+        var targetDay = pill.getAttribute('data-target');
+        if (window.switchTab) window.switchTab('tab-schedule', true);
+        if (window.jumpToDay) window.jumpToDay(targetDay);
       }
     });
 
-    render();
+    renderPassportWidget();
+    renderDayQuestContainers();
+    updatePassportWidget();
+    updateAllDayQuestUI();
   })();
 </script>
 
