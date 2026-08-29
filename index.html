@@ -1214,12 +1214,14 @@
         <div class="name">다저 스타디움 투어</div>
         <div class="detail">10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)</div>
         <div class="amount">$149.00</div>
+        <a class="route-nav-link" href="https://www.mlb.com/dodgers/ballpark/tours" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">🎟️ 공식 투어 예매 페이지</a>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🏰</span><span class="badge pending">발권대기</span></div>
         <div class="name">디즈니랜드 티켓</div>
         <div class="detail">10/6 1 Day 1 Park (Tier 4) · 성인3+아동1</div>
         <div class="amount">₩1,043,684</div>
+        <a class="route-nav-link" href="https://disneyland.disney.go.com/tickets/" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">🎟️ 공식 티켓 구매 페이지</a>
       </div>
       <div class="card">
         <div class="top"><span class="icon">🎬</span><span class="badge done">완료</span></div>
@@ -3898,6 +3900,90 @@
         });
       });
     });
+  })();
+
+  /* ==========================================================
+     [3-4] 예약 탭: 완료/대기 카운트 & 통화 합산 자동 계산
+  ========================================================== */
+  (function calculateReservationStats() {
+    var cardsWrap = document.querySelector('#tab-reservations .cards');
+    if (!cardsWrap) return;
+    var cards = cardsWrap.querySelectorAll('.card');
+    var section = cardsWrap.closest('section');
+
+    var doneCount = 0, pendingCount = 0;
+    var krwSum = 0, usdSum = 0, ptSum = 0;
+    var krwLog = [], usdLog = [], ptLog = [];
+
+    cards.forEach(function (card) {
+      var isDone = !!card.querySelector('.badge.done');
+      var isPendingOrTodo = !!card.querySelector('.badge.pending') || !!card.querySelector('.badge.todo');
+      if (isDone) doneCount++;
+      if (isPendingOrTodo) pendingCount++;
+      if (!isDone) return; // 완료된 예약 금액만 합산 (대기/예정은 제외)
+
+      var amountEl = card.querySelector('.amount');
+      var nameEl = card.querySelector('.name');
+      if (!amountEl) return;
+      var name = nameEl ? nameEl.textContent.trim() : '';
+
+      // 중첩된 span 요소(예: "+ 현장 $688 (Cash)" 같은 부가 금액)는 제외하고,
+      // .amount의 최상위 텍스트 노드(메인 금액)만 추출
+      var mainText = Array.prototype.slice.call(amountEl.childNodes)
+        .filter(function (n) { return n.nodeType === Node.TEXT_NODE; })
+        .map(function (n) { return n.textContent; })
+        .join('')
+        .trim();
+
+      if (mainText.indexOf('₩') !== -1) {
+        var krwMatch = mainText.match(/₩\s*([\d,]+)/);
+        if (krwMatch) {
+          var krwVal = parseInt(krwMatch[1].replace(/,/g, ''), 10);
+          krwSum += krwVal;
+          krwLog.push(name + ' ' + krwVal.toLocaleString());
+        }
+      } else if (mainText.indexOf('$') !== -1) {
+        var usdMatch = mainText.match(/\$\s*([\d,.]+)/);
+        if (usdMatch) {
+          var usdVal = parseFloat(usdMatch[1].replace(/,/g, ''));
+          usdSum += usdVal;
+          usdLog.push(name + ' $' + usdVal.toFixed(2));
+        }
+      } else if (mainText.indexOf('pt') !== -1) {
+        var ptMatch = mainText.match(/([\d,]+)\s*pt/);
+        if (ptMatch) {
+          var ptVal = parseInt(ptMatch[1].replace(/,/g, ''), 10);
+          ptSum += ptVal;
+          ptLog.push(name + ' ' + ptVal.toLocaleString());
+        }
+      }
+    });
+
+    var totalCount = cards.length;
+
+    // 1. 섹션 헤더 카운트
+    if (section) {
+      var countEl = section.querySelector('.section-head .count');
+      if (countEl) countEl.textContent = doneCount + ' / ' + totalCount + ' 완료';
+    }
+
+    // 2. 필터칩 텍스트
+    var doneChip = document.querySelector('.filter-chip[data-filter="done"]');
+    if (doneChip) doneChip.textContent = '완료 ' + doneCount;
+    var pendingChip = document.querySelector('.filter-chip[data-filter="pending"]');
+    if (pendingChip) pendingChip.textContent = '대기/예정 ' + pendingCount;
+
+    // 3. 통화 요약 뱃지 (기결제 KRW / 현지결제 USD / 포인트 사용 순서)
+    var badgeVals = document.querySelectorAll('.currency-summary .currency-badge-val');
+    if (badgeVals[0]) badgeVals[0].textContent = '₩' + krwSum.toLocaleString();
+    if (badgeVals[1]) badgeVals[1].textContent = '$' + usdSum.toFixed(2);
+    if (badgeVals[2]) badgeVals[2].textContent = ptSum.toLocaleString() + 'pt';
+
+    // 4. 디버깅 로그
+    console.log('완료/대기 카운트: 완료 ' + doneCount + ' · 대기/예정 ' + pendingCount + ' · 전체 ' + totalCount);
+    console.log('KRW 합산: ' + krwLog.join(' + ') + ' = ' + krwSum.toLocaleString());
+    console.log('USD 합산: ' + usdLog.join(' + ') + ' = $' + usdSum.toFixed(2));
+    console.log('포인트 합산: ' + ptLog.join(' + ') + ' = ' + ptSum.toLocaleString() + 'pt');
   })();
 
   /* ==========================================================
