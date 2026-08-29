@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script>
+  (function () {
+    try {
+      var theme = localStorage.getItem('us_trip_theme');
+      document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+    } catch (e) {}
+    try {
+      var view = localStorage.getItem('viewMode');
+      document.documentElement.setAttribute('data-view', view === 'family' ? 'family' : 'admin');
+    } catch (e) {}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>WILD WEST U.S.A. 2026 · 승현 패밀리 미서부 로드트립</title>
@@ -275,6 +287,39 @@
   /* ===== 날씨/일몰 요약 카드 ===== */
   .weather-sunset-card{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0 4px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);line-height:1.5;}
 
+  /* ===== 가족모드 전용 "오늘의 하이라이트" 카드 (기본 숨김 · data-view="family"일 때만 노출) ===== */
+  .day-family-highlight{display:none;}
+  [data-view="family"] .day-family-highlight{
+    display:flex;align-items:flex-start;gap:10px;margin:10px 0 4px;
+    background:linear-gradient(135deg,rgba(255,157,0,.14),rgba(0,136,255,.08));
+    border:1px solid rgba(255,157,0,.35);border-radius:12px;padding:12px 14px;
+  }
+  .day-family-highlight .dfh-emoji{font-size:22px;line-height:1;flex-shrink:0;}
+  .day-family-highlight .dfh-body{flex:1;min-width:0;}
+  .day-family-highlight .dfh-title{font-size:13.5px;font-weight:700;color:var(--gold-text);margin-bottom:3px;}
+  .day-family-highlight .dfh-text{font-size:12.5px;color:var(--text);line-height:1.55;}
+
+  /* ===== 뷰모드(기획자/가족) 토글 버튼 (헤더) ===== */
+  .view-mode-toggle-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--text);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+  .view-mode-toggle-btn:hover,.view-mode-toggle-btn:focus-visible{border-color:var(--teal);outline:none;}
+  [data-view="family"] .view-mode-toggle-btn{background:rgba(255,157,0,.14);border-color:rgba(255,157,0,.4);color:var(--gold-text);}
+  .hero-top-actions{display:flex;align-items:center;gap:8px;}
+
+  /* ===== 가족모드: 예약/경비 상세 금액·실무 정보 숨김 =====
+     (아래 셀렉터들은 표시 여부만 제어 — 마크업/데이터 값 자체는 그대로 유지되며
+      기획자모드(data-view="admin" 또는 속성 없음)로 되돌리면 즉시 복원됨) */
+  [data-view="family"] #tab-reservations .currency-summary,
+  [data-view="family"] #tab-reservations .cards .card .amount,
+  [data-view="family"] #tab-reservations .cards .card .route-nav-link,
+  [data-view="family"] #tab-reservations .cards .card .detail-sensitive,
+  [data-view="family"] #tab-budget .expense-entry-card,
+  [data-view="family"] #tab-budget .budget-metric-card,
+  [data-view="family"] #tab-budget #budget-live{
+    display:none !important;
+  }
+  /* .detail-sensitive: 예약카드 detail 텍스트 내 예약번호/결제수단 등 실무정보만 부분 숨김
+     (이름·날짜·박수 등 나머지 detail 문구는 그대로 노출) */
+
   /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
   .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
   .sched-block{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;}
@@ -407,6 +452,19 @@
   .pack-progress-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
   .pack-progress-count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold-text);font-weight:700;}
   .pack-fill{background:linear-gradient(90deg,var(--coral),var(--gold));transition:width .4s ease;}
+
+  /* ===== 짐싸기 실시간 동기화 배지 & 기기 소유자 선택 ===== */
+  .pack-sync-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:-4px 0 14px;}
+  .pack-sync-badge{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:4px 10px;border-radius:12px;background:rgba(46,196,182,.10);border:1px solid rgba(46,196,182,.3);color:var(--teal-text);cursor:pointer;white-space:nowrap;transition:background-color .15s,border-color .15s,color .15s;}
+  .pack-sync-badge.offline{background:rgba(242,185,75,.12);border-color:rgba(242,185,75,.4);color:var(--amber-text);}
+  .pack-sync-badge.error{background:rgba(230,57,70,.10);border-color:rgba(230,57,70,.3);color:var(--red-text);}
+  .pack-sync-badge.disabled{background:var(--card-2);border-color:var(--line);color:var(--muted-2);cursor:default;}
+  .pack-owner-picker{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;color:var(--muted);}
+  .pack-owner-picker.hidden{display:none !important;}
+  .pack-owner-btn{font-family:'Work Sans',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--text);cursor:pointer;transition:border-color .15s,color .15s;}
+  .pack-owner-btn:hover,.pack-owner-btn:focus-visible{border-color:var(--teal);outline:none;}
+  .pack-owner-btn.skip{color:var(--muted);font-weight:500;}
+
   .pack-actions{display:flex;gap:8px;margin-bottom:14px;}
   .pack-action-btn{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;padding:9px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--text);cursor:pointer;font-weight:600;transition:border-color .15s,color .15s;}
   .pack-action-btn:hover,.pack-action-btn:focus-visible{border-color:var(--teal);outline:none;}
@@ -950,6 +1008,32 @@
   /* ===== Next-Up 진행중 일정 하이라이트 ===== */
   @keyframes nextUpPulse { 0% { box-shadow: 0 0 0 0 var(--next-up-glow); } 70% { box-shadow: 0 0 0 10px rgba(0, 136, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 136, 255, 0); } }
   .sched-block.next-up { border-color: var(--teal); animation: nextUpPulse 2s infinite; }
+
+  /* ===== 오늘의 미션 퀘스트 스탬프북 (4개 탭 마크업 밖의 독립 섹션) ===== */
+  .quest-stamp-section{max-width:640px;margin:0 auto 18px;padding:16px 18px 20px;}
+  .quest-stamp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+  .quest-stamp-head h2{font-size:15px;font-weight:800;color:var(--text);}
+  .quest-stamp-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
+  .quest-stamp-bar-track{height:8px;border-radius:6px;background:var(--card-2);border:1px solid var(--line);overflow:hidden;margin-bottom:14px;}
+  .quest-stamp-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--coral));border-radius:6px;transition:width .4s ease;}
+  .quest-stamp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .quest-stamp-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;cursor:pointer;overflow:hidden;transition:transform .15s ease,border-color .15s ease;}
+  .quest-stamp-card:hover,.quest-stamp-card:focus-visible{transform:translateY(-2px);border-color:var(--teal);outline:none;}
+  .quest-stamp-card .qs-icon{font-size:24px;line-height:1;}
+  .quest-stamp-card .qs-label{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.45;flex:1;}
+  .quest-stamp-card .qs-status{font-size:10.5px;font-weight:700;color:var(--muted);}
+  .quest-stamp-card.done{border-color:rgba(0,179,107,.5);background:rgba(0,179,107,.08);}
+  .quest-stamp-card.done .qs-status{color:var(--green-text);}
+  .quest-stamp-card .qs-stamp{position:absolute;top:8px;right:8px;font-size:26px;line-height:1;transform:rotate(14deg) scale(0);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s ease;}
+  .quest-stamp-card.done .qs-stamp{transform:rotate(14deg) scale(1);opacity:1;}
+
+  /* 컨페티 연출 (외부 라이브러리 없이 순수 CSS/JS) */
+  .quest-confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:1200;overflow:hidden;}
+  .quest-confetti-piece{position:absolute;top:-12px;width:8px;height:14px;opacity:.95;border-radius:2px;animation:questConfettiFall 1.15s ease-in forwards;}
+  @keyframes questConfettiFall{
+    0%{transform:translateY(0) rotate(0deg);opacity:1;}
+    100%{transform:translateY(100vh) rotate(540deg);opacity:0;}
+  }
 </style>
 </head>
 <body>
@@ -1088,6 +1172,157 @@
     });
   })();
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js" defer></script>
+<script>
+  /* ==========================================================
+     [0-3] 가족 실시간 동기화 엔진 (Firebase Realtime Database)
+     - 짐싸기 체크리스트 등 로컬 상태를 여러 기기 간 자동으로 맞춰준다 (버튼 없이, 체크가 곧 동기화)
+     - ⚠️ 설정 필요: 아래 FIREBASE_CONFIG를 Firebase 콘솔에서 발급받은 값으로 교체할 것
+       1) https://console.firebase.google.com 에서 새 프로젝트 생성 (무료)
+       2) 왼쪽 메뉴 "빌드 > Realtime Database" → 데이터베이스 만들기 → "테스트 모드로 시작"
+       3) 프로젝트 설정(톱니바퀴) → 일반 → "앱 추가" → 웹(</>) 선택 → 앱 닉네임 아무거나 → SDK 구성값(firebaseConfig) 복사
+       4) 그 값 중 apiKey / authDomain / databaseURL / projectId를 아래에 그대로 붙여넣기
+       5) Realtime Database > 규칙 탭에 아래 JSON을 붙여넣고 게시:
+          {
+            "rules": {
+              "tripSync": { "uswest2026": { ".read": true, ".write": "auth != null" } },
+              ".read": false,
+              ".write": false
+            }
+          }
+     - apiKey를 채우기 전까지는 이 모듈이 조용히 비활성 상태로 남고, 기존 localStorage 단독 동작에는
+       아무 영향도 주지 않는다 (오프라인/네트워크 실패 시에도 항상 로컬 저장이 우선이라 안전).
+  ========================================================== */
+  var FIREBASE_CONFIG = {
+    apiKey: "AIzaSyAEgYIlyE8uZ1oWSFE1ql3uoNz43OYEnWY",
+    authDomain: "wild-west-usa-2026.firebaseapp.com",
+    databaseURL: "https://wild-west-usa-2026-default-rtdb.firebaseio.com",
+    projectId: "wild-west-usa-2026"
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var CLIENT_ID = (function () {
+      var KEY = 'us_trip_client_id';
+      var id = null;
+      try { id = localStorage.getItem(KEY); } catch (e) {}
+      if (!id) {
+        id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+        try { localStorage.setItem(KEY, id); } catch (e) {}
+      }
+      return id;
+    })();
+
+    var isConfigured = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.indexOf('여기에') === -1);
+    var sdkLoaded = typeof firebase !== 'undefined';
+    var enabled = isConfigured && sdkLoaded;
+    var reason = !isConfigured ? 'not-configured' : (!sdkLoaded ? 'sdk-failed' : null);
+    var authReadyPromise = null;
+    var statusHandlers = [];
+
+    function emitStatus(s) {
+      statusHandlers.forEach(function (fn) { try { fn(s); } catch (e) {} });
+    }
+
+    if (enabled) {
+      try {
+        firebase.initializeApp(FIREBASE_CONFIG);
+        authReadyPromise = firebase.auth().signInAnonymously().catch(function () {
+          enabled = false;
+          reason = 'auth-failed';
+          emitStatus('error');
+        });
+        firebase.database().ref('.info/connected').on('value', function (snap) {
+          if (!enabled) return;
+          emitStatus(snap.val() ? 'online' : 'offline');
+        });
+      } catch (e) {
+        enabled = false;
+        reason = 'init-failed';
+      }
+    }
+    if (!enabled) {
+      setTimeout(function () { emitStatus(reason === 'not-configured' ? 'disabled' : 'error'); }, 0);
+    }
+
+    function getOwner() {
+      try { return localStorage.getItem('us_trip_device_owner') || ''; } catch (e) { return ''; }
+    }
+    function setOwner(name) {
+      try { localStorage.setItem('us_trip_device_owner', name); } catch (e) {}
+    }
+
+    // pathKey: 'packing' 등 기능 구분자 / ids: 항목 id 배열 / localState: 그 기능의 상태 객체(참조)
+    // saveLocal: 로컬 저장 함수 / rerender: 화면 다시 그리는 함수
+    function attach(pathKey, ids, localState, saveLocal, rerender) {
+      if (!enabled || !authReadyPromise) return null;
+      authReadyPromise.then(function () {
+        if (!enabled) return;
+        var ref = firebase.database().ref('tripSync/uswest2026/' + pathKey);
+        ref.on('value', function (snap) {
+          var remote = snap.val() || {};
+          var localChanged = false;
+          var arrivedFrom = [];
+          ids.forEach(function (id) {
+            var r = remote[id];
+            if (r && r.v && !localState[id]) {
+              // 다른 기기(또는 과거 이 기기)에서 체크된 항목을 이 기기로 반영
+              localState[id] = true;
+              localChanged = true;
+              if (r.client !== CLIENT_ID) arrivedFrom.push(r.by || '가족');
+            } else if (localState[id] && !(r && r.v)) {
+              // 이 기기에만 있는 체크 → 최초 연결/재연결 시 클라우드로 업로드해 병합
+              ref.child(id).set({ v: true, by: getOwner() || '가족', client: CLIENT_ID, ts: firebase.database.ServerValue.TIMESTAMP });
+            }
+          });
+          if (localChanged) {
+            saveLocal(localState);
+            rerender();
+            if (arrivedFrom.length && window.showToast) {
+              var names = [];
+              arrivedFrom.forEach(function (n) { if (names.indexOf(n) === -1) names.push(n); });
+              var who = names.length === 1 ? names[0] : (names[0] + ' 외 ' + (names.length - 1) + '명');
+              window.showToast(who + '님이 짐싸기 ' + arrivedFrom.length + '개 항목을 체크했어요 ✓');
+              if (window.triggerHaptic) window.triggerHaptic('light');
+            }
+          }
+        });
+      });
+      return {
+        push: function (id, val) {
+          if (!enabled || !authReadyPromise) return;
+          authReadyPromise.then(function () {
+            if (!enabled) return;
+            firebase.database().ref('tripSync/uswest2026/' + pathKey + '/' + id)
+              .set(val ? { v: true, by: getOwner() || '가족', client: CLIENT_ID, ts: firebase.database.ServerValue.TIMESTAMP } : null);
+          });
+        },
+        pushAll: function (map) {
+          if (!enabled || !authReadyPromise) return;
+          authReadyPromise.then(function () {
+            if (!enabled) return;
+            var updates = {};
+            Object.keys(map).forEach(function (id) {
+              updates[id] = map[id] ? { v: true, by: getOwner() || '가족', client: CLIENT_ID, ts: firebase.database.ServerValue.TIMESTAMP } : null;
+            });
+            firebase.database().ref('tripSync/uswest2026/' + pathKey).update(updates);
+          });
+        }
+      };
+    }
+
+    window.TripSync = {
+      attach: attach,
+      getOwner: getOwner,
+      setOwner: setOwner,
+      onStatus: function (fn) { statusHandlers.push(fn); },
+      isEnabled: function () { return enabled; },
+      getReason: function () { return reason; }
+    };
+    document.dispatchEvent(new CustomEvent('tripSyncReady'));
+  });
+</script>
 <div class="wrap">
 
   <div id="offlineStatusBar" class="offline-status-bar hidden" role="status" aria-live="polite">
@@ -1097,9 +1332,14 @@
   <div class="hero">
     <div class="hero-top-row">
       <div class="eyebrow">승현·지은·유나·수빈의 서부 개척기</div>
-      <div class="countdown-mini">
-        <span class="num" id="dday">–</span>
-        <span class="label">일 남음</span>
+      <div class="hero-top-actions">
+        <button type="button" id="viewModeToggleBtn" class="view-mode-toggle-btn" aria-label="기획자모드/가족모드 전환" aria-pressed="false">
+          <span id="viewModeToggleIcon">👨‍👩‍👧‍👦</span> <span id="viewModeToggleLabel">가족모드</span>
+        </button>
+        <div class="countdown-mini">
+          <span class="num" id="dday">–</span>
+          <span class="label">일 남음</span>
+        </div>
       </div>
     </div>
     <h1>WILD WEST U.S.A. 2026</h1>
@@ -1160,82 +1400,41 @@
       </div>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <div class="top"><span class="icon">✈️</span><span class="badge done">완료</span></div>
-        <div class="name">항공권 왕복</div>
-        <div class="detail">에어프레미아 YP101 / YP102 왕복 (4인)</div>
-        <div class="amount">₩4,075,800</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🚗</span><span class="badge done">완료</span></div>
-        <div class="name">렌터카 2건 (분할 렌트)</div>
-        <div class="detail">Hertz 분할 렌트 (1차 LAX→베가스 / 2차 베가스→애너하임) · 무인 반납</div>
-        <div class="amount">$160.77</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
-        <div class="name">콘래드 라스베가스</div>
-        <div class="detail">10/1–2, 10/3–4 (총 2박) · 힐튼 포인트 결제 (2건)</div>
-        <div class="amount">150,000 pt</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
-        <div class="name">Home2 Suites 애너하임</div>
-        <div class="detail">10/5–7 (2박) · 힐튼 포인트 결제</div>
-        <div class="amount">130,000 pt</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🏨</span><span class="badge done">완료</span></div>
-        <div class="name">로어스 할리우드</div>
-        <div class="detail">10/7–11 (4박) · #3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></div>
-        <div class="amount">₩1,627,179</div>
-      </div>
-      <div class="card" data-img="images/joshua-tree-airbnb-confirmation.png">
-        <div class="top"><span class="icon">🌵</span><span class="badge done">완료</span></div>
-        <div class="name">조슈아트리 숙소</div>
-        <div class="detail">10/4–5 (1박) · Airbnb "조슈아 트리의 집"<br>60442 La Mirada Trail<button type="button" class="copy-btn" data-copy="60442 La Mirada Trail, Joshua Tree, CA 92252" aria-label="숙소 주소 복사" title="주소 복사"><span>📋</span> 복사</button></div>
-        <div class="amount">$292.11</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🎫</span><span class="badge done">완료</span></div>
-        <div class="name">스피어 쇼</div>
-        <div class="detail">오즈의 마법사 · 10/2 17:00 (4인)</div>
-        <div class="amount">₩906,999</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🏜️</span><span class="badge done">완료</span></div>
-        <div class="name">그랜드캐년 투어 (요한투어)</div>
-        <div class="detail">마이리얼트립 VIP 당일 코스2 · #EXP-20260822-00000491</div>
-        <div class="amount">₩632,954 <span style="font-size:12.5px;color:var(--muted);font-weight:500;">+ 현장 $688 (Cash)</span></div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">⚾</span><span class="badge pending">오픈대기</span></div>
-        <div class="name">다저 스타디움 투어</div>
-        <div class="detail">10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)</div>
-        <div class="amount">$149.00</div>
-        <a class="route-nav-link" href="https://www.mlb.com/dodgers/ballpark/tours" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">🎟️ 공식 투어 예매 페이지</a>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🏰</span><span class="badge pending">발권대기</span></div>
-        <div class="name">디즈니랜드 티켓</div>
-        <div class="detail">10/6 1 Day 1 Park (Tier 4) · 성인3+아동1</div>
-        <div class="amount">₩1,043,684</div>
-        <a class="route-nav-link" href="https://disneyland.disney.go.com/tickets/" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">🎟️ 공식 티켓 구매 페이지</a>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🎬</span><span class="badge done">완료</span></div>
-        <div class="name">유니버설 티켓 (1+1 2일권)</div>
-        <div class="detail">1+1 2일권 (10/7 오후 + 10/8 주간) · 성인3+아동1</div>
-        <div class="amount">₩525,400</div>
-      </div>
-      <div class="card">
-        <div class="top"><span class="icon">🚌</span><span class="badge done">완료</span></div>
-        <div class="name">LA드림투어 (6인 소규모)</div>
-        <div class="detail">10/9(금) 게티센터 도슨트 · 예약확정<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span></div>
-        <div class="amount">₩598,397 <span style="font-size:12.5px;color:var(--muted);font-weight:500;">+ 현장 $200 (Cash)</span></div>
-      </div>
-    </div>
+    <div class="cards"></div>
+    <script>
+      window.TRIP_DATA = window.TRIP_DATA || {};
+      window.TRIP_DATA.reservations = [
+        { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복', detail: '에어프레미아 YP101 / YP102 왕복 (4인)', amount: '₩4,075,800' },
+        { icon: '🚗', status: 'done', statusLabel: '완료', name: '렌터카 2건 (분할 렌트)', detail: 'Hertz 분할 렌트 (1차 LAX→베가스 / 2차 베가스→애너하임) · 무인 반납', amount: '$160.77' },
+        { icon: '🏨', status: 'done', statusLabel: '완료', name: '콘래드 라스베가스', detail: '10/1–2, 10/3–4 (총 2박) · <span class="detail-sensitive">힐튼 포인트 결제 (2건)</span>', amount: '150,000 pt' },
+        { icon: '🏨', status: 'done', statusLabel: '완료', name: 'Home2 Suites 애너하임', detail: '10/5–7 (2박) · <span class="detail-sensitive">힐튼 포인트 결제</span>', amount: '130,000 pt' },
+        { icon: '🏨', status: 'done', statusLabel: '완료', name: '로어스 할리우드', detail: '10/7–11 (4박) · <span class="detail-sensitive">#3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span>', amount: '₩1,627,179' },
+        { icon: '🌵', status: 'done', statusLabel: '완료', name: '조슈아트리 숙소', detail: '10/4–5 (1박) · Airbnb "조슈아 트리의 집"<br>60442 La Mirada Trail<button type="button" class="copy-btn" data-copy="60442 La Mirada Trail, Joshua Tree, CA 92252" aria-label="숙소 주소 복사" title="주소 복사"><span>📋</span> 복사</button>', amount: '$292.11', imgKey: 'images/joshua-tree-airbnb-confirmation.png' },
+        { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', detail: '오즈의 마법사 · 10/2 17:00 (4인)', amount: '₩906,999' },
+        { icon: '🏜️', status: 'done', statusLabel: '완료', name: '그랜드캐년 투어 (요한투어)', detail: '마이리얼트립 VIP 당일 코스2 · <span class="detail-sensitive">#EXP-20260822-00000491</span>', amount: '₩632,954', amountSub: '+ 현장 $688 (Cash)' },
+        { icon: '⚾', status: 'pending', statusLabel: '오픈대기', name: '다저 스타디움 투어', detail: '10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)', amount: '$149.00', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
+        { icon: '🏰', status: 'pending', statusLabel: '발권대기', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4) · 성인3+아동1', amount: '₩1,043,684', cta: { label: '🎟️ 공식 티켓 구매 페이지', href: 'https://disneyland.disney.go.com/tickets/' } },
+        { icon: '🎬', status: 'done', statusLabel: '완료', name: '유니버설 티켓 (1+1 2일권)', detail: '1+1 2일권 (10/7 오후 + 10/8 주간) · 성인3+아동1', amount: '₩525,400' },
+        { icon: '🚌', status: 'done', statusLabel: '완료', name: 'LA드림투어 (6인 소규모)', detail: '10/9(금) 게티센터 도슨트 · 예약확정<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span>', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash)' }
+      ];
+
+      (function renderReservationCards() {
+        var wrap = document.querySelector('#tab-reservations .cards');
+        if (!wrap) return;
+        wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r) {
+          var amountHtml = r.amount + (r.amountSub ? ' <span style="font-size:12.5px;color:var(--muted);font-weight:500;">' + r.amountSub + '</span>' : '');
+          var ctaHtml = r.cta ? '<a class="route-nav-link" href="' + r.cta.href + '" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">' + r.cta.label + '</a>' : '';
+          var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
+          return '<div class="card"' + imgAttr + '>' +
+            '<div class="top"><span class="icon">' + r.icon + '</span><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
+            '<div class="name">' + r.name + '</div>' +
+            '<div class="detail">' + r.detail + '</div>' +
+            '<div class="amount">' + amountHtml + '</div>' +
+            ctaHtml +
+            '</div>';
+        }).join('');
+      })();
+    </script>
   </section>
 
   <section>
@@ -1243,12 +1442,28 @@
       <h2>남은 할 일</h2>
       <span class="count">4 ITEMS</span>
     </div>
-    <div class="todo-list">
-      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-dodger"><div class="txt">다저 스타디움 투어 예약 <span class="tag">— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)</span></div></div>
-      <div class="todo-item priority"><input type="checkbox" class="chk" data-key="todo-the-broad"><div class="txt">더 브로드(The Broad) 사전 무료 시간지정권 예매 <span class="tag">— 9/1 오픈 (10/10 13:30/14:00 슬롯)</span></div></div>
-      <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-disney"><div class="txt">디즈니랜드 티켓 결제 &amp; 파크 예약 <span class="tag">— 10/6 Tier 4</span></div></div>
-      <div class="todo-item"><input type="checkbox" class="chk" data-key="todo-dine-musso"><div class="txt">Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable) <span class="tag">(선택 옵션 · 10/10 토)</span></div></div>
-    </div>
+    <div class="todo-list"></div>
+    <script>
+      window.TRIP_DATA = window.TRIP_DATA || {};
+      window.TRIP_DATA.todos = [
+        { key: 'todo-dodger', priority: true, text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
+        { key: 'todo-the-broad', priority: true, text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/1 오픈 (10/10 13:30/14:00 슬롯)' },
+        { key: 'todo-disney', priority: false, text: '디즈니랜드 티켓 결제 &amp; 파크 예약', tag: '— 10/6 Tier 4' },
+        { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' }
+      ];
+
+      (function renderTodos() {
+        var wrap = document.querySelector('#tab-reservations .todo-list');
+        if (!wrap) return;
+        wrap.innerHTML = window.TRIP_DATA.todos.map(function (t) {
+          return '<div class="todo-item' + (t.priority ? ' priority' : '') + '"><input type="checkbox" class="chk" data-key="' + t.key + '"><div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span></div></div>';
+        }).join('');
+
+        var section = wrap.closest('section');
+        var countEl = section ? section.querySelector('.section-head .count') : null;
+        if (countEl) countEl.textContent = window.TRIP_DATA.todos.length + ' ITEMS';
+      })();
+    </script>
   </section>
   </main>
 
@@ -1289,6 +1504,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🚗</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">드디어 미국 도착! 비행기에서 내려서 사막을 가로질러 신나는 자동차 여행을 떠나요. 밤에는 반짝반짝한 라스베가스 호텔에서 첫 밤을 보내요 🌵✨</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>1일차 동선:</b> LAX(ConRAC) ➔ 바스토우(인앤아웃) ➔ 세븐매직 ➔ 코스트코/트조 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/5251+W+98th+St,+Los+Angeles,+CA/In-N-Out+Burger,+Barstow,+CA/Seven+Magic+Mountains,+NV/Costco+Wholesale,+St+Rose+Pkwy,+Henderson,+NV/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1362,6 +1581,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🔮</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">낮에는 수영장에서 풍덩! 신기하게 동그란 공 모양 건물 스피어도 구경해요. 밤에는 그랜드캐년으로 떠나는 심야 버스를 타고 잠들어요 🏊🌌</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>2일차 동선:</b> 콘래드 ➔ 서커스서커스 ➔ 스피어 ➔ 하몬코너(저녁) ➔ 벨라지오 분수 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Circus+Circus,+Las+Vegas/Sphere,+Las+Vegas/Harmon+Corner,+Las+Vegas/Bellagio+Fountains,+Las+Vegas/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1465,6 +1688,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🏜️</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">오늘은 세상에서 제일 큰 협곡, 그랜드캐년을 보러 가는 날! 절벽 끝에서 멋진 사진도 찍고, 신비로운 앤텔롭캐년도 구경해요 📸🐎</span></span>
+        </div>
         <div class="weather-sunset-card">🏞️ 사우스림 기온: 아침 4℃ ~ 낮 24℃ (일출 06:40 / 일몰 18:25) · 새벽 영하권 체감온도 대비 경량 패딩 필수</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 그랜드캐년 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
@@ -1604,6 +1831,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🌵</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">신기하게 생긴 조슈아트리 나무들을 만나러 사막 국립공원에 가요! 해질 때 하늘이 정말 예쁘게 물드는 곳이에요 🌇 저녁엔 숙소에서 바비큐와 자쿠지도 즐겨요</span></span>
+        </div>
         <div class="weather-sunset-card">🌵 고지대 기온: 낮 29℃ ➔ 해질녘 15℃ 이하 급강하 (Keys View 선셋 18:22) · 1,577m 강풍 대비 방한 외투 지참</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>4일차 통합 동선:</b> 콘래드 ➔ Total Wine ➔ 유카밸리(Stater Bros) ➔ 숙소(짐하차) ➔ 히든밸리 ➔ 스컬락 ➔ 키즈뷰(일몰) ➔ 숙소</span>
@@ -1688,6 +1919,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🏰</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">드디어 디즈니랜드 근처로 이동하는 날! 쇼핑도 하고, 저녁엔 다운타운 디즈니에서 미리 두근두근 디즈니 분위기를 느껴봐요 🛍️✨</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>5일차 동선:</b> 조슈아트리 ➔ 데저트힐스 아울렛 ➔ 트조(Orange) ➔ 코스트코 ➔ Home2 Suites(가족 하차) ➔ Hertz 선반납 ➔ 다운타운 디즈니</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/60442+La+Mirada+Trail,+Joshua+Tree,+CA+92252/Desert+Hills+Premium+Outlets/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA/Costco+Wholesale,+Garden+Grove,+CA/Home2+Suites+by+Hilton+Anaheim+Resort/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA/Downtown+Disney+District+Anaheim" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1746,6 +1981,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🎢</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">오늘은 완전체 디즈니랜드 데이! 아침 일찍부터 스타워즈 놀이기구를 타고, 밤에는 반짝이는 원드러스 저니 불꽃쇼로 하루를 마무리해요 🚀🎆</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>6일차 동선:</b> Home2 Suites ➔ 디즈니랜드 파크(오픈런~원드러스 저니, 파크 내부에서 저녁까지 해결) ➔ Home2 Suites</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Disneyland+Park,+Anaheim/Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1821,6 +2060,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🎬</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">할리우드에 있는 새 호텔로 이사하고, 오늘부터 유니버설 스튜디오 시작! 공룡과 미이라를 만나는 신나는 놀이기구가 기다려요 🦖👻</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>7일차 동선:</b> Home2 Suites ➔ 로어스 호텔(체크인) ➔ 유니버셜 스튜디오(하부) ➔ 시티워크 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Universal+CityWalk+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1866,6 +2109,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">⚡</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">유니버설 2일차! 해리포터 마법 세상을 탐험하고, 영화가 어떻게 만들어지는지 보여주는 스튜디오 투어도 해요. 밤엔 할리우드 명예의 거리 산책도! ⚡🎥</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>8일차 동선:</b> 로어스 할리우드 ➔ 유니버셜 스튜디오(상부) ➔ Ovation 몰 / 명예의 거리 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Ovation+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
@@ -1911,6 +2158,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">🌆</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">미니밴을 타고 LA 곳곳을 구경하는 특별한 날! 산타모니카 바닷가, 유명한 할리우드 사인, 그리고 도시 전체가 반짝이는 그리피스 천문대 야경까지 봐요 🌉✨</span></span>
+        </div>
         <div class="weather-sunset-card">🌆 LA 야경 기온: 21℃ 쾌적 (그리피스 선셋 18:21) · 야외 테라스 바람 대비 가벼운 겉옷 추천</div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>9일차 투어:</b> 로어스 ➔ 산타모니카 ➔ 게티센터 ➔ 비벌리힐스 ➔ 핑크월 ➔ 파머스마켓 ➔ 그리피스 ➔ 로어스</span>
@@ -1964,6 +2215,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">⚾</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">진짜 야구장, 다저스타디움을 구경하고 다운타운 LA를 걸어다니며 탐험해요! 저녁엔 여행 마지막 밤을 맛있는 페어웰 디너로 축하해요 🍽️🎉</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>10일차 DTLA 동선:</b> 다저스타디움 ➔ 그랜드센트럴 ➔ 엔젤스플라이트 ➔ 더브로드 ➔ 더라스트북스토어 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Dodger+Stadium/Grand+Central+Market/Angels+Flight+Railway/The+Broad/The+Last+Bookstore/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps DTLA 코스 열기 ↗</a>
@@ -2038,6 +2293,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="day-family-highlight">
+          <span class="dfh-emoji">✈️</span>
+          <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">드디어 집으로 돌아가는 날이에요! 짐을 꼭 챙기고 공항으로 출발해요. 즐거웠던 미서부 여행, 안녕! 다음에 또 놀러 오자 👋🧳</span></span>
+        </div>
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>11일차 귀국:</b> 로어스 할리우드 호텔 ➔ LAX 톰 브래들리 국제선 터미널(TBIT 출발층)</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Tom+Bradley+International+Terminal,+Los+Angeles,+CA" target="_blank" rel="noopener noreferrer">Google Maps 공항 이동 열기 ↗</a>
@@ -2069,6 +2328,48 @@
       </details>
 
     </div>
+
+    <script>
+      window.TRIP_DATA = window.TRIP_DATA || {};
+      window.TRIP_DATA.schedule = [
+        { id: 'day-1', date: '10/1 목', tag: 'LAX 입국 &amp; 베가스 로드트립 (콘래드 체크인)', dline: '08:20 LAX 입국 &amp; 렌터카 픽업 → 바스토우(인앤아웃) → 세븐 매직 마운틴스 → 코스트코 헨더슨(주유/생수) &amp; 트레이더 조(간식/과일) → 콘래드 체크인 &amp; 1차 렌터카 반납 → Tacos El Gordo 저녁' },
+        { id: 'day-2', date: '10/2 금', tag: '스피어 · 그랜드캐년 출발', dline: '09:00 수영 → ~14:00 체크아웃&amp;짐보관 → 14:15 서커스서커스 → 16:00 스피어 → 18:50 칙필레/치폴레 저녁 → 20:00 벨라지오 분수쇼 → 21:45 콘래드 복귀/환복/휴식 → 23:45 투어 픽업', sunset: '🌅 Sunset 18:24' },
+        { id: 'day-3', date: '10/3 토', tag: '그랜드캐년 VIP 투어(요한투어) &amp; 복귀', dline: '23:45 픽업 → 웰컴사인·별자리 → 조식 → 그랜드캐년(사우스림·이스트림) → 로워 앤텔롭캐년 → 홀슈밴드 → 점심 → 글렌댐·파웰호수 → 4시간 복귀 → 19:00~20:00 스트립(리조트월드) 드롭 &amp; 재체크인 → 리조트월드 Famous Foods / Junior\'s 저녁 식사 (총 16시간)' },
+        { id: 'day-4', date: '10/4 일', tag: 'Total Wine 위스키 &amp; 조슈아트리 사막 힐링', dline: '10:30 콘래드 체크아웃 &amp; Hertz 2차 픽업 → Total Wine 위스키 → 모하비 사막 이동(3.5h) → 유카밸리 점심 &amp; 장보기(Stater Bros) → 숙소 얼리체크인/짐하차 → 서쪽 게이트 → 히든밸리/스컬락/키즈뷰(선셋 18:22) → 숙소 복귀 &amp; 화덕 바비큐/자쿠지', sunset: '🌅 Sunset 18:22 (Keys View 골든아워)' },
+        { id: 'day-5', date: '10/5 월', tag: '애너하임 이동 &amp; 다운타운 디즈니', dline: '10:20 데저트힐스 아울렛 → 트레이더 조 → 코스트코 가든그로브(풀주유) → Home2 Suites 체크인(가족 하차) → Hertz 애너하임 선반납(도보 복귀) → 다운타운 디즈니 저녁' },
+        { id: 'day-6', date: '10/6 화', tag: '디즈니랜드 1일 완벽 정복 (로프드랍~원드러스 저니)', dline: '07:30 로프드랍 → 스타워즈/어드벤처(라이즈 오브 레지스탕스) → 클래식&amp;패밀리 → 투모로우랜드(스페이스마운틴) → 파크 내부 저녁(Rancho del Zocalo) → 20:30 빅썬더&amp;원드러스 저니', sunset: '🌅 Sunset 18:25' },
+        { id: 'day-7', date: '10/7 수', tag: '애너하임 → 로어스 할리우드 체크인 &amp; 유니버설 1일차(하부)', dline: '09:30 애너하임 체크아웃 → 우버XL 이동(1h) → 로어스 짐 보관 → 12:30 우버 이동 후 파크 입장(1일차) → 하부 로어랏(닌텐도·쥬라기·미이라) → 시티워크 저녁 → 20:30 우버 호텔 복귀' },
+        { id: 'day-8', date: '10/8 목', tag: '유니버설 2일차(상부 오픈런·해리포터·스튜디오투어) &amp; 할리우드 나이트', dline: '08:30 우버 이동 → 09:00 오픈런(해리포터) → 스튜디오 투어(60분) → 워터월드 쇼 → 16:30 파크 아웃 → 우버 복귀 → 명예의 거리 산책 &amp; 저녁', sunset: '🌅 Sunset 18:23' },
+        { id: 'day-9', date: '10/9 금', tag: 'LA 핵심 종일 투어 (도슨트 &amp; 미니밴 11시간)', dline: '08:30 로어스 픽업 → 산타모니카 피어 → 게티센터(도슨트 1.5h) → 비벌리힐스(차창)&amp;그레이스톤맨션 → 폴스미스 핑크월 → 파머스마켓&amp;더그로브(점심) → 명예의거리·돌비극장 → 할리우드사인 → 그리피스천문대(야경) → 19:30 호텔 드롭', sunset: '🌅 Sunset 18:21 (그리피스 골든아워)' },
+        { id: 'day-10', date: '10/10 토', tag: '다저스타디움 · DTLA 문화탐방 · 페어웰 디너', dline: '09:30 다저 스타디움 투어 → 12:30 그랜드 센트럴 마켓 점심 → 13:30 엔젤스 플라이트 &amp; 더 브로드 / 디즈니 콘서트홀 → 15:30 더 라스트 북스토어 → 17:00 로어스 복귀/휴식 → 18:00 페어웰 디너(무소앤프랭크 또는 CPK) → 20:30 최종 패킹' },
+        { id: 'day-11', date: '10/11 일', tag: '귀국 출국', dline: '06:30 로어스 출발(우버) → LAX 톰 브래들리 터미널 이동 → 08:00 탑승수속 → 10:50 항공편 귀국' }
+      ];
+
+      (function renderScheduleHeaders() {
+        var pillsTrack = document.querySelector('.date-nav-track');
+        var days = window.TRIP_DATA.schedule;
+        if (!pillsTrack || !days) return;
+
+        pillsTrack.innerHTML = days.map(function (d, i) {
+          var shortDate = d.date.split(' ')[0];
+          return '<button type="button" class="date-pill" data-target="' + d.id + '">D' + (i + 1) + ' · ' + shortDate + '</button>';
+        }).join('');
+
+        days.forEach(function (d) {
+          var dayEl = document.getElementById(d.id);
+          if (!dayEl) return;
+          var summaryMain = dayEl.querySelector(':scope > summary > .d-summary-main');
+          if (!summaryMain) return;
+          var sunsetHtml = d.sunset ? '<span class="sunset-badge">' + d.sunset + '</span>' : '';
+          summaryMain.innerHTML =
+            '<div class="d-head"><span class="d-date">' + d.date + '</span><span class="d-tag">' + d.tag + '</span>' + sunsetHtml + '</div>' +
+            '<div class="d-line">' + d.dline + '</div>';
+        });
+
+        var countEl = document.querySelector('#tab-schedule .section-head .count');
+        if (countEl) countEl.textContent = days.length + ' DAYS';
+      })();
+    </script>
   </section>
   </main>
 
@@ -2206,6 +2507,8 @@
       { cat: "식비", item: "테마파크 식비 (6~8일차)", estKrw: 0, estUsd: 780.00, actKrw: 0, actUsd: 0, note: "디즈니랜드(Rancho del Zocalo) & 유니버설(쓰리브룸스틱스/시티워크)", done: false },
       { cat: "식비", item: "LA & 한인타운 식비 (9~11일차)", estKrw: 0, estUsd: 530.00, actKrw: 0, actUsd: 0, note: "파머스마켓(투어)·그랜드센트럴마켓·할리우드 페어웰 디너(무소앤프랭크/CPK)", done: false }
     ];
+    window.TRIP_DATA = window.TRIP_DATA || {};
+    window.TRIP_DATA.budget = BUDGET_DATA;
 
     var CAT_COLOR = {
       "항공": "var(--coral-text)",
@@ -2675,6 +2978,16 @@
       <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
     </div>
 
+    <div class="pack-sync-row">
+      <span class="pack-sync-badge disabled" id="packSyncBadge" role="button" tabindex="0" title="탭하면 이 기기의 이름을 바꿀 수 있어요">⚪ 동기화 준비 중…</span>
+      <span class="pack-owner-picker hidden" id="packOwnerPicker">
+        <span>이 기기는 누구 것인가요?</span>
+        <button type="button" class="pack-owner-btn" data-owner="승현">승현</button>
+        <button type="button" class="pack-owner-btn" data-owner="지은">지은</button>
+        <button type="button" class="pack-owner-btn skip" data-owner="가족">건너뛰기</button>
+      </span>
+    </div>
+
     <div class="pack-actions">
       <button type="button" class="pack-action-btn" id="pack-select-all">전체 선택</button>
       <button type="button" class="pack-action-btn danger" id="pack-reset">초기화</button>
@@ -2688,6 +3001,106 @@
 
   <footer>SEUNGHYUN & JIEUN · YUNA & SUBIN · WILD WEST U.S.A. 2026</footer>
 </div>
+
+<!-- ===== 오늘의 미션 퀘스트 스탬프북 (4개 탭 경계 밖 독립 신규 섹션 · layout-agent 담당) ===== -->
+<section id="questStampSection" class="quest-stamp-section" aria-label="오늘의 미션 스탬프북">
+  <div class="quest-stamp-head">
+    <h2>🏕️ 오늘의 미션 스탬프북</h2>
+    <span class="quest-stamp-count" id="questStampCount">0 / 0 미션 완료</span>
+  </div>
+  <div class="quest-stamp-bar-track"><div class="quest-stamp-bar-fill" id="questStampBarFill" style="width:0%;"></div></div>
+  <div class="quest-stamp-grid" id="questStampGrid"></div>
+</section>
+<div id="questConfettiLayer" class="quest-confetti-layer" aria-hidden="true"></div>
+
+<script>
+  (function () {
+    window.TRIP_DATA = window.TRIP_DATA || {};
+    window.TRIP_DATA.quests = [
+      { id: 'quest-inout', icon: '🍔', label: '인앤아웃 버거 애니멀스타일로 먹어보기' },
+      { id: 'quest-vegas-fountain', icon: '⛲', label: '벨라지오 분수쇼 앞에서 가족사진 찍기' },
+      { id: 'quest-joshua-star', icon: '🌌', label: '조슈아트리에서 밤하늘 별 관찰하기' },
+      { id: 'quest-disney-character', icon: '🏰', label: '디즈니랜드에서 캐릭터와 인사하기' },
+      { id: 'quest-universal-ride', icon: '🎢', label: '유니버설 스튜디오 놀이기구 3개 이상 타기' },
+      { id: 'quest-santa-monica', icon: '🌊', label: '산타모니카 해변에서 태평양 발 담그기' }
+    ];
+
+    var STORAGE_KEY = 'us_trip_quest_progress';
+    var gridEl = document.getElementById('questStampGrid');
+    var countEl = document.getElementById('questStampCount');
+    var fillEl = document.getElementById('questStampBarFill');
+    var confettiLayer = document.getElementById('questConfettiLayer');
+    if (!gridEl) return;
+
+    function loadProgress() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) { return {}; }
+    }
+    function saveProgress(progress) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); } catch (e) {}
+    }
+
+    var progress = loadProgress();
+
+    function updateCount() {
+      var total = window.TRIP_DATA.quests.length;
+      var done = window.TRIP_DATA.quests.filter(function (q) { return !!progress[q.id]; }).length;
+      if (countEl) countEl.textContent = done + ' / ' + total + ' 미션 완료';
+      if (fillEl) fillEl.style.width = (total ? Math.round((done / total) * 100) : 0) + '%';
+    }
+
+    function spawnConfetti() {
+      if (!confettiLayer) return;
+      var colors = ['#ff6b4a', '#ff9d00', '#0088ff', '#e63995', '#00b36b'];
+      var pieceCount = 26;
+      for (var i = 0; i < pieceCount; i++) {
+        var piece = document.createElement('span');
+        piece.className = 'quest-confetti-piece';
+        piece.style.left = (Math.random() * 100) + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = (Math.random() * 0.25) + 's';
+        piece.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
+        confettiLayer.appendChild(piece);
+        (function (el) {
+          el.addEventListener('animationend', function () { el.remove(); });
+        })(piece);
+      }
+    }
+
+    function render() {
+      gridEl.innerHTML = window.TRIP_DATA.quests.map(function (q) {
+        var done = !!progress[q.id];
+        return '<button type="button" class="quest-stamp-card' + (done ? ' done' : '') + '" data-quest-id="' + q.id + '" aria-pressed="' + (done ? 'true' : 'false') + '">' +
+          '<span class="qs-stamp">✅</span>' +
+          '<span class="qs-icon">' + q.icon + '</span>' +
+          '<span class="qs-label">' + q.label + '</span>' +
+          '<span class="qs-status">' + (done ? '완료!' : '탭해서 완료 체크') + '</span>' +
+          '</button>';
+      }).join('');
+      updateCount();
+    }
+
+    gridEl.addEventListener('click', function (e) {
+      var card = e.target.closest('.quest-stamp-card');
+      if (!card) return;
+      var id = card.getAttribute('data-quest-id');
+      var wasDone = !!progress[id];
+      progress[id] = !wasDone;
+      saveProgress(progress);
+      render();
+      if (!wasDone) {
+        if (window.triggerHaptic) window.triggerHaptic('success');
+        spawnConfetti();
+      } else {
+        if (window.triggerHaptic) window.triggerHaptic('light');
+      }
+    });
+
+    render();
+  })();
+</script>
 
 <nav class="bottom-nav">
   <button type="button" class="nav-tab active" data-tab="tab-schedule">
@@ -3604,6 +4017,8 @@
       { id: "shop1", cat: "shop", label: "접이식 대형 보조가방 (폴딩백 / 확장백)", desc: "아울렛 및 디즈니/유니버설 기념품 수납용" },
       { id: "shop2", cat: "shop", label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁수하물 무게(23kg) 초과 사전 측정용" }
     ];
+    window.TRIP_DATA = window.TRIP_DATA || {};
+    window.TRIP_DATA.packing = ITEMS;
 
     var CATS = [
       { key: "all", label: "전체보기" },
@@ -3631,6 +4046,7 @@
 
     var state = loadState();
     var activeCat = "all";
+    var packingSync = null; // DOMContentLoaded 이후 window.TripSync.attach() 결과로 채워짐
 
     var tabsEl = document.getElementById("pack-tabs");
     var listEl = document.getElementById("pack-list");
@@ -3705,6 +4121,7 @@
           input.addEventListener("change", function () {
             state[it.id] = input.checked;
             saveState(state);
+            if (packingSync) packingSync.push(it.id, input.checked);
             row.classList.toggle("checked", input.checked);
             refreshGroupCount();
             updateProgress();
@@ -3739,6 +4156,11 @@
       selectAllBtn.addEventListener("click", function () {
         ITEMS.forEach(function (it) { state[it.id] = true; });
         saveState(state);
+        if (packingSync) {
+          var m = {};
+          ITEMS.forEach(function (it) { m[it.id] = true; });
+          packingSync.pushAll(m);
+        }
         renderList();
         updateProgress();
       });
@@ -3746,8 +4168,15 @@
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
         if (!confirm("모든 체크 상태를 초기화할까요? 되돌릴 수 없습니다.")) return;
-        state = {};
+        // 참고: window.TripSync.attach()가 이 state 객체 참조를 그대로 캡처해 동기화하므로,
+        // state = {} 로 재할당하지 않고 기존 객체를 비워서(in-place) 참조를 유지한다.
+        Object.keys(state).forEach(function (k) { delete state[k]; });
         saveState(state);
+        if (packingSync) {
+          var m = {};
+          ITEMS.forEach(function (it) { m[it.id] = false; });
+          packingSync.pushAll(m);
+        }
         renderList();
         updateProgress();
       });
@@ -3756,6 +4185,74 @@
     renderTabs();
     renderList();
     updateProgress();
+
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!window.TripSync) return;
+      packingSync = window.TripSync.attach(
+        'packing',
+        ITEMS.map(function (it) { return it.id; }),
+        state,
+        saveState,
+        function () { renderList(); updateProgress(); }
+      );
+    });
+  })();
+</script>
+
+<script>
+  /* ==========================================================
+     [2-1] 짐싸기 동기화 배지 & 기기 소유자 선택 UI
+  ========================================================== */
+  (function () {
+    var badge = document.getElementById('packSyncBadge');
+    var picker = document.getElementById('packOwnerPicker');
+    if (!badge || !picker) return;
+
+    var LABELS = {
+      disabled: '⚪ 동기화 비활성 (미설정)',
+      connecting: '⚪ 동기화 준비 중…',
+      online: '🟢 실시간 동기화 중',
+      offline: '🟡 오프라인 · 재연결 시 자동 동기화',
+      error: '🟡 동기화 연결 실패 (로컬 저장은 정상)'
+    };
+    function renderBadge(status) {
+      badge.className = 'pack-sync-badge' + (status === 'online' ? '' : ' ' + status);
+      badge.textContent = LABELS[status] || LABELS.connecting;
+    }
+    renderBadge('connecting');
+
+    function refreshOwnerPicker() {
+      var owner = window.TripSync ? window.TripSync.getOwner() : '';
+      picker.classList.toggle('hidden', !!owner);
+    }
+
+    document.addEventListener('tripSyncReady', function () {
+      if (!window.TripSync || !window.TripSync.isEnabled()) {
+        renderBadge('disabled');
+        return;
+      }
+      window.TripSync.onStatus(renderBadge);
+      refreshOwnerPicker();
+    });
+
+    function openPicker() {
+      if (!window.TripSync || !window.TripSync.isEnabled()) return;
+      picker.classList.toggle('hidden');
+    }
+    badge.addEventListener('click', openPicker);
+    badge.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(); }
+    });
+
+    picker.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pack-owner-btn');
+      if (!btn || !window.TripSync) return;
+      var name = btn.getAttribute('data-owner');
+      window.TripSync.setOwner(name);
+      picker.classList.add('hidden');
+      if (window.showToast) window.showToast(name === '가족' ? '기기 이름 설정을 건너뛰었어요' : name + '님 기기로 설정했어요');
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    });
   })();
 </script>
 
@@ -5164,6 +5661,38 @@
         var next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+      });
+    }
+  })();
+</script>
+
+<!-- ===== 기획자모드/가족모드 뷰 토글 ===== -->
+<script>
+  (function () {
+    var VIEW_KEY = 'viewMode';
+    var htmlEl = document.documentElement;
+    var toggleBtn = document.getElementById('viewModeToggleBtn');
+    var iconEl = document.getElementById('viewModeToggleIcon');
+    var labelEl = document.getElementById('viewModeToggleLabel');
+
+    function applyView(mode) {
+      htmlEl.setAttribute('data-view', mode);
+      if (iconEl) iconEl.textContent = mode === 'family' ? '🧑‍💼' : '👨‍👩‍👧‍👦';
+      if (labelEl) labelEl.textContent = mode === 'family' ? '기획자모드' : '가족모드';
+      if (toggleBtn) toggleBtn.setAttribute('aria-pressed', mode === 'family' ? 'true' : 'false');
+    }
+
+    var savedView = null;
+    try { savedView = localStorage.getItem(VIEW_KEY); } catch (e) {}
+    applyView(savedView === 'family' ? 'family' : 'admin');
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        var current = htmlEl.getAttribute('data-view') === 'family' ? 'family' : 'admin';
+        var next = current === 'family' ? 'admin' : 'family';
+        applyView(next);
+        try { localStorage.setItem(VIEW_KEY, next); } catch (e) {}
+        if (window.triggerHaptic) window.triggerHaptic('light');
       });
     }
   })();
