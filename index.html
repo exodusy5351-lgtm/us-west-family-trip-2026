@@ -1595,7 +1595,7 @@
         { icon: '🏨', status: 'done', statusLabel: '완료', name: '로어스 할리우드', detail: '10/7–11 (4박) · <span class="detail-sensitive">#3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span>', amount: '₩1,627,179' },
         { icon: '🌵', status: 'done', statusLabel: '완료', name: '조슈아트리 숙소', detail: '10/4–5 (1박) · Airbnb "조슈아 트리의 집"<br>60442 La Mirada Trail<button type="button" class="copy-btn" data-copy="60442 La Mirada Trail, Joshua Tree, CA 92252" aria-label="숙소 주소 복사" title="주소 복사"><span>📋</span> 복사</button>', amount: '$292.11', imgKey: 'images/joshua-tree-airbnb-confirmation.png' },
         { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', detail: '오즈의 마법사 · 10/2 17:00 (4인)', amount: '₩906,999' },
-        { icon: '🏜️', status: 'done', statusLabel: '완료', name: '그랜드캐년 투어 (요한투어)', detail: '마이리얼트립 VIP 당일 코스2 · <span class="detail-sensitive">#EXP-20260822-00000491</span>', amount: '₩632,954', amountSub: '+ 현장 $688 (Cash)' },
+        { icon: '🏜️', status: 'done', statusLabel: '완료', name: '그랜드캐년 투어 (요한투어)', detail: '마이리얼트립 VIP 당일 코스2 · <span class="detail-sensitive">#EXP-20260822-00000491</span>', amount: '₩632,954', amountSub: '+ 현장 $680(정산) + $8(나바호팁)' },
         { icon: '⚾', status: 'pending', statusLabel: '오픈대기', name: '다저 스타디움 투어', detail: '10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)', amount: '$149.00', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
         { icon: '🏰', status: 'pending', statusLabel: '발권대기', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4) · 성인3+아동1', amount: '₩1,043,684', cta: { label: '🎟️ 공식 티켓 구매 페이지', href: 'https://disneyland.disney.go.com/tickets/' } },
         { icon: '🎬', status: 'done', statusLabel: '완료', name: '유니버설 티켓 (1+1 2일권)', detail: '1+1 2일권 (10/7 오후 + 10/8 주간) · 성인3+아동1', amount: '₩525,400' },
@@ -2632,9 +2632,12 @@
     </div>
 
     <div class="budget-metric-card" style="text-align:left;margin-bottom:16px;">
-      <div class="budget-metric-label">💵 현지 현금(Cash Only) 확정 지출 총액</div>
-      <div class="budget-metric-val" style="color:var(--gold-text);">$888</div>
-      <div class="budget-metric-sub">그랜드캐년 정산 $680 + 나바호팁 $8 + LA드림투어 현장비 $200</div>
+      <div class="budget-metric-label">💵 현지 현금(Cash Only) 필요 총액</div>
+      <div class="budget-metric-val" style="color:var(--gold-text);">$888 <span style="font-size:14px;color:var(--muted);font-weight:400;">(투어 필수)</span> ~ $1,050 <span style="font-size:14px;color:var(--muted);font-weight:400;">(매너팁 포함 권장)</span></div>
+      <div class="budget-metric-sub">
+        • 투어 확정 필수: <b>$888</b> (그랜드캐년 $680 + 나바호팁 $8 + LA드림투어 $200)<br>
+        • 호텔/식당 소액 매너팁 &amp; 비상금 권장: <b>$160~$200</b> (1달러/5달러/20달러 소액권)
+      </div>
     </div>
 
     <div class="budget-summary-grid">
@@ -2682,7 +2685,8 @@
       // 투어 & 액티비티
       { cat: "액티비티", item: "스피어 쇼 (오즈의 마법사 4인)", estKrw: 906999, estUsd: 0, actKrw: 906999, actUsd: 0, note: "결제 완료 (406구역)", done: true },
       { cat: "액티비티", item: "그랜드캐년 투어 사전결제", estKrw: 632954, estUsd: 0, actKrw: 632954, actUsd: 0, note: "마이리얼트립 결제 완료", done: true },
-      { cat: "액티비티", item: "그랜드캐년 현장 정산금 (Cash)", estKrw: 0, estUsd: 688.00, actKrw: 0, actUsd: 0, note: "가이드 수납 $680 + 나바호팁 $8", done: false },
+      { cat: "액티비티", item: "그랜드캐년 현장 정산금 (Cash)", estKrw: 0, estUsd: 680.00, actKrw: 0, actUsd: 0, note: "가이드 일괄 수납 (Cash Only)", done: false },
+      { cat: "액티비티", item: "앤텔롭캐년 나바호 가이드팁 (Cash)", estKrw: 0, estUsd: 8.00, actKrw: 0, actUsd: 0, note: "$2×4인 현장 직접 전달", done: false },
       { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
       { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 0, note: "발권 예정 (성인3+아동1)", done: false },
       { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 525400, estUsd: 0, actKrw: 525400, actUsd: 0, note: "결제 완료 (성인3+아동1 · 2일권)", done: true },
@@ -4392,7 +4396,7 @@
       { id: "doc3", cat: "doc", label: "운전 관련 3종 세트", desc: "한국 운전면허증 실물 + 영문/국제운전면허증 + 주운전자 명의 신용카드" },
       { id: "doc4", cat: "doc", label: "한국 코스트코 실물 회원권 카드", desc: "1일차 헨더슨 코스트코 주유 및 장보기용 (실물 카드 또는 바코드 앱)" },
       { id: "doc5", cat: "doc", label: "해외 결제 카드", desc: "트래블로그/트래블월렛 및 컨택리스 지원 비자/마스터/아멕스 실물 카드" },
-      { id: "doc6", cat: "doc", label: "미국 달러(USD) 현금", desc: "소액권(팁용 $100~$200) + 그랜드캐년 가이드 정산($680) + 나바호팁($8) + LA드림투어 현장비($200 확정) → 총 현금 약 $988~$1,088 USD 준비" },
+      { id: "doc6", cat: "doc", label: "미국 달러(USD) 현금 환전 ($1,050~$1,100)", desc: "투어 필수 현금 $888(그랜드캐년 $680 + 나바호팁 $8 + LA투어 $200) + 호텔/식당 매너팁 및 비상금 소액권 $160~$200" },
       { id: "doc7", cat: "doc", label: "e-티켓 & 예약 바우처 PDF", desc: "항공권(에어프레미아), 숙소 4곳, 스피어, 투어 확인서 오프라인 저장" },
       { id: "doc8", cat: "doc", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
       { id: "doc9", cat: "doc", label: "오프라인 지도 4개 권역 사전 다운로드 완료", desc: "모하비 사막/I-15, 조슈아트리, 그랜드캐년·페이지(Page AZ), LA·애너하임 — '오프라인 맵 다운로드 센터'에서 4개 권역 전부 체크 완료 확인" },
