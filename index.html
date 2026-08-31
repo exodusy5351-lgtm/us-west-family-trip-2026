@@ -24,29 +24,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#f4f7f6;
-    --bg-2:#ebeeeb;
+    --bg:#f5f6f8;
+    --bg-2:#ebeef2;
     --card:#ffffff;
-    --card-2:#f8fafa;
-    --line:#e2e5e9;
-    --text:#1a1c23;
-    --muted:#5c6370;
-    --muted-2:#8a92a3;
-    --coral:#ff6b4a;
-    --gold:#ff9d00;
-    --teal:#0088ff;
-    --pink:#e63995;
-    --green:#00b36b;
-    --amber:#f57c00;
+    --card-2:#f8fafc;
+    --line:#e2e8f0;
+    --text:#1e293b;
+    --muted:#64748b;
+    --muted-2:#94a3b8;
+    --coral:#e76f51;
+    --gold:#f4a261;
+    --teal:#2a9d8f;
+    --pink:#d81159;
+    --green:#2b9348;
+    --amber:#e9c46a;
     --red:#e63946;
-    --gold-text:#92400e;
-    --green-text:#166534;
-    --red-text:#991b1b;
-    --pink-text:#9d174d;
-    --teal-text:#1e40af;
-    --coral-text:#9a3412;
-    --amber-text:#92400e;
-    --next-up-glow:rgba(0, 136, 255, 0.4);
+    --gold-text:#b45309;
+    --green-text:#15803d;
+    --red-text:#b91c1c;
+    --pink-text:#be185d;
+    --teal-text:#0f766e;
+    --coral-text:#c2410c;
+    --amber-text:#b45309;
+    --next-up-glow:rgba(42, 157, 143, 0.4);
     --radius:14px;
   }
   *{box-sizing:border-box;}
@@ -319,6 +319,50 @@
   }
   /* .detail-sensitive: 예약카드 detail 텍스트 내 예약번호/결제수단 등 실무정보만 부분 숨김
      (이름·날짜·박수 등 나머지 detail 문구는 그대로 노출) */
+
+  /* ===== 가족모드 전용 "어드벤처 보물지도" 무드 토글 ===== */
+  [data-view="family"] {
+    --bg: #fdf6ec;
+    --bg-2: #faedcd;
+    --card: #fffcf9;
+    --card-2: #fefae0;
+    --line: #dda15e;
+    --text: #283618;
+    --muted: #606c38;
+    --muted-2: #9f866c;
+    --coral: #bc6c25;
+    --gold: #dda15e;
+    --teal: #283618;
+    --next-up-glow: rgba(188, 108, 37, 0.4);
+  }
+
+  /* 가족모드 히어로 영역 보물지도 스탬프 감성 부과 */
+  [data-view="family"] .hero h1 {
+    background: linear-gradient(100deg, #bc6c25 10%, #dda15e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 0px rgba(221, 161, 94, 0.2);
+  }
+
+  /* 가족모드 하단 네비게이션 동화책 보물상자 테두리 틴트 */
+  [data-view="family"] .bottom-nav {
+    background: rgba(254, 250, 224, 0.95);
+    border-top: 2px dashed var(--line);
+  }
+  [data-view="family"] .nav-tab.active {
+    color: #bc6c25;
+  }
+
+  /* 가족모드 여권 위젯(Family Adventure Passport) 보물지도 색감 틴트 */
+  [data-view="family"] .passport-widget {
+    background: linear-gradient(145deg, #283618, #606c38);
+    border: 2.5px solid #dda15e;
+    box-shadow: 0 10px 30px rgba(40, 54, 24, 0.3), inset 0 2px 5px rgba(255,255,255,0.2);
+  }
+  [data-view="family"] .passport-title {
+    color: #fefae0;
+  }
 
   /* ===== SCHEDULE BLOCKS (multi-stop day detail) ===== */
   .sched-list{margin-top:12px;display:flex;flex-direction:column;gap:10px;}
@@ -646,7 +690,7 @@
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
-    gap: 14px;
+    gap: 10px;
     pointer-events: none;
   }
 
@@ -970,29 +1014,29 @@
 
   /* ===== 라이트/다크 모드 토글 ===== */
   [data-theme="dark"]{
-    --bg:#0f0e17;
-    --bg-2:#161523;
-    --card:#191825;
-    --card-2:#222035;
-    --line:#34314c;
-    --text:#f2f0ff;
-    --muted:#a7a3c2;
-    --muted-2:#747094;
-    --coral:#ff5757;
-    --gold:#ffb703;
-    --teal:#00f0ff;
-    --pink:#ff007f;
-    --green:#00ff9f;
-    --amber:#ffaa00;
-    --red:#ff3333;
-    --gold-text:#ffb703;
-    --green-text:#00ff9f;
-    --red-text:#ff3333;
-    --pink-text:#ff007f;
-    --teal-text:#00f0ff;
-    --coral-text:#ff5757;
-    --amber-text:#ffaa00;
-    --next-up-glow:rgba(0, 240, 255, 0.4);
+    --bg:#0f172a;
+    --bg-2:#1e293b;
+    --card:#1e293b;
+    --card-2:#243248;
+    --line:#334155;
+    --text:#f8fafc;
+    --muted:#94a3b8;
+    --muted-2:#64748b;
+    --coral:#f08080;
+    --gold:#f4a261;
+    --teal:#48cae4;
+    --pink:#ff4d6d;
+    --green:#52b788;
+    --amber:#ffd166;
+    --red:#ff6b6b;
+    --gold-text:#f4a261;
+    --green-text:#52b788;
+    --red-text:#ff6b6b;
+    --pink-text:#ff4d6d;
+    --teal-text:#48cae4;
+    --coral-text:#f08080;
+    --amber-text:#ffd166;
+    --next-up-glow:rgba(72, 202, 228, 0.4);
   }
   [data-theme="dark"] body{
     background:
@@ -1277,31 +1321,60 @@
     flex: 1;
     overflow-y: auto;
     padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-items: stretch;
     gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .fc-list-container { grid-template-columns: 1fr; }
   }
 
   .fc-card {
     background: var(--card-2);
     border: 1px solid var(--line);
+    border-left: 4px solid var(--fc-accent, var(--line));
     border-radius: 12px;
     padding: 14px 16px;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     transition: all 0.2s ease;
   }
   .fc-card.cleared {
     border-color: var(--gold);
+    border-left-color: var(--fc-accent, var(--gold));
     background: linear-gradient(135deg, var(--card-2), rgba(255, 184, 77, 0.06));
   }
+  /* 브랜드별 포인트 컬러 - 카드 좌측 스트라이프/아이콘 칩/팁박스 강조에 사용 */
+  .fc-card[data-brand="innout"]    { --fc-accent: #e63946; }
+  .fc-card[data-brand="chickfila"] { --fc-accent: #dc2f02; }
+  .fc-card[data-brand="elgordo"]   { --fc-accent: #2b9348; }
+  .fc-card[data-brand="chipotle"]  { --fc-accent: #6a040f; }
+  .fc-card[data-brand="panda"]     { --fc-accent: #f4a261; }
+  .fc-card[data-brand="eggslut"]   { --fc-accent: #e9c46a; }
+  .fc-card[data-brand="canes"]     { --fc-accent: #d81159; }
+  .fc-card[data-brand="daves"]     { --fc-accent: #ff5400; }
+  .fc-card .fc-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--fc-accent, var(--coral)) 18%, transparent);
+  }
+  .fc-card .fc-tip-box { border-left-color: var(--fc-accent, var(--gold)); }
+  .fc-card .fc-tip-box b { color: var(--fc-accent, var(--gold-text)); }
   .fc-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 8px;
+    padding-right: 65px;
   }
   .fc-card-title-wrap {
     display: flex;
@@ -1341,7 +1414,7 @@
     font-size: 11.5px;
     line-height: 1.5;
     color: var(--muted);
-    margin-bottom: 8px;
+    flex: 1;
   }
   .fc-detail-section b { color: var(--text); }
 
@@ -1353,7 +1426,7 @@
     font-size: 11px;
     color: var(--muted);
     line-height: 1.45;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
   .fc-tip-box b { color: var(--gold-text); }
 
@@ -1379,6 +1452,12 @@
     background: rgba(0, 255, 159, 0.1);
     border-color: var(--green);
     color: var(--green-text);
+  }
+  /* 도장 해제 어포던스 - 완료 상태 버튼에 마우스 올리면 "취소" 톤으로 전환해 재클릭 시 해제됨을 안내 */
+  .fc-card.cleared .fc-stamp-btn:hover {
+    background: rgba(230, 57, 70, 0.1);
+    border-color: var(--red);
+    color: var(--red-text);
   }
 
   /* 3D 스탬프 도장 오버레이 마크 */
@@ -1417,9 +1496,24 @@
     color: var(--muted);
   }
 
-  .fc-card.fc-focus-highlight {
+  .fc-card.fc-focus-highlight,
+  .quest-stamp-btn.fc-focus-highlight {
     animation: fcFocusBlink 0.6s ease-in-out 3;
   }
+  .fc-quest-jump-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px dashed var(--teal);
+    color: var(--teal-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .fc-quest-jump-btn:hover { background: rgba(42, 157, 143, 0.1); }
   @keyframes fcFocusBlink {
     0%, 100% { border-color: var(--line); box-shadow: none; }
     50% { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.35); }
@@ -3560,8 +3654,27 @@
 
   (function () {
     var STORAGE_KEY = 'us_west_passport_stamps_2026';
+    var FC_STORAGE_KEY = 'us_trip_franchise_stamps_2026';
     var confettiLayer = document.getElementById('questConfettiLayer');
     var dayIds = Object.keys(window.TRIP_DATA.dayQuests);
+
+    // dayId+questId로 연결된 프랜차이즈 id를 역으로 찾기 (fcQuestLink의 반대 방향 조회)
+    function findLinkedFranchiseId(dayId, questId) {
+      var link = window.TRIP_DATA.fcQuestLink || {};
+      for (var fcId in link) {
+        if (link[fcId].day === dayId && link[fcId].quest === questId) return fcId;
+      }
+      return null;
+    }
+    function syncFranchiseStamp(dayId, questId, done) {
+      var fcId = findLinkedFranchiseId(dayId, questId);
+      if (!fcId) return;
+      var fcStamps = {};
+      try { fcStamps = JSON.parse(localStorage.getItem(FC_STORAGE_KEY) || '{}'); } catch (e) {}
+      fcStamps[fcId] = done;
+      try { localStorage.setItem(FC_STORAGE_KEY, JSON.stringify(fcStamps)); } catch (e) {}
+      document.dispatchEvent(new CustomEvent('fcStampsSynced'));
+    }
 
     function loadStamps() {
       try {
@@ -3575,7 +3688,7 @@
 
     function spawnConfetti() {
       if (!confettiLayer) return;
-      var colors = ['#ff6b4a', '#ff9d00', '#0088ff', '#e63995', '#00b36b', '#c5a059'];
+      var colors = ['#e76f51', '#f4a261', '#2a9d8f', '#d81159', '#2b9348', '#e9c46a'];
       var pieceCount = 26;
       for (var i = 0; i < pieceCount; i++) {
         var piece = document.createElement('span');
@@ -3695,6 +3808,7 @@
         var wasDone = !!stampsState[dayId][questId];
         stampsState[dayId][questId] = !wasDone;
         saveStamps(stampsState);
+        syncFranchiseStamp(dayId, questId, !wasDone);
 
         updateDayQuestUI(dayId);
         updatePassportWidget();
@@ -3715,6 +3829,12 @@
         if (window.switchTab) window.switchTab('tab-schedule', true);
         if (window.jumpToDay) window.jumpToDay(targetDay);
       }
+    });
+
+    // 프랜차이즈 모달 쪽에서 연결된 브랜드를 토글했을 때 이 위젯도 즉시 반영
+    document.addEventListener('passportStampsSynced', function () {
+      updateAllDayQuestUI();
+      updatePassportWidget();
     });
 
     renderPassportWidget();
@@ -5991,6 +6111,7 @@
   window.TRIP_DATA.franchises = [
     {
       id: "fc-innout",
+      bannerColor: "#e63946",
       name: "인앤아웃 버거 (In-N-Out Burger)",
       origin: "캘리포니아 볼드윈파크 (1948년 창립)",
       scheduleDay: "1일차 바스토우 / 4일차 유카밸리",
@@ -6002,6 +6123,7 @@
     },
     {
       id: "fc-chickfila",
+      bannerColor: "#c1121f",
       name: "칙필레 (Chick-fil-A)",
       origin: "조지아 칼리지파크 (1946년 창립)",
       scheduleDay: "2일차 라스베이거스 하몬코너",
@@ -6013,6 +6135,7 @@
     },
     {
       id: "fc-elgordo",
+      bannerColor: "#f77f00",
       name: "타코스 엘 고르도 (Tacos El Gordo)",
       origin: "멕시코 티후아나 / 샌디에고 (1998년 창립)",
       scheduleDay: "1일차 라스베이거스 스트립",
@@ -6024,6 +6147,7 @@
     },
     {
       id: "fc-chipotle",
+      bannerColor: "#7f1d1d",
       name: "치폴레 멕시칸 그릴 (Chipotle)",
       origin: "콜로라도 덴버 (1993년 창립)",
       scheduleDay: "2일차 하몬코너 / 5일차 아울렛",
@@ -6035,6 +6159,7 @@
     },
     {
       id: "fc-panda",
+      bannerColor: "#d62828",
       name: "판다 익스프레스 (Panda Express)",
       origin: "캘리포니아 글렌데일 (1983년 창립)",
       scheduleDay: "5일차 데저트힐스 아울렛 푸드코트",
@@ -6046,6 +6171,7 @@
     },
     {
       id: "fc-eggslut",
+      bannerColor: "#fcbf49",
       name: "에그슬럿 본점 (Eggslut DTLA)",
       origin: "캘리포니아 로스앤젤레스 (2011년 창립)",
       scheduleDay: "10일차 DTLA 그랜드 센트럴 마켓",
@@ -6057,6 +6183,7 @@
     },
     {
       id: "fc-canes",
+      bannerColor: "#b02a37",
       name: "레이징 케인스 (Raising Cane's)",
       origin: "루이지애나 배턴루지 (1996년 창립)",
       scheduleDay: "미서부 전역 로드트립 백업 체인",
@@ -6068,6 +6195,7 @@
     },
     {
       id: "fc-daves",
+      bannerColor: "#e85d04",
       name: "데이브스 핫치킨 (Dave's Hot Chicken)",
       origin: "캘리포니아 이스트할리우드 (2017년 창립)",
       scheduleDay: "할리우드 야식 & 시내 백업 체인",
@@ -6079,8 +6207,23 @@
     }
   ];
 
+  // 프랜차이즈 도장깨기 ↔ 여권 스탬프 퀘스트 양방향 동기화 매핑 (겹치는 브랜드만 연결)
+  window.TRIP_DATA.fcQuestLink = {
+    "fc-innout": { day: "day-1", quest: "q1-2" },
+    "fc-elgordo": { day: "day-1", quest: "q1-6" },
+    "fc-chickfila": { day: "day-2", quest: "q2-5" },
+    "fc-panda": { day: "day-5", quest: "q5-2" }
+  };
+
   (function initFranchiseModal() {
+    var FC_TO_QUEST_MAP = {
+      'fc-innout': { dayId: 'day-1', questId: 'q1-2' },
+      'fc-elgordo': { dayId: 'day-1', questId: 'q1-6' },
+      'fc-chickfila': { dayId: 'day-2', questId: 'q2-5' },
+      'fc-panda': { dayId: 'day-5', questId: 'q5-2' }
+    };
     var STORAGE_KEY = 'us_trip_franchise_stamps_2026';
+    var PASSPORT_STORAGE_KEY = 'us_west_passport_stamps_2026';
     var backdrop = document.getElementById('fcModalBackdrop');
     var modal = document.getElementById('fcModal');
     var closeBtn = document.getElementById('fcCloseBtn');
@@ -6102,7 +6245,7 @@
 
     function spawnFcConfetti() {
       if (!confettiLayer) return;
-      var colors = ['#ff6b4a', '#ff9d00', '#0088ff', '#e63995', '#00b36b', '#c5a059'];
+      var colors = ['#e76f51', '#f4a261', '#2a9d8f', '#d81159', '#2b9348', '#e9c46a'];
       var pieceCount = 26;
       for (var i = 0; i < pieceCount; i++) {
         var piece = document.createElement('span');
@@ -6124,6 +6267,18 @@
       });
     }
 
+    // 여권 퀘스트와 연결된 브랜드면 퀘스트 스탬프 상태도 함께 동기화
+    function syncPassportStamp(fcId, done) {
+      var link = window.TRIP_DATA.fcQuestLink && window.TRIP_DATA.fcQuestLink[fcId];
+      if (!link) return;
+      var passportStamps = {};
+      try { passportStamps = JSON.parse(localStorage.getItem(PASSPORT_STORAGE_KEY) || '{}'); } catch (e) {}
+      if (!passportStamps[link.day]) passportStamps[link.day] = {};
+      passportStamps[link.day][link.quest] = done;
+      try { localStorage.setItem(PASSPORT_STORAGE_KEY, JSON.stringify(passportStamps)); } catch (e) {}
+      document.dispatchEvent(new CustomEvent('passportStampsSynced'));
+    }
+
     function renderFranchises() {
       var stamps = loadStamps();
       var list = window.TRIP_DATA.franchises || [];
@@ -6132,9 +6287,10 @@
       listContainer.innerHTML = list.map(function(fc) {
         var isDone = !!stamps[fc.id];
         if (isDone) doneCount++;
+        var quest = FC_TO_QUEST_MAP[fc.id];
 
         return (
-          '<div class="fc-card' + (isDone ? ' cleared' : '') + '" data-fc-id="' + fc.id + '">' +
+          '<div class="fc-card' + (isDone ? ' cleared' : '') + '" data-fc-id="' + fc.id + '" data-brand="' + fc.id.replace('fc-', '') + '"' + (fc.bannerColor ? ' style="--fc-accent:' + fc.bannerColor + '"' : '') + '>' +
             '<span class="fc-seal-mark">TASTED</span>' +
             '<div class="fc-card-top">' +
               '<div class="fc-card-title-wrap">' +
@@ -6156,9 +6312,12 @@
             '<div class="fc-tip-box">' +
               '💡 <b>주문 치트키:</b> ' + escapeHtml(fc.secretTip) +
             '</div>' +
-            '<button type="button" class="fc-stamp-btn" data-stamp-target="' + fc.id + '">' +
-              (isDone ? '✅ 방문 & 맛보기 완료!' : '🔴 맛보기 완료 도장 쾅!') +
+            '<button type="button" class="fc-stamp-btn" data-stamp-target="' + fc.id + '" title="' + (isDone ? '탭하면 도장을 취소할 수 있어요' : '탭해서 도장 찍기') + '">' +
+              (isDone ? '✅ 완료! (다시 탭하면 취소)' : '🔴 맛보기 완료 도장 쾅!') +
             '</button>' +
+            (quest ?
+              '<button type="button" class="fc-quest-jump-btn" data-quest-day="' + quest.dayId + '" data-quest-id="' + quest.questId + '">🎫 여권 퀘스트로 이동</button>' :
+              '') +
           '</div>'
         );
       }).join('');
@@ -6208,6 +6367,29 @@
       var trigger = e.target.closest('#floatingFranchiseBtn, .fc-trigger-btn');
       if (trigger) openModal(trigger.getAttribute('data-target-fc'));
 
+      var questJumpBtn = e.target.closest('.fc-quest-jump-btn');
+      if (questJumpBtn) {
+        var jumpDayId = questJumpBtn.getAttribute('data-quest-day');
+        var jumpQuestId = questJumpBtn.getAttribute('data-quest-id');
+        requestClose();
+        if (window.switchTab) window.switchTab('tab-schedule', true);
+        var targetDayEl = document.getElementById(jumpDayId);
+        if (targetDayEl) {
+          targetDayEl.open = true;
+          var b = targetDayEl.querySelector('.d-body');
+          if (b) b.style.maxHeight = 'none';
+        }
+        if (window.jumpToDay) window.jumpToDay(jumpDayId);
+        setTimeout(function () {
+          var questEl = document.querySelector('.quest-stamp-btn[data-day-id="' + jumpDayId + '"][data-quest-id="' + jumpQuestId + '"]');
+          if (!questEl) return;
+          questEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          questEl.classList.add('fc-focus-highlight');
+          setTimeout(function () { questEl.classList.remove('fc-focus-highlight'); }, 1800);
+        }, 400);
+        return;
+      }
+
       var stampBtn = e.target.closest('[data-stamp-target]');
       if (stampBtn) {
         var id = stampBtn.getAttribute('data-stamp-target');
@@ -6215,6 +6397,7 @@
         var wasDone = !!stamps[id];
         stamps[id] = !wasDone;
         saveStamps(stamps);
+        syncPassportStamp(id, !wasDone);
 
         renderFranchises();
 
@@ -6225,9 +6408,13 @@
           if (window.showToast) window.showToast('미국 프랜차이즈 도장 획득! 쾅! 🍔');
         } else {
           if (window.triggerHaptic) window.triggerHaptic('light');
+          if (window.showToast) window.showToast('도장을 취소했어요');
         }
       }
     });
+
+    // 여권 퀘스트 쪽에서 연결된 항목을 토글했을 때 이 모달도 즉시 반영
+    document.addEventListener('fcStampsSynced', renderFranchises);
 
     if (closeBtn) closeBtn.addEventListener('click', requestClose);
     if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
@@ -6261,8 +6448,8 @@
         if (window.triggerHaptic) window.triggerHaptic('light');
         return;
       }
-      // 서브메뉴 아이템(계산기/테마파크 가이드/오프라인 맵) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
-      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn')) {
+      // 서브메뉴 아이템(계산기/테마파크 가이드/오프라인 맵/맛집 도장) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
+      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn, #floatingFranchiseBtn')) {
         setOpen(false);
         return;
       }
