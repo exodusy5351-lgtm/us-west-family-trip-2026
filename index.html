@@ -6763,6 +6763,31 @@
 </script>
 
 <script>
+  /* ==========================================================
+     가족모드 전환 시 몰입감 및 퀘스트 상호작용 강화
+  ========================================================== */
+  (function initFamilyModeUXEnhancement() {
+    var toggleBtn = document.getElementById('viewModeToggleBtn');
+    if (!toggleBtn) return;
+
+    function applyFamilyModeVibe(isFamily) {
+      if (isFamily) {
+        if (window.showToast) window.showToast('🗺️ 보물지도 어드벤처 모드가 켜졌어요!');
+        if (window.triggerHaptic) window.triggerHaptic('success');
+      }
+    }
+
+    toggleBtn.addEventListener('click', function () {
+      // 기존 뷰모드 토글 직후의 data-view 속성 변화를 감지
+      setTimeout(function () {
+        var currentView = document.documentElement.getAttribute('data-view');
+        applyFamilyModeVibe(currentView === 'family');
+      }, 50);
+    });
+  })();
+</script>
+
+<script>
   (function () {
     function parseTimesInText(text) {
       return text.match(/\d{1,2}:\d{2}/g) || [];
