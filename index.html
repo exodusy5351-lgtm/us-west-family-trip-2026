@@ -874,6 +874,19 @@
   .calc-modal.open{display:block;}
   .calc-modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
   .calc-modal-head h3{font-size:16px;}
+
+  /* ===== 가족 확인용 PIN 모달 (calc-modal 톤 재사용, calc-modal-backdrop 공유) ===== */
+  .pin-modal{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 60px);max-width:280px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;z-index:1200;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center;}
+  .pin-modal.open{display:block;}
+  .pin-modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .pin-modal-head h3{font-size:15px;margin:0;}
+  .pin-modal-sub{font-size:11.5px;color:var(--muted);margin:0 0 16px;}
+  .pin-input{-webkit-text-security:disc;width:100%;text-align:center;font-size:26px;letter-spacing:14px;font-family:'JetBrains Mono',monospace;font-weight:700;background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:12px 8px 12px 26px;color:var(--text);outline:none;}
+  .pin-input:focus{border-color:var(--teal);}
+  .pin-input.shake{animation:pinShake .35s;}
+  @keyframes pinShake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-6px);}40%,60%{transform:translateX(6px);}}
+  .pin-error{color:var(--red-text);font-size:11.5px;margin:10px 0 0;}
+  .pin-error.hidden{display:none;}
   .calc-close-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--card-2);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:14px;cursor:pointer;flex-shrink:0;}
   .calc-close-btn:hover,.calc-close-btn:focus-visible{color:var(--text);border-color:var(--teal);outline:none;}
   .calc-tab-bar{display:flex;gap:6px;margin-bottom:16px;background:var(--card-2);border-radius:10px;padding:4px;}
@@ -1682,6 +1695,8 @@
      - apiKey를 채우기 전까지는 이 모듈이 조용히 비활성 상태로 남고, 기존 localStorage 단독 동작에는
        아무 영향도 주지 않는다 (오프라인/네트워크 실패 시에도 항상 로컬 저장이 우선이라 안전).
   ========================================================== */
+  // 가족 전용 확인용, 보안 목적 아님 — 무작위 방문자 차단용 (짐싸기 기기 소유자 선택 PIN)
+  var FAMILY_PIN = '0327';
   var FIREBASE_CONFIG = {
     apiKey: "AIzaSyAEgYIlyE8uZ1oWSFE1ql3uoNz43OYEnWY",
     authDomain: "wild-west-usa-2026.firebaseapp.com",
@@ -4479,6 +4494,18 @@
   </div>
 </div>
 
+<!-- 짐싸기 기기 소유자 선택 - 가족 확인용 PIN 모달 (보안 목적 아님, 무작위 방문자 오선택 방지용) -->
+<div id="pinModalBackdrop" class="calc-modal-backdrop"></div>
+<div id="pinModal" class="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pinModalTitle">
+  <div class="pin-modal-head">
+    <h3 id="pinModalTitle">🔒 <span id="pinModalOwnerName">승현</span>님 확인</h3>
+    <button type="button" id="pinCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+  </div>
+  <p class="pin-modal-sub">가족 확인용 4자리 PIN을 입력해주세요</p>
+  <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="pin-input" id="pinInput" autocomplete="off" placeholder="••••">
+  <p class="pin-error hidden" id="pinError">핀번호가 올바르지 않습니다. 다시 입력해주세요.</p>
+</div>
+
 <!-- 2-in-1 팁 & 쇼핑세금 계산기 모달 -->
 <div id="tripCalcModalBackdrop" class="calc-modal-backdrop"></div>
 <div id="tripCalcModal" class="calc-modal" role="dialog" aria-modal="true" aria-labelledby="calcModalTitle">
@@ -5014,14 +5041,23 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(); }
     });
 
-    picker.addEventListener('click', function (e) {
-      var btn = e.target.closest('.pack-owner-btn');
-      if (!btn || !window.TripSync) return;
-      var name = btn.getAttribute('data-owner');
+    function applyOwner(name) {
       window.TripSync.setOwner(name);
       picker.classList.add('hidden');
       if (window.showToast) window.showToast(name === '가족' ? '기기 이름 설정을 건너뛰었어요' : name + '님 기기로 설정했어요');
       if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+
+    picker.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pack-owner-btn');
+      if (!btn || !window.TripSync) return;
+      var name = btn.getAttribute('data-owner');
+      var needsPin = (name === '승현' || name === '지은');
+      if (needsPin && window.requestFamilyPin) {
+        window.requestFamilyPin(name, function () { applyOwner(name); });
+      } else {
+        applyOwner(name);
+      }
     });
   })();
 </script>
@@ -6396,6 +6432,78 @@
     if (closeBtn) closeBtn.addEventListener('click', requestClose);
     if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
     backdrop.addEventListener('click', requestClose);
+  })();
+
+  /* ==========================================================
+     짐싸기 기기 소유자 선택 - 가족 확인용 PIN 게이트
+     - FAMILY_PIN(FIREBASE_CONFIG 근처 선언)은 보안 목적이 아니라
+       무작위 방문자의 오선택을 막기 위한 용도
+     - 한 번 성공하면 이 기기는 localStorage에 인증 기록을 남겨
+       다음부터는 PIN을 다시 묻지 않는다
+  ========================================================== */
+  (function initFamilyPinGate() {
+    var PIN_VERIFIED_KEY = 'us_trip_pin_verified';
+    var backdrop = document.getElementById('pinModalBackdrop');
+    var modal = document.getElementById('pinModal');
+    var closeBtn = document.getElementById('pinCloseBtn');
+    var input = document.getElementById('pinInput');
+    var errorMsg = document.getElementById('pinError');
+    var ownerNameEl = document.getElementById('pinModalOwnerName');
+    if (!modal || !backdrop || !input) return;
+
+    var pendingCallback = null;
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      input.value = '';
+      errorMsg.classList.add('hidden');
+      pendingCallback = null;
+    }
+
+    function openModal(ownerName) {
+      if (ownerNameEl) ownerNameEl.textContent = ownerName;
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      input.value = '';
+      errorMsg.classList.add('hidden');
+      setTimeout(function () { input.focus(); }, 50);
+    }
+
+    function checkPin() {
+      if (input.value.length < 4) return;
+      if (input.value === FAMILY_PIN) {
+        try { localStorage.setItem(PIN_VERIFIED_KEY, 'true'); } catch (e) {}
+        var cb = pendingCallback;
+        closeModal();
+        if (cb) cb();
+      } else {
+        errorMsg.classList.remove('hidden');
+        input.classList.add('shake');
+        setTimeout(function () { input.classList.remove('shake'); }, 350);
+        input.value = '';
+      }
+    }
+
+    input.addEventListener('input', checkPin);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
+
+    window.requestFamilyPin = function (ownerName, onVerified) {
+      var verified = false;
+      try { verified = localStorage.getItem(PIN_VERIFIED_KEY) === 'true'; } catch (e) {}
+      if (verified) {
+        onVerified();
+        return;
+      }
+      pendingCallback = onVerified;
+      openModal(ownerName);
+    };
   })();
 
   /* ==========================================================
