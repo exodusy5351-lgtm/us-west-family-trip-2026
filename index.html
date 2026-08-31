@@ -3655,6 +3655,38 @@
     ]
   };
 
+  /* ==========================================================
+     공용 헬퍼: JSON localStorage 읽기/쓰기, 컨페티 연출
+     - 여권 위젯 IIFE와 프랜차이즈 도장깨기 모달(별도 <script> 블록)이
+       공통으로 사용 — 저장 위치(STORAGE_KEY)는 각자 분리 유지
+  ========================================================== */
+  function loadJsonStorage(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) { return {}; }
+  }
+  function saveJsonStorage(key, state) {
+    try { localStorage.setItem(key, JSON.stringify(state)); } catch (e) {}
+  }
+  function spawnConfetti(layerEl) {
+    if (!layerEl) return;
+    var colors = ['#e76f51', '#f4a261', '#2a9d8f', '#d81159', '#2b9348', '#e9c46a'];
+    var pieceCount = 26;
+    for (var i = 0; i < pieceCount; i++) {
+      var piece = document.createElement('span');
+      piece.className = 'quest-confetti-piece';
+      piece.style.left = (Math.random() * 100) + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = (Math.random() * 0.25) + 's';
+      piece.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
+      layerEl.appendChild(piece);
+      (function (el) {
+        el.addEventListener('animationend', function () { el.remove(); });
+      })(piece);
+    }
+  }
+
   (function () {
     var STORAGE_KEY = 'us_west_passport_stamps_2026';
     var FC_STORAGE_KEY = 'us_trip_franchise_stamps_2026';
@@ -3672,40 +3704,14 @@
     function syncFranchiseStamp(dayId, questId, done) {
       var fcId = findLinkedFranchiseId(dayId, questId);
       if (!fcId) return;
-      var fcStamps = {};
-      try { fcStamps = JSON.parse(localStorage.getItem(FC_STORAGE_KEY) || '{}'); } catch (e) {}
+      var fcStamps = loadJsonStorage(FC_STORAGE_KEY);
       fcStamps[fcId] = done;
-      try { localStorage.setItem(FC_STORAGE_KEY, JSON.stringify(fcStamps)); } catch (e) {}
+      saveJsonStorage(FC_STORAGE_KEY, fcStamps);
       document.dispatchEvent(new CustomEvent('fcStampsSynced'));
     }
 
-    function loadStamps() {
-      try {
-        var raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (e) { return {}; }
-    }
-    function saveStamps(state) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
-    }
-
-    function spawnConfetti() {
-      if (!confettiLayer) return;
-      var colors = ['#e76f51', '#f4a261', '#2a9d8f', '#d81159', '#2b9348', '#e9c46a'];
-      var pieceCount = 26;
-      for (var i = 0; i < pieceCount; i++) {
-        var piece = document.createElement('span');
-        piece.className = 'quest-confetti-piece';
-        piece.style.left = (Math.random() * 100) + 'vw';
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDelay = (Math.random() * 0.25) + 's';
-        piece.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
-        confettiLayer.appendChild(piece);
-        (function (el) {
-          el.addEventListener('animationend', function () { el.remove(); });
-        })(piece);
-      }
-    }
+    function loadStamps() { return loadJsonStorage(STORAGE_KEY); }
+    function saveStamps(state) { saveJsonStorage(STORAGE_KEY, state); }
 
     function renderPassportWidget() {
       var dateNavWrap = document.querySelector('#tab-schedule .date-nav-wrap');
@@ -3819,7 +3825,7 @@
         if (!wasDone) {
           playStampSound();
           if (window.triggerHaptic) window.triggerHaptic('success');
-          spawnConfetti();
+          spawnConfetti(confettiLayer);
         } else {
           if (window.triggerHaptic) window.triggerHaptic('light');
         }
@@ -6219,12 +6225,6 @@
   };
 
   (function initFranchiseModal() {
-    var FC_TO_QUEST_MAP = {
-      'fc-innout': { dayId: 'day-1', questId: 'q1-2' },
-      'fc-elgordo': { dayId: 'day-1', questId: 'q1-6' },
-      'fc-chickfila': { dayId: 'day-2', questId: 'q2-5' },
-      'fc-panda': { dayId: 'day-5', questId: 'q5-2' }
-    };
     var STORAGE_KEY = 'us_trip_franchise_stamps_2026';
     var PASSPORT_STORAGE_KEY = 'us_west_passport_stamps_2026';
     var backdrop = document.getElementById('fcModalBackdrop');
@@ -6236,33 +6236,8 @@
     var confettiLayer = document.getElementById('questConfettiLayer');
     if (!modal || !backdrop || !listContainer) return;
 
-    function loadStamps() {
-      try {
-        var raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (e) { return {}; }
-    }
-    function saveStamps(state) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
-    }
-
-    function spawnFcConfetti() {
-      if (!confettiLayer) return;
-      var colors = ['#e76f51', '#f4a261', '#2a9d8f', '#d81159', '#2b9348', '#e9c46a'];
-      var pieceCount = 26;
-      for (var i = 0; i < pieceCount; i++) {
-        var piece = document.createElement('span');
-        piece.className = 'quest-confetti-piece';
-        piece.style.left = (Math.random() * 100) + 'vw';
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDelay = (Math.random() * 0.25) + 's';
-        piece.style.animationDuration = (0.9 + Math.random() * 0.6) + 's';
-        confettiLayer.appendChild(piece);
-        (function (el) {
-          el.addEventListener('animationend', function () { el.remove(); });
-        })(piece);
-      }
-    }
+    function loadStamps() { return loadJsonStorage(STORAGE_KEY); }
+    function saveStamps(state) { saveJsonStorage(STORAGE_KEY, state); }
 
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, function (c) {
@@ -6274,11 +6249,10 @@
     function syncPassportStamp(fcId, done) {
       var link = window.TRIP_DATA.fcQuestLink && window.TRIP_DATA.fcQuestLink[fcId];
       if (!link) return;
-      var passportStamps = {};
-      try { passportStamps = JSON.parse(localStorage.getItem(PASSPORT_STORAGE_KEY) || '{}'); } catch (e) {}
+      var passportStamps = loadJsonStorage(PASSPORT_STORAGE_KEY);
       if (!passportStamps[link.day]) passportStamps[link.day] = {};
       passportStamps[link.day][link.quest] = done;
-      try { localStorage.setItem(PASSPORT_STORAGE_KEY, JSON.stringify(passportStamps)); } catch (e) {}
+      saveJsonStorage(PASSPORT_STORAGE_KEY, passportStamps);
       document.dispatchEvent(new CustomEvent('passportStampsSynced'));
     }
 
@@ -6290,7 +6264,7 @@
       listContainer.innerHTML = list.map(function(fc) {
         var isDone = !!stamps[fc.id];
         if (isDone) doneCount++;
-        var quest = FC_TO_QUEST_MAP[fc.id];
+        var quest = window.TRIP_DATA.fcQuestLink && window.TRIP_DATA.fcQuestLink[fc.id];
 
         return (
           '<div class="fc-card' + (isDone ? ' cleared' : '') + '" data-fc-id="' + fc.id + '" data-brand="' + fc.id.replace('fc-', '') + '"' + (fc.bannerColor ? ' style="--fc-accent:' + fc.bannerColor + '"' : '') + '>' +
@@ -6319,7 +6293,7 @@
               (isDone ? '✅ 완료! (다시 탭하면 취소)' : '🔴 맛보기 완료 도장 쾅!') +
             '</button>' +
             (quest ?
-              '<button type="button" class="fc-quest-jump-btn" data-quest-day="' + quest.dayId + '" data-quest-id="' + quest.questId + '">🎫 여권 퀘스트로 이동</button>' :
+              '<button type="button" class="fc-quest-jump-btn" data-quest-day="' + quest.day + '" data-quest-id="' + quest.quest + '">🎫 여권 퀘스트로 이동</button>' :
               '') +
           '</div>'
         );
@@ -6407,7 +6381,7 @@
         if (!wasDone) {
           if (typeof playStampSound === 'function') playStampSound();
           if (window.triggerHaptic) window.triggerHaptic('success');
-          spawnFcConfetti();
+          spawnConfetti(confettiLayer);
           if (window.showToast) window.showToast('미국 프랜차이즈 도장 획득! 쾅! 🍔');
         } else {
           if (window.triggerHaptic) window.triggerHaptic('light');
