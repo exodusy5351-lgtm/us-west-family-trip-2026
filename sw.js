@@ -1,8 +1,9 @@
 // 미서부 가족여행 대시보드 — 오프라인 대응 Service Worker
 // 모하비 사막/국립공원 등 통신 음영 지역에서도 마지막으로 불러온 페이지가 열리도록
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
+// 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-v1";
+const CACHE_NAME = "uswest-trip-2026-20260831";
 const APP_SHELL = [
   "./",
   "./index.html",
