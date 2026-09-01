@@ -4927,6 +4927,26 @@
           input.checked = !!state[it.id];
 
           input.addEventListener("change", function () {
+            var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+            if (!isVerified) {
+              input.checked = !input.checked; // 체크 상태 원복
+              if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 체크할 수 있습니다');
+              if (window.triggerHaptic) window.triggerHaptic('warning');
+              if (window.requestFamilyPin) {
+                window.requestFamilyPin('가족', function () {
+                  // 인증 완료 시 즉시 체크 처리
+                  input.checked = true;
+                  state[it.id] = true;
+                  saveState(state);
+                  if (packingSync) packingSync.push(it.id, true);
+                  row.classList.add('checked');
+                  refreshGroupCount();
+                  updateProgress();
+                });
+              }
+              return;
+            }
+
             state[it.id] = input.checked;
             saveState(state);
             if (packingSync) packingSync.push(it.id, input.checked);
@@ -6661,6 +6681,22 @@
       var key = cb.getAttribute('data-key');
       cb.checked = !!state[key];
       cb.addEventListener('change', function() {
+        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+        if (!isVerified) {
+          cb.checked = !cb.checked; // 체크 상태 원복
+          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 체크할 수 있습니다');
+          if (window.triggerHaptic) window.triggerHaptic('warning');
+          if (window.requestFamilyPin) {
+            window.requestFamilyPin('가족', function () {
+              // 인증 완료 시 즉시 체크 처리
+              cb.checked = true;
+              state[key] = true;
+              saveState(state);
+            });
+          }
+          return;
+        }
+
         state[key] = cb.checked;
         saveState(state);
       });
