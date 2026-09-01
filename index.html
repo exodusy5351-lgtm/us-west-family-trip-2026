@@ -6668,8 +6668,10 @@
       modal.classList.remove('open');
       document.body.style.overflow = '';
       input.value = '';
+      input.blur(); // 모바일 가상 키보드 닫힘
       errorMsg.classList.add('hidden');
       pendingCallback = null;
+      if (window.triggerHaptic) window.triggerHaptic('light');
     }
 
     function openModal(ownerName) {
@@ -6693,8 +6695,12 @@
       } else {
         errorMsg.classList.remove('hidden');
         input.classList.add('shake');
-        setTimeout(function () { input.classList.remove('shake'); }, 350);
-        input.value = '';
+        if (window.triggerHaptic) window.triggerHaptic('warning');
+        setTimeout(function () {
+          input.classList.remove('shake');
+          input.value = '';
+          input.focus(); // 흔들림 애니메이션 후에도 포커스를 유지해 바로 재입력 가능하게 함
+        }, 350);
       }
     }
 
