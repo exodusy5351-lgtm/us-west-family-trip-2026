@@ -490,6 +490,41 @@
   .todo-item .chk:checked ~ .txt{text-decoration:line-through;color:var(--muted);}
   .todo-item .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
 
+  /* ===== 남은 할 일 전용 자물쇠 버튼 & 잠금 상태 UI ===== */
+  .todo-lock-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .todo-lock-btn:hover {
+    border-color: var(--teal);
+    color: var(--text);
+  }
+  .todo-lock-btn.unlocked {
+    background: rgba(0, 179, 107, 0.12);
+    border-color: rgba(0, 179, 107, 0.4);
+    color: var(--green-text);
+  }
+
+  /* 잠금 상태일 때 체크박스 시각적 피드백 */
+  .todo-list.locked .todo-item {
+    cursor: not-allowed;
+  }
+  .todo-list.locked .todo-item .chk {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
   /* ===== PACKING CHECKLIST ===== */
   .pack-progress{background:linear-gradient(135deg,var(--card-2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;}
   .pack-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
@@ -1957,24 +1992,125 @@
     </div>
     <div class="todo-list"></div>
     <script>
-      window.TRIP_DATA = window.TRIP_DATA || {};
-      window.TRIP_DATA.todos = [
-        { key: 'todo-dodger', priority: true, text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
-        { key: 'todo-the-broad', priority: true, text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/1 오픈 (10/10 13:30/14:00 슬롯)' },
-        { key: 'todo-disney', priority: false, text: '디즈니랜드 티켓 결제 &amp; 파크 예약', tag: '— 10/6 Tier 4' },
-        { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' }
-      ];
+      (function initProtectedTodos() {
+        window.TRIP_DATA = window.TRIP_DATA || {};
+        window.TRIP_DATA.todos = [
+          { key: 'todo-dodger', priority: true, text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
+          { key: 'todo-the-broad', priority: true, text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/1 오픈 (10/10 13:30/14:00 슬롯)' },
+          { key: 'todo-disney', priority: false, text: '디즈니랜드 티켓 결제 &amp; 파크 예약', tag: '— 10/6 Tier 4' },
+          { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' }
+        ];
 
-      (function renderTodos() {
-        var wrap = document.querySelector('#tab-reservations .todo-list');
-        if (!wrap) return;
-        wrap.innerHTML = window.TRIP_DATA.todos.map(function (t) {
-          return '<div class="todo-item' + (t.priority ? ' priority' : '') + '"><input type="checkbox" class="chk" data-key="' + t.key + '"><div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span></div></div>';
-        }).join('');
+        var STORAGE_KEY = 'us_trip_todos_state_2026';
+        var isTodoUnlocked = false; // 기본은 잠금 상태
 
-        var section = wrap.closest('section');
-        var countEl = section ? section.querySelector('.section-head .count') : null;
-        if (countEl) countEl.textContent = window.TRIP_DATA.todos.length + ' ITEMS';
+        function loadTodoState() {
+          try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : {};
+          } catch (e) { return {}; }
+        }
+        function saveTodoState(state) {
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+        }
+
+        var todoState = loadTodoState();
+
+        function renderTodos() {
+          var section = document.querySelector('#tab-reservations section:nth-of-type(2)');
+          if (!section) return;
+
+          var head = section.querySelector('.section-head');
+          var wrap = section.querySelector('.todo-list');
+          if (!head || !wrap) return;
+
+          // 1. 헤더에 자물쇠 버튼 주입 (중복 방지)
+          var lockBtn = head.querySelector('#todoLockToggleBtn');
+          if (!lockBtn) {
+            var actionsWrap = document.createElement('div');
+            actionsWrap.style.display = 'flex';
+            actionsWrap.style.alignItems = 'center';
+            actionsWrap.style.gap = '8px';
+
+            var countEl = head.querySelector('.count');
+            if (countEl) countEl.remove();
+
+            actionsWrap.innerHTML =
+              '<button type="button" id="todoLockToggleBtn" class="todo-lock-btn" aria-label="할일 체크 잠금 해제">' +
+                '<span>🔒</span> <span>잠김</span>' +
+              '</button>' +
+              '<span class="count">' + window.TRIP_DATA.todos.length + ' ITEMS</span>';
+
+            head.appendChild(actionsWrap);
+            lockBtn = head.querySelector('#todoLockToggleBtn');
+
+            lockBtn.addEventListener('click', function () {
+              if (isTodoUnlocked) {
+                // 잠금 상태로 전환
+                isTodoUnlocked = false;
+                updateLockUI();
+                if (window.showToast) window.showToast('🔒 할일 체크가 잠겼습니다');
+                if (window.triggerHaptic) window.triggerHaptic('light');
+              } else {
+                // PIN 인증 후 잠금 해제
+                if (window.requestFamilyPin) {
+                  window.requestFamilyPin('남은 할 일 관리', function () {
+                    isTodoUnlocked = true;
+                    updateLockUI();
+                    if (window.showToast) window.showToast('🔓 할일 체크 잠금이 해제되었습니다');
+                    if (window.triggerHaptic) window.triggerHaptic('success');
+                  });
+                }
+              }
+            });
+          }
+
+          function updateLockUI() {
+            if (!lockBtn) return;
+            lockBtn.classList.toggle('unlocked', isTodoUnlocked);
+            lockBtn.innerHTML = isTodoUnlocked
+              ? '<span>🔓</span> <span>수정 가능</span>'
+              : '<span>🔒</span> <span>잠김</span>';
+            wrap.classList.toggle('locked', !isTodoUnlocked);
+
+            wrap.querySelectorAll('.chk').forEach(function (chk) {
+              chk.disabled = !isTodoUnlocked;
+            });
+          }
+
+          // 2. 할 일 리스트 렌더링
+          wrap.innerHTML = window.TRIP_DATA.todos.map(function (t) {
+            var checked = !!todoState[t.key];
+            return '<div class="todo-item' + (t.priority ? ' priority' : '') + '">' +
+              '<input type="checkbox" class="chk" data-key="' + t.key + '"' + (checked ? ' checked' : '') + (!isTodoUnlocked ? ' disabled' : '') + '>' +
+              '<div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span></div>' +
+            '</div>';
+          }).join('');
+
+          updateLockUI();
+
+          // 3. 잠금 상태에서의 터치 피드백 & 체크 이벤트
+          wrap.addEventListener('click', function (e) {
+            if (!isTodoUnlocked) {
+              var item = e.target.closest('.todo-item');
+              if (item) {
+                if (window.showToast) window.showToast('🔒 우측 상단 자물쇠 버튼을 눌러 잠금을 해제하세요');
+                if (window.triggerHaptic) window.triggerHaptic('warning');
+              }
+              return;
+            }
+
+            var chk = e.target.closest('.chk');
+            if (chk) {
+              var key = chk.getAttribute('data-key');
+              todoState[key] = chk.checked;
+              saveTodoState(todoState);
+              if (window.triggerHaptic) window.triggerHaptic('light');
+            }
+          });
+        }
+
+        renderTodos();
       })();
     </script>
   </section>
@@ -6659,49 +6795,9 @@
 
   /* ==========================================================
      [4-3] 남은 할 일: 체크박스 상태 로컬스토리지 저장/복원
+     - 잠금/PIN 로직은 #tab-reservations의 initProtectedTodos()가 전담 (자물쇠 버튼 + disabled 처리)
+       여기서 별도 change 가드를 두면 두 시스템이 같은 .todo-list .chk를 이중으로 제어해 충돌하므로 제거함
   ========================================================== */
-  (function initTodoChecklist() {
-    var TODO_KEY = "us_trip_todo_checked_2026";
-    var checkboxes = document.querySelectorAll('.todo-list .chk[data-key]');
-    if (!checkboxes.length) return;
-
-    function loadState() {
-      try {
-        var raw = localStorage.getItem(TODO_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (e) { return {}; }
-    }
-    function saveState(state) {
-      try { localStorage.setItem(TODO_KEY, JSON.stringify(state)); } catch (e) {}
-    }
-
-    var state = loadState();
-
-    checkboxes.forEach(function(cb) {
-      var key = cb.getAttribute('data-key');
-      cb.checked = !!state[key];
-      cb.addEventListener('change', function() {
-        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
-        if (!isVerified) {
-          cb.checked = !cb.checked; // 체크 상태 원복
-          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 체크할 수 있습니다');
-          if (window.triggerHaptic) window.triggerHaptic('warning');
-          if (window.requestFamilyPin) {
-            window.requestFamilyPin('가족', function () {
-              // 인증 완료 시 즉시 체크 처리
-              cb.checked = true;
-              state[key] = true;
-              saveState(state);
-            });
-          }
-          return;
-        }
-
-        state[key] = cb.checked;
-        saveState(state);
-      });
-    });
-  })();
 
   /* ==========================================================
      [4-4] 예약번호 원클릭 복사 & 토스트
