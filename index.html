@@ -1759,6 +1759,13 @@
     // saveLocal: 로컬 저장 함수 / rerender: 화면 다시 그리는 함수
     function attach(pathKey, ids, localState, saveLocal, rerender) {
       if (!enabled || !authReadyPromise) return null;
+      // id별로 이 기기가 방금(수 초 이내) 로컬에서 직접 바꾼 시각을 기록.
+      // 체크 해제 직후 서버 삭제가 아직 반영되기 전의 "낡은 체크됨" 스냅샷이 되돌아와
+      // 방금 끈 항목을 자동으로 다시 켜버리는 경쟁 조건(race condition)을 막기 위함
+      // — 재연결/지연 시 이 기기 자신의 과거 값이 메아리처럼 되돌아오는 것일 뿐인데
+      // "가족이 다시 체크했다"는 오탐 토스트가 뜨던 원인이었다.
+      var recentLocalChange = {};
+      var RECENT_WINDOW_MS = 4000;
       authReadyPromise.then(function () {
         if (!enabled) return;
         var ref = firebase.database().ref('tripSync/uswest2026/' + pathKey);
@@ -1768,7 +1775,9 @@
           var arrivedFrom = [];
           ids.forEach(function (id) {
             var r = remote[id];
+            var recentlyTouchedLocally = recentLocalChange[id] && (Date.now() - recentLocalChange[id] < RECENT_WINDOW_MS);
             if (r && r.v && !localState[id]) {
+              if (recentlyTouchedLocally) return; // 방금 이 기기에서 끈 항목 — 낡은 스냅샷 무시
               // 다른 기기(또는 과거 이 기기)에서 체크된 항목을 이 기기로 반영
               localState[id] = true;
               localChanged = true;
@@ -1793,6 +1802,7 @@
       });
       return {
         push: function (id, val) {
+          recentLocalChange[id] = Date.now();
           if (!enabled || !authReadyPromise) return;
           authReadyPromise.then(function () {
             if (!enabled) return;
@@ -1801,6 +1811,7 @@
           });
         },
         pushAll: function (map) {
+          Object.keys(map).forEach(function (id) { recentLocalChange[id] = Date.now(); });
           if (!enabled || !authReadyPromise) return;
           authReadyPromise.then(function () {
             if (!enabled) return;
