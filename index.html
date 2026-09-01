@@ -2002,8 +2002,18 @@
         ];
 
         var STORAGE_KEY = 'us_trip_todos_state_2026';
-        var isTodoUnlocked = false; // 기본은 잠금 상태
+        var TODO_UNLOCK_KEY = 'us_trip_todos_unlocked';
+        // 잠금 해제 상태를 sessionStorage에 함께 기록해, 탭 전환/새로고침에도
+        // 같은 브라우저 세션 동안은 다시 PIN을 묻지 않도록 유지한다.
+        var isTodoUnlocked = (function () {
+          try { return sessionStorage.getItem(TODO_UNLOCK_KEY) === 'true'; } catch (e) { return false; }
+        })();
         var todosSync = null; // DOMContentLoaded 이후 window.TripSync.attach() 결과로 채워짐
+
+        function setTodoUnlocked(val) {
+          isTodoUnlocked = val;
+          try { sessionStorage.setItem(TODO_UNLOCK_KEY, val ? 'true' : 'false'); } catch (e) {}
+        }
 
         function loadTodoState() {
           try {
@@ -2048,7 +2058,7 @@
             lockBtn.addEventListener('click', function () {
               if (isTodoUnlocked) {
                 // 잠금 상태로 전환
-                isTodoUnlocked = false;
+                setTodoUnlocked(false);
                 updateLockUI();
                 if (window.showToast) window.showToast('🔒 할일 체크가 잠겼습니다');
                 if (window.triggerHaptic) window.triggerHaptic('light');
@@ -2056,7 +2066,7 @@
                 // PIN 인증 후 잠금 해제
                 if (window.requestFamilyPin) {
                   window.requestFamilyPin('남은 할 일 관리', function () {
-                    isTodoUnlocked = true;
+                    setTodoUnlocked(true);
                     updateLockUI();
                     if (window.showToast) window.showToast('🔓 할일 체크 잠금이 해제되었습니다');
                     if (window.triggerHaptic) window.triggerHaptic('success');
@@ -6673,6 +6683,7 @@
     }
 
     function checkPin() {
+      input.value = input.value.replace(/[^0-9]/g, '');
       if (input.value.length < 4) return;
       if (input.value === FAMILY_PIN) {
         try { localStorage.setItem(PIN_VERIFIED_KEY, 'true'); } catch (e) {}
