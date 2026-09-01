@@ -2003,6 +2003,7 @@
 
         var STORAGE_KEY = 'us_trip_todos_state_2026';
         var isTodoUnlocked = false; // 기본은 잠금 상태
+        var todosSync = null; // DOMContentLoaded 이후 window.TripSync.attach() 결과로 채워짐
 
         function loadTodoState() {
           try {
@@ -2090,27 +2091,44 @@
           updateLockUI();
 
           // 3. 잠금 상태에서의 터치 피드백 & 체크 이벤트
-          wrap.addEventListener('click', function (e) {
-            if (!isTodoUnlocked) {
-              var item = e.target.closest('.todo-item');
-              if (item) {
-                if (window.showToast) window.showToast('🔒 우측 상단 자물쇠 버튼을 눌러 잠금을 해제하세요');
-                if (window.triggerHaptic) window.triggerHaptic('warning');
+          // (renderTodos()는 Firebase 원격 갱신 시에도 재호출되므로, wrap 자체는 재사용되는
+          //  요소라 리스너를 매번 새로 붙이면 중복 등록됨 — 최초 1회만 바인딩)
+          if (!wrap.dataset.clickBound) {
+            wrap.dataset.clickBound = '1';
+            wrap.addEventListener('click', function (e) {
+              if (!isTodoUnlocked) {
+                var item = e.target.closest('.todo-item');
+                if (item) {
+                  if (window.showToast) window.showToast('🔒 우측 상단 자물쇠 버튼을 눌러 잠금을 해제하세요');
+                  if (window.triggerHaptic) window.triggerHaptic('warning');
+                }
+                return;
               }
-              return;
-            }
 
-            var chk = e.target.closest('.chk');
-            if (chk) {
-              var key = chk.getAttribute('data-key');
-              todoState[key] = chk.checked;
-              saveTodoState(todoState);
-              if (window.triggerHaptic) window.triggerHaptic('light');
-            }
-          });
+              var chk = e.target.closest('.chk');
+              if (chk) {
+                var key = chk.getAttribute('data-key');
+                todoState[key] = chk.checked;
+                saveTodoState(todoState);
+                if (todosSync) todosSync.push(key, chk.checked);
+                if (window.triggerHaptic) window.triggerHaptic('light');
+              }
+            });
+          }
         }
 
         renderTodos();
+
+        document.addEventListener('DOMContentLoaded', function () {
+          if (!window.TripSync) return;
+          todosSync = window.TripSync.attach(
+            'todos',
+            window.TRIP_DATA.todos.map(function (t) { return t.key; }),
+            todoState,
+            saveTodoState,
+            renderTodos
+          );
+        });
       })();
     </script>
   </section>
@@ -5118,6 +5136,14 @@
 
     if (selectAllBtn) {
       selectAllBtn.addEventListener("click", function () {
+        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+        if (!isVerified) {
+          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 일괄 변경할 수 있습니다');
+          if (window.triggerHaptic) window.triggerHaptic('warning');
+          if (window.requestFamilyPin) window.requestFamilyPin('가족');
+          return;
+        }
+
         ITEMS.forEach(function (it) { state[it.id] = true; });
         saveState(state);
         if (packingSync) {
@@ -5131,6 +5157,13 @@
     }
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
+        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+        if (!isVerified) {
+          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 일괄 변경할 수 있습니다');
+          if (window.triggerHaptic) window.triggerHaptic('warning');
+          if (window.requestFamilyPin) window.requestFamilyPin('가족');
+          return;
+        }
         if (!confirm("모든 체크 상태를 초기화할까요? 되돌릴 수 없습니다.")) return;
         // 참고: window.TripSync.attach()가 이 state 객체 참조를 그대로 캡처해 동기화하므로,
         // state = {} 로 재할당하지 않고 기존 객체를 비워서(in-place) 참조를 유지한다.
