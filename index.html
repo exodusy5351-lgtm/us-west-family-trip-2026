@@ -544,6 +544,16 @@
   .pack-owner-btn:hover,.pack-owner-btn:focus-visible{border-color:var(--teal);outline:none;}
   .pack-owner-btn.skip{color:var(--muted);font-weight:500;}
 
+  /* ===== 짐싸기 가족 확인(로그인) 게이트: 기기 소유자를 고르기 전까지 목록/동기화 자체를 숨김 ===== */
+  .pack-login-gate{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:36px 20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);}
+  .pack-login-gate.hidden{display:none !important;}
+  .pack-login-gate-icon{font-size:32px;line-height:1;margin-bottom:4px;}
+  .pack-login-gate-title{font-size:15px;font-weight:700;color:var(--text);}
+  .pack-login-gate-sub{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+  .pack-login-gate-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+  .pack-owner-btn.large{font-size:13px;padding:10px 20px;border-radius:14px;}
+  .pack-content.hidden{display:none !important;}
+
   .pack-actions{display:flex;gap:8px;margin-bottom:14px;}
   .pack-action-btn{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;padding:9px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--text);cursor:pointer;font-weight:600;transition:border-color .15s,color .15s;}
   .pack-action-btn:hover,.pack-action-btn:focus-visible{border-color:var(--teal);outline:none;}
@@ -3657,32 +3667,47 @@
       <span class="count">36 ITEMS</span>
     </div>
 
-    <div class="pack-progress">
-      <div class="pack-progress-top">
-        <span class="pack-progress-label">준비 완료</span>
-        <span class="pack-progress-count" id="pack-count">0 / 36 (0%)</span>
+    <!-- 가족 확인(로그인) 게이트: 기기 소유자를 고르기 전까지 목록 자체를 숨기고,
+         고른 뒤에야 렌더링 + 실시간 동기화 연결을 시작한다 (미확인 기기의 무단 동기화 참여 방지) -->
+    <div class="pack-login-gate" id="packLoginGate">
+      <div class="pack-login-gate-icon">🔒</div>
+      <div class="pack-login-gate-title">가족 확인이 필요합니다</div>
+      <div class="pack-login-gate-sub">준비물 체크리스트는 가족만 확인할 수 있어요<br>이 기기는 누구 것인가요?</div>
+      <div class="pack-login-gate-actions">
+        <button type="button" class="pack-owner-btn large" data-owner="승현">승현</button>
+        <button type="button" class="pack-owner-btn large" data-owner="지은">지은</button>
+        <button type="button" class="pack-owner-btn large skip" data-owner="가족">가족 (공용)</button>
       </div>
-      <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
     </div>
 
-    <div class="pack-sync-row">
-      <span class="pack-sync-badge disabled" id="packSyncBadge" role="button" tabindex="0" title="탭하면 이 기기의 이름을 바꿀 수 있어요">⚪ 동기화 준비 중…</span>
-      <span class="pack-owner-picker hidden" id="packOwnerPicker">
-        <span>이 기기는 누구 것인가요?</span>
-        <button type="button" class="pack-owner-btn" data-owner="승현">승현</button>
-        <button type="button" class="pack-owner-btn" data-owner="지은">지은</button>
-        <button type="button" class="pack-owner-btn skip" data-owner="가족">건너뛰기</button>
-      </span>
+    <div class="pack-content hidden" id="packContent">
+      <div class="pack-progress">
+        <div class="pack-progress-top">
+          <span class="pack-progress-label">준비 완료</span>
+          <span class="pack-progress-count" id="pack-count">0 / 36 (0%)</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill pack-fill" id="pack-fill" style="width:0%;"></div></div>
+      </div>
+
+      <div class="pack-sync-row">
+        <span class="pack-sync-badge disabled" id="packSyncBadge" role="button" tabindex="0" title="탭하면 이 기기의 이름을 바꿀 수 있어요">⚪ 동기화 준비 중…</span>
+        <span class="pack-owner-picker hidden" id="packOwnerPicker">
+          <span>이 기기는 누구 것인가요?</span>
+          <button type="button" class="pack-owner-btn" data-owner="승현">승현</button>
+          <button type="button" class="pack-owner-btn" data-owner="지은">지은</button>
+          <button type="button" class="pack-owner-btn skip" data-owner="가족">건너뛰기</button>
+        </span>
+      </div>
+
+      <div class="pack-actions">
+        <button type="button" class="pack-action-btn" id="pack-select-all">전체 선택</button>
+        <button type="button" class="pack-action-btn danger" id="pack-reset">초기화</button>
+      </div>
+
+      <div class="pack-tabs" id="pack-tabs"></div>
+
+      <div class="pack-list" id="pack-list"></div>
     </div>
-
-    <div class="pack-actions">
-      <button type="button" class="pack-action-btn" id="pack-select-all">전체 선택</button>
-      <button type="button" class="pack-action-btn danger" id="pack-reset">초기화</button>
-    </div>
-
-    <div class="pack-tabs" id="pack-tabs"></div>
-
-    <div class="pack-list" id="pack-list"></div>
   </section>
   </main>
 
@@ -5189,20 +5214,48 @@
       });
     }
 
-    renderTabs();
-    renderList();
-    updateProgress();
+    var packingInitialized = false;
+    function initPackingContentAndSync() {
+      if (packingInitialized) return; // 게이트를 여러 번 통과해도 렌더링/동기화 연결은 최초 1회만
+      packingInitialized = true;
 
-    document.addEventListener('DOMContentLoaded', function () {
-      if (!window.TripSync) return;
-      packingSync = window.TripSync.attach(
-        'packing',
-        ITEMS.map(function (it) { return it.id; }),
-        state,
-        saveState,
-        function () { renderList(); updateProgress(); }
-      );
-    });
+      renderTabs();
+      renderList();
+      updateProgress();
+
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!window.TripSync) return;
+        packingSync = window.TripSync.attach(
+          'packing',
+          ITEMS.map(function (it) { return it.id; }),
+          state,
+          saveState,
+          function () { renderList(); updateProgress(); }
+        );
+      });
+    }
+
+    // 가족 확인(로그인) 게이트: 이 기기가 이미 소유자를 정한 적 있으면 바로 목록을 보여주고,
+    // 아니면 packOwnerBtn 클릭(및 PIN 인증)으로 revealPackingContent()가 호출될 때까지 대기한다.
+    // window.TripSync.getOwner()는 DOMContentLoaded 이후에나 존재하므로,
+    // 최초 판단은 실제 저장소 키를 직접 읽어 TripSync 로딩 여부와 무관하게 동작시킨다.
+    var gateEl = document.getElementById('packLoginGate');
+    var contentEl = document.getElementById('packContent');
+    var hasOwnerAlready = false;
+    try { hasOwnerAlready = !!localStorage.getItem('us_trip_device_owner'); } catch (e) {}
+
+    window.revealPackingContent = function () {
+      if (gateEl) gateEl.classList.add('hidden');
+      if (contentEl) contentEl.classList.remove('hidden');
+      initPackingContentAndSync();
+    };
+
+    if (hasOwnerAlready) {
+      window.revealPackingContent();
+    } else if (gateEl) {
+      gateEl.classList.remove('hidden');
+      if (contentEl) contentEl.classList.add('hidden');
+    }
   })();
 </script>
 
@@ -5256,9 +5309,13 @@
       picker.classList.add('hidden');
       if (window.showToast) window.showToast(name === '가족' ? '기기 이름 설정을 건너뛰었어요' : name + '님 기기로 설정했어요');
       if (window.triggerHaptic) window.triggerHaptic('light');
+      // 최초 가족 확인 게이트에서 고른 경우, 그제서야 준비물 목록을 렌더링 + 동기화 연결한다
+      if (window.revealPackingContent) window.revealPackingContent();
     }
 
-    picker.addEventListener('click', function (e) {
+    // .pack-owner-btn은 이 작은 인라인 picker와, 짐싸기 탭 최초 진입 시 뜨는
+    // 가족 확인 게이트(#packLoginGate) 양쪽에서 쓰이므로 document 위임으로 둘 다 처리한다
+    document.addEventListener('click', function (e) {
       var btn = e.target.closest('.pack-owner-btn');
       if (!btn || !window.TripSync) return;
       var name = btn.getAttribute('data-owner');
