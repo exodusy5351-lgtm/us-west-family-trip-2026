@@ -3073,6 +3073,20 @@
       <span class="count" id="budget-count">23 ITEMS</span>
     </div>
 
+    <!-- 가족 확인(로그인) 게이트: 짐싸기 탭과 동일하게, 기기 소유자를 고르기 전까지
+         금액/카드 등 경비 탭 전체를 비공개로 둔다 (동기화는 없어 순수 접근 제한 목적) -->
+    <div class="pack-login-gate" id="budgetLoginGate">
+      <div class="pack-login-gate-icon">🔒</div>
+      <div class="pack-login-gate-title">가족 확인이 필요합니다</div>
+      <div class="pack-login-gate-sub">경비 내역은 가족만 확인할 수 있어요<br>이 기기는 누구 것인가요?</div>
+      <div class="pack-login-gate-actions">
+        <button type="button" class="pack-owner-btn large" data-owner="승현">승현</button>
+        <button type="button" class="pack-owner-btn large" data-owner="지은">지은</button>
+        <button type="button" class="pack-owner-btn large skip" data-owner="가족">가족 (공용)</button>
+      </div>
+    </div>
+
+    <div class="pack-content hidden" id="budgetContent">
     <div class="rate-badge-row">
       <span class="rate-badge stale" data-rate-badge-text>🟡 캐시 환율 1 USD = ₩1,400.00 (오프라인)</span>
       <button type="button" class="rate-refresh-btn" data-rate-refresh aria-label="환율 새로고침">🔄</button>
@@ -3162,6 +3176,7 @@
     </div>
 
     <div id="budget-live"></div>
+    </div>
   </section>
 
   <script>
@@ -3657,6 +3672,31 @@
 
     renderBudget();
   })();
+  </script>
+
+  <script>
+    /* 경비 탭 가족 확인(로그인) 게이트 — 짐싸기와 달리 동기화가 없으므로
+       기존 렌더링 로직은 그대로 두고, 화면 노출 여부만 게이트로 제어한다 */
+    (function () {
+      var gateEl = document.getElementById('budgetLoginGate');
+      var contentEl = document.getElementById('budgetContent');
+      if (!gateEl || !contentEl) return;
+
+      var hasOwnerAlready = false;
+      try { hasOwnerAlready = !!localStorage.getItem('us_trip_device_owner'); } catch (e) {}
+
+      window.revealBudgetContent = function () {
+        gateEl.classList.add('hidden');
+        contentEl.classList.remove('hidden');
+      };
+
+      if (hasOwnerAlready) {
+        window.revealBudgetContent();
+      } else {
+        gateEl.classList.remove('hidden');
+        contentEl.classList.add('hidden');
+      }
+    })();
   </script>
   </main>
 
@@ -5311,6 +5351,8 @@
       if (window.triggerHaptic) window.triggerHaptic('light');
       // 최초 가족 확인 게이트에서 고른 경우, 그제서야 준비물 목록을 렌더링 + 동기화 연결한다
       if (window.revealPackingContent) window.revealPackingContent();
+      // 경비 탭도 같은 기기 식별 한 번으로 함께 잠금 해제한다
+      if (window.revealBudgetContent) window.revealBudgetContent();
     }
 
     // .pack-owner-btn은 이 작은 인라인 picker와, 짐싸기 탭 최초 진입 시 뜨는
