@@ -12,8 +12,17 @@ const APP_SHELL = [
 ];
 
 self.addEventListener("install", (event) => {
+  // cache.addAll()은 내부적으로 일반 fetch를 쓰기 때문에 브라우저 HTTP 디스크 캐시에
+  // 남아있는 예전 응답을 그대로 캐시에 담아버릴 수 있다 (CACHE_NAME을 바꿔도 내용물은 안 바뀌는 원인).
+  // {cache:'reload'}로 항상 네트워크에서 새로 받아오도록 강제한다.
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) =>
+      Promise.all(
+        APP_SHELL.map((url) =>
+          fetch(url, { cache: "reload" }).then((res) => cache.put(url, res))
+        )
+      )
+    )
   );
   self.skipWaiting();
 });
