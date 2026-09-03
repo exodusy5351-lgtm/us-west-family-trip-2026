@@ -5009,7 +5009,9 @@
 
 <script>
   (function () {
-    var STORAGE_KEY = "us_trip_checklist_2026";
+    // v2: 클라우드에 남아있던 오염 데이터(테스트로 전부 체크됨) 및 낡은 기기의 로컬 캐시와
+    // 완전히 단절된 새 저장 위치로 이전 — 모든 기기가 여기서부터 0/36으로 다시 시작한다
+    var STORAGE_KEY = "us_trip_checklist_2026_v2";
 
     var ITEMS = [
       { id: "doc1", cat: "doc", label: "여권 실물 (가족 전원)", desc: "유효기간 6개월 이상 필수 잔여 / 스마트폰 사본 저장" },
@@ -5266,7 +5268,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         if (!window.TripSync) return;
         packingSync = window.TripSync.attach(
-          'packing',
+          'packing_v2',
           ITEMS.map(function (it) { return it.id; }),
           state,
           saveState,
