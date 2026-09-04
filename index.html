@@ -1064,7 +1064,6 @@
   .costco-item-body{flex:1;min-width:0;}
   .costco-item-top{display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
   .costco-item-type{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:8px;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
-  .costco-type-liquor{background:rgba(230,57,149,.14);color:var(--pink-text);}
   .costco-type-gift{background:rgba(255,184,77,.16);color:var(--gold-text);}
   .costco-type-local{background:rgba(46,196,182,.10);color:var(--teal-text);}
   .costco-item-name{font-size:12.5px;font-weight:700;color:var(--text);}
@@ -4845,8 +4844,8 @@
   <div class="costco-modal-head">
     <div class="costco-modal-title-row">
       <div>
-        <h3 id="costcoModalTitle">🏬 미국 코스트코(Costco) 필수 쇼핑 20선 DB</h3>
-        <div class="costco-modal-sub">미국 한정 희귀 위스키·고함량 영양제·K뷰티 특가·클린푸드·정육 총정리</div>
+        <h3 id="costcoModalTitle">🏬 미국 코스트코(Costco) 필수 쇼핑 25선 DB</h3>
+        <div class="costco-modal-sub">처방 상비약·역수출 K뷰티·고함량 영양제·선물/정육 총정리 (위스키는 🥃 위스키 가이드 참고)</div>
       </div>
       <button type="button" id="costcoCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
     </div>
@@ -4858,10 +4857,11 @@
 
     <div class="costco-filter-bar">
       <div class="costco-tab-row" id="costcoTabRow">
-        <button type="button" class="costco-tab active" data-costco-filter="all">전체보기</button>
-        <button type="button" class="costco-tab" data-costco-filter="위스키">🥃 희귀 위스키 (5)</button>
-        <button type="button" class="costco-tab" data-costco-filter="영양제약">💊 영양제·상비약 (9)</button>
-        <button type="button" class="costco-tab" data-costco-filter="클린푸드">🥗 선물·식료품 (6)</button>
+        <button type="button" class="costco-tab active" data-costco-filter="all">전체보기 (25)</button>
+        <button type="button" class="costco-tab" data-costco-filter="의약품">💊 처방·상비약 (5)</button>
+        <button type="button" class="costco-tab" data-costco-filter="K뷰티">💄 K-뷰티 (5)</button>
+        <button type="button" class="costco-tab" data-costco-filter="영양제">🧴 영양제 (7)</button>
+        <button type="button" class="costco-tab" data-costco-filter="식료품">🎁 선물·식료품 (8)</button>
       </div>
       <input type="text" id="costcoSearchInput" class="costco-search-input" placeholder="품목/성분 검색...">
     </div>
@@ -6523,34 +6523,56 @@
     var checkedCountEl = document.getElementById('costcoCheckedCount');
     if (!modal || !backdrop || !listContainer) return;
 
-    var COSTCO_FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%232c243f'/%3E%3Ctext x='24' y='28' font-size='13' fill='%23a99bc2' text-anchor='middle' font-family='sans-serif'%3ECostco%3C/text%3E%3C/svg%3E";
+    // 카테고리별 테마 썸네일 — 코스트코 공식 이미지 호스트로 알려진 images.costco-static.com은
+    // 실제로 존재하지 않는 도메인(NXDOMAIN)이고, 이 대시보드는 통신 음영 지역 오프라인 사용이
+    // 전제라 외부 이미지는 어차피 로드되지 않는다. 따라서 인라인 SVG로 생성한다.
+    var COSTCO_CAT_THEME = {
+      "의약품": { color: "%231f8a5f", label: "의약품" },
+      "K뷰티": { color: "%237c5cbf", label: "K-뷰티" },
+      "영양제": { color: "%232a9d8f", label: "영양제" },
+      "식료품": { color: "%23f4a261", label: "식료품" }
+    };
+    function costcoImg(cat) {
+      var t = COSTCO_CAT_THEME[cat] || { color: "%232c243f", label: "Costco" };
+      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
+        "%3Crect width='120' height='120' rx='16' fill='" + t.color + "'/%3E" +
+        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + t.label + "%3C/text%3E" +
+        "%3C/svg%3E";
+    }
 
     var costcoMasterData = [
-      // ── 1. 미국 한정/스토어 픽 배럴프루프 버번 위스키 (5종) ──
-      { id: 1, cat: "위스키", type: "귀국선물(주류)", name: "커클랜드 7년 싱글배럴 버번 1L (Kirkland 120 Proof)", price: "$29.99 ~ $32.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%238a5a12'/%3E%3Ctext x='60' y='70' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E위스키%3C/text%3E%3C/svg%3E", note: "바톤(Barton 1792) 원액 60도 고도수 1L 대용량. 미국 코스트코 독점 출시로 국내 미수입 가성비 종결자." },
-      { id: 2, cat: "위스키", type: "귀국선물(주류)", name: "일라이저 크레이그 BP 스토어 픽 (ECBP Private Barrel)", price: "$74.99 ~ $84.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%238a5a12'/%3E%3Ctext x='60' y='70' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E위스키%3C/text%3E%3C/svg%3E", note: "코스트코/토탈와인 단독 선별 60~65도 단일 배럴. 짙은 오크와 카라멜 타격감의 국내 미유통 수집 1순위." },
-      { id: 3, cat: "위스키", type: "귀국선물(주류)", name: "포 로지스 프라이빗 셀렉션 CS (Four Roses Store Pick)", price: "$89.99 ~ $99.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%238a5a12'/%3E%3Ctext x='60' y='70' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E위스키%3C/text%3E%3C/svg%3E", note: "10가지 고유 레시피 중 단일 배럴을 물 타지 않고 병입한 매장 독점 CS 보틀. 화사한 과실향과 스파이스." },
-      { id: 4, cat: "위스키", type: "귀국선물(주류)", name: "놉 크릭 싱글배럴 셀렉트 120 Proof (Knob Creek Store Pick)", price: "$54.99 ~ $59.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%238a5a12'/%3E%3Ctext x='60' y='70' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E위스키%3C/text%3E%3C/svg%3E", note: "9년+ 고숙성 60도 단일 배럴. 일반 놉크릭과 차원이 다른 진한 유질감과 고소한 땅콩/견과류 풍미." },
-      { id: 5, cat: "위스키", type: "귀국선물(주류)", name: "러셀 리저브 싱글배럴 스토어 픽 (Russell's Reserve Store Pick)", price: "$65.99 ~ $72.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%238a5a12'/%3E%3Ctext x='60' y='70' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E위스키%3C/text%3E%3C/svg%3E", note: "와일드터키 증류소 마스터 디스틸러 선별 비냉각여과 55도(110 Proof) 매장 전용 배럴. 일반 러셀 상위 호환." },
+      // ── [1등급] 처방·상비약 (5종) ──
+      { id: 1, cat: "의약품", type: "귀국선물(상온)", name: "커클랜드 멜라토닌 수면보조제 300정 (Melatonin)", price: "$10.99 ~ $14.99", star: "★★★", img: costcoImg("의약품"), note: "한국 처방 필수 전문의약품 성분. 시차 적응 및 불면증 완화에 탁월한 귀국 필수 쇼핑 1위." },
+      { id: 2, cat: "의약품", type: "귀국선물(상온)", name: "애드빌 PM 이부프로펜 200정 (Advil PM)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "이부프로펜 진통제 + 수면보조 성분 복합제. 한국 미출시 OTC로 야간 통증과 수면을 동시 해결." },
+      { id: 3, cat: "의약품", type: "귀국선물(상온)", name: "파타데이 1일 1회 알레르기 안약 3병 (Pataday 0.2%)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "국내 안과 처방 필수 성분(올로파타딘)을 처방전 없이 구매. 하루 1회 점안으로 가려움 완화." },
+      { id: 4, cat: "의약품", type: "귀국선물(상온)", name: "커클랜드 알러플로 비염 스프레이 5병 (Aller-Flo)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "비염 명약 '플로네이즈' 동일 성분. 5병 번들(720회 분사분)로 국내 약국 대비 압도적 단가 우위." },
+      { id: 5, cat: "의약품", type: "귀국선물(상온)", name: "네오스포린 + 통증완화 연고 3팩 (Neosporin + Pain)", price: "$14.49", star: "★★", img: costcoImg("의약품"), note: "3중 항생제 + 국소 마취 진통 성분 결합. 상처 흉터 예방 및 통증 억제 미국 국민 연고." },
 
-      // ── 2. 미국 오리지널 고효능 영양제 & OTC 상비약 (9종) ──
-      { id: 6, cat: "영양제약", type: "귀국선물(상온)", name: "리퀴드 I.V. 수분전해질 파우더 30포 (Liquid I.V.)", price: "$28.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "미국 1위 수분보충제. 물에 타 마시면 링거 수준 흡수율로 사막 건조증 & 테마파크 탈진 방지 필수." },
-      { id: 7, cat: "영양제약", type: "귀국선물(상온)", name: "크레스트 3D 화이트스트립스 (Crest 3D Whitestrips 22회)", price: "$39.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "한국 약국용 대비 과산화수소 함량이 높아 미백 효과가 압도적인 미국 오리지널 치아미백 패치." },
-      { id: 8, cat: "영양제약", type: "귀국선물(상온)", name: "네오스포린 + 통증완화 연고 3팩 (Neosporin + Pain Relief)", price: "$14.49", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "3중 항생제에 국소 진통 성분이 합쳐진 미국 국민 상처 연고 (국내 미출시 직구 필수품)." },
-      { id: 9, cat: "영양제약", type: "귀국선물(상온)", name: "애드빌 PM 이부프로펜 200정 (Advil PM)", price: "$19.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "통증 완화와 시차 적응 수면 유도를 동시에 해결하는 미국 OTC 상비약 (국내 통관 불가 필수 현지구매)." },
-      { id: 10, cat: "영양제약", type: "귀국선물(상온)", name: "바이탈 프로틴 콜라겐 펩타이드 24oz (Vital Proteins)", price: "$29.99 (세일시 $21.99)", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "1회 20g 초고함량 무향 콜라겐. 한국 미입점 대용량으로 커피, 스무디에 타서 복용." },
-      { id: 11, cat: "영양제약", type: "귀국선물(상온)", name: "파타데이 1일 1회 알레르기 안약 3병 (Pataday 0.2%)", price: "$29.99 ~ $34.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "한국 처방전 전문의약품 성분(올로파타딘)을 미국에선 처방 없이 대용량 번들 구매." },
-      { id: 12, cat: "영양제약", type: "귀국선물(상온)", name: "커클랜드 알러플로 비염 스프레이 5병 (Aller-Flo)", price: "$19.99 (세일시 $15.99)", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "플로네이즈 동일 성분(플루티카손). 5병 번들로 1년 치 알레르기/비염 대비 가성비 종결." },
-      { id: 13, cat: "영양제약", type: "귀국선물(상온)", name: "바슈롬 오큐바이트 50+ / 프리저비전 AREDS2 (150정)", price: "$32.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "미국 안과의사 추천 1위 황반변성 루테인/지아잔틴 영양제. 부모님 선물 만족도 최상." },
-      { id: 14, cat: "영양제약", type: "귀국선물(상온)", name: "스마티팬츠 키즈 멀티비타민 구미 180정 (SmartyPants)", price: "$19.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E영양제·상비약%3C/text%3E%3C/svg%3E", note: "오메가3(DHA)와 비타민D3가 포함된 어린이용 천연 과일맛 비타민 구미 대용량." },
+      // ── [2등급] 역수출 K-뷰티 (5종) ──
+      { id: 6, cat: "K뷰티", type: "귀국선물(상온)", name: "코스알엑스 달팽이 96 세럼 2병 + 크림 세트", price: "$19.99 ~ $22.99", star: "★★★", img: costcoImg("K뷰티"), note: "달팽이 점액 96% 고농축 세럼 2병 + 크림 구성. 한국 시중가 대비 50% 이상 단가 절감." },
+      { id: 7, cat: "K뷰티", type: "귀국선물(상온)", name: "토리든 저분자 히알루론산 세럼 50ml x 2병", price: "$14.97 (특가)", star: "★★★", img: costcoImg("K뷰티"), note: "올리브영 1위 수분 세럼. .97 클리어런스 적용 시 한국 세일가보다 저렴." },
+      { id: 8, cat: "K뷰티", type: "귀국선물(상온)", name: "조선미녀 맑은쌀 선크림 / 세럼 번들 팩", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("K뷰티"), note: "글로벌 틱톡 대란 쌀 발효 선케어. 미국 코스트코 독점 패키지로 백탁 없는 촉촉함." },
+      { id: 9, cat: "K뷰티", type: "귀국선물(상온)", name: "스킨1004 센텔라 앰플 120ml x 2병", price: "$21.99 ~ $24.99", star: "★★", img: costcoImg("K뷰티"), note: "마다가스카르 순수 병풀 추출물 대용량. 피부 진정용 역수출 특가." },
+      { id: 10, cat: "K뷰티", type: "귀국선물(상온)", name: "세라비(CeraVe) 모이스처라이징 로션 듀오팩", price: "$24.99 ~ $27.99", star: "★★", img: costcoImg("K뷰티"), note: "500ml 펌프형 2팩 대용량. 고중량 직구 배송비를 고려하면 직접 캐리어 반입이 압도적 이득." },
 
-      // ── 3. 미국 명물 선물 & 프리미엄 식료품 (6종) ──
-      { id: 15, cat: "클린푸드", type: "귀국선물(상온)", name: "지라델리 프리미엄 스퀘어 초콜릿 어쏘티드 벌크백", price: "$14.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "샌프란시스코 명물 초콜릿 대용량. 다크 카라멜, 민트 등 개별 포장으로 직장/학교 소분 선물 1순위." },
-      { id: 16, cat: "클린푸드", type: "귀국선물(상온)", name: "커클랜드 100% 퓨어 오가닉 메이플 시럽 1L (Grade A)", price: "$13.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "국내 대형마트 가격의 1/3 수준. 단풍나무 수액 100% 유리병 대용량 프리미엄 시럽." },
-      { id: 17, cat: "클린푸드", type: "현지소비(신선)", name: "로티세리 치킨 (Rotisserie Chicken)", price: "$4.99 (고정가)", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "미국 코스트코의 상징. 큼직한 통닭구이로 호텔 저녁 식사 및 살코기 샌드위치 활용." },
-      { id: 18, cat: "클린푸드", type: "현지소비(정육)", name: "뉴욕 샤브샤브용 소고기 (Beef Loin Slice Choice)", price: "$10.99 / lb", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "얇게 슬라이스되어 4일차 조슈아트리 숙소에서 구이, 불고기, 샤브샤브로 조리하기 최적." },
-      { id: 19, cat: "클린푸드", type: "현지소비(정육)", name: "토마호크 스테이크 (Tomahawk Steak Choice)", price: "lb당 $14~18선", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "두툼한 갈비뼈와 새우살이 붙은 압도적 비주얼. 사막 숙소 야외 화덕 숯불 굽기 전용." },
-      { id: 20, cat: "클린푸드", type: "귀국선물(상온)", name: "퓨어리 엘리자베스 유기농 글루텐프리 그래놀라 24oz", price: "$9.99 ~ $10.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232f9e63'/%3E%3Ctext x='60' y='68' font-size='13' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E선물·식료품%3C/text%3E%3C/svg%3E", note: "고대 곡물과 유기농 오트 배합. 쩐내 없이 바삭한 고단백 웰빙 시리얼." }
+      // ── [3등급] 고중량·고효능 영양제 (7종) ──
+      { id: 11, cat: "영양제", type: "귀국선물(상온)", name: "쉬프 무브프리 관절영양제 200정 (Move Free Advanced)", price: "$24.99 ~ $29.99", star: "★★★", img: costcoImg("영양제"), note: "글루코사민+콘드로이틴 고함량 부모님 선물 1순위. 한국 약국 대비 단가가 파격적으로 저렴." },
+      { id: 12, cat: "영양제", type: "귀국선물(상온)", name: "바이탈 프로틴 콜라겐 펩타이드 24oz 대용량 (Vital Proteins)", price: "$29.99 (할인시 $21.99)", star: "★★★", img: costcoImg("영양제"), note: "목초 사육 소 추출 680g 대형 보틀. 직구 시 무게 때문에 배송비 폭탄 맞는 대표 품목." },
+      { id: 13, cat: "영양제", type: "귀국선물(상온)", name: "리퀴드 I.V. 수분전해질 파우더 30포 (Liquid I.V.)", price: "$28.99", star: "★★★", img: costcoImg("영양제"), note: "체내 흡수율 링거급 수분보충 파우더. 사막 도로 건조증 & 테마파크 탈진 방지 필수 구비." },
+      { id: 14, cat: "영양제", type: "귀국선물(상온)", name: "크레스트 3D 화이트스트립스 22회분 (Whitestrips)", price: "$39.99", star: "★★★", img: costcoImg("영양제"), note: "한국 약국용 대비 과산화수소 함량이 높아 확실한 효과를 내는 미국 오리지널 치아미백 패치." },
+      { id: 15, cat: "영양제", type: "귀국선물(상온)", name: "커클랜드 오메가-3 피쉬오일 1200mg 400캡슐", price: "$11.99 ~ $14.99", star: "★★", img: costcoImg("영양제"), note: "400캡슐 초대용량. 한국 직구 가격의 반값 이하로 온 가족 1년 치 복용 가성비 종결." },
+      { id: 16, cat: "영양제", type: "귀국선물(상온)", name: "바슈롬 프리저비전 AREDS2 / 오큐바이트 150정", price: "$31.99 ~ $34.99", star: "★★", img: costcoImg("영양제"), note: "미국 안과의사 추천 1위 황반변성 루테인/지아잔틴 복합제. 시니어 부모님 선물 만족도 최상." },
+      { id: 17, cat: "영양제", type: "귀국선물(상온)", name: "에머젠-C 비타민C 발포 파우더 90포 (Emergen-C)", price: "$19.99 ~ $24.99", star: "★★", img: costcoImg("영양제"), note: "물에 타 먹는 1,000mg 비타민C+전해질 분말. 무게가 가볍고 한국 대비 가격 격차가 커 나눔용 최적." },
+
+      // ── [4등급] 선물·식료품 (8종) ──
+      { id: 18, cat: "식료품", type: "귀국선물(상온)", name: "씨즈캔디 기프트카드 ($50 가치권, $25 x 2매)", price: "$38.99", star: "★★★", img: costcoImg("식료품"), note: "한국 매장에서 고가에 판매되는 씨즈캔디를 현지 매장에서 할인 구매할 수 있는 실속형 현금성 아이템." },
+      { id: 19, cat: "식료품", type: "귀국선물(상온)", name: "지라델리 프리미엄 초콜릿 스퀘어 어쏘티드 벌크백", price: "$14.99 ~ $16.99", star: "★★★", img: costcoImg("식료품"), note: "샌프란시스코 명물 초콜릿 대용량. 카라멜, 다크 민트 등 개별 포장으로 직장/지인 소분 선물 1순위." },
+      { id: 20, cat: "식료품", type: "귀국선물(상온)", name: "커클랜드 100% 퓨어 오가닉 메이플 시럽 1L (Grade A)", price: "$12.99 ~ $14.99", star: "★★★", img: costcoImg("식료품"), note: "국내 대형마트 가격의 1/3 수준. 인공 향 없이 단풍나무 수액 100% 유리병 대용량 프리미엄 시럽." },
+      { id: 21, cat: "식료품", type: "귀국선물(상온)", name: "스탠리 / 예티 텀블러 보온보냉 팩 세트", price: "$24.99 ~ $34.99", star: "★★★", img: costcoImg("식료품"), note: "미국 코스트코 한정 컬러 및 2개입 번들 구성. 국내 매장가 대비 큰 폭의 가성비 선물." },
+      { id: 22, cat: "식료품", type: "현지소비(신선)", name: "로티세리 치킨 (Rotisserie Chicken)", price: "$4.99 (고정가)", star: "★★★", img: costcoImg("식료품"), note: "미국 코스트코의 상징. 큼직한 통닭구이로 1일차/5일차 장보기 시 호텔 저녁 및 샌드위치 활용 가성비 왕." },
+      { id: 23, cat: "식료품", type: "현지소비(정육)", name: "토마호크 / 립아이 스테이크 (Choice/Prime)", price: "lb당 $14 ~ $18선", star: "★★★", img: costcoImg("식료품"), note: "두툼한 갈비뼈와 새우살이 붙은 압도적 비주얼. 4일차 조슈아트리 사막 독채 야외 화덕 숯불 굽기 전용." },
+      { id: 24, cat: "식료품", type: "현지소비(정육)", name: "뉴욕 샤브샤브 / 얇은 불고기용 소고기 슬라이스", price: "lb당 $10.99선", star: "★★", img: costcoImg("식료품"), note: "얇게 저며진 소고기로 사막 숙소 인덕션/냄비에서 아이들과 라면, 샤브샤브, 구이로 빠르게 조리 가능." },
+      { id: 25, cat: "식료품", type: "귀국선물(상온)", name: "퓨어리 엘리자베스 유기농 그래놀라 24oz", price: "$9.99 ~ $10.99", star: "★★", img: costcoImg("식료품"), note: "고대 곡물과 유기농 오트 배합. 쩐내 없이 바삭한 고단백 웰빙 시리얼." }
     ];
 
     var activeFilter = 'all';
@@ -6562,7 +6584,6 @@
     }
 
     function typeClass(type) {
-      if (type.indexOf('주류') !== -1) return 'costco-type-liquor';
       if (type.indexOf('귀국') !== -1) return 'costco-type-gift';
       return 'costco-type-local';
     }
@@ -6576,7 +6597,7 @@
         return (
           '<div class="costco-item-row">' +
             '<input type="checkbox" class="costco-item-checkbox" data-costco-check>' +
-            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="costco-item-img" loading="lazy" onerror="this.onerror=null;this.src=\'' + COSTCO_FALLBACK_IMG + '\';">' +
+            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="costco-item-img">' +
             '<div class="costco-item-body">' +
               '<div class="costco-item-top">' +
                 '<span class="costco-item-type ' + typeClass(item.type) + '">' + escapeHtml(item.type) + '</span>' +
