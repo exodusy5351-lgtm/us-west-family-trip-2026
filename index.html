@@ -1018,6 +1018,30 @@
   .tj-empty{text-align:center;padding:40px 0;font-size:12px;color:var(--muted-2);}
   .tj-item-row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);}
   .tj-item-row:last-child{border-bottom:none;}
+
+  /* 통관 상태 뱃지 */
+  .tj-customs-badge{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:6px;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+  .tj-customs-safe{background:rgba(43,147,72,.15);color:var(--green-text);border:1px solid rgba(43,147,72,.3);}
+  .tj-customs-banned{background:rgba(230,57,70,.15);color:var(--red-text);border:1px solid rgba(230,57,70,.35);font-weight:800;}
+  .tj-customs-restricted{background:rgba(244,162,97,.15);color:var(--gold-text);border:1px solid rgba(244,162,97,.3);}
+  .tj-item-customs-note{font-size:10.5px;line-height:1.4;margin:3px 0 0;color:var(--muted-2);}
+  .tj-customs-note-banned{color:var(--red-text);font-weight:600;}
+  .tj-customs-note-restricted{color:var(--gold-text);}
+
+  /* 하단 장바구니 & 예산 시뮬레이터 */
+  .tj-budget-widget{
+    background:var(--card-2);border-top:1px solid var(--line);padding:10px 18px;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;flex-shrink:0;
+  }
+  .tj-budget-calc{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;}
+  .tj-budget-input{
+    width:65px;background:var(--card);border:1px solid var(--line);border-radius:6px;
+    padding:4px 6px;font-family:inherit;font-size:11.5px;color:var(--text);text-align:right;
+  }
+  .tj-budget-total{font-weight:700;color:var(--gold-text);font-size:13px;}
+  .tj-budget-over{color:var(--red-text) !important;}
+  .tj-customs-alert-summary{font-size:11px;color:var(--red-text);font-weight:700;display:none;}
+  .tj-customs-alert-summary.show{display:inline-block;}
   .tj-item-checkbox{width:16px;height:16px;flex-shrink:0;accent-color:var(--teal);cursor:pointer;}
   .tj-item-img{width:44px;height:44px;border-radius:9px;object-fit:cover;background:var(--card-2);border:1px solid var(--line);flex-shrink:0;}
   .tj-item-body{flex:1;min-width:0;}
@@ -4813,24 +4837,35 @@
     <div class="tj-modal-title-row">
       <div>
         <h3 id="tjModalTitle">🛒 트레이더조(Trader Joe's) 쇼핑 리스트 마스터 DB</h3>
-        <div class="tj-modal-sub">상온 귀국 선물템부터 현지 단백질/간편식 쟁여템까지 총망라</div>
+        <div class="tj-modal-sub">25선 정밀 가격 · 한국 통관 가능 여부 · 예산 시뮬레이터</div>
       </div>
       <button type="button" id="tjCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
     </div>
     <div class="tj-filter-bar">
       <div class="tj-tab-row" id="tjTabRow">
-        <button type="button" class="tj-tab active" data-tj-filter="all">전체보기</button>
-        <button type="button" class="tj-tab" data-tj-filter="귀국선물">🎁 귀국선물(상온)</button>
-        <button type="button" class="tj-tab" data-tj-filter="시즈닝소스">🧂 시즈닝/오일</button>
-        <button type="button" class="tj-tab" data-tj-filter="스낵디저트">🍫 스낵/초코</button>
-        <button type="button" class="tj-tab" data-tj-filter="굿즈뷰티">🛍️ 굿즈/뷰티</button>
-        <button type="button" class="tj-tab" data-tj-filter="현지단백질">🥩 현지 체류/단백질</button>
+        <button type="button" class="tj-tab active" data-tj-filter="all">전체보기 (25)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Bags">👜 Bags (4)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Beauty">💄 Beauty (7)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Pantry">🧂 Pantry (4)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Snacks">🍫 Snacks (4)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Frozen">❄️ Frozen (5)</button>
+        <button type="button" class="tj-tab" data-tj-filter="Alcohol">🍷 Alcohol (1)</button>
+        <button type="button" class="tj-tab" data-tj-filter="banned">⚠️ 통관주의만 (7)</button>
       </div>
       <input type="text" id="tjSearchInput" class="tj-search-input" placeholder="아이템명 검색...">
     </div>
   </div>
 
   <div class="tj-list-container" id="tjListContainer"></div>
+
+  <div class="tj-budget-widget">
+    <div class="tj-budget-calc">
+      <span>🎯 내 목표 예산: $</span>
+      <input type="number" id="tjBudgetLimit" class="tj-budget-input" value="50" min="0" step="5">
+      <span>| 선택 합계: <span id="tjSelectedSum" class="tj-budget-total">$0.00</span></span>
+    </div>
+    <span id="tjCustomsAlert" class="tj-customs-alert-summary">⚠️ 반입 금지 품목이 담겼습니다!</span>
+  </div>
 
   <div class="tj-modal-footer">
     <span id="tjCheckedCount">0개 선택됨</span>
@@ -6291,42 +6326,59 @@
     var searchInput = document.getElementById('tjSearchInput');
     var tabRow = document.getElementById('tjTabRow');
     var checkedCountEl = document.getElementById('tjCheckedCount');
+    var budgetInput = document.getElementById('tjBudgetLimit');
+    var sumEl = document.getElementById('tjSelectedSum');
+    var customsAlertEl = document.getElementById('tjCustomsAlert');
     if (!modal || !backdrop || !listContainer) return;
 
+    // 외부 이미지(토트백 실물 사진)는 오프라인/Artifact 환경에서 차단되므로 폴백을 유지한다.
     var TJ_FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%232c243f'/%3E%3Ctext x='24' y='28' font-size='14' fill='%23a99bc2' text-anchor='middle' font-family='sans-serif'%3ETJ%3C/text%3E%3C/svg%3E";
+    var TJ_TOTE_IMG = "https://images.stockx.com/images/Trader-Joes-Mini-Canvas-Tote-Bag-Set-of-4.jpg?fit=fill&bg=FFFFFF&w=480&h=320&q=60&dpr=1&trim=color&updated_at=1727157658";
+
+    function tjImg(color, label) {
+      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
+        "%3Crect width='120' height='120' rx='16' fill='" + color + "'/%3E" +
+        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + label + "%3C/text%3E" +
+        "%3C/svg%3E";
+    }
 
     var tjMasterData = [
-      // ── 1. 시그니처 굿즈 & 에스테틱 뷰티 ──
-      { id: 1, cat: "굿즈뷰티", tag: "귀국선물", name: "캔버스 미니 / 레귤러 토트백 (Canvas Tote Bag)", price: "$2.99 / $4.99", star: "★★★", img: "https://images.stockx.com/images/Trader-Joes-Mini-Canvas-Tote-Bag-Set-of-4.jpg?fit=fill&bg=FFFFFF&w=480&h=320&q=60&dpr=1&trim=color&updated_at=1727157658", note: "미국 전역 품절 대란 시그니처. 한국 리셀가 3~5만원 형성, 튼튼하고 가벼워 귀국 선물 1순위." },
-      { id: 2, cat: "굿즈뷰티", tag: "귀국선물", name: "브라질넛 바디 버터 (Brazil Nut Body Butter)", price: "$5.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "7만원대 명품 솔데자네이루 완벽 구현 뷰티템. 달콤한 솔티드 카라멜/피스타치오 향과 극강 보습." },
-      { id: 3, cat: "굿즈뷰티", tag: "귀국선물", name: "데일리 페이셜 선스크린 SPF 40 (Daily Facial Sunscreen)", price: "$8.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "5만원대 슈퍼굽(Supergoop) 저렴이. 백탁·오일감 전혀 없는 투명 오일프리 실크 벨벳 프라이머 제형." },
-      { id: 4, cat: "굿즈뷰티", tag: "귀국선물", name: "마이크로더마브레이전 페이셜 스크럽 (Microdermabrasion Scrub)", price: "$5.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "미세 알갱이로 모공 각질을 정돈해 에스테틱 관리 받은 듯 즉각 매끄러운 피부결 완성." },
-      { id: 5, cat: "굿즈뷰티", tag: "귀국선물", name: "바닐라 립 마스크 (Vanilla Lip Mask)", price: "$5.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "라네즈 립슬리핑마스크 대항마. 자기 전 바르면 각질을 잠재우는 쫀득한 고보습 립밤." },
-      { id: 6, cat: "굿즈뷰티", tag: "귀국선물", name: "100% 퓨어 호호바 오일 (Pure Jojoba Oil)", price: "$7.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "피지 구조와 유사해 블랙헤드 녹이기, 페이스 오일, 헤어 케어까지 만능 활용." },
-      { id: 7, cat: "굿즈뷰티", tag: "귀국선물", name: "미국 주(State)별 한정 리유저블 쇼핑백", price: "$0.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "1천원대 가격에 캘리포니아/네바다 감성 일러스트 방수 백. 단체·회사 배포용 가성비 최강." },
-      { id: 8, cat: "굿즈뷰티", tag: "귀국선물", name: "미니 / 대형 파스텔 보냉백 (Insulated Bag)", price: "$3.99 / $8.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='15' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E굿즈·뷰티%3C/text%3E%3C/svg%3E", note: "감성적인 컬러와 튼튼한 단열재. 로드트립 중 음료 보관 및 귀국 시 굿즈 소장용." },
+      // ── 1. Bags & Goods ──
+      { id: "tj-b1", cat: "Bags", tag: "귀국선물", name: "기본 캔버스 토트백 (Canvas Tote Bag)", price: "$3.99", priceNum: 3.99, customsStatus: "safe", customsNote: "통관 완전 안전 (면세 한도 내 무제한 반입 가능)", star: "★★★", img: TJ_TOTE_IMG, note: "내구성 뛰어난 면 캔버스 소재. 지인 선물용 가성비 1순위." },
+      { id: "tj-b2", cat: "Bags", tag: "귀국선물", name: "미니 캔버스 토트백 (Mini Tote Bag)", price: "$3.00", priceNum: 3.00, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: TJ_TOTE_IMG, note: "미국 전역 오픈런 품절 대란 시그니처 굿즈. 매장 진열 즉시 장바구니 필수." },
+      { id: "tj-b3", cat: "Bags", tag: "귀국선물", name: "한정판 대형 보냉백 (Large Insulated Bag)", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%232a9d8f', '보냉백'), note: "올리브 그린/더스티 블루 등 한정 컬러. 로드트립 음료 보관 및 귀국 짐 수납 최적." },
+      { id: "tj-b4", cat: "Bags", tag: "귀국선물", name: "스탠드업 접이식 장바구니 토트백", price: "$3.99", priceNum: 3.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★", img: tjImg('%232a9d8f', '장바구니'), note: "바닥면이 넓어 물건이 쓰러지지 않는 실용적 패브릭 백." },
 
-      // ── 2. 만능 시즈닝 & 소스 & 프리미엄 통조림 ──
-      { id: 9, cat: "시즈닝소스", tag: "귀국선물", name: "머쉬룸 & 컴퍼니 우마미 시즈닝 (Umami Seasoning)", price: "$2.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23d97706'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E시즈닝·소스%3C/text%3E%3C/svg%3E", note: "건포르치니 버섯 분말 베이스 감칠맛 폭탄. 한국 통관 100% 합법 (EBTB 시즈닝 대체 필수템)." },
-      { id: 10, cat: "시즈닝소스", tag: "귀국선물", name: "에브리띵 벗 더 엘로테 시즈닝 (Elote Seasoning)", price: "$1.99", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m20906/66804.png/jcr:content/renditions/cq5dam.web.1280.1280", note: "치즈·칠리·라임 배합의 멕시칸 마약옥수수 맛. 계란후라이, 감자튀김, 샐러드 만능 토핑." },
-      { id: 11, cat: "시즈닝소스", tag: "귀국선물", name: "알리오 올리오 시즈닝 블렌드 (Aglio Olio)", price: "$2.49", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m20906/77636.png/jcr:content/renditions/cq5dam.web.1280.1280", note: "마늘·파슬리·페퍼론치노 완벽 배합. 올리브유와 면에 뿌리기만 하면 레스토랑 파스타 완성." },
-      { id: 12, cat: "시즈닝소스", tag: "귀국선물", name: "스모크드 트라우트 훈제 송어 오일캔 (Smoked Trout)", price: "$3.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23d97706'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E시즈닝·소스%3C/text%3E%3C/svg%3E", note: "국내 미유통 와인 안주 종결자. 비린내 없이 훈연 향 가득해 카나페나 샐러드 토핑으로 일품." },
-      { id: 13, cat: "시즈닝소스", tag: "귀국선물", name: "칠리 크런치 오일 (Chili Onion Crunch)", price: "$4.49", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23d97706'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E시즈닝·소스%3C/text%3E%3C/svg%3E", note: "바삭한 튀긴 양파와 마늘이 올리브유에 씹히는 매콤 고소한 만능 밥도둑 토핑." },
-      { id: 14, cat: "시즈닝소스", tag: "귀국선물", name: "버번 바닐라 빈 페이스트 (Vanilla Bean Paste)", price: "$4.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23d97706'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E시즈닝·소스%3C/text%3E%3C/svg%3E", note: "바닐라빈 씨가 듬뿍 박힌 농축 페이스트. 라떼나 팬케이크 반죽에 소량만 넣어도 고급 풍미." },
-      { id: 15, cat: "시즈닝소스", tag: "귀국선물", name: "핫 앤 스위트 할라피뇨스 (Sweet Jalapenos)", price: "$2.49", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23d97706'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E시즈닝·소스%3C/text%3E%3C/svg%3E", note: "매콤달콤한 특제 절임 할라피뇨. 피자, 샌드위치, 고기 요리의 느끼함을 잡아주는 단짠 킥." },
+      // ── 2. Beauty & Body ──
+      { id: "tj-u1", cat: "Beauty", tag: "귀국선물", name: "브라질 넛 바디 버터 8oz (Brazil Nut Body Butter)", price: "$5.99", priceNum: 5.99, customsStatus: "safe", customsNote: "통관 안전 (액체류 수하물 규정 준수)", star: "★★★", img: tjImg('%237c5cbf', '바디버터'), note: "2026 바디 부문 1위. 7만원대 명품 솔데자네이루 저렴이 버전 극강 보습." },
+      { id: "tj-u2", cat: "Beauty", tag: "귀국선물", name: "레티놀 나이트 세럼 (Retinol Night Serum)", price: "$9.99", priceNum: 9.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '레티놀'), note: "자극 없이 매끄러운 피부결을 가꿔주는 1만원 미만 가성비 나이트 세럼." },
+      { id: "tj-u3", cat: "Beauty", tag: "귀국선물", name: "울트라 하이드레이팅 젤 수분크림", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '수분크림'), note: "오일프리 알로에·녹차 추출물 함유. 끈적임 없는 산뜻한 수분 충전." },
+      { id: "tj-u4", cat: "Beauty", tag: "귀국선물", name: "히알루로닉 하이드레이팅 세럼", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★", img: tjImg('%237c5cbf', '세럼'), note: "고분자·저분자 히알루론산 복합 배합. 사막 건조 피부 즉각 진정." },
+      { id: "tj-u5", cat: "Beauty", tag: "귀국선물", name: "슈프림 하이드레이팅 아이크림", price: "$5.99", priceNum: 5.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★", img: tjImg('%237c5cbf', '아이크림'), note: "펩타이드 및 비타민 C/E 배합. 끈적임 없는 눈가 탄력 케어." },
+      { id: "tj-u6", cat: "Beauty", tag: "귀국선물", name: "울트라 모이스처라이징 핸드크림", price: "$4.99", priceNum: 4.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '핸드크림'), note: "록시땅 핸드크림 유사 20% 퓨어 시어버터 함유. 단체 소분 선물 1순위." },
+      { id: "tj-u7", cat: "Beauty", tag: "귀국선물", name: "라벤더/라임 손 소독제 스프레이", price: "$1.99", priceNum: 1.99, customsStatus: "safe", customsNote: "통관 안전 (기내 반입 액체 규정 100ml 이하 확인)", star: "★★", img: tjImg('%237c5cbf', '소독제'), note: "알코올 향 대신 은은한 천연 에센셜 오일 향. 여행 가방 필수품." },
 
-      // ── 3. 단짠 스낵 & 프리미엄 디저트 ──
-      { id: 16, cat: "스낵디저트", tag: "귀국선물", name: "다크 초콜릿 피넛버터 컵 (Dark Choc PB Cups)", price: "$4.49", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23b6552f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E스낵·디저트%3C/text%3E%3C/svg%3E", note: "TJ 부동의 1위 디저트. 쌉싸름한 다크초콜릿 속 리얼 땅콩버터가 가득 찬 극상의 단짠 조화." },
-      { id: 17, cat: "스낵디저트", tag: "귀국선물", name: "다크 초콜릿 바크 퀴노아 & 라즈베리 (Chocolate Bark)", price: "$5.49", star: "★★★", img: "https://www.traderjoes.com/content/dam/trjo/products/m21002/78299.png", note: "동결건조 라즈베리와 바삭한 퀴노아 팝이 씹히는 고급 수제 초콜릿 바크." },
-      { id: 18, cat: "스낵디저트", tag: "귀국선물", name: "브루키 캐러멜 클러스터 (Brookies Clusters)", price: "$3.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23b6552f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E스낵·디저트%3C/text%3E%3C/svg%3E", note: "브라우니+쿠키+캐러멜+다크초코+바다소금이 뭉쳐진 미국식 헤비 스낵." },
-      { id: 19, cat: "스낵디저트", tag: "귀국선물", name: "모카라테 다크초코 프레첼 (Mocha Latte Pretzels)", price: "$2.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23b6552f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E스낵·디저트%3C/text%3E%3C/svg%3E", note: "은은한 커피 향 초콜릿 코팅 프레첼. 여행 중 차 안에서 한 입씩 집어먹기 좋은 지퍼백 포장." },
-      { id: 20, cat: "스낵디저트", tag: "귀국선물", name: "유기농 초코칩 그래놀라 바 (8개입)", price: "$3.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23b6552f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E스낵·디저트%3C/text%3E%3C/svg%3E", note: "USDA 오가닉 인증 개별 포장 바. 테마파크 줄서기 중 아이들 에너지 보충용." },
+      // ── 3. Pantry & Seasoning ──
+      { id: "tj-p1", cat: "Pantry", tag: "현지취식권장", name: "에브리씽 베이글 시즈닝 (EBTB)", price: "$3.99", priceNum: 3.99, customsStatus: "banned", customsNote: "⚠️ 한국 반입 절대 금지 (양귀비 씨앗 성분 함유로 세관 압수/과태료 대상)", star: "★★★", img: tjImg('%23e63946', '반입금지'), note: "미국 내 취식만 가능! 숙소 조식 계란후라이/아보카도 토스트용." },
+      { id: "tj-p2", cat: "Pantry", tag: "귀국선물", name: "21 시즈닝 살루트 무염 조미료 (21 Salute)", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전 (합법 반입 가능)", star: "★★★", img: tjImg('%23d97706', '시즈닝'), note: "양귀비 씨앗 없는 안전 시즈닝. 21가지 허브 블렌드로 고기/야채/파스타 만능." },
+      { id: "tj-p3", cat: "Pantry", tag: "귀국선물", name: "스페쿨로스 쿠키 버터 스프레드", price: "$4.49", priceNum: 4.49, customsStatus: "safe", customsNote: "통관 안전 (수탁 수하물 위탁 권장)", star: "★★★", img: tjImg('%23d97706', '쿠키버터'), note: "로투스 비스코프 비스킷을 크리미하게 갈아 넣은 마약 스프레드." },
+      { id: "tj-p4", cat: "Pantry", tag: "귀국선물", name: "깔라마리 올리브오일 통조림 (Calamari)", price: "$3.00", priceNum: 3.00, customsStatus: "safe", customsNote: "통관 안전 (수산물 캔 가공식품 합법)", star: "★★", img: tjImg('%23d97706', '통조림'), note: "스페인산 오징어를 오일에 절인 고급 안주. 파스타나 바게트 카나페용." },
 
-      // ── 4. 로드트립 & 호텔 체류용 신선 핑거푸드 ──
-      { id: 21, cat: "현지단백질", tag: "현지단백질", name: "오가닉 스트링 치즈 & 베리 믹스 팩", price: "$3.99", star: "★★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232563a8'/%3E%3Ctext x='60' y='70' font-size='16' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E냉장·간식%3C/text%3E%3C/svg%3E", note: "흘리지 않고 먹는 개별포장 유기농 치즈와 생딸기/블루베리. 렌터카 이동 중 아이들 1위 간식." },
-      { id: 22, cat: "현지단백질", tag: "현지단백질", name: "갈릭 브레디드 구운 치즈 (Breaded Cheese)", price: "$4.29", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232563a8'/%3E%3Ctext x='60' y='70' font-size='16' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E냉장·간식%3C/text%3E%3C/svg%3E", note: "전자레인지 30초면 겉바속촉 완성. 꿀이나 토마토소스에 찍어 먹는 짭조름한 맥주/와인 안주." },
-      { id: 23, cat: "현지단백질", tag: "현지단백질", name: "발라디 포켓 브레드 (대형 피타 5개입)", price: "$2.49", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232563a8'/%3E%3Ctext x='60' y='70' font-size='16' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E냉장·간식%3C/text%3E%3C/svg%3E", note: "빵 속에 포켓이 있어 과일, 치즈, 햄을 넣어 즉석 샌드위치를 만드는 쫄깃한 피타 브레드." },
-      { id: 24, cat: "현지단백질", tag: "현지단백질", name: "프랑스 직수입 마카롱 버라이어티 팩 (12개입)", price: "$5.99", star: "★★", img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232563a8'/%3E%3Ctext x='60' y='70' font-size='16' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E냉장·간식%3C/text%3E%3C/svg%3E", note: "냉장 해동 후 바로 먹는 가성비 디저트. 솔티드카라멜, 피스타치오, 바닐라 등 호텔 야식용." }
+      // ── 4. Snacks & Sweets ──
+      { id: "tj-s1", cat: "Snacks", tag: "귀국선물", name: "다크 초콜릿 피넛버터 컵 16oz (PB Cups)", price: "$4.49", priceNum: 4.49, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '피넛버터컵'), note: "트레이더 조 부동의 명예의 전당 1위. 묵직한 다크초코 속 짭조름한 땅콩버터." },
+      { id: "tj-s2", cat: "Snacks", tag: "귀국선물", name: "갈릭 버터 아이리시 감자칩 (Irish Chips)", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '감자칩 1위'), note: "2026 스낵 부문 1위. 아일랜드 감자로 튀긴 바삭한 케틀칩에 풍부한 마늘 버터." },
+      { id: "tj-s3", cat: "Snacks", tag: "귀국선물", name: "칠리 & 라임 롤드 콘 토티야 칩", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '칠리라임'), note: "명예의 전당 입성 스낵. 타키스 스타일의 강렬한 매콤새콤 단짠 옥수수칩." },
+      { id: "tj-s4", cat: "Snacks", tag: "귀국선물", name: "딸기 미니 모찌 구미 (Strawberry Gummies)", price: "$2.29", priceNum: 2.29, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★", img: tjImg('%23b6552f', '젤리'), note: "2026 히든 젬 선정. 쫄깃한 떡 식감과 상큼한 천연 딸기 과즙." },
+
+      // ── 5. Frozen & Fresh (현지 소비 권장) ──
+      { id: "tj-f1", cat: "Frozen", tag: "현지소비", name: "스팀 포크 & 진저 샤오롱바오 (Soup Dumplings)", price: "$3.49", priceNum: 3.49, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (육류 성분 및 냉동 미가공 식품 검역 대상)", star: "★★★", img: tjImg('%232563a8', '종합 1위'), note: "2026 고객 투표 종합 1위. 숙소 전자레인지 2분 조리 야식용(6개입)." },
+      { id: "tj-f2", cat: "Frozen", tag: "현지소비", name: "버터 치킨 & 바스마티 라이스 도시락", price: "$4.49", priceNum: 4.49, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (가금류 가공육 검역 대상)", star: "★★★", img: tjImg('%232563a8', '식사 1위'), note: "2026 식사 부문 1위. 인도식 버터 커리와 길쭉한 쌀밥의 든든한 1인분 간편식." },
+      { id: "tj-f3", cat: "Frozen", tag: "현지소비", name: "해시브라운 패티 10개입 (Hashbrowns)", price: "$2.79", priceNum: 2.79, customsStatus: "restricted", customsNote: "냉동 보관 필요 (미국 체류 중 조식용 소비 권장)", star: "★★★", img: tjImg('%232563a8', '아침 1위'), note: "2026 아침 부문 1위. 맥도날드 해시브라운 완벽 상위 호환 패티." },
+      { id: "tj-f4", cat: "Frozen", tag: "현지소비", name: "만다린 오렌지 치킨 (Orange Chicken)", price: "$4.99", priceNum: 4.99, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (육류 가공품 검역 대상)", star: "★★★", img: tjImg('%232563a8', '오렌지치킨'), note: "명예의 전당 헌액 치킨. 바삭하게 구워 새콤달콤 소스에 버무리는 미국식 중화요리." },
+      { id: "tj-f5", cat: "Frozen", tag: "현지소비", name: "서블라임 아이스크림 샌드위치 4개입", price: "$4.99", priceNum: 4.99, customsStatus: "restricted", customsNote: "냉동 보관 필수 (체류 중 디저트 소비)", star: "★★★", img: tjImg('%232563a8', '디저트 1위'), note: "2026 디저트 부문 1위. 두툼한 초코칩 쿠키 사이에 바닐라 아이스크림 샌드." },
+
+      // ── 6. Alcohol (주류) ──
+      { id: "tj-a1", cat: "Alcohol", tag: "귀국선물", name: "트레이더 조 나파밸리 리저브 와인 (Napa Reserve)", price: "$18.00", priceNum: 18.00, customsStatus: "restricted", customsNote: "주류 면세 한도 적용 (1인 2병, 합산 2L 및 $400 이하)", star: "★★★", img: tjImg('%237209b7', '나파와인'), note: "나파밸리 유명 빈야드와 독점 협업한 18달러 극가성비 프리미엄 까베르네 소비뇽." }
     ];
 
     var activeFilter = 'all';
@@ -6337,6 +6389,16 @@
       });
     }
 
+    // 필터/검색 시 목록을 innerHTML로 다시 그리기 때문에, 선택 상태를 DOM이 아니라
+    // id Set에 보관해야 탭을 옮겨도 장바구니가 유지된다.
+    var selectedIds = {};
+
+    var CUSTOMS_LABEL = {
+      safe: '✓ 통관 안전',
+      banned: '🚫 반입 금지',
+      restricted: '⚠️ 규제/주의'
+    };
+
     function renderItems(data) {
       if (!data.length) {
         listContainer.innerHTML = '<div class="tj-empty">일치하는 아이템이 없습니다.</div>';
@@ -6344,17 +6406,20 @@
       }
       listContainer.innerHTML = data.map(function (item) {
         var isRoomTemp = item.tag === '귀국선물';
+        var status = item.customsStatus || 'safe';
         return (
           '<div class="tj-item-row">' +
-            '<input type="checkbox" class="tj-item-checkbox" data-tj-check>' +
-            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="tj-item-img" loading="lazy" onerror="this.onerror=null;this.src=\'' + TJ_FALLBACK_IMG + '\';">' +
+            '<input type="checkbox" class="tj-item-checkbox" data-tj-check data-tj-id="' + item.id + '"' + (selectedIds[item.id] ? ' checked' : '') + '>' +
+            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="tj-item-img" onerror="this.onerror=null;this.src=\'' + TJ_FALLBACK_IMG + '\';">' +
             '<div class="tj-item-body">' +
               '<div class="tj-item-top">' +
-                '<span class="tj-item-tag ' + (isRoomTemp ? 'tj-tag-room' : 'tj-tag-cold') + '">' + (isRoomTemp ? '상온' : '냉장/냉동') + '</span>' +
+                '<span class="tj-item-tag ' + (isRoomTemp ? 'tj-tag-room' : 'tj-tag-cold') + '">' + escapeHtml(item.tag) + '</span>' +
+                '<span class="tj-customs-badge tj-customs-' + status + '">' + CUSTOMS_LABEL[status] + '</span>' +
                 '<span class="tj-item-name">' + escapeHtml(item.name) + '</span>' +
                 '<span class="tj-item-star">' + item.star + '</span>' +
               '</div>' +
               '<p class="tj-item-note">' + escapeHtml(item.note) + '</p>' +
+              '<p class="tj-item-customs-note tj-customs-note-' + status + '">' + escapeHtml(item.customsNote) + '</p>' +
             '</div>' +
             '<div class="tj-item-price">' + escapeHtml(item.price) + '</div>' +
           '</div>'
@@ -6365,12 +6430,14 @@
     function applyFilters() {
       var query = (searchInput.value || '').toLowerCase();
       var result = tjMasterData;
-      if (activeFilter === '귀국선물') result = result.filter(function (i) { return i.tag === '귀국선물'; });
-      else if (activeFilter === '현지단백질') result = result.filter(function (i) { return i.tag === '현지단백질'; });
-      else if (activeFilter !== 'all') result = result.filter(function (i) { return i.cat === activeFilter; });
+      if (activeFilter === 'banned') {
+        result = result.filter(function (i) { return i.customsStatus === 'banned' || i.customsStatus === 'restricted'; });
+      } else if (activeFilter !== 'all') {
+        result = result.filter(function (i) { return i.cat === activeFilter; });
+      }
       if (query) {
         result = result.filter(function (i) {
-          return i.name.toLowerCase().indexOf(query) !== -1 || i.note.toLowerCase().indexOf(query) !== -1;
+          return (i.name + ' ' + i.note + ' ' + i.customsNote).toLowerCase().indexOf(query) !== -1;
         });
       }
       renderItems(result);
@@ -6378,8 +6445,19 @@
     }
 
     function updateCheckedCount() {
-      var count = listContainer.querySelectorAll('[data-tj-check]:checked').length;
-      checkedCountEl.textContent = count + '개 선택됨';
+      var picked = tjMasterData.filter(function (i) { return selectedIds[i.id]; });
+      checkedCountEl.textContent = picked.length + '개 선택됨';
+
+      var sum = picked.reduce(function (acc, i) { return acc + (i.priceNum || 0); }, 0);
+      if (sumEl) {
+        sumEl.textContent = '$' + sum.toFixed(2);
+        var limit = parseFloat(budgetInput && budgetInput.value);
+        sumEl.classList.toggle('tj-budget-over', !isNaN(limit) && sum > limit);
+      }
+      if (customsAlertEl) {
+        var hasBanned = picked.some(function (i) { return i.customsStatus === 'banned'; });
+        customsAlertEl.classList.toggle('show', hasBanned);
+      }
     }
 
     function openModal() {
@@ -6429,8 +6507,14 @@
     if (searchInput) searchInput.addEventListener('input', applyFilters);
 
     listContainer.addEventListener('change', function (e) {
-      if (e.target.matches('[data-tj-check]')) updateCheckedCount();
+      if (!e.target.matches('[data-tj-check]')) return;
+      var id = e.target.getAttribute('data-tj-id');
+      if (e.target.checked) selectedIds[id] = true;
+      else delete selectedIds[id];
+      updateCheckedCount();
     });
+
+    if (budgetInput) budgetInput.addEventListener('input', updateCheckedCount);
   })();
 
   /* ==========================================================
