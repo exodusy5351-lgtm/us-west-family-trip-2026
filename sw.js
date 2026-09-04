@@ -3,7 +3,7 @@
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
 // 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-20260904g";
+const CACHE_NAME = "uswest-trip-2026-20260905";
 const APP_SHELL = [
   "./",
   "./index.html",

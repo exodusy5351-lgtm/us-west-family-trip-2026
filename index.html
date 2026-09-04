@@ -314,7 +314,9 @@
   [data-view="family"] #tab-reservations .cards .card .detail-sensitive,
   [data-view="family"] #tab-budget .expense-entry-card,
   [data-view="family"] #tab-budget .budget-metric-card,
-  [data-view="family"] #tab-budget #budget-live{
+  [data-view="family"] #tab-budget #budget-live,
+  [data-view="family"] #floatingWhiskeyBtn,
+  [data-view="family"] .whiskey-trigger-btn{
     display:none !important;
   }
   /* .detail-sensitive: 예약카드 detail 텍스트 내 예약번호/결제수단 등 실무정보만 부분 숨김
@@ -1583,6 +1585,134 @@
     0%, 100% { border-color: var(--line); box-shadow: none; }
     50% { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.35); }
   }
+
+  /* ===== 프리미엄 버번/라이 위스키 헌팅 가이드 모달 (4일차 Total Wine) ===== */
+  .wk-modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 30, 40, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1150;
+  }
+  .wk-modal-backdrop.open { display: block; }
+  .wk-modal {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 24px);
+    max-width: 720px;
+    max-height: 88vh;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    z-index: 1200;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  .wk-modal.open { display: flex; }
+  .wk-modal-head {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 184, 77, 0.08);
+    flex-shrink: 0;
+  }
+  .wk-modal-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .wk-modal-title-row h3 { font-size: 15.5px; line-height: 1.3; margin: 0; }
+  .wk-modal-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .wk-banner {
+    margin: 12px 18px 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(255, 184, 77, 0.08);
+    border: 1px solid rgba(255, 184, 77, 0.3);
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .wk-banner b { color: var(--gold-text); }
+  .wk-banner .wk-combo { margin-top: 4px; padding-left: 2px; }
+
+  .wk-filter-bar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin: 10px 18px 0; flex-shrink: 0; }
+  .wk-tab-row { display:flex; flex-wrap:wrap; gap:6px; }
+  .wk-tab { font-size:11px; font-weight:700; padding:6px 11px; border-radius:14px; background:var(--card-2); border:1px solid var(--line); color:var(--muted); cursor:pointer; white-space:nowrap; }
+  .wk-tab.active { background: rgba(255,184,77,.18); border-color: var(--gold); color: var(--gold-text); }
+  .wk-search-input { font-size:12px; padding:7px 12px; border-radius:14px; background:var(--card-2); border:1px solid var(--line); color:var(--text); width:150px; flex-shrink:0; outline:none; }
+  .wk-search-input:focus { border-color: var(--teal); }
+  .wk-search-input::placeholder { color: var(--muted-2); }
+
+  .wk-list-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .wk-empty { text-align:center; padding: 30px 10px; color: var(--muted); font-size: 12.5px; }
+
+  .wk-card {
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--wk-accent, var(--line));
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .wk-card[data-tier="1"] { --wk-accent: #e63946; }
+  .wk-card[data-tier="2"] { --wk-accent: #2a9d8f; }
+  .wk-card[data-tier="3"] { --wk-accent: #8a8a8a; }
+
+  .wk-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom: 8px; }
+  .wk-card-title-wrap { display:flex; align-items:center; gap:8px; }
+  .wk-card-icon { font-size: 21px; flex-shrink:0; }
+  .wk-card-name { font-size: 13.5px; font-weight:700; color: var(--text); }
+  .wk-card-name-en { font-size: 10.5px; color: var(--muted-2); font-family:'JetBrains Mono',monospace; margin-top:1px; }
+  .wk-tier-badge {
+    font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;
+    background: color-mix(in srgb, var(--wk-accent, var(--coral)) 18%, transparent);
+    color: var(--wk-accent, var(--coral-text));
+    border: 1px solid color-mix(in srgb, var(--wk-accent, var(--coral)) 45%, transparent);
+    white-space: nowrap; flex-shrink:0;
+  }
+
+  .wk-buy-badge {
+    display:flex; align-items:center; gap:6px; flex-wrap: wrap;
+    font-size: 12px; font-weight:700; color: #fff;
+    background: linear-gradient(135deg, var(--wk-accent, var(--coral)), color-mix(in srgb, var(--wk-accent, var(--coral)) 60%, #000));
+    padding: 7px 11px; border-radius:8px; margin-bottom:9px;
+  }
+  .wk-buy-badge .wk-buy-sub { font-weight:500; font-size:10.5px; opacity:.9; }
+
+  .wk-price-compare { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+  .wk-price-box { flex:1; min-width:120px; background: rgba(255,255,255,.04); border-radius:8px; padding:7px 10px; }
+  .wk-price-box .wk-price-label { font-size:10px; color:var(--muted-2); margin-bottom:2px; }
+  .wk-price-box .wk-price-val { font-size:12px; font-weight:700; color:var(--text); font-family:'JetBrains Mono',monospace; }
+  .wk-savings-tag {
+    display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:700;
+    color: var(--green-text); background: rgba(0,255,159,.1); border:1px solid var(--green);
+    padding:4px 9px; border-radius:8px; margin-bottom:8px;
+  }
+
+  .wk-meta-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+  .wk-meta-chip { font-size:10px; font-weight:600; padding:2px 8px; border-radius:6px; background: rgba(0,136,255,.1); color: var(--teal-text); border:1px solid rgba(0,136,255,.25); }
+  .wk-meta-chip.wk-rarity-high { background: rgba(230,57,70,.1); color:#e63946; border-color: rgba(230,57,70,.3); }
+
+  .wk-notes { font-size: 11.5px; line-height:1.5; color: var(--muted); margin-bottom:6px; }
+  .wk-notes b { color: var(--text); }
+  .wk-tip-box {
+    background: rgba(255,255,255,.04); border-left:3px solid var(--wk-accent, var(--gold));
+    border-radius:0 8px 8px 0; padding:8px 10px; font-size:11px; color:var(--muted); line-height:1.45;
+  }
+  .wk-tip-box b { color: var(--wk-accent, var(--gold-text)); }
+
+  .wk-modal-footer { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-top:1px solid var(--line); background:var(--card-2); flex-shrink:0; font-size:11.5px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -2546,7 +2676,7 @@
 
           <div class="sched-block">
             <div class="sched-time">🥃 09:10–09:30</div>
-            <div class="sched-title">[위스키 쇼핑] Total Wine Town Square South <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Total+Wine+%26+More+6885+S+Las+Vegas+Blvd+NV" target="_blank" rel="noopener noreferrer">📍 Total Wine Town Square</a></div>
+            <div class="sched-title">[위스키 쇼핑] Total Wine Town Square South <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Total+Wine+%26+More+6885+S+Las+Vegas+Blvd+NV" target="_blank" rel="noopener noreferrer">📍 Total Wine Town Square</a> <button type="button" class="inline-btn-badge whiskey-trigger-btn">🥃 위스키 픽</button></div>
             <div class="sched-note">I-15 S 고속도로 진입로 위치 · 오늘 밤 사막 바비큐 &amp; 자쿠지용 버번 위스키 빠르게 구매 (20분 컷)</div>
           </div>
 
@@ -4757,6 +4887,44 @@
   </div>
 </div>
 
+<!-- 프리미엄 버번/라이 위스키 헌팅 가이드 모달 (4일차 Total Wine) -->
+<div id="whiskeyModalBackdrop" class="wk-modal-backdrop"></div>
+<div id="whiskeyModal" class="wk-modal" role="dialog" aria-modal="true" aria-labelledby="whiskeyModalTitle">
+  <div class="wk-modal-head">
+    <div class="wk-modal-title-row">
+      <div>
+        <h3 id="whiskeyModalTitle">🥃 프리미엄 버번/라이 위스키 헌팅 가이드 (8선)</h3>
+        <div class="wk-modal-sub">무조건 사야 할 가격대 &amp; 국내 대비 절감 차익 비교</div>
+      </div>
+      <button type="button" id="whiskeyCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+    </div>
+  </div>
+
+  <div class="wk-banner">
+    ⚠️ <b>면세 규정:</b> 1인당 2병 (합산 2L &amp; 미화 $400 이하)
+    <div class="wk-combo">🎯 <b>최적 2병 추천</b></div>
+    <div class="wk-combo">· <b>[조합 A · 버번 끝판왕]</b> 스태그($180) + 포로지스 SBBS($105) = <b>$285</b> (국내 대비 약 40만원 절감)</div>
+    <div class="wk-combo">· <b>[조합 B · 버번 &amp; 라이 밸런스]</b> 믹터스 BS 라이($180) + 올드 포레스터 1920($60) = <b>$240</b> (국내 대비 약 22만원 절감)</div>
+  </div>
+
+  <div class="wk-filter-bar">
+    <div class="wk-tab-row" id="wkTabRow">
+      <button type="button" class="wk-tab active" data-wk-filter="all">전체보기</button>
+      <button type="button" class="wk-tab" data-wk-filter="value">가성비 차익순</button>
+      <button type="button" class="wk-tab" data-wk-filter="rarity">국내 희소성순</button>
+      <button type="button" class="wk-tab" data-wk-filter="under200">$200 이하 정가템</button>
+    </div>
+    <input type="text" id="wkSearchInput" class="wk-search-input" placeholder="이름/키워드 검색...">
+  </div>
+
+  <div class="wk-list-container" id="wkListContainer"></div>
+
+  <div class="wk-modal-footer">
+    <span>총 8종 · 4일차 Total Wine 헌팅 가이드</span>
+    <button type="button" id="whiskeyFooterCloseBtn" class="section-action-btn">닫기</button>
+  </div>
+</div>
+
 <!-- 짐싸기 기기 소유자 선택 - 가족 확인용 PIN 모달 (보안 목적 아님, 무작위 방문자 오선택 방지용) -->
 <div id="pinModalBackdrop" class="calc-modal-backdrop"></div>
 <div id="pinModal" class="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pinModalTitle">
@@ -6782,6 +6950,227 @@
   })();
 
   /* ==========================================================
+     [4-0k] 프리미엄 버번/라이 위스키 헌팅 가이드 모달 (4일차 Total Wine)
+     - 이미 보유 중인 이글레어/ECBP/SBBP, 배럴 시그래스는 제외하고 상위 체급만 선별
+     - 가족모드에서는 진입 버튼(FAB/인라인)이 CSS로 숨겨진다
+  ========================================================== */
+  window.TRIP_DATA = window.TRIP_DATA || {};
+  window.TRIP_DATA.whiskeyPicks = [
+    {
+      id: 'wk-stagg', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
+      name: '스태그 (Stagg)', nameEn: 'Stagg (구 Stagg Jr.)',
+      buyMaxUsd: 200, buyMaxLabel: '$200 이하 무조건 매입', buyRecommended: '$150~$180',
+      usPriceRange: '$160 ~ $240', krPriceRange: '45만 ~ 55만 원',
+      savingsRange: '약 25만 ~ 30만 원', savingsPct: '50~55%', savingsMaxKrw: 300000,
+      rarity: '높음 (프리미엄 상시화)', rarityScore: 2,
+      spec: '배럴 프루프 (약 60~65% ABV)',
+      notes: '체리 폭탄, 진한 다크 초콜릿, 묵직한 오크 탄닌 (이글레어 상위 체급)',
+      tip: '로컬 리쿼샵 카운터 뒤/유리장 세컨더리 코너. $200 미만 발견 즉시 픽.'
+    },
+    {
+      id: 'wk-eht-bp', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
+      name: 'E.H. 테일러 배럴 프루프', nameEn: 'E.H. Taylor Barrel Proof',
+      buyMaxUsd: 320, buyMaxLabel: '$320 이하 무조건 매입', buyRecommended: '$250~$300',
+      usPriceRange: '$280 ~ $350', krPriceRange: '65만 ~ 75만 원',
+      savingsRange: '약 25만 ~ 35만 원', savingsPct: '40~45%', savingsMaxKrw: 350000,
+      rarity: '극악 (국내 매물 사실상 전무)', rarityScore: 4,
+      spec: '배럴 프루프 (약 63~67% ABV)',
+      notes: '버팔로 트레이스 최상위 무희석 원액. 농밀한 건과일 단맛과 드라이한 오크 피니시.',
+      tip: '잠금 유리장 전용. 국내 매물이 없으므로 $320 선까지 예산 허용.'
+    },
+    {
+      id: 'wk-fr-sbbs', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🥃',
+      name: '포 로지스 싱글 배럴 배럴 스트랭스 스토어 픽', nameEn: 'Four Roses Single Barrel Barrel Strength Store Pick',
+      buyMaxUsd: 110, buyMaxLabel: '$110 이하 무조건 매입', buyRecommended: '$95~$105',
+      usPriceRange: '$95 ~ $120', krPriceRange: '26만 ~ 30만 원',
+      savingsRange: '약 13만 ~ 16만 원', savingsPct: '45~50%', savingsMaxKrw: 160000,
+      rarity: '매우 높음 (국내는 50도 정규품만 유통, BS 스토어픽 미수입)', rarityScore: 3,
+      spec: '배럴 스트랭스 (약 55~62% ABV)',
+      notes: '10가지 레시피 중 1종 손글씨 기재. 화사한 꽃향기와 민트 스파이스 폭발.',
+      tip: 'Total Wine 등 대형 체인 Store Pick 전용 코너. 정가 득템 가능.'
+    },
+    {
+      id: 'wk-michters-rye', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🌾',
+      name: '믹터스 US*1 배럴 스트랭스 라이', nameEn: "Michter's US*1 Barrel Strength Rye",
+      buyMaxUsd: 190, buyMaxLabel: '$190 이하 무조건 매입', buyRecommended: '$150~$180',
+      usPriceRange: '$160 ~ $220', krPriceRange: '38만 ~ 43만 원',
+      savingsRange: '약 12만 ~ 16만 원', savingsPct: '30~37%', savingsMaxKrw: 160000,
+      rarity: '높음 (극소량 배정으로 스마트오더 즉시 품절)', rarityScore: 2,
+      spec: '배럴 스트랭스 (약 54~58% ABV)',
+      notes: '버터스카치, 구운 마시멜로, 핵과류 뒤로 이어지는 섬세한 호밀 향. 시그래스 상위 호환.',
+      tip: '프리미엄 렉 확인. $190 언더 확인 시 라이 1순위.'
+    },
+    {
+      id: 'wk-magnus-cigar', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🥃',
+      name: '조셉 매그너스 시가 블렌드', nameEn: 'Joseph Magnus Cigar Blend',
+      buyMaxUsd: 210, buyMaxLabel: '$210 이하 무조건 매입', buyRecommended: '$180~$200',
+      usPriceRange: '$180 ~ $230', krPriceRange: '45만 ~ 50만 원',
+      savingsRange: '약 18만 ~ 23만 원', savingsPct: '40~45%', savingsMaxKrw: 230000,
+      rarity: '극악 (국내 정식 미수입)', rarityScore: 4,
+      spec: '마감 숙성 버번 (약 50~53% ABV)',
+      notes: '아르마냑, 셰리, 코냑 3중 캐스크 피니시. 건자두, 무화과, 묵직한 타바코 뉘앙스.',
+      tip: '현지 시세 MSRP 안정화. 일반 리쿼샵 정가 발견 시 매입.'
+    },
+    {
+      id: 'wk-calumet-16', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
+      name: '칼루멧 16년', nameEn: 'Calumet Farm 16 Year Old',
+      buyMaxUsd: 165, buyMaxLabel: '$165 이하 무조건 매입', buyRecommended: '$150~$160',
+      usPriceRange: '$150 ~ $170', krPriceRange: '40만 ~ 45만 원',
+      savingsRange: '약 18만 ~ 22만 원', savingsPct: '45~50%', savingsMaxKrw: 220000,
+      rarity: '보통', rarityScore: 1,
+      spec: '16년 고숙성 버번 (53% ABV / 106 Proof)',
+      notes: '16년 오크 탄닌, 체리 시럽, 오래된 가죽과 시가 박스의 중후한 맛.',
+      tip: '대형 리쿼샵 일반 선반 상시 진열. 발품 없이 정가 구매 가능.'
+    },
+    {
+      id: 'wk-of-1920', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
+      name: '올드 포레스터 1920 프로히비션', nameEn: 'Old Forester 1920 Prohibition Style',
+      buyMaxUsd: 65, buyMaxLabel: '$65 이하 무조건 매입', buyRecommended: '$55~$60',
+      usPriceRange: '$55 ~ $65', krPriceRange: '15만 ~ 16만 원',
+      savingsRange: '약 7만 ~ 8만 원', savingsPct: '47~50%', savingsMaxKrw: 80000,
+      rarity: '보통 (정식 미수입이나 직구 가능)', rarityScore: 1,
+      spec: '하이프루프 버번 (57.5% ABV / 115 Proof)',
+      notes: '졸인 바나나, 다크 초콜릿, 흑설탕 뉘앙스. 실패 없는 $60대 최강 데일리.',
+      tip: 'Total Wine / BevMo 선반 상시 재고. 실패 없는 실속형 픽.'
+    },
+    {
+      id: 'wk-russells-rye', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🌾',
+      name: '러셀스 리저브 싱글배럴 라이 스토어 픽', nameEn: "Russell's Reserve Single Barrel Rye Store Pick",
+      buyMaxUsd: 85, buyMaxLabel: '$85 이하 무조건 매입', buyRecommended: '$75~$80',
+      usPriceRange: '$75 ~ $90', krPriceRange: '18만 ~ 20만 원',
+      savingsRange: '약 8만 ~ 9만 원', savingsPct: '40~45%', savingsMaxKrw: 90000,
+      rarity: '매우 높음 (버번 싱배와 달리 라이 스토어픽은 전무)', rarityScore: 3,
+      spec: '싱글 배럴 라이 (52% ABV / 104 Proof)',
+      notes: '강렬한 민트, 통후추, 버번 카라멜의 조화로운 밸런스.',
+      tip: '초록색 라벨(Rye)과 스토어픽 목택(Neck Tag) 확인 필수.'
+    }
+  ];
+
+  (function initWhiskeyModal() {
+    var backdrop = document.getElementById('whiskeyModalBackdrop');
+    var modal = document.getElementById('whiskeyModal');
+    var closeBtn = document.getElementById('whiskeyCloseBtn');
+    var footerCloseBtn = document.getElementById('whiskeyFooterCloseBtn');
+    var listContainer = document.getElementById('wkListContainer');
+    var tabRow = document.getElementById('wkTabRow');
+    var searchInput = document.getElementById('wkSearchInput');
+    if (!modal || !backdrop || !listContainer) return;
+
+    var PICKS = window.TRIP_DATA.whiskeyPicks;
+    var activeFilter = 'all';
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function renderItems(data) {
+      if (!data.length) {
+        listContainer.innerHTML = '<div class="wk-empty">일치하는 위스키가 없습니다.</div>';
+        return;
+      }
+      listContainer.innerHTML = data.map(function (item) {
+        return (
+          '<div class="wk-card" data-tier="' + item.tier + '">' +
+            '<div class="wk-card-top">' +
+              '<div class="wk-card-title-wrap">' +
+                '<span class="wk-card-icon">' + item.icon + '</span>' +
+                '<div>' +
+                  '<div class="wk-card-name">' + escapeHtml(item.name) + '</div>' +
+                  '<div class="wk-card-name-en">' + escapeHtml(item.nameEn) + '</div>' +
+                '</div>' +
+              '</div>' +
+              '<span class="wk-tier-badge">' + escapeHtml(item.tierLabel) + '</span>' +
+            '</div>' +
+            '<div class="wk-buy-badge">🎯 ' + escapeHtml(item.buyMaxLabel) +
+              '<span class="wk-buy-sub">권장 ' + escapeHtml(item.buyRecommended) + '</span>' +
+            '</div>' +
+            '<div class="wk-price-compare">' +
+              '<div class="wk-price-box"><div class="wk-price-label">🇺🇸 미국 유통가</div><div class="wk-price-val">' + escapeHtml(item.usPriceRange) + '</div></div>' +
+              '<div class="wk-price-box"><div class="wk-price-label">🇰🇷 국내 실거래가</div><div class="wk-price-val">' + escapeHtml(item.krPriceRange) + '</div></div>' +
+            '</div>' +
+            '<div class="wk-savings-tag">💰 ' + escapeHtml(item.savingsRange) + ' 절감 (절감율 ' + escapeHtml(item.savingsPct) + ')</div>' +
+            '<div class="wk-meta-row">' +
+              '<span class="wk-meta-chip">' + escapeHtml(item.spec) + '</span>' +
+              '<span class="wk-meta-chip' + (item.rarityScore >= 3 ? ' wk-rarity-high' : '') + '">입수난이도: ' + escapeHtml(item.rarity) + '</span>' +
+            '</div>' +
+            '<p class="wk-notes"><b>특징:</b> ' + escapeHtml(item.notes) + '</p>' +
+            '<div class="wk-tip-box"><b>현장 팁:</b> ' + escapeHtml(item.tip) + '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    function applyFilters() {
+      var query = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase();
+      var result = PICKS.slice();
+      if (activeFilter === 'under200') {
+        result = result.filter(function (i) { return i.buyMaxUsd <= 200; });
+        result.sort(function (a, b) { return a.buyMaxUsd - b.buyMaxUsd; });
+      } else if (activeFilter === 'value') {
+        result.sort(function (a, b) { return b.savingsMaxKrw - a.savingsMaxKrw; });
+      } else if (activeFilter === 'rarity') {
+        result.sort(function (a, b) { return b.rarityScore - a.rarityScore; });
+      }
+      if (query) {
+        result = result.filter(function (i) {
+          return (i.name + ' ' + i.nameEn + ' ' + i.notes + ' ' + i.tip + ' ' + i.spec).toLowerCase().indexOf(query) !== -1;
+        });
+      }
+      renderItems(result);
+    }
+
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      applyFilters();
+      if (window.pushModalNavState) window.pushModalNavState();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#floatingWhiskeyBtn, .whiskey-trigger-btn')) openModal();
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
+
+    if (tabRow) {
+      tabRow.querySelectorAll('.wk-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabRow.querySelectorAll('.wk-tab').forEach(function (t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+          activeFilter = tab.getAttribute('data-wk-filter');
+          if (window.triggerHaptic) window.triggerHaptic('light');
+          applyFilters();
+        });
+      });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+  })();
+
+  /* ==========================================================
      짐싸기 기기 소유자 선택 - 가족 확인용 PIN 게이트
      - FAMILY_PIN(FIREBASE_CONFIG 근처 선언)은 보안 목적이 아니라
        무작위 방문자의 오선택을 막기 위한 용도
@@ -6888,7 +7277,7 @@
         return;
       }
       // 서브메뉴 아이템(계산기/테마파크 가이드/오프라인 맵/맛집 도장) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
-      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn, #floatingFranchiseBtn')) {
+      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn, #floatingFranchiseBtn, #floatingWhiskeyBtn')) {
         setOpen(false);
         return;
       }
@@ -7102,6 +7491,11 @@
   <button type="button" id="floatingFranchiseBtn" class="floating-calc-btn" aria-label="미국 프랜차이즈 도장깨기 열기">
     <span class="fab-icon">🍔</span>
     <span class="fab-label">맛집 도장</span>
+  </button>
+
+  <button type="button" id="floatingWhiskeyBtn" class="floating-calc-btn" aria-label="위스키 헌팅 가이드 열기">
+    <span class="fab-icon">🥃</span>
+    <span class="fab-label">위스키 가이드</span>
   </button>
 
   <button type="button" id="themeToggleBtn" class="floating-calc-btn" aria-label="라이트/다크 모드 전환">
