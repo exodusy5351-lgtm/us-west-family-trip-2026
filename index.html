@@ -314,9 +314,7 @@
   [data-view="family"] #tab-reservations .cards .card .detail-sensitive,
   [data-view="family"] #tab-budget .expense-entry-card,
   [data-view="family"] #tab-budget .budget-metric-card,
-  [data-view="family"] #tab-budget #budget-live,
-  [data-view="family"] #floatingWhiskeyBtn,
-  [data-view="family"] .whiskey-trigger-btn{
+  [data-view="family"] #tab-budget #budget-live{
     display:none !important;
   }
   /* .detail-sensitive: 예약카드 detail 텍스트 내 예약번호/결제수단 등 실무정보만 부분 숨김
@@ -7066,7 +7064,7 @@
   /* ==========================================================
      [4-0k] 프리미엄 버번/라이 위스키 헌팅 가이드 모달 (4일차 Total Wine)
      - 이미 보유 중인 이글레어/ECBP/SBBP, 배럴 시그래스는 제외하고 상위 체급만 선별
-     - 가족모드에서는 진입 버튼(FAB/인라인)이 CSS로 숨겨진다
+     - 가족모드/기획자모드 양쪽에서 모두 노출된다 (FAB + 4일차 인라인 버튼)
   ========================================================== */
   window.TRIP_DATA = window.TRIP_DATA || {};
   // 병 썸네일은 인라인 SVG로 생성한다 — 증류소 공식 이미지는 핫링크가 막혀 있고(전부 404),
