@@ -6819,7 +6819,7 @@
       var verified = false;
       try { verified = localStorage.getItem(PIN_VERIFIED_KEY) === 'true'; } catch (e) {}
       if (verified) {
-        onVerified();
+        if (onVerified) onVerified(); // 콜백 없이(예: 전체선택/초기화 버튼) 호출되는 경우 대비
         return;
       }
       pendingCallback = onVerified;
