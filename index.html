@@ -1831,10 +1831,13 @@
               localState[id] = true;
               localChanged = true;
               if (r.client !== CLIENT_ID) arrivedFrom.push(r.by || '가족');
-            } else if (localState[id] && !(r && r.v)) {
-              // 이 기기에만 있는 체크 → 최초 연결/재연결 시 클라우드로 업로드해 병합
-              ref.child(id).set({ v: true, by: getOwner() || '가족', client: CLIENT_ID, ts: firebase.database.ServerValue.TIMESTAMP });
             }
+            // 참고: 예전에는 "이 기기 로컬에만 체크가 있으면 서버로 재업로드" 하는
+            // 병합 로직이 여기 있었으나, 페이지를 오래 열어둔(백그라운드) 기기가
+            // 자신의 낡은 로컬 캐시(true)를 계속 재업로드해 다른 기기의 초기화/해제를
+            // 되돌리는 버그의 원인이었다. 오프라인 중 실제로 발생한 변경은 push()가
+            // 호출한 firebase set() 자체가 SDK 차원에서 재연결 시 자동 재전송하므로,
+            // 이 수동 병합 로직 없이도 정상 동작한다.
           });
           if (localChanged) {
             saveLocal(localState);
@@ -2015,7 +2018,7 @@
           { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' }
         ];
 
-        var STORAGE_KEY = 'us_trip_todos_state_2026';
+        var STORAGE_KEY = 'us_trip_todos_state_2026_v2';
         var TODO_UNLOCK_KEY = 'us_trip_todos_unlocked';
         // 잠금 해제 상태를 sessionStorage에 함께 기록해, 탭 전환/새로고침에도
         // 같은 브라우저 세션 동안은 다시 PIN을 묻지 않도록 유지한다.
@@ -2146,7 +2149,7 @@
         document.addEventListener('DOMContentLoaded', function () {
           if (!window.TripSync) return;
           todosSync = window.TripSync.attach(
-            'todos',
+            'todos_v2',
             window.TRIP_DATA.todos.map(function (t) { return t.key; }),
             todoState,
             saveTodoState,
@@ -3946,8 +3949,8 @@
   }
 
   (function () {
-    var STORAGE_KEY = 'us_west_passport_stamps_2026';
-    var FC_STORAGE_KEY = 'us_trip_franchise_stamps_2026';
+    var STORAGE_KEY = 'us_west_passport_stamps_2026_v2';
+    var FC_STORAGE_KEY = 'us_trip_franchise_stamps_2026_v2';
     var confettiLayer = document.getElementById('questConfettiLayer');
     var dayIds = Object.keys(window.TRIP_DATA.dayQuests);
 
@@ -6590,8 +6593,8 @@
   };
 
   (function initFranchiseModal() {
-    var STORAGE_KEY = 'us_trip_franchise_stamps_2026';
-    var PASSPORT_STORAGE_KEY = 'us_west_passport_stamps_2026';
+    var STORAGE_KEY = 'us_trip_franchise_stamps_2026_v2';
+    var PASSPORT_STORAGE_KEY = 'us_west_passport_stamps_2026_v2';
     var backdrop = document.getElementById('fcModalBackdrop');
     var modal = document.getElementById('fcModal');
     var closeBtn = document.getElementById('fcCloseBtn');
