@@ -7156,17 +7156,38 @@
       if (toggleBtn) toggleBtn.setAttribute('aria-pressed', mode === 'family' ? 'true' : 'false');
     }
 
+    // 링크를 많은 사람에게 공유해둔 상태이므로, 기본값은 민감정보가 가려지는
+    // 가족모드(data-view="family")로 시작한다. 기획자모드(전체 금액·예약번호 노출)는
+    // 가족 PIN 인증을 거친 기기에서 직접 전환한 이력이 있을 때만 복원된다.
     var savedView = null;
     try { savedView = localStorage.getItem(VIEW_KEY); } catch (e) {}
-    applyView(savedView === 'family' ? 'family' : 'admin');
+    var isPinVerified = false;
+    try { isPinVerified = localStorage.getItem('us_trip_pin_verified') === 'true'; } catch (e) {}
+    applyView(savedView === 'admin' && isPinVerified ? 'admin' : 'family');
+
+    function switchTo(next) {
+      applyView(next);
+      try { localStorage.setItem(VIEW_KEY, next); } catch (e) {}
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
 
     if (toggleBtn) {
       toggleBtn.addEventListener('click', function () {
         var current = htmlEl.getAttribute('data-view') === 'family' ? 'family' : 'admin';
         var next = current === 'family' ? 'admin' : 'family';
-        applyView(next);
-        try { localStorage.setItem(VIEW_KEY, next); } catch (e) {}
-        if (window.triggerHaptic) window.triggerHaptic('light');
+        if (next === 'admin') {
+          var verified = false;
+          try { verified = localStorage.getItem('us_trip_pin_verified') === 'true'; } catch (e) {}
+          if (!verified) {
+            if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 기획자모드를 사용할 수 있습니다');
+            if (window.triggerHaptic) window.triggerHaptic('warning');
+            if (window.requestFamilyPin) {
+              window.requestFamilyPin('가족', function () { switchTo('admin'); });
+            }
+            return;
+          }
+        }
+        switchTo(next);
       });
     }
   })();
