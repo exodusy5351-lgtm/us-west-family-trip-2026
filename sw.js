@@ -3,7 +3,7 @@
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
 // 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-20260905d";
+const CACHE_NAME = "uswest-trip-2026-20260905e";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -41,14 +41,27 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  const sameOrigin = new URL(event.request.url).origin === self.location.origin;
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      const networkFetch = fetch(event.request)
+      // 백그라운드 재검증도 브라우저 HTTP 디스크 캐시를 우회해야 한다.
+      // 그냥 fetch(event.request)를 쓰면 디스크 캐시에 남아있던 예전 응답을
+      // 그대로 다시 캐시에 써넣기 때문에, 배포가 끝났는데도 새로고침할 때마다
+      // 옛 화면이 계속 되살아난다 (install 핸들러와 동일한 문제였음).
+      const revalidate = sameOrigin
+        ? fetch(event.request.url, { cache: "reload" })
+        : fetch(event.request);
+
+      const networkFetch = revalidate
         .then((networkResponse) => {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
+          // 404/500 같은 실패 응답을 캐시에 담아 고착시키지 않는다
+          if (sameOrigin && networkResponse && networkResponse.ok) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
           return networkResponse;
         })
         .catch(() => cachedResponse);
