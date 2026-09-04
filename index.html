@@ -1670,8 +1670,17 @@
   .wk-card[data-tier="3"] { --wk-accent: #8a8a8a; }
 
   .wk-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom: 8px; }
-  .wk-card-title-wrap { display:flex; align-items:center; gap:8px; }
-  .wk-card-icon { font-size: 21px; flex-shrink:0; }
+  .wk-card-title-wrap { display:flex; align-items:center; gap:10px; }
+  .wk-item-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 2px;
+    flex-shrink: 0;
+  }
   .wk-card-name { font-size: 13.5px; font-weight:700; color: var(--text); }
   .wk-card-name-en { font-size: 10.5px; color: var(--muted-2); font-family:'JetBrains Mono',monospace; margin-top:1px; }
   .wk-tier-badge {
@@ -6955,94 +6964,114 @@
      - 가족모드에서는 진입 버튼(FAB/인라인)이 CSS로 숨겨진다
   ========================================================== */
   window.TRIP_DATA = window.TRIP_DATA || {};
+  // 병 썸네일은 인라인 SVG로 생성한다 — 증류소 공식 이미지는 핫링크가 막혀 있고(전부 404),
+  // 이 대시보드는 통신 음영 지역(모하비 사막/국립공원) 오프라인 사용이 전제라
+  // 외부 이미지는 어차피 로드되지 않는다. 코스트코/트레이더조 모달과 동일한 방식.
+  function WK_BOTTLE(color, label) {
+    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
+      "%3Crect width='120' height='120' rx='16' fill='%232b1d0c'/%3E" +
+      "%3Crect x='53' y='12' width='14' height='20' rx='3' fill='" + color + "'/%3E" +
+      "%3Crect x='42' y='30' width='36' height='54' rx='7' fill='" + color + "'/%3E" +
+      "%3Crect x='42' y='48' width='36' height='18' fill='%23f4e3c8'/%3E" +
+      "%3Ctext x='60' y='106' font-size='17' font-weight='700' fill='%23f4a261' text-anchor='middle' font-family='sans-serif'%3E" + label + "%3C/text%3E" +
+      "%3C/svg%3E";
+  }
   window.TRIP_DATA.whiskeyPicks = [
     {
       id: 'wk-stagg', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
-      name: '스태그 (Stagg)', nameEn: 'Stagg (구 Stagg Jr.)',
+      name: '스태그 (구 스태그 주니어)', nameEn: 'Stagg (Stagg Jr.)',
       buyMaxUsd: 200, buyMaxLabel: '$200 이하 무조건 매입', buyRecommended: '$150~$180',
-      usPriceRange: '$160 ~ $240', krPriceRange: '45만 ~ 55만 원',
-      savingsRange: '약 25만 ~ 30만 원', savingsPct: '50~55%', savingsMaxKrw: 300000,
-      rarity: '높음 (프리미엄 상시화)', rarityScore: 2,
+      usPriceRange: '$160 ~ $240 (MSRP $60~$70)', krPriceRange: '45만 ~ 55만 원',
+      savingsRange: '약 25만 ~ 30만 원', savingsPct: '50~55%', savingsNum: 275000,
+      rarity: '높음 (프리미엄 상시화)', rarityRank: 6, isUnder200: true,
       spec: '배럴 프루프 (약 60~65% ABV)',
-      notes: '체리 폭탄, 진한 다크 초콜릿, 묵직한 오크 탄닌 (이글레어 상위 체급)',
-      tip: '로컬 리쿼샵 카운터 뒤/유리장 세컨더리 코너. $200 미만 발견 즉시 픽.'
+      img: WK_BOTTLE('%23e63946', 'STAGG'),
+      notes: '체리 폭탄, 진한 다크 초콜릿, 묵직한 오크 탄닌. 이글레어와 같은 버팔로 매시빌#1이지만 완전히 다른 체급의 고도수 타격감.',
+      tip: '로컬 리쿼샵 카운터 뒤/유리장 세컨더리 코너 확인. $200 언더 확인 시 뒤도 돌아보지 말고 픽.'
     },
     {
       id: 'wk-eht-bp', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
       name: 'E.H. 테일러 배럴 프루프', nameEn: 'E.H. Taylor Barrel Proof',
       buyMaxUsd: 320, buyMaxLabel: '$320 이하 무조건 매입', buyRecommended: '$250~$300',
-      usPriceRange: '$280 ~ $350', krPriceRange: '65만 ~ 75만 원',
-      savingsRange: '약 25만 ~ 35만 원', savingsPct: '40~45%', savingsMaxKrw: 350000,
-      rarity: '극악 (국내 매물 사실상 전무)', rarityScore: 4,
+      usPriceRange: '$280 ~ $350 (MSRP $80~$90)', krPriceRange: '65만 ~ 75만 원',
+      savingsRange: '약 25만 ~ 35만 원', savingsPct: '40~45%', savingsNum: 300000,
+      rarity: '극악 (국내 매물 사실상 전무)', rarityRank: 1, isUnder200: false,
       spec: '배럴 프루프 (약 63~67% ABV)',
-      notes: '버팔로 트레이스 최상위 무희석 원액. 농밀한 건과일 단맛과 드라이한 오크 피니시.',
-      tip: '잠금 유리장 전용. 국내 매물이 없으므로 $320 선까지 예산 허용.'
+      img: WK_BOTTLE('%23e63946', 'EHT BP'),
+      notes: '버팔로 트레이스 최상위 원액 무희석 병입. 농밀한 건과일 단맛과 길고 드라이한 오크 피니시.',
+      tip: '잠금 유리장 보관품. 국내에서는 돈이 있어도 매물 자체가 없으므로 $300대 초반까지 예산 허용.'
     },
     {
-      id: 'wk-fr-sbbs', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🥃',
-      name: '포 로지스 싱글 배럴 배럴 스트랭스 스토어 픽', nameEn: 'Four Roses Single Barrel Barrel Strength Store Pick',
+      id: 'wk-fr-sbbs', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🥃',
+      name: '포로지스 싱글 배럴 배럴 스트랭스 (스토어 픽)', nameEn: 'Four Roses SBBS Private Selection',
       buyMaxUsd: 110, buyMaxLabel: '$110 이하 무조건 매입', buyRecommended: '$95~$105',
-      usPriceRange: '$95 ~ $120', krPriceRange: '26만 ~ 30만 원',
-      savingsRange: '약 13만 ~ 16만 원', savingsPct: '45~50%', savingsMaxKrw: 160000,
-      rarity: '매우 높음 (국내는 50도 정규품만 유통, BS 스토어픽 미수입)', rarityScore: 3,
+      usPriceRange: '$95 ~ $120 (MSRP $90~$100)', krPriceRange: '26만 ~ 30만 원 (비공식)',
+      savingsRange: '약 13만 ~ 16만 원', savingsPct: '45~50%', savingsNum: 145000,
+      rarity: '매우 높음 (국내는 50도 정규품만 유통, BS 스토어픽 미수입)', rarityRank: 3, isUnder200: true,
       spec: '배럴 스트랭스 (약 55~62% ABV)',
-      notes: '10가지 레시피 중 1종 손글씨 기재. 화사한 꽃향기와 민트 스파이스 폭발.',
-      tip: 'Total Wine 등 대형 체인 Store Pick 전용 코너. 정가 득템 가능.'
+      img: WK_BOTTLE('%232a9d8f', '4 ROSES'),
+      notes: '국내 50도 정규품과 달리 10개 레시피 중 1종을 배럴 스트랭스로 병입. 폭발적인 꽃향기와 민트 스파이스.',
+      tip: 'Total Wine 등 대형 체인 Store Pick 전용 코너. 라벨 측면 손글씨(레시피 코드/숙성연수) 확인 후 정가 득템.'
     },
     {
-      id: 'wk-michters-rye', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🌾',
+      id: 'wk-michters-rye', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🌾',
       name: '믹터스 US*1 배럴 스트랭스 라이', nameEn: "Michter's US*1 Barrel Strength Rye",
       buyMaxUsd: 190, buyMaxLabel: '$190 이하 무조건 매입', buyRecommended: '$150~$180',
-      usPriceRange: '$160 ~ $220', krPriceRange: '38만 ~ 43만 원',
-      savingsRange: '약 12만 ~ 16만 원', savingsPct: '30~37%', savingsMaxKrw: 160000,
-      rarity: '높음 (극소량 배정으로 스마트오더 즉시 품절)', rarityScore: 2,
-      spec: '배럴 스트랭스 (약 54~58% ABV)',
-      notes: '버터스카치, 구운 마시멜로, 핵과류 뒤로 이어지는 섬세한 호밀 향. 시그래스 상위 호환.',
-      tip: '프리미엄 렉 확인. $190 언더 확인 시 라이 1순위.'
+      usPriceRange: '$160 ~ $220 (MSRP $110~$120)', krPriceRange: '38만 ~ 43만 원',
+      savingsRange: '약 12만 ~ 16만 원', savingsPct: '30~37%', savingsNum: 140000,
+      rarity: '높음 (극소량 배정으로 스마트오더 즉시 품절)', rarityRank: 5, isUnder200: true,
+      spec: '배럴 스트랭스 라이 (약 54~58% ABV)',
+      img: WK_BOTTLE('%232a9d8f', 'MICHTERS'),
+      notes: '버터스카치, 구운 마시멜로, 복숭아 핵과류 뒤로 이어지는 섬세한 호밀 향. 배럴 시그래스를 압도하는 프리미엄 라이.',
+      tip: '프리미엄 위스키 렉 진열. $190 언더 확인 시 시그래스를 대체할 최고의 라이 바틀.'
     },
     {
-      id: 'wk-magnus-cigar', tier: 2, tierLabel: 'Tier 2 · 가성비/희소', icon: '🥃',
+      id: 'wk-magnus-cigar', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🥃',
       name: '조셉 매그너스 시가 블렌드', nameEn: 'Joseph Magnus Cigar Blend',
       buyMaxUsd: 210, buyMaxLabel: '$210 이하 무조건 매입', buyRecommended: '$180~$200',
-      usPriceRange: '$180 ~ $230', krPriceRange: '45만 ~ 50만 원',
-      savingsRange: '약 18만 ~ 23만 원', savingsPct: '40~45%', savingsMaxKrw: 230000,
-      rarity: '극악 (국내 정식 미수입)', rarityScore: 4,
+      usPriceRange: '$180 ~ $230 (MSRP $180~$200)', krPriceRange: '45만 ~ 50만 원',
+      savingsRange: '약 18만 ~ 23만 원', savingsPct: '40~45%', savingsNum: 205000,
+      rarity: '극악 (국내 정식 미수입)', rarityRank: 2, isUnder200: true,
       spec: '마감 숙성 버번 (약 50~53% ABV)',
-      notes: '아르마냑, 셰리, 코냑 3중 캐스크 피니시. 건자두, 무화과, 묵직한 타바코 뉘앙스.',
-      tip: '현지 시세 MSRP 안정화. 일반 리쿼샵 정가 발견 시 매입.'
+      img: WK_BOTTLE('%232a9d8f', 'MAGNUS'),
+      notes: '아르마냑, 셰리, 코냑 캐스크 3중 교차 피니시. 끈적한 건자두, 무화과, 타바코 뉘앙스의 묵직한 디저트 버번.',
+      tip: '현지 시세가 MSRP 수준으로 안정화됨. 일반 리쿼샵 정가($200 내외) 진열 발견 시 매입.'
     },
     {
       id: 'wk-calumet-16', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
       name: '칼루멧 16년', nameEn: 'Calumet Farm 16 Year Old',
       buyMaxUsd: 165, buyMaxLabel: '$165 이하 무조건 매입', buyRecommended: '$150~$160',
-      usPriceRange: '$150 ~ $170', krPriceRange: '40만 ~ 45만 원',
-      savingsRange: '약 18만 ~ 22만 원', savingsPct: '45~50%', savingsMaxKrw: 220000,
-      rarity: '보통', rarityScore: 1,
-      spec: '16년 고숙성 버번 (53% ABV / 106 Proof)',
-      notes: '16년 오크 탄닌, 체리 시럽, 오래된 가죽과 시가 박스의 중후한 맛.',
-      tip: '대형 리쿼샵 일반 선반 상시 진열. 발품 없이 정가 구매 가능.'
+      usPriceRange: '$150 ~ $170 (MSRP $150~$160)', krPriceRange: '40만 ~ 45만 원',
+      savingsRange: '약 18만 ~ 22만 원', savingsPct: '45~50%', savingsNum: 200000,
+      rarity: '보통', rarityRank: 7, isUnder200: true,
+      spec: '16년 고숙성 (53% ABV / 106 Proof)',
+      img: WK_BOTTLE('%23c9873f', 'CAL 16Y'),
+      notes: '16년 초고숙성 다크 오크 탄닌, 체리 시럽, 오래된 가죽과 시가 박스의 깊은 밸런스.',
+      tip: '대형 리쿼샵 일반 선반에 정가 진열이 흔함. 발품 없이 고숙성 버번을 챙기기에 제격.'
     },
     {
       id: 'wk-of-1920', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
       name: '올드 포레스터 1920 프로히비션', nameEn: 'Old Forester 1920 Prohibition Style',
       buyMaxUsd: 65, buyMaxLabel: '$65 이하 무조건 매입', buyRecommended: '$55~$60',
-      usPriceRange: '$55 ~ $65', krPriceRange: '15만 ~ 16만 원',
-      savingsRange: '약 7만 ~ 8만 원', savingsPct: '47~50%', savingsMaxKrw: 80000,
-      rarity: '보통 (정식 미수입이나 직구 가능)', rarityScore: 1,
+      usPriceRange: '$55 ~ $65 (MSRP $55~$60)', krPriceRange: '15만 ~ 16만 원',
+      savingsRange: '약 7만 ~ 8만 원', savingsPct: '47~50%', savingsNum: 75000,
+      rarity: '보통 (정식 미수입이나 직구 가능)', rarityRank: 8, isUnder200: true,
       spec: '하이프루프 버번 (57.5% ABV / 115 Proof)',
-      notes: '졸인 바나나, 다크 초콜릿, 흑설탕 뉘앙스. 실패 없는 $60대 최강 데일리.',
-      tip: 'Total Wine / BevMo 선반 상시 재고. 실패 없는 실속형 픽.'
+      img: WK_BOTTLE('%23c9873f', 'OF 1920'),
+      notes: '졸인 바나나 팬케이크, 다크 초콜릿, 흑설탕 뉘앙스. 실패 없는 $60대 최강 데일리 버번.',
+      tip: 'Total Wine / BevMo 선반 상시 재고. 발품 팔 필요 없이 장바구니에 바로 담기 좋음.'
     },
     {
       id: 'wk-russells-rye', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🌾',
-      name: '러셀스 리저브 싱글배럴 라이 스토어 픽', nameEn: "Russell's Reserve Single Barrel Rye Store Pick",
+      name: '러셀스 리저브 싱글배럴 라이 (스토어 픽)', nameEn: "Russell's Reserve Single Barrel Rye Store Pick",
       buyMaxUsd: 85, buyMaxLabel: '$85 이하 무조건 매입', buyRecommended: '$75~$80',
-      usPriceRange: '$75 ~ $90', krPriceRange: '18만 ~ 20만 원',
-      savingsRange: '약 8만 ~ 9만 원', savingsPct: '40~45%', savingsMaxKrw: 90000,
-      rarity: '매우 높음 (버번 싱배와 달리 라이 스토어픽은 전무)', rarityScore: 3,
+      usPriceRange: '$75 ~ $90 (MSRP $70~$80)', krPriceRange: '18만 ~ 20만 원 (미수입)',
+      savingsRange: '약 8만 ~ 9만 원', savingsPct: '40~45%', savingsNum: 85000,
+      rarity: '매우 높음 (버번 싱배와 달리 라이 스토어픽은 전무)', rarityRank: 4, isUnder200: true,
       spec: '싱글 배럴 라이 (52% ABV / 104 Proof)',
-      notes: '강렬한 민트, 통후추, 버번 카라멜의 조화로운 밸런스.',
-      tip: '초록색 라벨(Rye)과 스토어픽 목택(Neck Tag) 확인 필수.'
+      img: WK_BOTTLE('%23c9873f', 'RUSSELLS'),
+      notes: '와일드 터키 특유의 펀치감에 후추, 민트, 카라멜의 조화. 정통 켄터키 스타일 라이.',
+      tip: '초록색 라벨(Rye)과 스토어픽 목택(Neck Tag) 확인. 버번 싱배와 혼동하지 말 것.'
     }
   ];
 
@@ -7075,9 +7104,9 @@
           '<div class="wk-card" data-tier="' + item.tier + '">' +
             '<div class="wk-card-top">' +
               '<div class="wk-card-title-wrap">' +
-                '<span class="wk-card-icon">' + item.icon + '</span>' +
+                '<img class="wk-item-img" src="' + item.img + '" alt="' + escapeHtml(item.name) + '">' +
                 '<div>' +
-                  '<div class="wk-card-name">' + escapeHtml(item.name) + '</div>' +
+                  '<div class="wk-card-name">' + item.icon + ' ' + escapeHtml(item.name) + '</div>' +
                   '<div class="wk-card-name-en">' + escapeHtml(item.nameEn) + '</div>' +
                 '</div>' +
               '</div>' +
@@ -7093,7 +7122,7 @@
             '<div class="wk-savings-tag">💰 ' + escapeHtml(item.savingsRange) + ' 절감 (절감율 ' + escapeHtml(item.savingsPct) + ')</div>' +
             '<div class="wk-meta-row">' +
               '<span class="wk-meta-chip">' + escapeHtml(item.spec) + '</span>' +
-              '<span class="wk-meta-chip' + (item.rarityScore >= 3 ? ' wk-rarity-high' : '') + '">입수난이도: ' + escapeHtml(item.rarity) + '</span>' +
+              '<span class="wk-meta-chip' + (item.rarityRank <= 4 ? ' wk-rarity-high' : '') + '">입수난이도: ' + escapeHtml(item.rarity) + '</span>' +
             '</div>' +
             '<p class="wk-notes"><b>특징:</b> ' + escapeHtml(item.notes) + '</p>' +
             '<div class="wk-tip-box"><b>현장 팁:</b> ' + escapeHtml(item.tip) + '</div>' +
@@ -7106,12 +7135,12 @@
       var query = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase();
       var result = PICKS.slice();
       if (activeFilter === 'under200') {
-        result = result.filter(function (i) { return i.buyMaxUsd <= 200; });
+        result = result.filter(function (i) { return i.isUnder200; });
         result.sort(function (a, b) { return a.buyMaxUsd - b.buyMaxUsd; });
       } else if (activeFilter === 'value') {
-        result.sort(function (a, b) { return b.savingsMaxKrw - a.savingsMaxKrw; });
+        result.sort(function (a, b) { return b.savingsNum - a.savingsNum; });
       } else if (activeFilter === 'rarity') {
-        result.sort(function (a, b) { return b.rarityScore - a.rarityScore; });
+        result.sort(function (a, b) { return a.rarityRank - b.rarityRank; });
       }
       if (query) {
         result = result.filter(function (i) {
