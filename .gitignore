@@ -1,0 +1,13 @@
+# graphify 지식그래프 산출물
+# graph.json / GRAPH_REPORT.md 안에 예약번호·결제금액 등 추출 결과가 들어가므로
+# 공개 저장소에 올라가지 않도록 통째로 제외한다.
+graphify-out/
+
+# 루트에 임시로 두는 결제/예약 스크린샷
+# 사이트에서 실제로 쓰는 이미지는 images/ 안에 두고, 루트 PNG는 작업용으로만 사용
+/*.png
+
+# Claude Code 로컬 설정 (기기별 값이라 공유 불필요)
+# .claude/agents/*.md 는 의도적으로 커밋 중이므로 .claude/ 전체를 막지 않는다
+.claude/settings.local.json
+.claude/.headroom_wrap_*
