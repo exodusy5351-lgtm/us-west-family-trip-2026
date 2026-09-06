@@ -646,7 +646,7 @@
   .tab-panel.active{display:block;opacity:1;}
 
   /* ===== DATE QUICK-JUMP PILLS (schedule tab) ===== */
-  .date-nav-wrap{position:sticky;top:0;z-index:100;background:rgba(244,247,246,.95);backdrop-filter:blur(10px);padding:10px 0;margin:0 -18px 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;}
+  .date-nav-wrap{position:sticky;top:0;z-index:100;background:rgba(244,247,246,.95);backdrop-filter:blur(10px);padding:10px 0;margin:0 -18px 16px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;mask-image:linear-gradient(to right, black 85%, transparent 100%);-webkit-mask-image:linear-gradient(to right, black 85%, transparent 100%);}
   .date-nav-wrap::-webkit-scrollbar{display:none;}
   .date-nav-track{display:flex;gap:6px;padding:0 18px;}
   .date-pill{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 12px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:all .15s;}
@@ -1751,6 +1751,17 @@
   .wk-tip-box b { color: var(--wk-accent, var(--gold-text)); }
 
   .wk-modal-footer { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-top:1px solid var(--line); background:var(--card-2); flex-shrink:0; font-size:11.5px; color:var(--muted); }
+
+  /* 검색창 포커스 시 부가설명 배너를 숨겨 목록 가시 영역 확보 (모바일 키보드 대응)
+     주의: wk-search-input은 .wk-modal-head 안이 아니라 형제 요소인 .wk-filter-bar 안에 있어서
+     .wk-modal-head:focus-within 로는 절대 발동하지 않는다 — .wk-modal 전체를 기준으로
+     검색창 자체가 포커스됐는지 :has()로 직접 확인한다. */
+  .tj-modal-head:focus-within .tj-modal-sub,
+  .costco-modal-head:focus-within .costco-modal-sub,
+  .costco-modal-head:focus-within .costco-pro-banner,
+  .wk-modal:has(#wkSearchInput:focus) .wk-modal-sub {
+    display: none !important;
+  }
 </style>
 </head>
 <body>
@@ -3259,6 +3270,9 @@
         <button type="button" class="pack-owner-btn large" data-owner="지은">지은</button>
         <button type="button" class="pack-owner-btn large skip" data-owner="가족">가족 (공용)</button>
       </div>
+      <span style="font-size:10.5px;color:var(--muted-2);margin-top:8px;display:block;text-align:center;">
+        * '가족 (공용)'을 누르면 PIN 없이 바로 둘러볼 수 있어요
+      </span>
     </div>
 
     <div class="pack-content hidden" id="budgetContent">
@@ -3894,6 +3908,9 @@
         <button type="button" class="pack-owner-btn large" data-owner="지은">지은</button>
         <button type="button" class="pack-owner-btn large skip" data-owner="가족">가족 (공용)</button>
       </div>
+      <span style="font-size:10.5px;color:var(--muted-2);margin-top:8px;display:block;text-align:center;">
+        * '가족 (공용)'을 누르면 PIN 없이 바로 둘러볼 수 있어요
+      </span>
     </div>
 
     <div class="pack-content hidden" id="packContent">
