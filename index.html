@@ -5210,11 +5210,6 @@
       });
     }
 
-    function formatByteSize(bytes) {
-      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + 'KB';
-      return (bytes / (1024 * 1024)).toFixed(1) + 'MB';
-    }
-
     fileInput.addEventListener('change', function () {
       var file = fileInput.files[0];
       if (!file || !pendingCard) return;
@@ -5240,10 +5235,6 @@
           canvas.height = h;
           canvas.getContext('2d').drawImage(img, 0, 0, w, h);
           var compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
-          var origBytes = Math.round(originalDataUrl.length * 3 / 4);
-          var compBytes = Math.round(compressedDataUrl.length * 3 / 4);
-          console.log('이미지 압축: ' + formatByteSize(origBytes) + ' → ' + formatByteSize(compBytes));
 
           try {
             localStorage.setItem(storageKey(pendingCard), compressedDataUrl);
@@ -5849,7 +5840,6 @@
 
     var doneCount = 0, pendingCount = 0;
     var krwSum = 0, usdSum = 0, ptSum = 0;
-    var krwLog = [], usdLog = [], ptLog = [];
 
     cards.forEach(function (card) {
       var isDone = !!card.querySelector('.badge.done');
@@ -5859,9 +5849,7 @@
       if (!isDone) return; // 완료된 예약 금액만 합산 (대기/예정은 제외)
 
       var amountEl = card.querySelector('.amount');
-      var nameEl = card.querySelector('.name');
       if (!amountEl) return;
-      var name = nameEl ? nameEl.textContent.trim() : '';
 
       // 중첩된 span 요소(예: "+ 현장 $688 (Cash)" 같은 부가 금액)는 제외하고,
       // .amount의 최상위 텍스트 노드(메인 금액)만 추출
@@ -5876,21 +5864,18 @@
         if (krwMatch) {
           var krwVal = parseInt(krwMatch[1].replace(/,/g, ''), 10);
           krwSum += krwVal;
-          krwLog.push(name + ' ' + krwVal.toLocaleString());
         }
       } else if (mainText.indexOf('$') !== -1) {
         var usdMatch = mainText.match(/\$\s*([\d,.]+)/);
         if (usdMatch) {
           var usdVal = parseFloat(usdMatch[1].replace(/,/g, ''));
           usdSum += usdVal;
-          usdLog.push(name + ' $' + usdVal.toFixed(2));
         }
       } else if (mainText.indexOf('pt') !== -1) {
         var ptMatch = mainText.match(/([\d,]+)\s*pt/);
         if (ptMatch) {
           var ptVal = parseInt(ptMatch[1].replace(/,/g, ''), 10);
           ptSum += ptVal;
-          ptLog.push(name + ' ' + ptVal.toLocaleString());
         }
       }
     });
@@ -5915,11 +5900,6 @@
     if (badgeVals[1]) badgeVals[1].textContent = '$' + usdSum.toFixed(2);
     if (badgeVals[2]) badgeVals[2].textContent = ptSum.toLocaleString() + 'pt';
 
-    // 4. 디버깅 로그
-    console.log('완료/대기 카운트: 완료 ' + doneCount + ' · 대기/예정 ' + pendingCount + ' · 전체 ' + totalCount);
-    console.log('KRW 합산: ' + krwLog.join(' + ') + ' = ' + krwSum.toLocaleString());
-    console.log('USD 합산: ' + usdLog.join(' + ') + ' = $' + usdSum.toFixed(2));
-    console.log('포인트 합산: ' + ptLog.join(' + ') + ' = ' + ptSum.toLocaleString() + 'pt');
   })();
 
   /* ==========================================================
