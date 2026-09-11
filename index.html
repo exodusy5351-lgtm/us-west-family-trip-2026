@@ -3688,7 +3688,10 @@
 
           amtStr = fmtAmount(actKrw, actUsd);
 
-          if (Math.round(diff) !== 0) {
+          // item.done(사전 확정 예약, 이미 결제·반영 완료)은 정산이 끝난 상태라
+          // 예상액과의 차이를 "정산차"로 표시하면 아직 정산할 게 남은 것처럼 오인될 수 있다.
+          // 실시간으로 계속 쌓이는 가계부/SMS 파싱 항목(hasLogged/hasTransactions)만 정산차 배지를 띄운다.
+          if (!item.done && Math.round(diff) !== 0) {
             var diffCls = diff > 0 ? 'diff-saved' : 'diff-over';
             var diffSign = diff > 0 ? '−' : '+';
             diffBadgeHtml = '<span class="diff-badge ' + diffCls + '">' + diffSign + '₩' + Math.abs(Math.round(diff)).toLocaleString() + '</span>';
