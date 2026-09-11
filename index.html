@@ -2167,7 +2167,7 @@
       window.TRIP_DATA.reservations = [
         { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복', detail: '에어프레미아 YP101 / YP102 왕복 (4인)', amount: '₩4,075,800' },
         { icon: '🚗', status: 'done', statusLabel: '완료', name: '렌터카 2건 (분할 렌트)', detail: 'Hertz 분할 렌트 (1차 LAX→베가스 / 2차 베가스→애너하임) · 무인 반납', amount: '$160.77' },
-        { icon: '🅿️', status: 'done', statusLabel: '완료', name: '인천공항 발렛 주차대행 (M-Parking)', detail: '10/1 09:00 ~ 10/12 15:50 · 차량 345러3542(SUV) · <span class="detail-sensitive">예약번호 937311647428</span> · 발렛은 현대카드 무료 혜택', amount: '₩53,000', amountSub: '주차비, 현장/추후 결제 예정' },
+        { icon: '🅿️', status: 'done', statusLabel: '완료', name: '인천공항 발렛 주차대행 (M-Parking)', detail: '10/1 09:00 ~ 10/12 15:50 · SUV · <span class="detail-sensitive">예약번호 937311647428</span>', amount: '₩53,000', amountSub: '주차비, 현장/추후 결제 예정' },
         { icon: '🏨', status: 'done', statusLabel: '완료', name: '콘래드 라스베가스', detail: '10/1–2, 10/3–4 (총 2박) · <span class="detail-sensitive">힐튼 포인트 결제 (2건)</span>', amount: '150,000 pt' },
         { icon: '🏨', status: 'done', statusLabel: '완료', name: 'Home2 Suites 애너하임', detail: '10/5–7 (2박) · <span class="detail-sensitive">힐튼 포인트 결제</span>', amount: '130,000 pt' },
         { icon: '🏨', status: 'done', statusLabel: '완료', name: '로어스 할리우드', detail: '10/7–11 (4박) · 스탠다드룸(퀸사이즈 침대 2개) · <span class="detail-sensitive">#3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span>', amount: '₩1,428,785', amountSub: '+ ₩198,394(리조트세 등)' },
@@ -2175,9 +2175,9 @@
         { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', detail: '오즈의 마법사 · 10/2 17:00 (4인)', amount: '₩906,999' },
         { icon: '🏜️', status: 'done', statusLabel: '완료', name: '그랜드캐년 투어 (요한투어)', detail: '마이리얼트립 VIP 당일 코스2 · <span class="detail-sensitive">#EXP-20260903-00006699</span>', amount: '₩487,946', amountSub: '+ 현장 $680(정산) + $8(나바호팁)' },
         { icon: '⚾', status: 'pending', statusLabel: '오픈대기', name: '다저 스타디움 투어', detail: '10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)', amount: '$149.00', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
-        { icon: '🏰', status: 'done', statusLabel: '완료', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4 + 라이트닝 레인) · 성인3+아동1 · Klook 재결제 (GOAT BC바로카드, 9/11 13:25)', amount: '$810.34', amountSub: '(₩1,102,710 환산)' },
-        { icon: '🎬', status: 'done', statusLabel: '완료', name: '유니버설 티켓 (1+1 2일권)', detail: '1+1 2일권 (10/7 오후 + 10/8 주간) · 성인3+아동1 · Klook 재결제 (GOAT BC바로카드, 승인번호 06657360, 9/4 22:40)', amount: '$376.76', amountSub: '(₩515,972 환산)' },
-        { icon: '🚌', status: 'done', statusLabel: '완료', name: 'LA드림투어 (6인 소규모)', detail: '10/9(금) 게티센터 도슨트 · 예약확정<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span>', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash)' }
+        { icon: '🏰', status: 'done', statusLabel: '완료', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4 + 라이트닝 레인) · 성인3+아동1 · Klook', amount: '$810.34', amountSub: '(₩1,102,710 환산)' },
+        { icon: '🎬', status: 'done', statusLabel: '완료', name: '유니버설 티켓 (1+1 2일권)', detail: '성인3+아동1 · 하나투어×KKday 재예약 (<span class="detail-sensitive">예약번호 26KK265304403</span>, 9/11 23:43)', amount: '₩400,507' },
+        { icon: '🚌', status: 'done', statusLabel: '완료', name: 'LA드림투어 (6인 소규모)', detail: '10/9(금) 게티센터 도슨트 · 예약확정', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash)' }
       ];
 
       (function renderReservationCards() {
@@ -3463,7 +3463,7 @@
       { cat: "액티비티", item: "앤텔롭캐년 나바호 가이드팁 (Cash)", estKrw: 0, estUsd: 8.00, actKrw: 0, actUsd: 0, note: "$2×4인 현장 직접 전달", done: false },
       { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
       { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 810.34, note: "Klook 재결제 완료 (GOAT BC바로카드, 9/11 13:25 · ₩1,102,710 결제, 성인3 $610.65 + 아동1 $199.69, 라이트닝 레인 포함) · 카드 페이백 ₩60,000 예정(별도, 실지출에 미반영)", done: true },
-      { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 0, estUsd: 376.76, actKrw: 0, actUsd: 376.76, note: "Klook 재결제 완료 (성인3+아동1 · 2일권, GOAT BC바로카드)", done: true },
+      { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 400507, estUsd: 0, actKrw: 400507, actUsd: 0, note: "하나투어×KKday 결제 완료 (성인3+아동1)", done: true },
       { cat: "액티비티", item: "LA드림투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 598397, actUsd: 0, note: "마이리얼트립 결제 완료 (KB국민카드 할인 적용)", done: true },
       { cat: "액티비티", item: "LA드림투어 현장비용 (Cash)", estKrw: 0, estUsd: 200.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비 $60 + 할리우드 픽업/드랍비 $60", done: false },
       { cat: "액티비티", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "9/27 티켓팅 오픈 예정", done: false },
@@ -3642,7 +3642,7 @@
     function renderBudget() {
       var totalPlanKrw = 0;
       var totalActualKrw = 0;
-      var totalDiffKrw = 0; // 확정(예약완료 또는 실지출 기록)된 항목만 집계 (계획 - 실집행)
+      var totalDiffKrw = 0; // 현장 실지출 기록(가계부/SMS 파싱)만 집계 — 출발 전 사전 확정 예약(item.done)은 제외
       var doneCount = 0;
       var html = "";
 
@@ -3684,13 +3684,15 @@
           doneCount++;
           totalActualKrw += actualKrw;
           var diff = planKrw - actualKrw;
-          totalDiffKrw += diff;
+          // "완료분 차액"은 현장에서 실제 쓴 돈이 예상보다 많았는지/적었는지 보려는 용도.
+          // item.done(출발 전 사전 확정 예약)은 이미 정산이 끝난 확정 지출이라 총 차액 집계에서 제외하고,
+          // 현장에서 실시간으로 쌓이는 가계부/SMS 파싱 항목(hasLogged/hasTransactions)만 집계한다.
+          if (!item.done) {
+            totalDiffKrw += diff;
+          }
 
           amtStr = fmtAmount(actKrw, actUsd);
 
-          // item.done(사전 확정 예약, 이미 결제·반영 완료)은 정산이 끝난 상태라
-          // 예상액과의 차이를 "정산차"로 표시하면 아직 정산할 게 남은 것처럼 오인될 수 있다.
-          // 실시간으로 계속 쌓이는 가계부/SMS 파싱 항목(hasLogged/hasTransactions)만 정산차 배지를 띄운다.
           if (!item.done && Math.round(diff) !== 0) {
             var diffCls = diff > 0 ? 'diff-saved' : 'diff-over';
             var diffSign = diff > 0 ? '−' : '+';
@@ -5904,7 +5906,7 @@
     // 3. 통화 요약 뱃지 (기결제 KRW / 현지결제 USD / 포인트 사용 순서)
     var badgeVals = document.querySelectorAll('.currency-summary .currency-badge-val');
     if (badgeVals[0]) badgeVals[0].textContent = '₩' + krwSum.toLocaleString();
-    if (badgeVals[1]) badgeVals[1].textContent = '$' + usdSum.toFixed(2);
+    if (badgeVals[1]) badgeVals[1].textContent = '$' + usdSum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     if (badgeVals[2]) badgeVals[2].textContent = ptSum.toLocaleString() + 'pt';
 
   })();
