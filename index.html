@@ -2175,7 +2175,7 @@
         { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', detail: '오즈의 마법사 · 10/2 17:00 (4인)', amount: '₩906,999' },
         { icon: '🏜️', status: 'done', statusLabel: '완료', name: '그랜드캐년 투어 (요한투어)', detail: '마이리얼트립 VIP 당일 코스2 · <span class="detail-sensitive">#EXP-20260903-00006699</span>', amount: '₩487,946', amountSub: '+ 현장 $680(정산) + $8(나바호팁)' },
         { icon: '⚾', status: 'pending', statusLabel: '오픈대기', name: '다저 스타디움 투어', detail: '10/10 오전 (반나절) · 한국시간 9/28(월) 오픈 예정 · 포스트시즌 일정에 따라 코스 변동 가능 (성인2+아동2)', amount: '$149.00', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
-        { icon: '🏰', status: 'pending', statusLabel: '발권대기', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4) · 성인3+아동1', amount: '₩1,043,684', cta: { label: '🎟️ 공식 티켓 구매 페이지', href: 'https://disneyland.disney.go.com/tickets/' } },
+        { icon: '🏰', status: 'done', statusLabel: '완료', name: '디즈니랜드 티켓', detail: '10/6 1 Day 1 Park (Tier 4 + 라이트닝 레인) · 성인3+아동1 · Klook 재결제 (GOAT BC바로카드, 9/11 13:25)', amount: '$810.34', amountSub: '(₩1,102,710 환산)' },
         { icon: '🎬', status: 'done', statusLabel: '완료', name: '유니버설 티켓 (1+1 2일권)', detail: '1+1 2일권 (10/7 오후 + 10/8 주간) · 성인3+아동1 · Klook 재결제 (GOAT BC바로카드, 승인번호 06657360, 9/4 22:40)', amount: '$376.76', amountSub: '(₩515,972 환산)' },
         { icon: '🚌', status: 'done', statusLabel: '완료', name: 'LA드림투어 (6인 소규모)', detail: '10/9(금) 게티센터 도슨트 · 예약확정<br><span style="font-size:10.5px;color:var(--teal-text);font-weight:600;">⏰ 무료취소 마감: 9/10 16:00까지</span>', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash)' }
       ];
@@ -2202,7 +2202,7 @@
   <section>
     <div class="section-head">
       <h2>남은 할 일</h2>
-      <span class="count">4 ITEMS</span>
+      <span class="count">3 ITEMS</span>
     </div>
     <div class="todo-list"></div>
     <script>
@@ -2211,7 +2211,6 @@
         window.TRIP_DATA.todos = [
           { key: 'todo-dodger', priority: true, text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
           { key: 'todo-the-broad', priority: true, text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/10 14:00 슬롯)' },
-          { key: 'todo-disney', priority: false, text: '디즈니랜드 티켓 결제 &amp; 파크 예약', tag: '— 10/6 Tier 4' },
           { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' }
         ];
 
@@ -3463,7 +3462,7 @@
       { cat: "액티비티", item: "그랜드캐년 현장 정산금 (Cash)", estKrw: 0, estUsd: 680.00, actKrw: 0, actUsd: 0, note: "가이드 일괄 수납 (Cash Only)", done: false },
       { cat: "액티비티", item: "앤텔롭캐년 나바호 가이드팁 (Cash)", estKrw: 0, estUsd: 8.00, actKrw: 0, actUsd: 0, note: "$2×4인 현장 직접 전달", done: false },
       { cat: "액티비티", item: "조슈아트리 국립공원 입장료", estKrw: 0, estUsd: 30.00, actKrw: 0, actUsd: 0, note: "서쪽 게이트 차량 입장료 (카드 결제)", done: false },
-      { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 0, note: "발권 예정 (성인3+아동1)", done: false },
+      { cat: "액티비티", item: "디즈니랜드 티켓 (1 Day Tier 4)", estKrw: 1043684, estUsd: 0, actKrw: 0, actUsd: 810.34, note: "Klook 재결제 완료 (GOAT BC바로카드, 9/11 13:25 · ₩1,102,710 결제, 성인3 $610.65 + 아동1 $199.69, 라이트닝 레인 포함) · 카드 페이백 ₩60,000 예정(별도, 실지출에 미반영)", done: true },
       { cat: "액티비티", item: "유니버설 스튜디오 (1+1 2일권)", estKrw: 0, estUsd: 376.76, actKrw: 0, actUsd: 376.76, note: "Klook 재결제 완료 (성인3+아동1 · 2일권, GOAT BC바로카드)", done: true },
       { cat: "액티비티", item: "LA드림투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 598397, actUsd: 0, note: "마이리얼트립 결제 완료 (KB국민카드 할인 적용)", done: true },
       { cat: "액티비티", item: "LA드림투어 현장비용 (Cash)", estKrw: 0, estUsd: 200.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비 $60 + 할리우드 픽업/드랍비 $60", done: false },
