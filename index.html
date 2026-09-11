@@ -3696,6 +3696,11 @@
             var diffSign = diff > 0 ? '−' : '+';
             diffBadgeHtml = '<span class="diff-badge ' + diffCls + '">' + diffSign + '₩' + Math.abs(Math.round(diff)).toLocaleString() + '</span>';
           }
+        } else if (item.estKrw === 0 && item.estUsd === 0) {
+          // 예산 계획치가 아예 없는 순수 건별 기록용 카테고리(예: "현장 기타 지출") —
+          // fmtAmount(0,0)은 포인트 결제 예약을 위한 기본값이라 여기 쓰면 "포인트 결제 예정"으로
+          // 오인되는 문구가 나온다. 계획치 자체가 없다는 걸 그대로 표시한다.
+          amtStr = "계획액 없음 (건별 기록)";
         } else {
           amtStr = fmtAmount(item.estKrw, item.estUsd) + " 예정";
         }
