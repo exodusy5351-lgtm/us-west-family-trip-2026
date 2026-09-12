@@ -5020,19 +5020,21 @@
   <div class="costco-modal-head">
     <div class="costco-modal-title-row">
       <div>
-        <h3 id="walmartModalTitle">🛒 미국 월마트(Walmart) 인기템 8선 DB</h3>
-        <div class="costco-modal-sub">뷰티·생활 / 시즌한정 / 소스·시즈닝 / 스낵 — 검증 등급순 정리</div>
+        <h3 id="walmartModalTitle">🛒 미국 월마트(Walmart) 인기템 13선 DB</h3>
+        <div class="costco-modal-sub">한국인 여행자 실후기 기반 검증 · 코스트코 중복 품목 제외 · 전자기기는 참고용</div>
       </div>
       <button type="button" id="walmartCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
     </div>
 
     <div class="costco-filter-bar">
       <div class="costco-tab-row" id="walmartTabRow">
-        <button type="button" class="costco-tab active" data-walmart-filter="all">전체보기 (8)</button>
+        <button type="button" class="costco-tab active" data-walmart-filter="all">전체보기 (13)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="간식과자">🍿 간식·과자 (4)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="소스조미료">🧂 소스·조미료 (3)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="신선식품">🍎 신선식품 (2)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="의약품">💊 의약품 (1)</button>
         <button type="button" class="costco-tab" data-walmart-filter="뷰티생활">🧴 뷰티·생활 (1)</button>
-        <button type="button" class="costco-tab" data-walmart-filter="시즌한정">🎃 시즌한정 (1)</button>
-        <button type="button" class="costco-tab" data-walmart-filter="소스시즈닝">🧂 소스·시즈닝 (3)</button>
-        <button type="button" class="costco-tab" data-walmart-filter="스낵">🍿 스낵 (3)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="전자기기">🔌 전자기기(참고) (2)</button>
       </div>
       <input type="text" id="walmartSearchInput" class="costco-search-input" placeholder="품목 검색...">
     </div>
@@ -6896,10 +6898,12 @@
     if (!modal || !backdrop || !listContainer) return;
 
     var WALMART_CAT_THEME = {
+      "간식과자": { color: "%23e9c46a", label: "간식과자" },
+      "소스조미료": { color: "%23e76f51", label: "소스조미료" },
+      "신선식품": { color: "%232a9d8f", label: "신선식품" },
+      "의약품": { color: "%231f8a5f", label: "의약품" },
       "뷰티생활": { color: "%237c5cbf", label: "뷰티생활" },
-      "시즌한정": { color: "%23e76f51", label: "시즌한정" },
-      "소스시즈닝": { color: "%23e9c46a", label: "소스시즈닝" },
-      "스낵": { color: "%232a9d8f", label: "스낵" }
+      "전자기기": { color: "%2364748b", label: "전자기기" }
     };
     function walmartImg(cat) {
       var t = WALMART_CAT_THEME[cat] || { color: "%232c243f", label: "Walmart" };
@@ -6910,14 +6914,30 @@
     }
 
     var walmartMasterData = [
-      { id: 1, cat: "뷰티생활", type: "검증완료", name: "닥터 브로너스 바 솝", price: "$5 이하", star: "★★★", img: walmartImg("뷰티생활"), note: "한국 판매가 대비 약 40% 저렴하다고 실제 확인됨. 라벤더·민트 향, 아기용도 별도 있어 선물용으로도 부담 없음." },
-      { id: 2, cat: "시즌한정", type: "검증완료", name: "할로윈 시즌 장식/소품", price: "품목별 상이", star: "★★★", img: walmartImg("시즌한정"), note: "10/1 방문 시점이 할로윈 시즌 한가운데라 매대가 풍성하게 채워져 있을 것으로 확인됨. 코스튬보다는 장식·소품 위주." },
-      { id: 3, cat: "소스시즈닝", type: "후기다수", name: "칙필레이 소스", price: "$3~5선", star: "★★★", img: walmartImg("소스시즈닝"), note: "한국 여행객 실구매 후기 다수, 용량 대비 가격 괜찮다는 평." },
-      { id: 4, cat: "소스시즈닝", type: "후기다수", name: "생선요리용 시즈닝 (Old Bay류)", price: "$5~8선", star: "★★☆", img: walmartImg("소스시즈닝"), note: "\"국룰 시즈닝\"으로 후기에 자주 언급됨." },
-      { id: 5, cat: "소스시즈닝", type: "일반정보", name: "히든밸리 랜치 드레싱 / 스위트베이비레이 BBQ소스", price: "$3~6선", star: "★★", img: walmartImg("소스시즈닝"), note: "한국 미출시로 알려져 있음(개별 검증은 안 됨). 바비큐 재료에 바로 활용 가능." },
-      { id: 6, cat: "스낵", type: "후기다수", name: "레이즈 이색 맛 감자칩", price: "$3~5선", star: "★★", img: walmartImg("스낵"), note: "클래식 외 다양한 맛이 한국보다 훨씬 많다고 확인됨." },
-      { id: 7, cat: "스낵", type: "후기다수", name: "코팅 젤리 / 독특한 비주얼 과자", price: "$3~5선", star: "★★", img: walmartImg("스낵"), note: "더운 날씨에도 잘 안 녹아 휴대성 좋다는 후기 있음." },
-      { id: 8, cat: "스낵", type: "일반정보", name: "리세스 피넛버터컵 / 럭키참스 등 미국 한정판", price: "$3~6선", star: "★★", img: walmartImg("스낵"), note: "미국 한정 맛으로 잘 알려진 스테디 인기 품목." }
+      // ── 간식·과자 (4) ──
+      { id: 1, cat: "간식과자", type: "귀국선물(상온)", name: "오레오 (한국 미출시 맛)", price: "가격 상이", star: "★★★", img: walmartImg("간식과자"), note: "한국인 여행블로그 실구매 후기 확인 — \"한국에 없는 맛으로 하나 사오시길\"." },
+      { id: 2, cat: "간식과자", type: "귀국선물(상온)", name: "테이트 쿠키 (Tate's)", price: "$5", star: "★★★", img: walmartImg("간식과자"), note: "실구매 후기 확인." },
+      { id: 3, cat: "간식과자", type: "귀국선물(상온)", name: "레이즈 이색 맛 감자칩", price: "가격 상이", star: "★★", img: walmartImg("간식과자"), note: "한국에선 구하기 힘든 신맛 베이스 과자, 실구매 후기 확인." },
+      { id: 4, cat: "간식과자", type: "귀국선물(상온)", name: "컵시리얼 (소용량)", price: "$1", star: "★★★", img: walmartImg("간식과자"), note: "한국 대비 훨씬 저렴, 실구매 후기 확인." },
+
+      // ── 소스·조미료 (3) ──
+      { id: 5, cat: "소스조미료", type: "귀국선물(상온)", name: "치폴레 소스", price: "$4 이상", star: "★★★", img: walmartImg("소스조미료"), note: "\"이번 여행에서 제일 잘 쓰는 중\" 실사용 후기 확인." },
+      { id: 6, cat: "소스조미료", type: "귀국선물(상온)", name: "칙필레이 소스", price: "$3~5선", star: "★★★", img: walmartImg("소스조미료"), note: "한국인 여행자 실구매 후기 다수." },
+      { id: 7, cat: "소스조미료", type: "귀국선물(상온)", name: "생선요리용 시즈닝 (Old Bay류)", price: "$5~8선", star: "★★", img: walmartImg("소스조미료"), note: "\"국룰 시즈닝\"으로 후기에 자주 언급됨." },
+
+      // ── 신선식품 (2) ──
+      { id: 8, cat: "신선식품", type: "현지소비(신선)", name: "사과", price: "$3~4", star: "★★★", img: walmartImg("신선식품"), note: "\"너무 달고 맛있다\" 실사용 후기 확인." },
+      { id: 9, cat: "신선식품", type: "현지소비(신선)", name: "오렌지", price: "$3~4", star: "★★", img: walmartImg("신선식품"), note: "실사용 후기 확인." },
+
+      // ── 의약품 (1, 코스트코와 중복 없는 품목만) ──
+      { id: 10, cat: "의약품", type: "귀국선물(상온)", name: "데이퀼 & 나이트퀼 콤보", price: "$20", star: "★★★", img: walmartImg("의약품"), note: "실사용 후기 확인. 코스트코엔 감기약 자체가 없어 중복 아님." },
+
+      // ── 뷰티·생활 (1, 코스트코와 중복 없는 품목만) ──
+      { id: 11, cat: "뷰티생활", type: "귀국선물(상온)", name: "닥터 브로너스 바 솝", price: "$5 이하", star: "★★★", img: walmartImg("뷰티생활"), note: "한국 대비 약 40% 저렴 확인. 코스트코엔 비누류 없음(K뷰티 스킨케어만 보유)." },
+
+      // ── 전자기기 참고 (2, 필수 아님) ──
+      { id: 12, cat: "전자기기", type: "가격맞으면구매", name: "Apple AirPods 4 with ANC", price: "$119 (정가 $179)", star: "★★", img: walmartImg("전자기기"), note: "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님." },
+      { id: 13, cat: "전자기기", type: "가격맞으면구매", name: "Beats Studio Pro 헤드폰", price: "$149 (정가 $350)", star: "★★", img: walmartImg("전자기기"), note: "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님." }
     ];
 
     var activeFilter = 'all';
@@ -6929,7 +6949,7 @@
     }
 
     function typeClass(type) {
-      if (type === '검증완료') return 'costco-type-gift';
+      if (type.indexOf('귀국') !== -1) return 'costco-type-gift';
       return 'costco-type-local';
     }
 
