@@ -2765,7 +2765,7 @@
 
           <div class="sched-block">
             <div class="sched-time">🍽️ 13:00–14:30</div>
-            <div class="sched-title">[점심 &amp; 바비큐 장보기] Walmart Supercenter 유카밸리점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Walmart+Supercenter,+58501+29+Palms+Hwy,+Yucca+Valley,+CA+92284" target="_blank" rel="noopener noreferrer">📍 Walmart 유카밸리</a></div>
+            <div class="sched-title">[점심 &amp; 바비큐 장보기] Walmart Supercenter 유카밸리점 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Walmart+Supercenter,+58501+29+Palms+Hwy,+Yucca+Valley,+CA+92284" target="_blank" rel="noopener noreferrer">📍 Walmart 유카밸리</a> <button type="button" class="inline-btn-badge walmart-trigger-btn">🛒 인기템</button></div>
             <div class="sched-note">🍽️🛒 [90분] 매장 내 McDonald's에서 점심 해결(빠른 픽업) + 스테이크·소시지·스모어 재료+숯(마시멜로 모닥불용)+생수 구매(EDLP 상시저가) — 점심과 장보기를 한 매장에서 한 번에 처리 (⚠️ 유카밸리에는 인앤아웃 매장 없음, 스테이크는 숙소 가스레인지 팬 구이라 장작 불필요, 슈퍼센터급이라 계산대 혼잡 가능성 있어 시간 여유 있게 움직일 것)</div>
           </div>
 
@@ -5014,6 +5014,38 @@
   </div>
 </div>
 
+<!-- 월마트(Walmart) 쇼핑 가이드 모달 -->
+<div id="walmartModalBackdrop" class="costco-modal-backdrop"></div>
+<div id="walmartModal" class="costco-modal" role="dialog" aria-modal="true" aria-labelledby="walmartModalTitle">
+  <div class="costco-modal-head">
+    <div class="costco-modal-title-row">
+      <div>
+        <h3 id="walmartModalTitle">🛒 미국 월마트(Walmart) 인기템 8선 DB</h3>
+        <div class="costco-modal-sub">뷰티·생활 / 시즌한정 / 소스·시즈닝 / 스낵 — 검증 등급순 정리</div>
+      </div>
+      <button type="button" id="walmartCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="costco-filter-bar">
+      <div class="costco-tab-row" id="walmartTabRow">
+        <button type="button" class="costco-tab active" data-walmart-filter="all">전체보기 (8)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="뷰티생활">🧴 뷰티·생활 (1)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="시즌한정">🎃 시즌한정 (1)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="소스시즈닝">🧂 소스·시즈닝 (3)</button>
+        <button type="button" class="costco-tab" data-walmart-filter="스낵">🍿 스낵 (3)</button>
+      </div>
+      <input type="text" id="walmartSearchInput" class="costco-search-input" placeholder="품목 검색...">
+    </div>
+  </div>
+
+  <div class="costco-list-container" id="walmartListContainer"></div>
+
+  <div class="costco-modal-footer">
+    <span id="walmartCheckedCount">0개 선택됨</span>
+    <button type="button" id="walmartFooterCloseBtn" class="section-action-btn">닫기</button>
+  </div>
+</div>
+
 <!-- 미국 로컬 프랜차이즈 도장깨기 모달 -->
 <div id="fcModalBackdrop" class="fc-modal-backdrop"></div>
 <div id="fcModal" class="fc-modal" role="dialog" aria-modal="true" aria-labelledby="fcModalTitle">
@@ -6846,6 +6878,151 @@
 
     listContainer.addEventListener('change', function (e) {
       if (e.target.matches('[data-costco-check]')) updateCheckedCount();
+    });
+  })();
+
+  /* ==========================================================
+     [4-0h-2] 월마트(Walmart) 쇼핑 가이드 모달
+  ========================================================== */
+  (function initWalmartModal() {
+    var backdrop = document.getElementById('walmartModalBackdrop');
+    var modal = document.getElementById('walmartModal');
+    var closeBtn = document.getElementById('walmartCloseBtn');
+    var footerCloseBtn = document.getElementById('walmartFooterCloseBtn');
+    var listContainer = document.getElementById('walmartListContainer');
+    var searchInput = document.getElementById('walmartSearchInput');
+    var tabRow = document.getElementById('walmartTabRow');
+    var checkedCountEl = document.getElementById('walmartCheckedCount');
+    if (!modal || !backdrop || !listContainer) return;
+
+    var WALMART_CAT_THEME = {
+      "뷰티생활": { color: "%237c5cbf", label: "뷰티생활" },
+      "시즌한정": { color: "%23e76f51", label: "시즌한정" },
+      "소스시즈닝": { color: "%23e9c46a", label: "소스시즈닝" },
+      "스낵": { color: "%232a9d8f", label: "스낵" }
+    };
+    function walmartImg(cat) {
+      var t = WALMART_CAT_THEME[cat] || { color: "%232c243f", label: "Walmart" };
+      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
+        "%3Crect width='120' height='120' rx='16' fill='" + t.color + "'/%3E" +
+        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + t.label + "%3C/text%3E" +
+        "%3C/svg%3E";
+    }
+
+    var walmartMasterData = [
+      { id: 1, cat: "뷰티생활", type: "검증완료", name: "닥터 브로너스 바 솝", price: "$5 이하", star: "★★★", img: walmartImg("뷰티생활"), note: "한국 판매가 대비 약 40% 저렴하다고 실제 확인됨. 라벤더·민트 향, 아기용도 별도 있어 선물용으로도 부담 없음." },
+      { id: 2, cat: "시즌한정", type: "검증완료", name: "할로윈 시즌 장식/소품", price: "품목별 상이", star: "★★★", img: walmartImg("시즌한정"), note: "10/1 방문 시점이 할로윈 시즌 한가운데라 매대가 풍성하게 채워져 있을 것으로 확인됨. 코스튬보다는 장식·소품 위주." },
+      { id: 3, cat: "소스시즈닝", type: "후기다수", name: "칙필레이 소스", price: "$3~5선", star: "★★★", img: walmartImg("소스시즈닝"), note: "한국 여행객 실구매 후기 다수, 용량 대비 가격 괜찮다는 평." },
+      { id: 4, cat: "소스시즈닝", type: "후기다수", name: "생선요리용 시즈닝 (Old Bay류)", price: "$5~8선", star: "★★☆", img: walmartImg("소스시즈닝"), note: "\"국룰 시즈닝\"으로 후기에 자주 언급됨." },
+      { id: 5, cat: "소스시즈닝", type: "일반정보", name: "히든밸리 랜치 드레싱 / 스위트베이비레이 BBQ소스", price: "$3~6선", star: "★★", img: walmartImg("소스시즈닝"), note: "한국 미출시로 알려져 있음(개별 검증은 안 됨). 바비큐 재료에 바로 활용 가능." },
+      { id: 6, cat: "스낵", type: "후기다수", name: "레이즈 이색 맛 감자칩", price: "$3~5선", star: "★★", img: walmartImg("스낵"), note: "클래식 외 다양한 맛이 한국보다 훨씬 많다고 확인됨." },
+      { id: 7, cat: "스낵", type: "후기다수", name: "코팅 젤리 / 독특한 비주얼 과자", price: "$3~5선", star: "★★", img: walmartImg("스낵"), note: "더운 날씨에도 잘 안 녹아 휴대성 좋다는 후기 있음." },
+      { id: 8, cat: "스낵", type: "일반정보", name: "리세스 피넛버터컵 / 럭키참스 등 미국 한정판", price: "$3~6선", star: "★★", img: walmartImg("스낵"), note: "미국 한정 맛으로 잘 알려진 스테디 인기 품목." }
+    ];
+
+    var activeFilter = 'all';
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function typeClass(type) {
+      if (type === '검증완료') return 'costco-type-gift';
+      return 'costco-type-local';
+    }
+
+    function renderItems(data) {
+      if (!data.length) {
+        listContainer.innerHTML = '<div class="costco-empty">일치하는 아이템이 없습니다.</div>';
+        return;
+      }
+      listContainer.innerHTML = data.map(function (item) {
+        return (
+          '<div class="costco-item-row">' +
+            '<input type="checkbox" class="costco-item-checkbox" data-walmart-check>' +
+            '<img src="' + item.img + '" alt="' + escapeHtml(item.name) + '" class="costco-item-img">' +
+            '<div class="costco-item-body">' +
+              '<div class="costco-item-top">' +
+                '<span class="costco-item-type ' + typeClass(item.type) + '">' + escapeHtml(item.type) + '</span>' +
+                '<span class="costco-item-name">' + escapeHtml(item.name) + '</span>' +
+                '<span class="costco-item-star">' + item.star + '</span>' +
+              '</div>' +
+              '<p class="costco-item-note">' + escapeHtml(item.note) + '</p>' +
+            '</div>' +
+            '<div class="costco-item-price">' + escapeHtml(item.price) + '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    function applyFilters() {
+      var query = (searchInput.value || '').toLowerCase();
+      var result = walmartMasterData;
+      if (activeFilter !== 'all') result = result.filter(function (i) { return i.cat === activeFilter; });
+      if (query) {
+        result = result.filter(function (i) {
+          return i.name.toLowerCase().indexOf(query) !== -1 || i.note.toLowerCase().indexOf(query) !== -1;
+        });
+      }
+      renderItems(result);
+      updateCheckedCount();
+    }
+
+    function updateCheckedCount() {
+      var count = listContainer.querySelectorAll('[data-walmart-check]:checked').length;
+      checkedCountEl.textContent = count + '개 선택됨';
+    }
+
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      applyFilters();
+      if (window.pushModalNavState) window.pushModalNavState();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('.walmart-trigger-btn')) openModal();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    if (footerCloseBtn) footerCloseBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
+
+    if (tabRow) {
+      tabRow.querySelectorAll('.costco-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabRow.querySelectorAll('.costco-tab').forEach(function (t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+          activeFilter = tab.getAttribute('data-walmart-filter');
+          if (window.triggerHaptic) window.triggerHaptic('light');
+          applyFilters();
+        });
+      });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+    listContainer.addEventListener('change', function (e) {
+      if (e.target.matches('[data-walmart-check]')) updateCheckedCount();
     });
   })();
 
