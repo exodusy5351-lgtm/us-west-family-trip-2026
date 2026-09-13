@@ -3,7 +3,7 @@
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
 // 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-20260914h";
+const CACHE_NAME = "uswest-trip-2026-20260915a";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -55,8 +55,12 @@ self.addEventListener("fetch", (event) => {
 
       const networkFetch = revalidate
         .then((networkResponse) => {
-          // 404/500 같은 실패 응답을 캐시에 담아 고착시키지 않는다
-          if (sameOrigin && networkResponse && networkResponse.ok) {
+          // 404/500 같은 실패 응답을 캐시에 담아 고착시키지 않는다.
+          // sameOrigin 여부와 무관하게 캐싱한다 — Google Fonts, OCR 엔진(tesseract.js CDN)처럼
+          // CORS 허용된 외부 리소스도 첫 로딩(온라인) 후 캐시해둬야 오프라인(사막 통신두절)에서
+          // 재사용된다. networkResponse.ok는 opaque(no-cors) 응답에서 false이므로 CORS
+          // 비허용 리소스는 자동으로 캐싱에서 제외된다.
+          if (networkResponse && networkResponse.ok) {
             const responseClone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(event.request, responseClone);

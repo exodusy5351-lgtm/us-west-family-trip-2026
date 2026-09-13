@@ -451,6 +451,11 @@
   #smsInput::placeholder{color:var(--muted-2);}
   #smsInput:focus{border-color:var(--teal);}
   .entry-form-controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .ocr-file-input{display:none;}
+  .ocr-drop-label{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--card-2);border:1.5px dashed var(--line);border-radius:8px;padding:16px 12px;color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;transition:border-color .2s,background-color .2s;}
+  .ocr-drop-label:hover,.ocr-drop-label:focus-visible{border-color:var(--teal);background:rgba(46,196,182,.06);}
+  .ocr-preview{display:block;max-width:100%;max-height:220px;margin:10px auto 0;border-radius:8px;border:1px solid var(--line);}
+  .ocr-status{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5;text-align:center;}
   .manual-input-grid{display:flex;flex-direction:column;gap:8px;}
   .manual-amount-row{display:flex;gap:6px;}
   .manual-amount-row input{flex:1;}
@@ -3398,6 +3403,7 @@
     <div class="expense-entry-card">
       <div class="entry-mode-tabs">
         <button type="button" class="mode-tab active" data-mode="sms">⚡ 문자 자동 등록</button>
+        <button type="button" class="mode-tab" data-mode="ocr">📷 캡처 인식(OCR)</button>
         <button type="button" class="mode-tab" data-mode="manual">✍️ 직접 입력 (현금/카드)</button>
       </div>
 
@@ -3414,6 +3420,13 @@
           </select>
           <button type="button" id="btnParseSms" class="btn-submit">분석 &amp; 등록</button>
         </div>
+      </div>
+
+      <div class="entry-form-panel hidden" id="ocrFormPanel">
+        <input type="file" id="ocrFileInput" accept="image/*" class="ocr-file-input">
+        <label for="ocrFileInput" class="ocr-drop-label">📷 결제 캡처 이미지 선택 (또는 촬영)</label>
+        <img id="ocrPreview" class="ocr-preview hidden" alt="캡처 미리보기">
+        <div id="ocrStatus" class="ocr-status">최초 실행은 온라인 상태에서 1회 필요 (엔진 다운로드 후 오프라인에서도 재사용 가능)</div>
       </div>
 
       <div class="entry-form-panel hidden" id="manualFormPanel">
@@ -3845,6 +3858,7 @@
     // ===== 2-Way 지출 등록: 모드 전환 탭 =====
     var modeTabs = document.querySelectorAll('.entry-mode-tabs .mode-tab');
     var smsPanel = document.getElementById('smsFormPanel');
+    var ocrPanel = document.getElementById('ocrFormPanel');
     var manualPanel = document.getElementById('manualFormPanel');
     modeTabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
@@ -3852,10 +3866,60 @@
         tab.classList.add('active');
         var mode = tab.getAttribute('data-mode');
         smsPanel.classList.toggle('hidden', mode !== 'sms');
+        ocrPanel.classList.toggle('hidden', mode !== 'ocr');
         manualPanel.classList.toggle('hidden', mode !== 'manual');
         if (window.triggerHaptic) window.triggerHaptic('light');
       });
     });
+
+    // ===== ⓪ 결제 캡처 OCR 인식 → 문자란에 채워서 기존 파서로 등록 =====
+    // ponytail: 이미지에서 직접 금액/가맹점 파싱하지 않고, OCR 결과 텍스트를 #smsInput에
+    // 채워 기존 parseCardSMS()를 재사용 — 사용자가 인식 결과를 확인/수정 후 등록 가능
+    (function initOcrCapture() {
+      var fileInput = document.getElementById('ocrFileInput');
+      var preview = document.getElementById('ocrPreview');
+      var statusEl = document.getElementById('ocrStatus');
+      var statusDefault = statusEl.textContent;
+      var tesseractLoadPromise = null;
+
+      function loadTesseract() {
+        if (window.Tesseract) return Promise.resolve();
+        if (tesseractLoadPromise) return tesseractLoadPromise;
+        tesseractLoadPromise = new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js';
+          s.onload = resolve;
+          s.onerror = function () { tesseractLoadPromise = null; reject(new Error('load-failed')); };
+          document.head.appendChild(s);
+        });
+        return tesseractLoadPromise;
+      }
+
+      fileInput.addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          preview.src = ev.target.result;
+          preview.classList.remove('hidden');
+          statusEl.textContent = '🔍 OCR 엔진 로딩 중... (최초 1회는 인터넷 필요)';
+          loadTesseract().then(function () {
+            statusEl.textContent = '🔍 텍스트 인식 중... (몇 초 소요)';
+            return Tesseract.recognize(ev.target.result, 'kor+eng');
+          }).then(function (result) {
+            smsInputEl.value = result.data.text.trim();
+            statusEl.textContent = '✅ 인식 완료 — "문자 자동 등록" 탭에서 내용 확인 후 등록하세요';
+            var smsTabBtn = document.querySelector('.mode-tab[data-mode="sms"]');
+            if (smsTabBtn) smsTabBtn.click();
+            if (window.triggerHaptic) window.triggerHaptic('success');
+          }).catch(function () {
+            statusEl.textContent = '⚠️ 인식 실패 — 오프라인 상태면 온라인일 때 최초 1회 실행이 필요합니다';
+            if (window.triggerHaptic) window.triggerHaptic('warning');
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    })();
 
     function addTransaction(catId, memo, amount, currency, payType) {
       if (!expenseLog[catId]) expenseLog[catId] = [];
