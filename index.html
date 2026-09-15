@@ -645,6 +645,9 @@
   .att-cheat b{color:var(--gold-text);}
   .att-cheat ul{margin:6px 0 0;padding-left:16px;display:flex;flex-direction:column;gap:5px;}
   .att-cheat li{font-size:11px;color:var(--muted);line-height:1.5;}
+  .att-photo{width:100%;height:auto;border-radius:8px;display:block;margin-bottom:8px;background:var(--card-2);}
+  .att-origin{background:rgba(46,196,182,.08);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:8px 10px;margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5;}
+  .att-origin b{color:var(--teal-text);}
 
   /* ===== TAB PANELS ===== */
   .tab-panel{display:none;opacity:0;transition:opacity .25s ease;}
@@ -1945,8 +1948,11 @@
      - apiKey를 채우기 전까지는 이 모듈이 조용히 비활성 상태로 남고, 기존 localStorage 단독 동작에는
        아무 영향도 주지 않는다 (오프라인/네트워크 실패 시에도 항상 로컬 저장이 우선이라 안전).
   ========================================================== */
-  // 가족 전용 확인용, 보안 목적 아님 — 무작위 방문자 차단용 (짐싸기 기기 소유자 선택 PIN)
-  var FAMILY_PIN = '0327';
+  // 가족 전용 확인용, 보안 목적 아님 — 무작위 방문자 차단용
+  // FAMILY_PIN: 스탬프(여권 위젯/프랜차이즈 도장) 전용 — 가족 전체(아이 포함) 공유
+  // ADMIN_PIN : 준비물 체크·남은 할 일·기획자모드 전용 — 지은·승현만 공유
+  var FAMILY_PIN = '0000';
+  var ADMIN_PIN = '0327';
   var FIREBASE_CONFIG = {
     apiKey: "AIzaSyAEgYIlyE8uZ1oWSFE1ql3uoNz43OYEnWY",
     authDomain: "wild-west-usa-2026.firebaseapp.com",
@@ -2281,9 +2287,9 @@
                 if (window.showToast) window.showToast('🔒 할일 체크가 잠겼습니다');
                 if (window.triggerHaptic) window.triggerHaptic('light');
               } else {
-                // PIN 인증 후 잠금 해제
-                if (window.requestFamilyPin) {
-                  window.requestFamilyPin('남은 할 일 관리', function () {
+                // 관리자 PIN 인증 후 잠금 해제 (지은·승현 전용)
+                if (window.requestPin) {
+                  window.requestPin('admin', '관리자', function () {
                     setTodoUnlocked(true);
                     updateLockUI();
                     if (window.showToast) window.showToast('🔓 할일 체크 잠금이 해제되었습니다');
@@ -2713,6 +2719,68 @@
             <li>💳 <b>현장결제</b> — 카드 불가, 현금만 가능 (금액은 상단 체크포인트 참고)</li>
           </ol>
           <div style="margin-top:8px;font-size:11px;color:var(--muted);"><b style="color:var(--gold-text);">다음 액션</b> — ✅ 예약·결제 완료. 투어 전날 픽업시간 최종 안내(카카오톡 yohantour) 확인만 남음</div>
+        </div>
+
+        <div class="att-guide-section">
+          <h3>🪨 알고 보면 더 재밌는 그랜드캐년</h3>
+          <div class="guide-summary-box">
+            그랜드캐년은 콜로라도강의 침식과 콜로라도 고원의 융기가 동시에 일어나며 만들어졌어요 — 강이 땅을 파고 내려간 게 아니라, 땅이 솟아오르는 속도를 강물이 깎아내는 속도가 따라잡으며 점점 깊어진 지형입니다. 처음엔 그냥 "Big Canyon"·"Great Canyon"으로 불리다가 19세기 후반 존 웨슬리 파월의 콜로라도강 탐험 이후 지금의 "Grand Canyon"으로 정착됐어요.
+          </div>
+
+          <details class="att-fold">
+            <summary class="att-fold-sum">
+              <div class="att-sum-left"><span class="att-icon">🌄</span><div><div class="att-title-ko">마더포인트</div><div class="att-title-en">Mather Point — 오늘의 첫 전망대</div></div></div>
+            </summary>
+            <div class="att-fold-body">
+              <img class="att-photo" src="guides/img/mather-point.jpg" alt="마더포인트에서 바라본 그랜드캐년 전경" loading="lazy">
+              <p class="att-story"><b>📖 지금 보고 있는 것:</b> 절벽에 드러난 색깔 줄무늬 하나하나가 서로 다른 시대에 쌓인 지층. 위에서 아래로 내려갈수록 더 오래된 과거 — 맨 아래층은 무려 20억 년 전 암석입니다.</p>
+              <div class="att-origin"><b>🏷️ 이름 유래:</b> 미국 국립공원관리청(NPS) 초대 청장 스티븐 매더(Stephen Mather)를 기리기 위해 붙여진 이름이에요. 지금처럼 국립공원이 체계적으로 관리되는 데 결정적 역할을 한 인물입니다.</div>
+            </div>
+          </details>
+
+          <details class="att-fold">
+            <summary class="att-fold-sum">
+              <div class="att-sum-left"><span class="att-icon">🗼</span><div><div class="att-title-ko">데저트뷰 워치타워</div><div class="att-title-en">Desert View Watchtower</div></div></div>
+            </summary>
+            <div class="att-fold-body">
+              <img class="att-photo" src="guides/img/desert-view.jpg" alt="데저트뷰 워치타워" loading="lazy">
+              <p class="att-story"><b>📖 지금 보고 있는 것:</b> 원주민 유적처럼 보이지만 실제로는 1932년 건축가 메리 콜터(Mary Jane Colter)가 설계한 20세기 건물이에요 — 고대 원주민(Ancestral Pueblo) 건축양식을 그대로 재현해서 만들었습니다. 관광객 대부분이 "옛날 유적"으로 오해하는 포인트!</p>
+              <div class="att-origin"><b>🏷️ 이름 유래:</b> 이름 그대로 "사막(Desert)을 조망(View)하는 탑" — 이스트림 쪽 사막 지형까지 한눈에 내려다보이는 전망대라서 붙은 이름이에요.</div>
+            </div>
+          </details>
+
+          <details class="att-fold">
+            <summary class="att-fold-sum">
+              <div class="att-sum-left"><span class="att-icon">🕳️</span><div><div class="att-title-ko">앤텔롭캐년</div><div class="att-title-en">Antelope Canyon — 로워 코스</div></div></div>
+            </summary>
+            <div class="att-fold-body">
+              <img class="att-photo" src="guides/img/antelope-canyon.jpg" alt="앤텔롭캐년 내부 빛기둥" loading="lazy">
+              <p class="att-story"><b>📖 지금 보고 있는 것:</b> 몬순 시즌 폭우가 순식간에 사암 틈으로 밀려들며 빠르게 깎아낸 "슬롯캐년"이에요 — 물이 천천히 깎은 게 아니라 급류가 순식간에 만든 통로. 사진 속 그 유명한 주황빛 "빛기둥"도 사실 하늘빛이 직접 들어오는 게 아니라, 햇빛이 좁은 사암 벽에 여러 번 반사되며 만들어지는 거라 실제로 들어가 보면 사진보다 훨씬 어둡습니다.</p>
+              <div class="att-origin"><b>🏷️ 이름 유래:</b> 예전에 이 지역에 프롱혼 영양(antelope) 무리가 겨울마다 몰려와 서식해서 붙은 영어 이름이에요. 나바호어 원래 이름은 "쩨 비가닐리니"(Tsé bighánílíní) — "물이 바위 사이로 흐르는 곳"이라는 뜻입니다.</div>
+            </div>
+          </details>
+
+          <details class="att-fold">
+            <summary class="att-fold-sum">
+              <div class="att-sum-left"><span class="att-icon">🐴</span><div><div class="att-title-ko">홀스슈밴드</div><div class="att-title-en">Horseshoe Bend</div></div></div>
+            </summary>
+            <div class="att-fold-body">
+              <img class="att-photo" src="guides/img/horseshoe-bend.jpg" alt="말굽 모양으로 굽이치는 홀스슈밴드" loading="lazy">
+              <p class="att-story"><b>📖 지금 보고 있는 것:</b> 원래는 평지를 구불구불 흐르던 평범한 강이었어요. 그런데 땅 전체가 아주 천천히 솟아오르는 동안, 강물이 그 속도를 그대로 맞춰가며 계속 깎아내려가서 원래의 구불구불한 물길 모양 그대로 협곡이 파여버렸습니다("entrenched meander"). 평지였다면 진작 사라졌을 곡선이 절벽에 그대로 화석처럼 남은 셈이에요.</p>
+              <div class="att-origin"><b>🏷️ 이름 유래:</b> 그냥 강이 굽이치는 모양이 말굽(horseshoe)을 닮아서 붙은 이름 — 다만 왜 저렇게 완벽한 곡선이 절벽에 그대로 새겨졌는지는 위 설명 그대로입니다.</div>
+            </div>
+          </details>
+
+          <details class="att-fold">
+            <summary class="att-fold-sum">
+              <div class="att-sum-left"><span class="att-icon">🌊</span><div><div class="att-title-ko">글렌캐년댐 · 파웰호수</div><div class="att-title-en">Glen Canyon Dam & Lake Powell</div></div></div>
+            </summary>
+            <div class="att-fold-body">
+              <img class="att-photo" src="guides/img/glen-canyon-dam.jpg" alt="글렌캐년댐과 파웰호수" loading="lazy">
+              <p class="att-story"><b>📖 지금 보고 있는 것:</b> 저 넓은 호수는 자연호수가 아니라 1963년 콜로라도강을 막아 만든 인공호수예요. 라스베가스처럼 물이 귀한 서부 대도시들의 물·전력 공급을 이 댐 하나가 상당 부분 책임지고 있습니다 — 지나온 라스베가스가 쓰는 물도 여기서 온 거예요.</p>
+              <div class="att-origin"><b>🏷️ 이름 유래:</b> 호수 이름은 이 지역을 처음 탐험한 지질학자 존 웨슬리 파월(John Wesley Powell)의 이름을 딴 것. "글렌캐년(Glen Canyon)"은 댐이 들어서기 전 이곳이 좁고 깊은 협곡(glen)이었던 데서 왔습니다.</div>
+            </div>
+          </details>
         </div>
         </div></div>
       </details>
@@ -4462,8 +4530,8 @@
         if (!isVerified) {
           if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 스탬프를 찍을 수 있습니다');
           if (window.triggerHaptic) window.triggerHaptic('warning');
-          if (window.requestFamilyPin) {
-            window.requestFamilyPin('가족', function () {
+          if (window.requestPin) {
+            window.requestPin('family', '가족', function () {
               doStampToggle(dayId, questId);
             });
           }
@@ -4534,429 +4602,10 @@
   </div>
 
   <!-- ==================== 1. 디즈니랜드 패널 ==================== -->
-  <div class="sheet-park-panel" id="sheetPanelDisney">
-    <div class="guide-summary-box">
-      <strong>🎯 핵심 전략:</strong> 08:00 로프드롭 직후 좌측(스타워즈/인디아나) 선공략 ➔ 오후 중앙/투모로우랜드 분산 ➔ 21:00 캐슬 원드러스 저니
-    </div>
-
-    <!-- 1-1. 타임라인 동선 -->
-    <div class="timeline-strategy">
-      <h3>⏰ 분초 단위 추천 동선</h3>
-      <ul class="strategy-steps">
-        <li><span class="step-time">07:15</span> <span class="step-desc">숙소 출발 ➔ Harbor Blvd 게이트 보안검색 ➔ 07:40 허브 좌측 로프 대기</span></li>
-        <li><span class="step-time">08:00~10:30</span> <span class="step-desc"><b>[골든타임]</b> 라이즈 오브 레지스탕스 ➔ 밀레니엄 팔콘 ➔ 정글 크루즈</span></li>
-        <li><span class="step-time">10:45~13:30</span> <span class="step-desc">모바일오더 점심(Docking Bay 7 / Plaza Inn) ➔ 캐리비안의 해적 ➔ 헌티드 맨션</span></li>
-        <li><span class="step-time">14:00~16:30</span> <span class="step-desc"><b>[체력방어]</b> 디즈니랜드 철도(20분 휴식) ➔ 미키&amp;미니 런어웨이 ➔ Dole Whip 간식</span></li>
-        <li><span class="step-time">17:00~21:30</span> <span class="step-desc">스페이스 마운틴 ➔ 파크 내 Rancho del Zocalo 저녁 ➔ 20:00 빅선더 야간탑승 ➔ 21:00 원드러스 저니</span></li>
-      </ul>
-    </div>
-
-    <!-- 1-2. 8대 어트랙션 스토리 & 실전 도감 -->
-    <div class="att-guide-section">
-      <h3>🎢 핵심 어트랙션 스토리 &amp; 공략 도감 (탭하여 펼치기)</h3>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🌌</span>
-            <div>
-              <div class="att-title-ko">스타워즈: 라이즈 오브 더 레지스탕스</div>
-              <div class="att-title-en">Star Wars: Rise of the Resistance</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Tier 1 · 08:00 직행</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Galaxy's Edge</span> <span>📏 키 102cm</span> <span>⏱️ 18분 트랙리스 다크라이드</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 외계 행성 바투의 레지스탕스 비밀 기지에서 신병으로 합류했으나 퍼스트 오더 전함에 나포되어 카일로 렌의 심문을 받다 무궤도 드로이드로 탈출하는 초대형 여정.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 1:1 스케일 스톰트루퍼 50인 도열 격납고, 2층 높이 거대 AT-AT 보행 병기, 천장을 뚫고 내려오는 붉은 광선검 기믹.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>08:00 로프드롭 직후 최우선 공략 (대기 40분 이내 컷). 미오픈 시 즉시 인디아나 존스로 피벗.</li>
-              <li>1열은 전방 파노라마 시야, 2열은 카일로 렌 광선검 천장 연출 관람 최고 명당.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🚀</span>
-            <div>
-              <div class="att-title-ko">밀레니엄 팔콘: 스머글러스 런</div>
-              <div class="att-title-en">Millennium Falcon: Smugglers Run</div>
-            </div>
-          </div>
-          <span class="att-badge tier2">Tier 2 · 인터랙티브</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Galaxy's Edge</span> <span>📏 키 97cm</span> <span>⏱️ 6인 실시간 시뮬레이터</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 우주 해적 혼도 오나카의 의뢰로 전설의 고철 우주선 팔콘호를 몰고 은하계 코액슘 연료 밀수를 감행.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 6인의 실제 조작(파일럿/포수/엔지니어)에 따라 실시간 렌더링 물리 엔진으로 요동치는 조종석.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>아이들은 무조건 전방 <b>파일럿(Pilot)</b> 좌석 배정 (우측 파일럿이 하이퍼스페이스 워프 레버 조작).</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🤠</span>
-            <div>
-              <div class="att-title-ko">인디아나 존스 어드벤처</div>
-              <div class="att-title-en">Indiana Jones Adventure</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Tier 1 · 다이내믹</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Adventureland</span> <span>📏 키 117cm</span> <span>⏱️ EMV 군용 지프 모션</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 1935년 '금지된 눈의 사원'. 마라 신의 눈을 마주치지 말라는 경고를 어긴 탐험대를 구출하는 위험천만한 모험.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 요동치는 군용 지프, 불을 뿜는 거대 석상, 전방에서 굴러떨어지는 5m 초대형 바위 트릭.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>차량 좌측 바깥 좌석이 시야 최고. 흔들림이 매우 강하므로 중앙 안전바 파지 필수.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🚂</span>
-            <div>
-              <div class="att-title-ko">빅 선더 마운틴 레일로드</div>
-              <div class="att-title-en">Big Thunder Mountain Railroad</div>
-            </div>
-          </div>
-          <span class="att-badge tier2">야간 추천</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Frontierland</span> <span>📏 키 102cm</span> <span>⏱️ 고속 광산 롤러코스터</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 1850년대 골드러시 광산. 원주민의 저주로 기관사 없이 붉은 협곡을 폭주하는 유령 광산 열차.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 붉은 바위 협곡을 급선회하며 갱도 내 타들어가는 도화선과 다이너마이트 폭발 연출.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li><b>일몰 직후 또는 20:00 야간 탑승</b> 시 조명 켜진 협곡 야경과 함께 만족도 200% 극대화. 열차 맨 뒤 칸(5~6번)이 에어타임 명당.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🌌</span>
-            <div>
-              <div class="att-title-ko">스페이스 마운틴</div>
-              <div class="att-title-en">Space Mountain</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">실내 코스터</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Tomorrowland</span> <span>📏 키 102cm</span> <span>⏱️ 암흑 속 우주 코스터</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> Space Station 77에서 출발하여 미지의 소행성대와 블랙홀로 빨려 들어가는 심우주 탐사 로켓.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 칠흑 같은 암흑 속 성운 레이저와 마이클 지아키노의 오케스트라 사운드트랙 싱크.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>트랙 방향을 예측할 수 없으므로 시선 정면 유지. 급하강 없는 뱅킹 코스터라 롤러코스터 입문용으로 최적.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🏴‍☠️</span>
-            <div>
-              <div class="att-title-ko">캐리비안의 해적</div>
-              <div class="att-title-en">Pirates of the Caribbean</div>
-            </div>
-          </div>
-          <span class="att-badge tier3">낮 피크 구원투수</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 New Orleans Square</span> <span>📏 키 제한 없음</span> <span>⏱️ 대형 보트 다크라이드</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 루이지애나 늪지대에서 시작해 17세기 카리브해 해적들의 항구 약탈과 불타는 보물창고로의 시간 여행.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 120여 개의 애니매트로닉스, 실제 화약/바다 냄새, 보물창고를 지키는 잭 스패로우 피규어.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>피크타임(12~14시)에도 대기 20분 내외 유지. 초반 동굴 완만 슬라이드 낙하 2회(1열 약간의 물튐).</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">👻</span>
-            <div>
-              <div class="att-title-ko">헌티드 맨션</div>
-              <div class="att-title-en">Haunted Mansion</div>
-            </div>
-          </div>
-          <span class="att-badge tier3">클래식 명작</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 New Orleans Square</span> <span>📏 키 제한 없음</span> <span>⏱️ 둠 버기 다크라이드</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 999명의 유령들이 사는 대저택에 1,000번째 유령으로 초대받아 유쾌한 심령 연회 관람.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 투명 유령들의 연회장 댄스(Pepper's Ghost 착시), 거울 속 히치하이킹 유령.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>스트레칭 룸 퇴장 시 문 열리는 쪽(벽난로 반대편 벽) 선점으로 승강장 빠른 진입.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🎪</span>
-            <div>
-              <div class="att-title-ko">미키 &amp; 미니의 런어웨이 레일웨이</div>
-              <div class="att-title-en">Mickey &amp; Minnie's Runaway Railway</div>
-            </div>
-          </div>
-          <span class="att-badge tier2">가족 힐링 1위</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Mickey's Toontown</span> <span>📏 키 제한 없음</span> <span>⏱️ 무궤도 2.5D 라이드</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 미키 단편 애니 시사회 중 스크린이 폭발하며 구피가 모는 기차를 타고 2D 만화 세상으로 진입.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 3D 안경 없는 2.5D 프로젝션 매핑과 방마다 왈츠를 추며 분리되는 무궤도 열차.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>14~16시 체력 방전 시간대 쾌적한 실내 에어컨과 함께 즐기는 가족 힐링 코스.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <!-- 1-3. F&B & 비상 팁 -->
-    <div class="tip-note" style="margin-top:16px;">
-      <div class="tip-note-title">💡 디즈니랜드 식음 &amp; 현장 필수 팁</div>
-      <ol class="cheat-list">
-        <li>📱 <b>모바일 오더 필수</b> — 11:30~13:30 식당 대기열 40분+ 소요 ➔ 30분 전 디즈니 앱 모바일 오더로 주문 완료</li>
-        <li>✨ <b>원드러스 저니 명당</b> — 캐슬 앞 혼잡 회피, <b>메인 스트리트 Emporium 앞 또는 기차역 계단</b> 확보 시 퇴장 5분 컷</li>
-      </ol>
-    </div>
-  </div>
+  <div class="sheet-park-panel" id="sheetPanelDisney" data-guide-src="guides/disneyland.html"></div>
 
   <!-- ==================== 2. 유니버셜 스튜디오 패널 ==================== -->
-  <div class="sheet-park-panel hidden" id="sheetPanelUniversal">
-    <div class="guide-summary-box">
-      <strong>🎯 핵심 전략:</strong> Starway 이동 최소화! 1일차 오후 Lower Lot(닌텐도/쥬라기/머미) 몰아치기 ➔ 2일차 Upper Lot(해리포터/스튜디오투어/워터월드) 완주
-    </div>
-
-    <!-- 2-1. 2일 분할 타임라인 -->
-    <div class="timeline-strategy">
-      <h3>⏰ 2일 분할 추천 동선</h3>
-      <ul class="strategy-steps">
-        <li><span class="step-time">[1일차 12:30~]</span> <span class="step-desc"><b>Lower Lot:</b> 입장 즉시 스타웨이 하강 ➔ 마리오카트 ➔ 쥬라기월드 ➔ 머미 ➔ 시티워크 디너</span></li>
-        <li><span class="step-time">[2일차 09:00~]</span> <span class="step-desc"><b>Upper Lot:</b> 09:00 오픈런 해리포터 ➔ 10:00 스튜디오투어(60분) ➔ 쓰리브룸스틱스 ➔ 13:00 워터월드 ➔ 패밀리 라이드 ➔ 17:30 주간 마감 퇴장</span></li>
-      </ul>
-    </div>
-
-    <!-- 2-2. 7대 어트랙션 스토리 & 실전 도감 -->
-    <div class="att-guide-section">
-      <h3>🎢 핵심 어트랙션 스토리 &amp; 공략 도감 (탭하여 펼치기)</h3>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🍄</span>
-            <div>
-              <div class="att-title-ko">마리오 카트: 쿠파의 도전</div>
-              <div class="att-title-en">Mario Kart: Bowser's Challenge</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Lower Lot · AR 레이싱</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Super Nintendo World</span> <span>📏 키 107cm</span> <span>⏱️ AR 고글 인터랙티브</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 쿠파 성 내부. 마리오 팀이 되어 무지개 로드에서 쿠파 군단과 황금 컵을 두고 레이싱 대결.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 자석 탈착식 AR 고글, 실물 세트와 디지털 홀로그램의 결합, 핸들 조작 및 등껍질 발사.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>코너 진입 시 노란 화살표 방향으로 핸들을 꺾어야 드리프트 코인 획득 (100코인 이상 시 승리).</li>
-              <li>대기 70분 이상 시 <b>싱글 라이더(Single Rider)</b> 활용 (20분 컷).</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🦖</span>
-            <div>
-              <div class="att-title-ko">쥬라기 월드 더 라이드</div>
-              <div class="att-title-en">Jurassic World - The Ride</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Lower Lot · 워터 드롭</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Lower Lot</span> <span>📏 키 107cm</span> <span>⏱️ 25m 급하강 보트</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 평화로운 투어 보트가 인도미누스 렉스의 탈출로 최상위 육식공룡 구역에 갇히며 조난.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 거대 모사사우루스 수족관 스크린, T-렉스 vs 인도미누스 격돌 직후 25m(84피트) 급하강 낙하.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li><b>1~2열은 머리부터 발끝까지 젖는 Soak Zone (우비 미지참 시 옷 젖음 주의)</b>. 소지품은 발밑 방수 포켓에 밀어 넣을 것.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">⚡</span>
-            <div>
-              <div class="att-title-ko">리벤지 오브 더 미이라</div>
-              <div class="att-title-en">Revenge of the Mummy - The Ride</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Lower Lot · 급발진</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Lower Lot</span> <span>📏 키 122cm</span> <span>⏱️ 72km/h 실내 롤러코스터</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 이집트 무덤 발굴 중 부활한 파라오 이모텝의 저주로 스카라베와 언데드 군단에 쫓김.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 천장 실제 화염 불바다, 어둠 속에서 갑자기 <b>후진으로 곤두박질치는 역방향 트랙</b>.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>입구 좌측 <b>무료 락커에 스마트폰/가방 100% 보관 필수</b>. 목 꺾임 방지를 위해 헤드레스트 밀착.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🏰</span>
-            <div>
-              <div class="att-title-ko">해리포터 앤 더 포비든 저니</div>
-              <div class="att-title-en">Harry Potter and the Forbidden Journey</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">Upper Lot · 로봇암</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Hogsmeade</span> <span>📏 키 122cm</span> <span>⏱️ 360도 피벗 로봇암</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 헤르미온느의 플루 가루 마법으로 날아다니는 벤치를 타고 퀴디치 경기장과 금지된 숲 비행.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 산업용 로봇 암 끝에 매달려 공중 360도 회전, 실물 크기 디멘터의 키스 공격.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>호그와트 성 내부(말하는 초상화, 분류 모자) 포토존. <b>멀미 유발도가 높으므로 멀미약 사전 복용 권장</b>.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🎬</span>
-            <div>
-              <div class="att-title-ko">세계적인 스튜디오 투어 (60분)</div>
-              <div class="att-title-en">World-Famous Studio Tour</div>
-            </div>
-          </div>
-          <span class="att-badge tier1">USH 시그니처</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 60분 4단 트램 투어</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 실제 할리우드 영화/드라마 400에이커 제작 현장을 4단 트램으로 탐방하는 USH의 심장.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 킹콩 360 3D, 플래시 플러드 홍수, &lt;죠스&gt; 식인상어 폭발, &lt;우주전쟁&gt; 보잉 747 잔해, &lt;싸이코&gt; 베이츠 모텔 살인마 노먼 베이츠 시체 유기 퍼포먼스.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li><b>트램 2~3번째 칸의 '왼쪽(좌측 좌석)'</b> 탑승 필수 (모든 핵심 쇼가 좌측에 배치됨).</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🌊</span>
-            <div>
-              <div class="att-title-ko">워터월드 라이브 스턴트 쇼</div>
-              <div class="att-title-en">WaterWorld</div>
-            </div>
-          </div>
-          <span class="att-badge tier2">라이브 스턴트</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 20분 해상 스턴트 쇼</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 물로 뒤덮인 미래 지구. '드라이랜드'를 지키기 위한 주민들과 스모커 악당들의 해상 요새 전투.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 15m 고공 다이빙, 제트스키 기동, 불길 화염 폭발, <b>실물 수상 비행기 풀장 추락 스턴트</b>.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>앞쪽 녹색 벤치는 물벼락 구역. <b>중앙 상단 은색 벤치</b>가 젖지 않고 전체 와이드 뷰를 감상하는 최고 명당.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-
-      <details class="att-fold">
-        <summary class="att-fold-sum">
-          <div class="att-sum-left">
-            <span class="att-icon">🐶</span>
-            <div>
-              <div class="att-title-ko">마이펫의 이중생활: 오프 더 리쉬</div>
-              <div class="att-title-en">The Secret Life of Pets</div>
-            </div>
-          </div>
-          <span class="att-badge tier3">퇴장 전 힐링</span>
-        </summary>
-        <div class="att-fold-body">
-          <div class="att-meta"><span>📍 Upper Lot</span> <span>📏 키 제한 없음</span> <span>⏱️ 모션캡처 다크라이드</span></div>
-          <p class="att-story"><b>📖 세계관 &amp; 스토리:</b> 뉴욕 골목길 유기견 강아지가 되어 새로운 가족에게 입양되기 위해 아파트를 탐험하는 모험.</p>
-          <p class="att-story"><b>🎬 연출 하이라이트:</b> 거울을 지날 때 <b>탑승자의 얼굴과 손동작이 귀여운 강아지 아바타로 실시간 투영</b>.</p>
-          <div class="att-cheat">
-            <b>⚡ 실전 탑승 치트키:</b>
-            <ul>
-              <li>출구 근처에 위치해 15:30~16:00 퇴장 직전 가족 힐링 마무리 코스로 최적.</li>
-            </ul>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <!-- 2-3. USH 필수 체크포인트 -->
-    <div class="tip-note" style="margin-top:16px;">
-      <div class="tip-note-title">💡 유니버셜 스튜디오 필수 체크포인트</div>
-      <ol class="cheat-list">
-        <li>🪜 <b>스타웨이 이동 제한</b> — 상·하부 왕복 하루 1회로 제한 ➔ 체력 손실 방지</li>
-        <li>⚠️ <b>10/8(목) 주간 마감</b> — 야간 HHN 행사로 일반 파크 17:30 마감 ➔ 마감 시각까지 즐긴 후 우버로 호텔 복귀</li>
-      </ol>
-    </div>
-  </div>
+  <div class="sheet-park-panel hidden" id="sheetPanelUniversal" data-guide-src="guides/universal.html"></div>
 </div>
 
 <div class="img-modal" id="img-modal">
@@ -5211,7 +4860,7 @@
     <h3 id="pinModalTitle">🔒 <span id="pinModalOwnerName">승현</span>님 확인</h3>
     <button type="button" id="pinCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
   </div>
-  <p class="pin-modal-sub">가족 확인용 4자리 PIN을 입력해주세요</p>
+  <p class="pin-modal-sub" id="pinModalSub">가족 PIN 4자리를 입력해주세요</p>
   <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="pin-input" id="pinInput" autocomplete="off" placeholder="••••">
   <p class="pin-error hidden" id="pinError">핀번호가 올바르지 않습니다. 다시 입력해주세요.</p>
 </div>
@@ -5619,13 +5268,13 @@
           input.checked = !!state[it.id];
 
           input.addEventListener("change", function () {
-            var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+            var isVerified = localStorage.getItem('us_trip_admin_pin_verified') === 'true';
             if (!isVerified) {
               input.checked = !input.checked; // 체크 상태 원복
-              if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 체크할 수 있습니다');
+              if (window.showToast) window.showToast('🔒 관리자 인증 후 체크할 수 있습니다 (지은·승현 전용)');
               if (window.triggerHaptic) window.triggerHaptic('warning');
-              if (window.requestFamilyPin) {
-                window.requestFamilyPin('가족', function () {
+              if (window.requestPin) {
+                window.requestPin('admin', '관리자', function () {
                   // 인증 완료 시 즉시 체크 처리
                   input.checked = true;
                   state[it.id] = true;
@@ -5674,11 +5323,11 @@
 
     if (selectAllBtn) {
       selectAllBtn.addEventListener("click", function () {
-        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+        var isVerified = localStorage.getItem('us_trip_admin_pin_verified') === 'true';
         if (!isVerified) {
-          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 일괄 변경할 수 있습니다');
+          if (window.showToast) window.showToast('🔒 관리자 인증 후 일괄 변경할 수 있습니다 (지은·승현 전용)');
           if (window.triggerHaptic) window.triggerHaptic('warning');
-          if (window.requestFamilyPin) window.requestFamilyPin('가족');
+          if (window.requestPin) window.requestPin('admin', '관리자');
           return;
         }
 
@@ -5695,11 +5344,11 @@
     }
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
-        var isVerified = localStorage.getItem('us_trip_pin_verified') === 'true';
+        var isVerified = localStorage.getItem('us_trip_admin_pin_verified') === 'true';
         if (!isVerified) {
-          if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 일괄 변경할 수 있습니다');
+          if (window.showToast) window.showToast('🔒 관리자 인증 후 일괄 변경할 수 있습니다 (지은·승현 전용)');
           if (window.triggerHaptic) window.triggerHaptic('warning');
-          if (window.requestFamilyPin) window.requestFamilyPin('가족');
+          if (window.requestPin) window.requestPin('admin', '관리자');
           return;
         }
         if (!confirm("모든 체크 상태를 초기화할까요? 되돌릴 수 없습니다.")) return;
@@ -5825,8 +5474,8 @@
       if (!btn || !window.TripSync) return;
       var name = btn.getAttribute('data-owner');
       var needsPin = (name === '승현' || name === '지은');
-      if (needsPin && window.requestFamilyPin) {
-        window.requestFamilyPin(name, function () { applyOwner(name); });
+      if (needsPin && window.requestPin) {
+        window.requestPin('admin', name, function () { applyOwner(name); });
       } else {
         applyOwner(name);
       }
@@ -6082,6 +5731,49 @@
     var sheetTabs = sheet.querySelectorAll('.guide-park-tabs .park-tab');
     var sheetPanels = { disney: document.getElementById('sheetPanelDisney'), universal: document.getElementById('sheetPanelUniversal') };
 
+    /* ==========================================================
+       가이드 패널 지연로딩 (A-1)
+       - 디즈니/유니버설 가이드 마크업을 별도 파일(guides/*.html)로 분리해두고
+         이 바텀시트를 실제로 열 때만 fetch — 메인 페이지 초기 파싱량 절감
+       - 네트워크 실패(오프라인 등) 시에는 최근 성공 로드분을 localStorage에서 복원
+         (환율 엔진의 "네트워크 우선 → 로컬 캐시 폴백" 패턴과 동일)
+    ========================================================== */
+    var GUIDE_CACHE_PREFIX = 'us_trip_guide_cache_';
+
+    function loadGuidePanel(panelEl) {
+      if (!panelEl || panelEl.dataset.loaded === '1') return;
+      var src = panelEl.getAttribute('data-guide-src');
+      if (!src) return;
+      var cacheKey = GUIDE_CACHE_PREFIX + src;
+
+      function renderFromCache() {
+        var cached = null;
+        try { cached = localStorage.getItem(cacheKey); } catch (e) {}
+        if (cached) {
+          panelEl.innerHTML = cached;
+          panelEl.dataset.loaded = '1';
+          return true;
+        }
+        return false;
+      }
+
+      fetch(src)
+        .then(function (res) {
+          if (!res.ok) throw new Error('guide fetch failed: ' + res.status);
+          return res.text();
+        })
+        .then(function (html) {
+          panelEl.innerHTML = html;
+          panelEl.dataset.loaded = '1';
+          try { localStorage.setItem(cacheKey, html); } catch (e) {}
+        })
+        .catch(function () {
+          if (!renderFromCache()) {
+            panelEl.innerHTML = '<div class="tip-note"><div class="tip-note-title">⚠️ 가이드를 불러오지 못했습니다</div>네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+          }
+        });
+    }
+
     function openSheet() {
       backdrop.classList.add('open');
       sheet.classList.add('open');
@@ -6089,6 +5781,10 @@
       document.body.style.overflow = 'hidden';
       triggerHaptic('light');
       if (window.pushModalNavState) window.pushModalNavState();
+      // 현재 활성 탭(기본값 디즈니)의 패널을 이 시점에 처음으로 로드
+      var activePark = sheet.querySelector('.guide-park-tabs .park-tab.active');
+      var key = activePark ? activePark.getAttribute('data-sheet-park') : 'disney';
+      loadGuidePanel(sheetPanels[key]);
     }
 
     function closeSheet() {
@@ -6124,6 +5820,7 @@
         Object.keys(sheetPanels).forEach(function(key) {
           if (sheetPanels[key]) sheetPanels[key].classList.toggle('hidden', key !== park);
         });
+        loadGuidePanel(sheetPanels[park]);
         triggerHaptic('light');
       });
     });
@@ -6530,6 +6227,42 @@
   })();
 
   /* ==========================================================
+     데이터 지연로딩 공통 유틸 (A-2)
+     - loadGuidePanel(A-1, initParkBottomSheet 내부)의 "fetch 성공 시 캐시 저장 →
+       실패 시 캐시 폴백" 패턴을 JSON 데이터 전반에 쓸 수 있게 일반화한 것
+     - 트레이더조/코스트코/월마트/프랜차이즈/위스키 5개 모달이 모두 이 함수로
+       각자의 /data/*.json을 처음 열 때만 fetch한다
+  ========================================================== */
+  var DATA_CACHE_PREFIX = 'us_trip_data_cache_';
+
+  function loadJsonData(cacheKey, url, onSuccess, onError) {
+    function fromCache() {
+      var cached = null;
+      try { cached = localStorage.getItem(DATA_CACHE_PREFIX + cacheKey); } catch (e) {}
+      if (!cached) return false;
+      try {
+        onSuccess(JSON.parse(cached));
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('data fetch failed: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        onSuccess(data);
+        try { localStorage.setItem(DATA_CACHE_PREFIX + cacheKey, JSON.stringify(data)); } catch (e) {}
+      })
+      .catch(function () {
+        if (!fromCache() && onError) onError();
+      });
+  }
+
+  /* ==========================================================
      [4-0g] 트레이더 조(Trader Joe's) 쇼핑 리스트 모달
   ========================================================== */
   (function initTjModal() {
@@ -6548,53 +6281,12 @@
 
     // 외부 이미지(토트백 실물 사진)는 오프라인/Artifact 환경에서 차단되므로 폴백을 유지한다.
     var TJ_FALLBACK_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%232c243f'/%3E%3Ctext x='24' y='28' font-size='14' fill='%23a99bc2' text-anchor='middle' font-family='sans-serif'%3ETJ%3C/text%3E%3C/svg%3E";
-    var TJ_TOTE_IMG = "https://images.stockx.com/images/Trader-Joes-Mini-Canvas-Tote-Bag-Set-of-4.jpg?fit=fill&bg=FFFFFF&w=480&h=320&q=60&dpr=1&trim=color&updated_at=1727157658";
 
-    function tjImg(color, label) {
-      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
-        "%3Crect width='120' height='120' rx='16' fill='" + color + "'/%3E" +
-        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + label + "%3C/text%3E" +
-        "%3C/svg%3E";
-    }
-
-    var tjMasterData = [
-      // ── 1. Bags & Goods ──
-      { id: "tj-b1", cat: "Bags", tag: "귀국선물", name: "기본 캔버스 토트백 (Canvas Tote Bag)", price: "$3.99", priceNum: 3.99, customsStatus: "safe", customsNote: "통관 완전 안전 (면세 한도 내 무제한 반입 가능)", star: "★★★", img: TJ_TOTE_IMG, note: "내구성 뛰어난 면 캔버스 소재. 지인 선물용 가성비 1순위." },
-      { id: "tj-b2", cat: "Bags", tag: "귀국선물", name: "미니 캔버스 토트백 (Mini Tote Bag)", price: "$3.00", priceNum: 3.00, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: TJ_TOTE_IMG, note: "미국 전역 오픈런 품절 대란 시그니처 굿즈. 매장 진열 즉시 장바구니 필수." },
-      { id: "tj-b3", cat: "Bags", tag: "귀국선물", name: "한정판 대형 보냉백 (Large Insulated Bag)", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%232a9d8f', '보냉백'), note: "올리브 그린/더스티 블루 등 한정 컬러. 로드트립 음료 보관 및 귀국 짐 수납 최적." },
-      { id: "tj-b4", cat: "Bags", tag: "귀국선물", name: "스탠드업 접이식 장바구니 토트백", price: "$3.99", priceNum: 3.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★", img: tjImg('%232a9d8f', '장바구니'), note: "바닥면이 넓어 물건이 쓰러지지 않는 실용적 패브릭 백." },
-
-      // ── 2. Beauty & Body ──
-      { id: "tj-u1", cat: "Beauty", tag: "귀국선물", name: "브라질 넛 바디 버터 8oz (Brazil Nut Body Butter)", price: "$5.99", priceNum: 5.99, customsStatus: "safe", customsNote: "통관 안전 (액체류 수하물 규정 준수)", star: "★★★", img: tjImg('%237c5cbf', '바디버터'), note: "2026 바디 부문 1위. 7만원대 명품 솔데자네이루 저렴이 버전 극강 보습." },
-      { id: "tj-u2", cat: "Beauty", tag: "귀국선물", name: "레티놀 나이트 세럼 (Retinol Night Serum)", price: "$9.99", priceNum: 9.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '레티놀'), note: "자극 없이 매끄러운 피부결을 가꿔주는 1만원 미만 가성비 나이트 세럼." },
-      { id: "tj-u3", cat: "Beauty", tag: "귀국선물", name: "울트라 하이드레이팅 젤 수분크림", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '수분크림'), note: "오일프리 알로에·녹차 추출물 함유. 끈적임 없는 산뜻한 수분 충전." },
-      { id: "tj-u4", cat: "Beauty", tag: "귀국선물", name: "히알루로닉 하이드레이팅 세럼", price: "$8.99", priceNum: 8.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★", img: tjImg('%237c5cbf', '세럼'), note: "고분자·저분자 히알루론산 복합 배합. 사막 건조 피부 즉각 진정." },
-      { id: "tj-u5", cat: "Beauty", tag: "귀국선물", name: "슈프림 하이드레이팅 아이크림", price: "$5.99", priceNum: 5.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★", img: tjImg('%237c5cbf', '아이크림'), note: "펩타이드 및 비타민 C/E 배합. 끈적임 없는 눈가 탄력 케어." },
-      { id: "tj-u6", cat: "Beauty", tag: "귀국선물", name: "울트라 모이스처라이징 핸드크림", price: "$4.99", priceNum: 4.99, customsStatus: "safe", customsNote: "통관 안전", star: "★★★", img: tjImg('%237c5cbf', '핸드크림'), note: "록시땅 핸드크림 유사 20% 퓨어 시어버터 함유. 단체 소분 선물 1순위." },
-      { id: "tj-u7", cat: "Beauty", tag: "귀국선물", name: "라벤더/라임 손 소독제 스프레이", price: "$1.99", priceNum: 1.99, customsStatus: "safe", customsNote: "통관 안전 (기내 반입 액체 규정 100ml 이하 확인)", star: "★★", img: tjImg('%237c5cbf', '소독제'), note: "알코올 향 대신 은은한 천연 에센셜 오일 향. 여행 가방 필수품." },
-
-      // ── 3. Pantry & Seasoning ──
-      { id: "tj-p1", cat: "Pantry", tag: "현지취식권장", name: "에브리씽 베이글 시즈닝 (EBTB)", price: "$3.99", priceNum: 3.99, customsStatus: "banned", customsNote: "⚠️ 한국 반입 절대 금지 (양귀비 씨앗 성분 함유로 세관 압수/과태료 대상)", star: "★★★", img: tjImg('%23e63946', '반입금지'), note: "미국 내 취식만 가능! 숙소 조식 계란후라이/아보카도 토스트용." },
-      { id: "tj-p2", cat: "Pantry", tag: "귀국선물", name: "21 시즈닝 살루트 무염 조미료 (21 Salute)", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전 (합법 반입 가능)", star: "★★★", img: tjImg('%23d97706', '시즈닝'), note: "양귀비 씨앗 없는 안전 시즈닝. 21가지 허브 블렌드로 고기/야채/파스타 만능." },
-      { id: "tj-p3", cat: "Pantry", tag: "귀국선물", name: "스페쿨로스 쿠키 버터 스프레드", price: "$4.49", priceNum: 4.49, customsStatus: "safe", customsNote: "통관 안전 (수탁 수하물 위탁 권장)", star: "★★★", img: tjImg('%23d97706', '쿠키버터'), note: "로투스 비스코프 비스킷을 크리미하게 갈아 넣은 마약 스프레드." },
-      { id: "tj-p4", cat: "Pantry", tag: "귀국선물", name: "깔라마리 올리브오일 통조림 (Calamari)", price: "$3.00", priceNum: 3.00, customsStatus: "safe", customsNote: "통관 안전 (수산물 캔 가공식품 합법)", star: "★★", img: tjImg('%23d97706', '통조림'), note: "스페인산 오징어를 오일에 절인 고급 안주. 파스타나 바게트 카나페용." },
-
-      // ── 4. Snacks & Sweets ──
-      { id: "tj-s1", cat: "Snacks", tag: "귀국선물", name: "다크 초콜릿 피넛버터 컵 16oz (PB Cups)", price: "$4.49", priceNum: 4.49, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '피넛버터컵'), note: "트레이더 조 부동의 명예의 전당 1위. 묵직한 다크초코 속 짭조름한 땅콩버터." },
-      { id: "tj-s2", cat: "Snacks", tag: "귀국선물", name: "갈릭 버터 아이리시 감자칩 (Irish Chips)", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '감자칩 1위'), note: "2026 스낵 부문 1위. 아일랜드 감자로 튀긴 바삭한 케틀칩에 풍부한 마늘 버터." },
-      { id: "tj-s3", cat: "Snacks", tag: "귀국선물", name: "칠리 & 라임 롤드 콘 토티야 칩", price: "$2.99", priceNum: 2.99, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★★", img: tjImg('%23b6552f', '칠리라임'), note: "명예의 전당 입성 스낵. 타키스 스타일의 강렬한 매콤새콤 단짠 옥수수칩." },
-      { id: "tj-s4", cat: "Snacks", tag: "귀국선물", name: "딸기 미니 모찌 구미 (Strawberry Gummies)", price: "$2.29", priceNum: 2.29, customsStatus: "safe", customsNote: "통관 완전 안전", star: "★★", img: tjImg('%23b6552f', '젤리'), note: "2026 히든 젬 선정. 쫄깃한 떡 식감과 상큼한 천연 딸기 과즙." },
-
-      // ── 5. Frozen & Fresh (현지 소비 권장) ──
-      { id: "tj-f1", cat: "Frozen", tag: "현지소비", name: "스팀 포크 & 진저 샤오롱바오 (Soup Dumplings)", price: "$3.49", priceNum: 3.49, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (육류 성분 및 냉동 미가공 식품 검역 대상)", star: "★★★", img: tjImg('%232563a8', '종합 1위'), note: "2026 고객 투표 종합 1위. 숙소 전자레인지 2분 조리 야식용(6개입)." },
-      { id: "tj-f2", cat: "Frozen", tag: "현지소비", name: "버터 치킨 & 바스마티 라이스 도시락", price: "$4.49", priceNum: 4.49, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (가금류 가공육 검역 대상)", star: "★★★", img: tjImg('%232563a8', '식사 1위'), note: "2026 식사 부문 1위. 인도식 버터 커리와 길쭉한 쌀밥의 든든한 1인분 간편식." },
-      { id: "tj-f3", cat: "Frozen", tag: "현지소비", name: "해시브라운 패티 10개입 (Hashbrowns)", price: "$2.79", priceNum: 2.79, customsStatus: "restricted", customsNote: "냉동 보관 필요 (미국 체류 중 조식용 소비 권장)", star: "★★★", img: tjImg('%232563a8', '아침 1위'), note: "2026 아침 부문 1위. 맥도날드 해시브라운 완벽 상위 호환 패티." },
-      { id: "tj-f4", cat: "Frozen", tag: "현지소비", name: "만다린 오렌지 치킨 (Orange Chicken)", price: "$4.99", priceNum: 4.99, customsStatus: "banned", customsNote: "⚠️ 한국 반입 금지 (육류 가공품 검역 대상)", star: "★★★", img: tjImg('%232563a8', '오렌지치킨'), note: "명예의 전당 헌액 치킨. 바삭하게 구워 새콤달콤 소스에 버무리는 미국식 중화요리." },
-      { id: "tj-f5", cat: "Frozen", tag: "현지소비", name: "서블라임 아이스크림 샌드위치 4개입", price: "$4.99", priceNum: 4.99, customsStatus: "restricted", customsNote: "냉동 보관 필수 (체류 중 디저트 소비)", star: "★★★", img: tjImg('%232563a8', '디저트 1위'), note: "2026 디저트 부문 1위. 두툼한 초코칩 쿠키 사이에 바닐라 아이스크림 샌드." },
-
-      // ── 6. Alcohol (주류) ──
-      { id: "tj-a1", cat: "Alcohol", tag: "귀국선물", name: "트레이더 조 나파밸리 리저브 와인 (Napa Reserve)", price: "$18.00", priceNum: 18.00, customsStatus: "restricted", customsNote: "주류 면세 한도 적용 (1인 2병, 합산 2L 및 $400 이하)", star: "★★★", img: tjImg('%237209b7', '나파와인'), note: "나파밸리 유명 빈야드와 독점 협업한 18달러 극가성비 프리미엄 까베르네 소비뇽." }
-    ];
+    // 아이템 데이터는 더 이상 인라인 리터럴이 아니라 data/trader-joe.json에서
+    // 모달을 처음 열 때 fetch로 불러온다 (loadJsonData, A-2)
+    var tjMasterData = [];
+    var tjDataLoaded = false;
+    var tjDataLoading = false;
 
     var activeFilter = 'all';
 
@@ -6675,12 +6367,28 @@
       }
     }
 
+    function ensureTjDataLoaded(afterLoad) {
+      if (tjDataLoaded) { afterLoad(); return; }
+      if (tjDataLoading) return;
+      tjDataLoading = true;
+      listContainer.innerHTML = '<div class="tj-empty">불러오는 중...</div>';
+      loadJsonData('trader-joe', 'data/trader-joe.json', function (data) {
+        tjMasterData = data;
+        tjDataLoaded = true;
+        tjDataLoading = false;
+        afterLoad();
+      }, function () {
+        tjDataLoading = false;
+        listContainer.innerHTML = '<div class="tj-empty">⚠️ 데이터를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+      });
+    }
+
     function openModal() {
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
-      applyFilters();
+      ensureTjDataLoaded(applyFilters);
       if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
@@ -6822,57 +6530,10 @@
     var checkedCountEl = document.getElementById('costcoCheckedCount');
     if (!modal || !backdrop || !listContainer) return;
 
-    // 카테고리별 테마 썸네일 — 코스트코 공식 이미지 호스트로 알려진 images.costco-static.com은
-    // 실제로 존재하지 않는 도메인(NXDOMAIN)이고, 이 대시보드는 통신 음영 지역 오프라인 사용이
-    // 전제라 외부 이미지는 어차피 로드되지 않는다. 따라서 인라인 SVG로 생성한다.
-    var COSTCO_CAT_THEME = {
-      "의약품": { color: "%231f8a5f", label: "의약품" },
-      "K뷰티": { color: "%237c5cbf", label: "K-뷰티" },
-      "영양제": { color: "%232a9d8f", label: "영양제" },
-      "식료품": { color: "%23f4a261", label: "식료품" }
-    };
-    function costcoImg(cat) {
-      var t = COSTCO_CAT_THEME[cat] || { color: "%232c243f", label: "Costco" };
-      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
-        "%3Crect width='120' height='120' rx='16' fill='" + t.color + "'/%3E" +
-        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + t.label + "%3C/text%3E" +
-        "%3C/svg%3E";
-    }
-
-    var costcoMasterData = [
-      // ── [1등급] 처방·상비약 (5종) ──
-      { id: 1, cat: "의약품", type: "귀국선물(상온)", name: "커클랜드 멜라토닌 수면보조제 300정 (Melatonin)", price: "$10.99 ~ $14.99", star: "★★★", img: costcoImg("의약품"), note: "한국 처방 필수 전문의약품 성분. 시차 적응 및 불면증 완화에 탁월한 귀국 필수 쇼핑 1위." },
-      { id: 2, cat: "의약품", type: "귀국선물(상온)", name: "애드빌 PM 이부프로펜 200정 (Advil PM)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "이부프로펜 진통제 + 수면보조 성분 복합제. 한국 미출시 OTC로 야간 통증과 수면을 동시 해결." },
-      { id: 3, cat: "의약품", type: "귀국선물(상온)", name: "파타데이 1일 1회 알레르기 안약 3병 (Pataday 0.2%)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "국내 안과 처방 필수 성분(올로파타딘)을 처방전 없이 구매. 하루 1회 점안으로 가려움 완화." },
-      { id: 4, cat: "의약품", type: "귀국선물(상온)", name: "커클랜드 알러플로 비염 스프레이 5병 (Aller-Flo)", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("의약품"), note: "비염 명약 '플로네이즈' 동일 성분. 5병 번들(720회 분사분)로 국내 약국 대비 압도적 단가 우위." },
-      { id: 5, cat: "의약품", type: "귀국선물(상온)", name: "네오스포린 + 통증완화 연고 3팩 (Neosporin + Pain)", price: "$14.49", star: "★★", img: costcoImg("의약품"), note: "3중 항생제 + 국소 마취 진통 성분 결합. 상처 흉터 예방 및 통증 억제 미국 국민 연고." },
-
-      // ── [2등급] 역수출 K-뷰티 (5종) ──
-      { id: 6, cat: "K뷰티", type: "귀국선물(상온)", name: "코스알엑스 달팽이 96 세럼 2병 + 크림 세트", price: "$19.99 ~ $22.99", star: "★★★", img: costcoImg("K뷰티"), note: "달팽이 점액 96% 고농축 세럼 2병 + 크림 구성. 한국 시중가 대비 50% 이상 단가 절감." },
-      { id: 7, cat: "K뷰티", type: "귀국선물(상온)", name: "토리든 저분자 히알루론산 세럼 50ml x 2병", price: "$14.97 (특가)", star: "★★★", img: costcoImg("K뷰티"), note: "올리브영 1위 수분 세럼. .97 클리어런스 적용 시 한국 세일가보다 저렴." },
-      { id: 8, cat: "K뷰티", type: "귀국선물(상온)", name: "조선미녀 맑은쌀 선크림 / 세럼 번들 팩", price: "$19.99 ~ $24.99", star: "★★★", img: costcoImg("K뷰티"), note: "글로벌 틱톡 대란 쌀 발효 선케어. 미국 코스트코 독점 패키지로 백탁 없는 촉촉함." },
-      { id: 9, cat: "K뷰티", type: "귀국선물(상온)", name: "스킨1004 센텔라 앰플 120ml x 2병", price: "$21.99 ~ $24.99", star: "★★", img: costcoImg("K뷰티"), note: "마다가스카르 순수 병풀 추출물 대용량. 피부 진정용 역수출 특가." },
-      { id: 10, cat: "K뷰티", type: "귀국선물(상온)", name: "세라비(CeraVe) 모이스처라이징 로션 듀오팩", price: "$24.99 ~ $27.99", star: "★★", img: costcoImg("K뷰티"), note: "500ml 펌프형 2팩 대용량. 고중량 직구 배송비를 고려하면 직접 캐리어 반입이 압도적 이득." },
-
-      // ── [3등급] 고중량·고효능 영양제 (7종) ──
-      { id: 11, cat: "영양제", type: "귀국선물(상온)", name: "쉬프 무브프리 관절영양제 200정 (Move Free Advanced)", price: "$24.99 ~ $29.99", star: "★★★", img: costcoImg("영양제"), note: "글루코사민+콘드로이틴 고함량 부모님 선물 1순위. 한국 약국 대비 단가가 파격적으로 저렴." },
-      { id: 12, cat: "영양제", type: "귀국선물(상온)", name: "바이탈 프로틴 콜라겐 펩타이드 24oz 대용량 (Vital Proteins)", price: "$29.99 (할인시 $21.99)", star: "★★★", img: costcoImg("영양제"), note: "목초 사육 소 추출 680g 대형 보틀. 직구 시 무게 때문에 배송비 폭탄 맞는 대표 품목." },
-      { id: 13, cat: "영양제", type: "귀국선물(상온)", name: "리퀴드 I.V. 수분전해질 파우더 30포 (Liquid I.V.)", price: "$28.99", star: "★★★", img: costcoImg("영양제"), note: "체내 흡수율 링거급 수분보충 파우더. 사막 도로 건조증 & 테마파크 탈진 방지 필수 구비." },
-      { id: 14, cat: "영양제", type: "귀국선물(상온)", name: "크레스트 3D 화이트스트립스 22회분 (Whitestrips)", price: "$39.99", star: "★★★", img: costcoImg("영양제"), note: "한국 약국용 대비 과산화수소 함량이 높아 확실한 효과를 내는 미국 오리지널 치아미백 패치." },
-      { id: 15, cat: "영양제", type: "귀국선물(상온)", name: "커클랜드 오메가-3 피쉬오일 1200mg 400캡슐", price: "$11.99 ~ $14.99", star: "★★", img: costcoImg("영양제"), note: "400캡슐 초대용량. 한국 직구 가격의 반값 이하로 온 가족 1년 치 복용 가성비 종결." },
-      { id: 16, cat: "영양제", type: "귀국선물(상온)", name: "바슈롬 프리저비전 AREDS2 / 오큐바이트 150정", price: "$31.99 ~ $34.99", star: "★★", img: costcoImg("영양제"), note: "미국 안과의사 추천 1위 황반변성 루테인/지아잔틴 복합제. 시니어 부모님 선물 만족도 최상." },
-      { id: 17, cat: "영양제", type: "귀국선물(상온)", name: "에머젠-C 비타민C 발포 파우더 90포 (Emergen-C)", price: "$19.99 ~ $24.99", star: "★★", img: costcoImg("영양제"), note: "물에 타 먹는 1,000mg 비타민C+전해질 분말. 무게가 가볍고 한국 대비 가격 격차가 커 나눔용 최적." },
-
-      // ── [4등급] 선물·식료품 (8종) ──
-      { id: 18, cat: "식료품", type: "귀국선물(상온)", name: "씨즈캔디 기프트카드 ($50 가치권, $25 x 2매)", price: "$38.99", star: "★★★", img: costcoImg("식료품"), note: "한국 매장에서 고가에 판매되는 씨즈캔디를 현지 매장에서 할인 구매할 수 있는 실속형 현금성 아이템." },
-      { id: 19, cat: "식료품", type: "귀국선물(상온)", name: "지라델리 프리미엄 초콜릿 스퀘어 어쏘티드 벌크백", price: "$14.99 ~ $16.99", star: "★★★", img: costcoImg("식료품"), note: "샌프란시스코 명물 초콜릿 대용량. 카라멜, 다크 민트 등 개별 포장으로 직장/지인 소분 선물 1순위." },
-      { id: 20, cat: "식료품", type: "귀국선물(상온)", name: "커클랜드 100% 퓨어 오가닉 메이플 시럽 1L (Grade A)", price: "$12.99 ~ $14.99", star: "★★★", img: costcoImg("식료품"), note: "국내 대형마트 가격의 1/3 수준. 인공 향 없이 단풍나무 수액 100% 유리병 대용량 프리미엄 시럽." },
-      { id: 21, cat: "식료품", type: "귀국선물(상온)", name: "스탠리 / 예티 텀블러 보온보냉 팩 세트", price: "$24.99 ~ $34.99", star: "★★★", img: costcoImg("식료품"), note: "미국 코스트코 한정 컬러 및 2개입 번들 구성. 국내 매장가 대비 큰 폭의 가성비 선물." },
-      { id: 22, cat: "식료품", type: "현지소비(신선)", name: "로티세리 치킨 (Rotisserie Chicken)", price: "$4.99 (고정가)", star: "★★★", img: costcoImg("식료품"), note: "미국 코스트코의 상징. 큼직한 통닭구이로 1일차/5일차 장보기 시 호텔 저녁 및 샌드위치 활용 가성비 왕." },
-      { id: 23, cat: "식료품", type: "현지소비(정육)", name: "토마호크 / 립아이 스테이크 (Choice/Prime)", price: "lb당 $14 ~ $18선", star: "★★★", img: costcoImg("식료품"), note: "두툼한 갈비뼈와 새우살이 붙은 압도적 비주얼. 4일차 조슈아트리 사막 독채 숙소 가스레인지 팬 구이 전용." },
-      { id: 24, cat: "식료품", type: "현지소비(정육)", name: "뉴욕 샤브샤브 / 얇은 불고기용 소고기 슬라이스", price: "lb당 $10.99선", star: "★★", img: costcoImg("식료품"), note: "얇게 저며진 소고기로 사막 숙소 인덕션/냄비에서 아이들과 라면, 샤브샤브, 구이로 빠르게 조리 가능." },
-      { id: 25, cat: "식료품", type: "귀국선물(상온)", name: "퓨어리 엘리자베스 유기농 그래놀라 24oz", price: "$9.99 ~ $10.99", star: "★★", img: costcoImg("식료품"), note: "고대 곡물과 유기농 오트 배합. 쩐내 없이 바삭한 고단백 웰빙 시리얼." }
-    ];
+    // 아이템 데이터는 data/costco.json에서 모달을 처음 열 때 fetch로 불러온다 (loadJsonData, A-2)
+    var costcoMasterData = [];
+    var costcoDataLoaded = false;
+    var costcoDataLoading = false;
 
     var activeFilter = 'all';
 
@@ -6929,12 +6590,28 @@
       checkedCountEl.textContent = count + '개 선택됨';
     }
 
+    function ensureCostcoDataLoaded(afterLoad) {
+      if (costcoDataLoaded) { afterLoad(); return; }
+      if (costcoDataLoading) return;
+      costcoDataLoading = true;
+      listContainer.innerHTML = '<div class="costco-empty">불러오는 중...</div>';
+      loadJsonData('costco', 'data/costco.json', function (data) {
+        costcoMasterData = data;
+        costcoDataLoaded = true;
+        costcoDataLoading = false;
+        afterLoad();
+      }, function () {
+        costcoDataLoading = false;
+        listContainer.innerHTML = '<div class="costco-empty">⚠️ 데이터를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+      });
+    }
+
     function openModal() {
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
-      applyFilters();
+      ensureCostcoDataLoaded(applyFilters);
       if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
@@ -6994,48 +6671,10 @@
     var checkedCountEl = document.getElementById('walmartCheckedCount');
     if (!modal || !backdrop || !listContainer) return;
 
-    var WALMART_CAT_THEME = {
-      "간식과자": { color: "%23e9c46a", label: "간식과자" },
-      "소스조미료": { color: "%23e76f51", label: "소스조미료" },
-      "신선식품": { color: "%232a9d8f", label: "신선식품" },
-      "의약품": { color: "%231f8a5f", label: "의약품" },
-      "뷰티생활": { color: "%237c5cbf", label: "뷰티생활" },
-      "전자기기": { color: "%2364748b", label: "전자기기" }
-    };
-    function walmartImg(cat) {
-      var t = WALMART_CAT_THEME[cat] || { color: "%232c243f", label: "Walmart" };
-      return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
-        "%3Crect width='120' height='120' rx='16' fill='" + t.color + "'/%3E" +
-        "%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E" + t.label + "%3C/text%3E" +
-        "%3C/svg%3E";
-    }
-
-    var walmartMasterData = [
-      // ── 간식·과자 (4) ──
-      { id: 1, cat: "간식과자", type: "귀국선물(상온)", name: "오레오 (한국 미출시 맛)", price: "가격 상이", star: "★★★", img: walmartImg("간식과자"), note: "한국인 여행블로그 실구매 후기 확인 — \"한국에 없는 맛으로 하나 사오시길\"." },
-      { id: 2, cat: "간식과자", type: "귀국선물(상온)", name: "테이트 쿠키 (Tate's)", price: "$5", star: "★★★", img: walmartImg("간식과자"), note: "실구매 후기 확인." },
-      { id: 3, cat: "간식과자", type: "귀국선물(상온)", name: "레이즈 이색 맛 감자칩", price: "가격 상이", star: "★★", img: walmartImg("간식과자"), note: "한국에선 구하기 힘든 신맛 베이스 과자, 실구매 후기 확인." },
-      { id: 4, cat: "간식과자", type: "귀국선물(상온)", name: "컵시리얼 (소용량)", price: "$1", star: "★★★", img: walmartImg("간식과자"), note: "한국 대비 훨씬 저렴, 실구매 후기 확인." },
-
-      // ── 소스·조미료 (3) ──
-      { id: 5, cat: "소스조미료", type: "귀국선물(상온)", name: "치폴레 소스", price: "$4 이상", star: "★★★", img: walmartImg("소스조미료"), note: "\"이번 여행에서 제일 잘 쓰는 중\" 실사용 후기 확인." },
-      { id: 6, cat: "소스조미료", type: "귀국선물(상온)", name: "칙필레이 소스", price: "$3~5선", star: "★★★", img: walmartImg("소스조미료"), note: "한국인 여행자 실구매 후기 다수." },
-      { id: 7, cat: "소스조미료", type: "귀국선물(상온)", name: "생선요리용 시즈닝 (Old Bay류)", price: "$5~8선", star: "★★", img: walmartImg("소스조미료"), note: "\"국룰 시즈닝\"으로 후기에 자주 언급됨." },
-
-      // ── 신선식품 (2) ──
-      { id: 8, cat: "신선식품", type: "현지소비(신선)", name: "사과", price: "$3~4", star: "★★★", img: walmartImg("신선식품"), note: "\"너무 달고 맛있다\" 실사용 후기 확인." },
-      { id: 9, cat: "신선식품", type: "현지소비(신선)", name: "오렌지", price: "$3~4", star: "★★", img: walmartImg("신선식품"), note: "실사용 후기 확인." },
-
-      // ── 의약품 (1, 코스트코와 중복 없는 품목만) ──
-      { id: 10, cat: "의약품", type: "귀국선물(상온)", name: "데이퀼 & 나이트퀼 콤보", price: "$20", star: "★★★", img: walmartImg("의약품"), note: "실사용 후기 확인. 코스트코엔 감기약 자체가 없어 중복 아님." },
-
-      // ── 뷰티·생활 (1, 코스트코와 중복 없는 품목만) ──
-      { id: 11, cat: "뷰티생활", type: "귀국선물(상온)", name: "닥터 브로너스 바 솝", price: "$5 이하", star: "★★★", img: walmartImg("뷰티생활"), note: "한국 대비 약 40% 저렴 확인. 코스트코엔 비누류 없음(K뷰티 스킨케어만 보유)." },
-
-      // ── 전자기기 참고 (2, 필수 아님) ──
-      { id: 12, cat: "전자기기", type: "가격맞으면구매", name: "Apple AirPods 4 with ANC", price: "$119 (정가 $179)", star: "★★", img: walmartImg("전자기기"), note: "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님." },
-      { id: 13, cat: "전자기기", type: "가격맞으면구매", name: "Beats Studio Pro 헤드폰", price: "$149 (정가 $350)", star: "★★", img: walmartImg("전자기기"), note: "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님." }
-    ];
+    // 아이템 데이터는 data/walmart.json에서 모달을 처음 열 때 fetch로 불러온다 (loadJsonData, A-2)
+    var walmartMasterData = [];
+    var walmartDataLoaded = false;
+    var walmartDataLoading = false;
 
     var activeFilter = 'all';
 
@@ -7092,12 +6731,28 @@
       checkedCountEl.textContent = count + '개 선택됨';
     }
 
+    function ensureWalmartDataLoaded(afterLoad) {
+      if (walmartDataLoaded) { afterLoad(); return; }
+      if (walmartDataLoading) return;
+      walmartDataLoading = true;
+      listContainer.innerHTML = '<div class="costco-empty">불러오는 중...</div>';
+      loadJsonData('walmart', 'data/walmart.json', function (data) {
+        walmartMasterData = data;
+        walmartDataLoaded = true;
+        walmartDataLoading = false;
+        afterLoad();
+      }, function () {
+        walmartDataLoading = false;
+        listContainer.innerHTML = '<div class="costco-empty">⚠️ 데이터를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+      });
+    }
+
     function openModal() {
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
-      applyFilters();
+      ensureWalmartDataLoaded(applyFilters);
       if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
@@ -7147,104 +6802,10 @@
      [4-0j] 미국 로컬 프랜차이즈 도장깨기 모달
   ========================================================== */
   window.TRIP_DATA = window.TRIP_DATA || {};
-  window.TRIP_DATA.franchises = [
-    {
-      id: "fc-innout",
-      bannerColor: "#e63946",
-      name: "인앤아웃 버거 (In-N-Out Burger)",
-      origin: "캘리포니아 볼드윈파크 (1948년 창립)",
-      scheduleDay: "1일차 바스토우",
-      category: "신선 냉장 패티 버거",
-      icon: "🍔",
-      mustOrder: "더블더블 애니멀 스타일 (Double-Double Animal Style) & 애니멀 스타일 감자튀김",
-      features: "냉동 패티와 전자레인지를 일절 쓰지 않고, 매일 매장에서 통감자를 직접 썰어 튀겨내는 캘리포니아의 자존심이자 미서부 로드트립의 상징.",
-      secretTip: "패티에 머스터드를 발라 굽고 구운 캐러멜 양파와 특제 스프레드를 듬뿍 얹는 '애니멀 스타일(Animal Style)'은 필수. 음료는 메뉴판에 없는 바닐라+초코+딸기 3단 조합 '나폴리탄 쉐이크' 추천."
-    },
-    {
-      id: "fc-chickfila",
-      bannerColor: "#c1121f",
-      name: "칙필레 (Chick-fil-A)",
-      origin: "조지아 칼리지파크 (1946년 창립)",
-      scheduleDay: "2일차 라스베이거스 하몬코너",
-      category: "프리미엄 치킨 샌드위치",
-      icon: "🍗",
-      mustOrder: "스파이시 치킨 샌드위치 (Spicy Chicken Sandwich) & 와플 감자튀김 (Waffle Fries)",
-      features: "피클 즙(Pickle Brine)에 숙성해 극강의 부드러움을 자랑하는 통닭가슴살 패티와 벌집 모양 와플 감자튀김. 압도적인 고객 만족도와 친절함으로 미국 1위 패스트푸드 등극.",
-      secretTip: "주문 시 특제 '칙필레 소스(스모키 허니머스터드 바비큐)'와 '폴리네시안 소스(새콤달콤 스위트칠리)'를 인당 2개씩 꼭 요청해서 감자튀김과 치킨에 듬뿍 찍먹하기."
-    },
-    {
-      id: "fc-elgordo",
-      bannerColor: "#f77f00",
-      name: "타코스 엘 고르도 (Tacos El Gordo)",
-      origin: "멕시코 티후아나 / 샌디에고 (1998년 창립)",
-      scheduleDay: "1일차 라스베이거스 스트립",
-      category: "티후아나 정통 멕시칸 스트리트 타코",
-      icon: "🌮",
-      mustOrder: "타코스 데 아도바다 (Tacos de Adobada / 매콤 불맛 양념 돼지고기)",
-      features: "케밥처럼 거대한 회전 꼬치구이(Trompo)에서 갓 썰어내는 불맛 가득한 아도바다 돼지고기와 즉석에서 구운 옥수수 또띠아의 풍미가 압도적인 정통 타코 명가.",
-      secretTip: "고기 종류(Adobada-돼지, Asada-소, Suadero-양지 등)별로 줄을 따로 서서 주문한 뒤 마지막에 카운터에서 일괄 결제하는 시스템. 매콤달콤한 아도바다에 과카몰리 소스를 듬뿍 올려 먹을 것."
-    },
-    {
-      id: "fc-chipotle",
-      bannerColor: "#7f1d1d",
-      name: "치폴레 멕시칸 그릴 (Chipotle)",
-      origin: "콜로라도 덴버 (1993년 창립)",
-      scheduleDay: "2일차 하몬코너 / 5일차 아울렛",
-      category: "커스텀 헬시 멕시칸 보울",
-      icon: "🌯",
-      mustOrder: "부리토 볼 (Burrito Bowl - 스테이크 또는 바바코아 토핑)",
-      features: "항생제 없는 신선한 육류와 채소를 눈앞에서 즉석 커스텀해 주는 미국 직장인·헬스인들의 최애 건강 패스트캐주얼.",
-      secretTip: "또띠아 대신 '볼(Bowl)'로 선택하고, 밥은 브라운/화이트 반반(Half & Half), 콩도 블랙/핀토 반반 가능. 파히타 야채(Fajita Veggies)와 과카몰리, 사워크림을 추가하면 푸짐함 2배."
-    },
-    {
-      id: "fc-panda",
-      bannerColor: "#d62828",
-      name: "판다 익스프레스 (Panda Express)",
-      origin: "캘리포니아 글렌데일 (1983년 창립)",
-      scheduleDay: "5일차 데저트힐스 아울렛 푸드코트",
-      category: "아메리칸 차이니즈 웍 다이닝",
-      icon: "🐼",
-      mustOrder: "플레이트 (Plate: 차우멘/볶음밥 반반 + 오렌지 치킨 & 베이징 비프)",
-      features: "웍(Wok)에서 불맛 나게 볶아내는 미국식 중화요리의 원조. 달콤 바삭한 소스 코팅 치킨으로 쇼핑 중 실패 없는 든든한 한 끼를 보장.",
-      secretTip: "베이스는 볶음밥(Fried Rice)과 차우멘(Chow Mein 볶음면)을 반반(Half & Half)으로 요청할 것. 갓 볶아져 나오는 따끈한 회전율 빠른 메뉴를 고르면 바삭함이 극대화됨."
-    },
-    {
-      id: "fc-eggslut",
-      bannerColor: "#fcbf49",
-      name: "에그슬럿 본점 (Eggslut DTLA)",
-      origin: "캘리포니아 로스앤젤레스 (2011년 창립)",
-      scheduleDay: "10일차 DTLA 그랜드 센트럴 마켓",
-      category: "하이엔드 에그 브런치 샌드위치",
-      icon: "🍳",
-      mustOrder: "슬럿 (Slut) & 페어팩스 샌드위치 (Fairfax Sandwich)",
-      features: "LA 푸드트럭 신화의 주인공. 100년 전통 그랜드 센트럴 마켓 1호점에서 맛보는 부드러운 스크램블드에그와 브리오슈 번의 정수.",
-      secretTip: "유리병에 담겨 수비드된 부드러운 감자 퓌레와 수란(Coddled Egg)을 숟가락으로 잘 섞어 함께 나오는 바게트 슬라이스에 스프레드처럼 두툼하게 얹어 먹기."
-    },
-    {
-      id: "fc-canes",
-      bannerColor: "#b02a37",
-      name: "레이징 케인스 (Raising Cane's)",
-      origin: "루이지애나 배턴루지 (1996년 창립)",
-      scheduleDay: "미서부 전역 로드트립 백업 체인",
-      category: "치킨 텐더 전문점",
-      icon: "🍟",
-      mustOrder: "더 박스 콤보 (The Box Combo: 닭안심 텐더 4조각 + 케인스 소스 + 텍사스 토스트)",
-      features: "냉동 없는 신선한 프리미엄 닭안심(Chicken Tender) 단일 메뉴 하나로 미국을 평정한 치킨 텐더 전문점.",
-      secretTip: "마약 같은 감칠맛의 '케인스 특제 소스'와 버터에 구워낸 두툼한 '텍사스 토스트'가 핵심. 코울슬로를 토스트로 변경(Swap Slaw for Toast)하는 것이 현지 단골들의 꿀팁."
-    },
-    {
-      id: "fc-daves",
-      bannerColor: "#e85d04",
-      name: "데이브스 핫치킨 (Dave's Hot Chicken)",
-      origin: "캘리포니아 이스트할리우드 (2017년 창립)",
-      scheduleDay: "할리우드 야식 & 시내 백업 체인",
-      category: "내슈빌 스타일 핫치킨",
-      icon: "🔥",
-      mustOrder: "데이브스 #2 (Dave's #2: 핫치킨 슬라이더 2개 + 감자튀김)",
-      features: "할리우드 주차장 팝업에서 시작해 래퍼 드레이크(Drake)의 투자로 전미 폭풍 성장을 이룬 내슈빌 스타일 스파이시 치킨 버거.",
-      secretTip: "맵기는 7단계 중 'Medium'이나 'Hot'이 한국인에게 가장 맛있게 매콤함. 카운터에서 꿀(Honey) 패킷을 요청해 번 사이에 뿌려 먹으면 극강의 맵단짠 완성."
-    }
-  ];
+  // 아이템 데이터는 data/franchises.json에서 모달을 처음 열 때 fetch로 불러온다 (loadJsonData, A-2)
+  // window.TRIP_DATA.franchises는 렌더 시점(renderFranchises)에 매번 다시 읽으므로
+  // 로드 완료 후 재할당해도 안전 — 미리 캡처해 둔 참조가 없다 (fcQuestLink 역조회와 무관)
+  window.TRIP_DATA.franchises = [];
 
   // 프랜차이즈 도장깨기 ↔ 여권 스탬프 퀘스트 양방향 동기화 매핑 (겹치는 브랜드만 연결)
   window.TRIP_DATA.fcQuestLink = {
@@ -7343,14 +6904,35 @@
       }, 80);
     }
 
+    var fcDataLoaded = false;
+    var fcDataLoading = false;
+
+    function ensureFcDataLoaded(afterLoad) {
+      if (fcDataLoaded) { afterLoad(); return; }
+      if (fcDataLoading) return;
+      fcDataLoading = true;
+      listContainer.innerHTML = '<div class="tj-empty">불러오는 중...</div>';
+      loadJsonData('franchises', 'data/franchises.json', function (data) {
+        window.TRIP_DATA.franchises = data;
+        fcDataLoaded = true;
+        fcDataLoading = false;
+        afterLoad();
+      }, function () {
+        fcDataLoading = false;
+        listContainer.innerHTML = '<div class="tj-empty">⚠️ 데이터를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+      });
+    }
+
     function openModal(targetId) {
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
-      renderFranchises();
+      ensureFcDataLoaded(function () {
+        renderFranchises();
+        focusCard(targetId);
+      });
       if (window.pushModalNavState) window.pushModalNavState();
-      focusCard(targetId);
     }
     function closeModal() {
       backdrop.classList.remove('open');
@@ -7404,8 +6986,8 @@
         if (!isVerified) {
           if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 스탬프를 찍을 수 있습니다');
           if (window.triggerHaptic) window.triggerHaptic('warning');
-          if (window.requestFamilyPin) {
-            window.requestFamilyPin('가족', function () { toggleFranchiseStamp(id); });
+          if (window.requestPin) {
+            window.requestPin('family', '가족', function () { toggleFranchiseStamp(id); });
           }
           return;
         }
@@ -7447,116 +7029,8 @@
      - 가족모드/기획자모드 양쪽에서 모두 노출된다 (FAB + 4일차 인라인 버튼)
   ========================================================== */
   window.TRIP_DATA = window.TRIP_DATA || {};
-  // 병 썸네일은 인라인 SVG로 생성한다 — 증류소 공식 이미지는 핫링크가 막혀 있고(전부 404),
-  // 이 대시보드는 통신 음영 지역(모하비 사막/국립공원) 오프라인 사용이 전제라
-  // 외부 이미지는 어차피 로드되지 않는다. 코스트코/트레이더조 모달과 동일한 방식.
-  function WK_BOTTLE(color, label) {
-    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E" +
-      "%3Crect width='120' height='120' rx='16' fill='%232b1d0c'/%3E" +
-      "%3Crect x='53' y='12' width='14' height='20' rx='3' fill='" + color + "'/%3E" +
-      "%3Crect x='42' y='30' width='36' height='54' rx='7' fill='" + color + "'/%3E" +
-      "%3Crect x='42' y='48' width='36' height='18' fill='%23f4e3c8'/%3E" +
-      "%3Ctext x='60' y='106' font-size='17' font-weight='700' fill='%23f4a261' text-anchor='middle' font-family='sans-serif'%3E" + label + "%3C/text%3E" +
-      "%3C/svg%3E";
-  }
-  window.TRIP_DATA.whiskeyPicks = [
-    {
-      id: 'wk-stagg', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
-      name: '스태그 (구 스태그 주니어)', nameEn: 'Stagg (Stagg Jr.)',
-      buyMaxUsd: 200, buyMaxLabel: '$200 이하 무조건 매입', buyRecommended: '$150~$180',
-      usPriceRange: '$160 ~ $240 (MSRP $60~$70)', krPriceRange: '45만 ~ 55만 원',
-      savingsRange: '약 25만 ~ 30만 원', savingsPct: '50~55%', savingsNum: 275000,
-      rarity: '높음 (프리미엄 상시화)', rarityRank: 6, isUnder200: true,
-      spec: '배럴 프루프 (약 60~65% ABV)',
-      img: WK_BOTTLE('%23e63946', 'STAGG'),
-      notes: '체리 폭탄, 진한 다크 초콜릿, 묵직한 오크 탄닌. 이글레어와 같은 버팔로 매시빌#1이지만 완전히 다른 체급의 고도수 타격감.',
-      tip: '로컬 리쿼샵 카운터 뒤/유리장 세컨더리 코너 확인. $200 언더 확인 시 뒤도 돌아보지 말고 픽.'
-    },
-    {
-      id: 'wk-eht-bp', tier: 1, tierLabel: 'Tier 1 · 발견 즉시', icon: '🥃',
-      name: 'E.H. 테일러 배럴 프루프', nameEn: 'E.H. Taylor Barrel Proof',
-      buyMaxUsd: 320, buyMaxLabel: '$320 이하 무조건 매입', buyRecommended: '$250~$300',
-      usPriceRange: '$280 ~ $350 (MSRP $80~$90)', krPriceRange: '65만 ~ 75만 원',
-      savingsRange: '약 25만 ~ 35만 원', savingsPct: '40~45%', savingsNum: 300000,
-      rarity: '극악 (국내 매물 사실상 전무)', rarityRank: 1, isUnder200: false,
-      spec: '배럴 프루프 (약 63~67% ABV)',
-      img: WK_BOTTLE('%23e63946', 'EHT BP'),
-      notes: '버팔로 트레이스 최상위 원액 무희석 병입. 농밀한 건과일 단맛과 길고 드라이한 오크 피니시.',
-      tip: '잠금 유리장 보관품. 국내에서는 돈이 있어도 매물 자체가 없으므로 $300대 초반까지 예산 허용.'
-    },
-    {
-      id: 'wk-fr-sbbs', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🥃',
-      name: '포로지스 싱글 배럴 배럴 스트랭스 (스토어 픽)', nameEn: 'Four Roses SBBS Private Selection',
-      buyMaxUsd: 110, buyMaxLabel: '$110 이하 무조건 매입', buyRecommended: '$95~$105',
-      usPriceRange: '$95 ~ $120 (MSRP $90~$100)', krPriceRange: '26만 ~ 30만 원 (비공식)',
-      savingsRange: '약 13만 ~ 16만 원', savingsPct: '45~50%', savingsNum: 145000,
-      rarity: '매우 높음 (국내는 50도 정규품만 유통, BS 스토어픽 미수입)', rarityRank: 3, isUnder200: true,
-      spec: '배럴 스트랭스 (약 55~62% ABV)',
-      img: WK_BOTTLE('%232a9d8f', '4 ROSES'),
-      notes: '국내 50도 정규품과 달리 10개 레시피 중 1종을 배럴 스트랭스로 병입. 폭발적인 꽃향기와 민트 스파이스.',
-      tip: 'Total Wine 등 대형 체인 Store Pick 전용 코너. 라벨 측면 손글씨(레시피 코드/숙성연수) 확인 후 정가 득템.'
-    },
-    {
-      id: 'wk-michters-rye', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🌾',
-      name: '믹터스 US*1 배럴 스트랭스 라이', nameEn: "Michter's US*1 Barrel Strength Rye",
-      buyMaxUsd: 190, buyMaxLabel: '$190 이하 무조건 매입', buyRecommended: '$150~$180',
-      usPriceRange: '$160 ~ $220 (MSRP $110~$120)', krPriceRange: '38만 ~ 43만 원',
-      savingsRange: '약 12만 ~ 16만 원', savingsPct: '30~37%', savingsNum: 140000,
-      rarity: '높음 (극소량 배정으로 스마트오더 즉시 품절)', rarityRank: 5, isUnder200: true,
-      spec: '배럴 스트랭스 라이 (약 54~58% ABV)',
-      img: WK_BOTTLE('%232a9d8f', 'MICHTERS'),
-      notes: '버터스카치, 구운 마시멜로, 복숭아 핵과류 뒤로 이어지는 섬세한 호밀 향. 배럴 시그래스를 압도하는 프리미엄 라이.',
-      tip: '프리미엄 위스키 렉 진열. $190 언더 확인 시 시그래스를 대체할 최고의 라이 바틀.'
-    },
-    {
-      id: 'wk-magnus-cigar', tier: 2, tierLabel: 'Tier 2 · 밸런스/가성비', icon: '🥃',
-      name: '조셉 매그너스 시가 블렌드', nameEn: 'Joseph Magnus Cigar Blend',
-      buyMaxUsd: 210, buyMaxLabel: '$210 이하 무조건 매입', buyRecommended: '$180~$200',
-      usPriceRange: '$180 ~ $230 (MSRP $180~$200)', krPriceRange: '45만 ~ 50만 원',
-      savingsRange: '약 18만 ~ 23만 원', savingsPct: '40~45%', savingsNum: 205000,
-      rarity: '극악 (국내 정식 미수입)', rarityRank: 2, isUnder200: true,
-      spec: '마감 숙성 버번 (약 50~53% ABV)',
-      img: WK_BOTTLE('%232a9d8f', 'MAGNUS'),
-      notes: '아르마냑, 셰리, 코냑 캐스크 3중 교차 피니시. 끈적한 건자두, 무화과, 타바코 뉘앙스의 묵직한 디저트 버번.',
-      tip: '현지 시세가 MSRP 수준으로 안정화됨. 일반 리쿼샵 정가($200 내외) 진열 발견 시 매입.'
-    },
-    {
-      id: 'wk-calumet-16', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
-      name: '칼루멧 16년', nameEn: 'Calumet Farm 16 Year Old',
-      buyMaxUsd: 165, buyMaxLabel: '$165 이하 무조건 매입', buyRecommended: '$150~$160',
-      usPriceRange: '$150 ~ $170 (MSRP $150~$160)', krPriceRange: '40만 ~ 45만 원',
-      savingsRange: '약 18만 ~ 22만 원', savingsPct: '45~50%', savingsNum: 200000,
-      rarity: '보통', rarityRank: 7, isUnder200: true,
-      spec: '16년 고숙성 (53% ABV / 106 Proof)',
-      img: WK_BOTTLE('%23c9873f', 'CAL 16Y'),
-      notes: '16년 초고숙성 다크 오크 탄닌, 체리 시럽, 오래된 가죽과 시가 박스의 깊은 밸런스.',
-      tip: '대형 리쿼샵 일반 선반에 정가 진열이 흔함. 발품 없이 고숙성 버번을 챙기기에 제격.'
-    },
-    {
-      id: 'wk-of-1920', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🥃',
-      name: '올드 포레스터 1920 프로히비션', nameEn: 'Old Forester 1920 Prohibition Style',
-      buyMaxUsd: 65, buyMaxLabel: '$65 이하 무조건 매입', buyRecommended: '$55~$60',
-      usPriceRange: '$55 ~ $65 (MSRP $55~$60)', krPriceRange: '15만 ~ 16만 원',
-      savingsRange: '약 7만 ~ 8만 원', savingsPct: '47~50%', savingsNum: 75000,
-      rarity: '보통 (정식 미수입이나 직구 가능)', rarityRank: 8, isUnder200: true,
-      spec: '하이프루프 버번 (57.5% ABV / 115 Proof)',
-      img: WK_BOTTLE('%23c9873f', 'OF 1920'),
-      notes: '졸인 바나나 팬케이크, 다크 초콜릿, 흑설탕 뉘앙스. 실패 없는 $60대 최강 데일리 버번.',
-      tip: 'Total Wine / BevMo 선반 상시 재고. 발품 팔 필요 없이 장바구니에 바로 담기 좋음.'
-    },
-    {
-      id: 'wk-russells-rye', tier: 3, tierLabel: 'Tier 3 · 정가 득템', icon: '🌾',
-      name: '러셀스 리저브 싱글배럴 라이 (스토어 픽)', nameEn: "Russell's Reserve Single Barrel Rye Store Pick",
-      buyMaxUsd: 85, buyMaxLabel: '$85 이하 무조건 매입', buyRecommended: '$75~$80',
-      usPriceRange: '$75 ~ $90 (MSRP $70~$80)', krPriceRange: '18만 ~ 20만 원 (미수입)',
-      savingsRange: '약 8만 ~ 9만 원', savingsPct: '40~45%', savingsNum: 85000,
-      rarity: '매우 높음 (버번 싱배와 달리 라이 스토어픽은 전무)', rarityRank: 4, isUnder200: true,
-      spec: '싱글 배럴 라이 (52% ABV / 104 Proof)',
-      img: WK_BOTTLE('%23c9873f', 'RUSSELLS'),
-      notes: '와일드 터키 특유의 펀치감에 후추, 민트, 카라멜의 조화. 정통 켄터키 스타일 라이.',
-      tip: '초록색 라벨(Rye)과 스토어픽 목택(Neck Tag) 확인. 버번 싱배와 혼동하지 말 것.'
-    }
-  ];
+  // 아이템 데이터는 data/whiskey.json에서 모달을 처음 열 때 fetch로 불러온다 (loadJsonData, A-2)
+  window.TRIP_DATA.whiskeyPicks = [];
 
   (function initWhiskeyModal() {
     var backdrop = document.getElementById('whiskeyModalBackdrop');
@@ -7568,7 +7042,8 @@
     var searchInput = document.getElementById('wkSearchInput');
     if (!modal || !backdrop || !listContainer) return;
 
-    var PICKS = window.TRIP_DATA.whiskeyPicks;
+    var wkDataLoaded = false;
+    var wkDataLoading = false;
     var activeFilter = 'all';
 
     function escapeHtml(s) {
@@ -7616,7 +7091,7 @@
 
     function applyFilters() {
       var query = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase();
-      var result = PICKS.slice();
+      var result = window.TRIP_DATA.whiskeyPicks.slice();
       if (activeFilter === 'under200') {
         result = result.filter(function (i) { return i.isUnder200; });
         result.sort(function (a, b) { return a.buyMaxUsd - b.buyMaxUsd; });
@@ -7633,12 +7108,30 @@
       renderItems(result);
     }
 
+    function ensureWkDataLoaded(afterLoad) {
+      if (wkDataLoaded) { afterLoad(); return; }
+      if (wkDataLoading) return;
+      wkDataLoading = true;
+      listContainer.innerHTML = '<div class="wk-empty">불러오는 중...</div>';
+      loadJsonData('whiskey', 'data/whiskey.json', function (data) {
+        // window.TRIP_DATA.whiskeyPicks를 재할당 — applyFilters()가 이 프로퍼티를
+        // 호출 시점에 매번 새로 읽으므로(위 PICKS 지역변수 캡처 제거) 안전하다
+        window.TRIP_DATA.whiskeyPicks = data;
+        wkDataLoaded = true;
+        wkDataLoading = false;
+        afterLoad();
+      }, function () {
+        wkDataLoading = false;
+        listContainer.innerHTML = '<div class="wk-empty">⚠️ 데이터를 불러오지 못했습니다. 네트워크 연결을 확인한 뒤 다시 열어주세요.</div>';
+      });
+    }
+
     function openModal() {
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
-      applyFilters();
+      ensureWkDataLoaded(applyFilters);
       if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
@@ -7683,23 +7176,28 @@
   })();
 
   /* ==========================================================
-     짐싸기 기기 소유자 선택 - 가족 확인용 PIN 게이트
-     - FAMILY_PIN(FIREBASE_CONFIG 근처 선언)은 보안 목적이 아니라
-       무작위 방문자의 오선택을 막기 위한 용도
-     - 한 번 성공하면 이 기기는 localStorage에 인증 기록을 남겨
-       다음부터는 PIN을 다시 묻지 않는다
+     2단계 PIN 게이트 (가족 PIN / 관리자 PIN)
+     - family tier: 스탬프(여권 위젯·프랜차이즈 도장) — 가족 전체 공유 PIN
+     - admin  tier: 준비물 체크·남은 할 일·기획자모드 — 지은·승현 전용 PIN
+     - 각 tier는 localStorage 인증 기록을 별도 키에 저장 →
+       가족 PIN을 뚫어도 관리자 전용 기능은 여전히 잠겨있다
   ========================================================== */
-  (function initFamilyPinGate() {
-    var PIN_VERIFIED_KEY = 'us_trip_pin_verified';
+  (function initPinGates() {
+    var PIN_TIERS = {
+      family: { pin: FAMILY_PIN, key: 'us_trip_pin_verified', sub: '가족 PIN 4자리를 입력해주세요' },
+      admin:  { pin: ADMIN_PIN,  key: 'us_trip_admin_pin_verified', sub: '관리자(지은·승현) PIN 4자리를 입력해주세요' }
+    };
     var backdrop = document.getElementById('pinModalBackdrop');
     var modal = document.getElementById('pinModal');
     var closeBtn = document.getElementById('pinCloseBtn');
     var input = document.getElementById('pinInput');
     var errorMsg = document.getElementById('pinError');
     var ownerNameEl = document.getElementById('pinModalOwnerName');
+    var subEl = document.getElementById('pinModalSub');
     if (!modal || !backdrop || !input) return;
 
     var pendingCallback = null;
+    var pendingTier = 'family';
 
     function closeModal() {
       backdrop.classList.remove('open');
@@ -7712,8 +7210,10 @@
       if (window.triggerHaptic) window.triggerHaptic('light');
     }
 
-    function openModal(ownerName) {
+    function openModal(ownerName, tier) {
+      var cfg = PIN_TIERS[tier] || PIN_TIERS.family;
       if (ownerNameEl) ownerNameEl.textContent = ownerName;
+      if (subEl) subEl.textContent = cfg.sub;
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -7725,8 +7225,15 @@
     function checkPin() {
       input.value = input.value.replace(/[^0-9]/g, '');
       if (input.value.length < 4) return;
-      if (input.value === FAMILY_PIN) {
-        try { localStorage.setItem(PIN_VERIFIED_KEY, 'true'); } catch (e) {}
+      var cfg = PIN_TIERS[pendingTier] || PIN_TIERS.family;
+      if (input.value === cfg.pin) {
+        try { localStorage.setItem(cfg.key, 'true'); } catch (e) {}
+        // 관리자는 가족이 할 수 있는 모든 것(스탬프 포함)도 당연히 할 수 있어야 하므로,
+        // 관리자 PIN 인증 성공 시 가족 tier 인증도 함께 세팅해 별도 재인증을 요구하지 않는다.
+        // (반대 방향은 세팅하지 않음 — 가족 PIN 인증이 관리자 권한을 주지는 않는다)
+        if (pendingTier === 'admin') {
+          try { localStorage.setItem(PIN_TIERS.family.key, 'true'); } catch (e) {}
+        }
         var cb = pendingCallback;
         closeModal();
         if (cb) cb();
@@ -7749,15 +7256,23 @@
       if (modal.classList.contains('open')) closeModal();
     });
 
-    window.requestFamilyPin = function (ownerName, onVerified) {
+    // tier: 'family' | 'admin'
+    window.requestPin = function (tier, ownerName, onVerified) {
+      var cfg = PIN_TIERS[tier] || PIN_TIERS.family;
       var verified = false;
-      try { verified = localStorage.getItem(PIN_VERIFIED_KEY) === 'true'; } catch (e) {}
+      try { verified = localStorage.getItem(cfg.key) === 'true'; } catch (e) {}
       if (verified) {
         if (onVerified) onVerified(); // 콜백 없이(예: 전체선택/초기화 버튼) 호출되는 경우 대비
         return;
       }
+      pendingTier = tier;
       pendingCallback = onVerified;
-      openModal(ownerName);
+      openModal(ownerName, tier);
+    };
+
+    // 하위 호환: 예전 호출부가 남아있어도 family tier로 동작
+    window.requestFamilyPin = function (ownerName, onVerified) {
+      window.requestPin('family', ownerName, onVerified);
     };
   })();
 
@@ -8088,12 +7603,12 @@
 
     // 링크를 많은 사람에게 공유해둔 상태이므로, 기본값은 민감정보가 가려지는
     // 가족모드(data-view="family")로 시작한다. 기획자모드(전체 금액·예약번호 노출)는
-    // 가족 PIN 인증을 거친 기기에서 직접 전환한 이력이 있을 때만 복원된다.
+    // 관리자 PIN 인증을 거친 기기(지은·승현)에서 직접 전환한 이력이 있을 때만 복원된다.
     var savedView = null;
     try { savedView = localStorage.getItem(VIEW_KEY); } catch (e) {}
-    var isPinVerified = false;
-    try { isPinVerified = localStorage.getItem('us_trip_pin_verified') === 'true'; } catch (e) {}
-    applyView(savedView === 'admin' && isPinVerified ? 'admin' : 'family');
+    var isAdminPinVerified = false;
+    try { isAdminPinVerified = localStorage.getItem('us_trip_admin_pin_verified') === 'true'; } catch (e) {}
+    applyView(savedView === 'admin' && isAdminPinVerified ? 'admin' : 'family');
 
     function switchTo(next) {
       applyView(next);
@@ -8107,12 +7622,12 @@
         var next = current === 'family' ? 'admin' : 'family';
         if (next === 'admin') {
           var verified = false;
-          try { verified = localStorage.getItem('us_trip_pin_verified') === 'true'; } catch (e) {}
+          try { verified = localStorage.getItem('us_trip_admin_pin_verified') === 'true'; } catch (e) {}
           if (!verified) {
-            if (window.showToast) window.showToast('🔒 가족 PIN 인증 후 기획자모드를 사용할 수 있습니다');
+            if (window.showToast) window.showToast('🔒 관리자 인증 후 기획자모드를 사용할 수 있습니다 (지은·승현 전용)');
             if (window.triggerHaptic) window.triggerHaptic('warning');
-            if (window.requestFamilyPin) {
-              window.requestFamilyPin('가족', function () { switchTo('admin'); });
+            if (window.requestPin) {
+              window.requestPin('admin', '관리자', function () { switchTo('admin'); });
             }
             return;
           }
