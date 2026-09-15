@@ -592,7 +592,8 @@
   footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
 
   /* ===== BOTTOM NAV (mobile app-style tab bar) ===== */
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:calc(64px + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);display:flex;justify-content:space-around;align-items:center;max-width:640px;margin:0 auto;}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:900;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);height:calc(64px + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);display:flex;justify-content:space-around;align-items:center;max-width:640px;margin:0 auto;transition:transform .2s ease;}
+  .bottom-nav.kb-hidden{transform:translateY(100%);}
   .nav-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;color:var(--muted-2);font-family:'Work Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;padding:6px 12px;transition:color .2s,transform .1s;-webkit-tap-highlight-color:transparent;}
   .nav-tab .tab-icon{font-size:18px;line-height:1;}
   .nav-tab.active{color:var(--gold-text);}
@@ -7676,6 +7677,24 @@
         showToast('예약번호가 복사되었습니다');
         if (window.triggerHaptic) window.triggerHaptic('success');
       }
+    });
+  })();
+
+  /* ==========================================================
+     [4-4b] 모바일 가상 키보드 뜰 때 하단 내비바 숨김
+     — 가상 키보드가 올라오면 visualViewport.height가 줄어드는데, 고정된
+       .bottom-nav는 그대로라 입력창(가계부 수기입력·팁 계산기 등)을 가릴 수 있음.
+       "지금까지 본 가장 큰 높이" 대비 얼마나 줄었는지로 키보드 여부를 판단
+       (화면 회전/브라우저 주소창 노출 등으로 인한 소폭 변화는 무시)
+  ========================================================== */
+  (function initKeyboardAwareNav() {
+    var nav = document.querySelector('.bottom-nav');
+    if (!nav || !window.visualViewport) return;
+    var maxHeight = window.visualViewport.height;
+    window.visualViewport.addEventListener('resize', function () {
+      var h = window.visualViewport.height;
+      if (h > maxHeight) maxHeight = h;
+      nav.classList.toggle('kb-hidden', maxHeight - h > 150);
     });
   })();
 
