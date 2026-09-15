@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "cat": "간식과자",
+    "type": "귀국선물(상온)",
+    "name": "오레오 (한국 미출시 맛)",
+    "price": "가격 상이",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e9c46a'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E간식과자%3C/text%3E%3C/svg%3E",
+    "note": "한국인 여행블로그 실구매 후기 확인 — \"한국에 없는 맛으로 하나 사오시길\"."
+  },
+  {
+    "id": 2,
+    "cat": "간식과자",
+    "type": "귀국선물(상온)",
+    "name": "테이트 쿠키 (Tate's)",
+    "price": "$5",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e9c46a'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E간식과자%3C/text%3E%3C/svg%3E",
+    "note": "실구매 후기 확인."
+  },
+  {
+    "id": 3,
+    "cat": "간식과자",
+    "type": "귀국선물(상온)",
+    "name": "레이즈 이색 맛 감자칩",
+    "price": "가격 상이",
+    "star": "★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e9c46a'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E간식과자%3C/text%3E%3C/svg%3E",
+    "note": "한국에선 구하기 힘든 신맛 베이스 과자, 실구매 후기 확인."
+  },
+  {
+    "id": 4,
+    "cat": "간식과자",
+    "type": "귀국선물(상온)",
+    "name": "컵시리얼 (소용량)",
+    "price": "$1",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e9c46a'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E간식과자%3C/text%3E%3C/svg%3E",
+    "note": "한국 대비 훨씬 저렴, 실구매 후기 확인."
+  },
+  {
+    "id": 5,
+    "cat": "소스조미료",
+    "type": "귀국선물(상온)",
+    "name": "치폴레 소스",
+    "price": "$4 이상",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e76f51'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E소스조미료%3C/text%3E%3C/svg%3E",
+    "note": "\"이번 여행에서 제일 잘 쓰는 중\" 실사용 후기 확인."
+  },
+  {
+    "id": 6,
+    "cat": "소스조미료",
+    "type": "귀국선물(상온)",
+    "name": "칙필레이 소스",
+    "price": "$3~5선",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e76f51'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E소스조미료%3C/text%3E%3C/svg%3E",
+    "note": "한국인 여행자 실구매 후기 다수."
+  },
+  {
+    "id": 7,
+    "cat": "소스조미료",
+    "type": "귀국선물(상온)",
+    "name": "생선요리용 시즈닝 (Old Bay류)",
+    "price": "$5~8선",
+    "star": "★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%23e76f51'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E소스조미료%3C/text%3E%3C/svg%3E",
+    "note": "\"국룰 시즈닝\"으로 후기에 자주 언급됨."
+  },
+  {
+    "id": 8,
+    "cat": "신선식품",
+    "type": "현지소비(신선)",
+    "name": "사과",
+    "price": "$3~4",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232a9d8f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E신선식품%3C/text%3E%3C/svg%3E",
+    "note": "\"너무 달고 맛있다\" 실사용 후기 확인."
+  },
+  {
+    "id": 9,
+    "cat": "신선식품",
+    "type": "현지소비(신선)",
+    "name": "오렌지",
+    "price": "$3~4",
+    "star": "★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%232a9d8f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E신선식품%3C/text%3E%3C/svg%3E",
+    "note": "실사용 후기 확인."
+  },
+  {
+    "id": 10,
+    "cat": "의약품",
+    "type": "귀국선물(상온)",
+    "name": "데이퀼 & 나이트퀼 콤보",
+    "price": "$20",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%231f8a5f'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E의약품%3C/text%3E%3C/svg%3E",
+    "note": "실사용 후기 확인. 코스트코엔 감기약 자체가 없어 중복 아님."
+  },
+  {
+    "id": 11,
+    "cat": "뷰티생활",
+    "type": "귀국선물(상온)",
+    "name": "닥터 브로너스 바 솝",
+    "price": "$5 이하",
+    "star": "★★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%237c5cbf'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E뷰티생활%3C/text%3E%3C/svg%3E",
+    "note": "한국 대비 약 40% 저렴 확인. 코스트코엔 비누류 없음(K뷰티 스킨케어만 보유)."
+  },
+  {
+    "id": 12,
+    "cat": "전자기기",
+    "type": "가격맞으면구매",
+    "name": "Apple AirPods 4 with ANC",
+    "price": "$119 (정가 $179)",
+    "star": "★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%2364748b'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E전자기기%3C/text%3E%3C/svg%3E",
+    "note": "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님."
+  },
+  {
+    "id": 13,
+    "cat": "전자기기",
+    "type": "가격맞으면구매",
+    "name": "Beats Studio Pro 헤드폰",
+    "price": "$149 (정가 $350)",
+    "star": "★★",
+    "img": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' rx='16' fill='%2364748b'/%3E%3Ctext x='60' y='68' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E전자기기%3C/text%3E%3C/svg%3E",
+    "note": "검증된 핫딜가. 매장·시점별로 변동 가능. 필수 아님."
+  }
+]

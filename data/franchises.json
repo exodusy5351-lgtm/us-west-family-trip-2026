@@ -1,0 +1,98 @@
+[
+  {
+    "id": "fc-innout",
+    "bannerColor": "#e63946",
+    "name": "인앤아웃 버거 (In-N-Out Burger)",
+    "origin": "캘리포니아 볼드윈파크 (1948년 창립)",
+    "scheduleDay": "1일차 바스토우",
+    "category": "신선 냉장 패티 버거",
+    "icon": "🍔",
+    "mustOrder": "더블더블 애니멀 스타일 (Double-Double Animal Style) & 애니멀 스타일 감자튀김",
+    "features": "냉동 패티와 전자레인지를 일절 쓰지 않고, 매일 매장에서 통감자를 직접 썰어 튀겨내는 캘리포니아의 자존심이자 미서부 로드트립의 상징.",
+    "secretTip": "패티에 머스터드를 발라 굽고 구운 캐러멜 양파와 특제 스프레드를 듬뿍 얹는 '애니멀 스타일(Animal Style)'은 필수. 음료는 메뉴판에 없는 바닐라+초코+딸기 3단 조합 '나폴리탄 쉐이크' 추천."
+  },
+  {
+    "id": "fc-chickfila",
+    "bannerColor": "#c1121f",
+    "name": "칙필레 (Chick-fil-A)",
+    "origin": "조지아 칼리지파크 (1946년 창립)",
+    "scheduleDay": "2일차 라스베이거스 하몬코너",
+    "category": "프리미엄 치킨 샌드위치",
+    "icon": "🍗",
+    "mustOrder": "스파이시 치킨 샌드위치 (Spicy Chicken Sandwich) & 와플 감자튀김 (Waffle Fries)",
+    "features": "피클 즙(Pickle Brine)에 숙성해 극강의 부드러움을 자랑하는 통닭가슴살 패티와 벌집 모양 와플 감자튀김. 압도적인 고객 만족도와 친절함으로 미국 1위 패스트푸드 등극.",
+    "secretTip": "주문 시 특제 '칙필레 소스(스모키 허니머스터드 바비큐)'와 '폴리네시안 소스(새콤달콤 스위트칠리)'를 인당 2개씩 꼭 요청해서 감자튀김과 치킨에 듬뿍 찍먹하기."
+  },
+  {
+    "id": "fc-elgordo",
+    "bannerColor": "#f77f00",
+    "name": "타코스 엘 고르도 (Tacos El Gordo)",
+    "origin": "멕시코 티후아나 / 샌디에고 (1998년 창립)",
+    "scheduleDay": "1일차 라스베이거스 스트립",
+    "category": "티후아나 정통 멕시칸 스트리트 타코",
+    "icon": "🌮",
+    "mustOrder": "타코스 데 아도바다 (Tacos de Adobada / 매콤 불맛 양념 돼지고기)",
+    "features": "케밥처럼 거대한 회전 꼬치구이(Trompo)에서 갓 썰어내는 불맛 가득한 아도바다 돼지고기와 즉석에서 구운 옥수수 또띠아의 풍미가 압도적인 정통 타코 명가.",
+    "secretTip": "고기 종류(Adobada-돼지, Asada-소, Suadero-양지 등)별로 줄을 따로 서서 주문한 뒤 마지막에 카운터에서 일괄 결제하는 시스템. 매콤달콤한 아도바다에 과카몰리 소스를 듬뿍 올려 먹을 것."
+  },
+  {
+    "id": "fc-chipotle",
+    "bannerColor": "#7f1d1d",
+    "name": "치폴레 멕시칸 그릴 (Chipotle)",
+    "origin": "콜로라도 덴버 (1993년 창립)",
+    "scheduleDay": "2일차 하몬코너 / 5일차 아울렛",
+    "category": "커스텀 헬시 멕시칸 보울",
+    "icon": "🌯",
+    "mustOrder": "부리토 볼 (Burrito Bowl - 스테이크 또는 바바코아 토핑)",
+    "features": "항생제 없는 신선한 육류와 채소를 눈앞에서 즉석 커스텀해 주는 미국 직장인·헬스인들의 최애 건강 패스트캐주얼.",
+    "secretTip": "또띠아 대신 '볼(Bowl)'로 선택하고, 밥은 브라운/화이트 반반(Half & Half), 콩도 블랙/핀토 반반 가능. 파히타 야채(Fajita Veggies)와 과카몰리, 사워크림을 추가하면 푸짐함 2배."
+  },
+  {
+    "id": "fc-panda",
+    "bannerColor": "#d62828",
+    "name": "판다 익스프레스 (Panda Express)",
+    "origin": "캘리포니아 글렌데일 (1983년 창립)",
+    "scheduleDay": "5일차 데저트힐스 아울렛 푸드코트",
+    "category": "아메리칸 차이니즈 웍 다이닝",
+    "icon": "🐼",
+    "mustOrder": "플레이트 (Plate: 차우멘/볶음밥 반반 + 오렌지 치킨 & 베이징 비프)",
+    "features": "웍(Wok)에서 불맛 나게 볶아내는 미국식 중화요리의 원조. 달콤 바삭한 소스 코팅 치킨으로 쇼핑 중 실패 없는 든든한 한 끼를 보장.",
+    "secretTip": "베이스는 볶음밥(Fried Rice)과 차우멘(Chow Mein 볶음면)을 반반(Half & Half)으로 요청할 것. 갓 볶아져 나오는 따끈한 회전율 빠른 메뉴를 고르면 바삭함이 극대화됨."
+  },
+  {
+    "id": "fc-eggslut",
+    "bannerColor": "#fcbf49",
+    "name": "에그슬럿 본점 (Eggslut DTLA)",
+    "origin": "캘리포니아 로스앤젤레스 (2011년 창립)",
+    "scheduleDay": "10일차 DTLA 그랜드 센트럴 마켓",
+    "category": "하이엔드 에그 브런치 샌드위치",
+    "icon": "🍳",
+    "mustOrder": "슬럿 (Slut) & 페어팩스 샌드위치 (Fairfax Sandwich)",
+    "features": "LA 푸드트럭 신화의 주인공. 100년 전통 그랜드 센트럴 마켓 1호점에서 맛보는 부드러운 스크램블드에그와 브리오슈 번의 정수.",
+    "secretTip": "유리병에 담겨 수비드된 부드러운 감자 퓌레와 수란(Coddled Egg)을 숟가락으로 잘 섞어 함께 나오는 바게트 슬라이스에 스프레드처럼 두툼하게 얹어 먹기."
+  },
+  {
+    "id": "fc-canes",
+    "bannerColor": "#b02a37",
+    "name": "레이징 케인스 (Raising Cane's)",
+    "origin": "루이지애나 배턴루지 (1996년 창립)",
+    "scheduleDay": "미서부 전역 로드트립 백업 체인",
+    "category": "치킨 텐더 전문점",
+    "icon": "🍟",
+    "mustOrder": "더 박스 콤보 (The Box Combo: 닭안심 텐더 4조각 + 케인스 소스 + 텍사스 토스트)",
+    "features": "냉동 없는 신선한 프리미엄 닭안심(Chicken Tender) 단일 메뉴 하나로 미국을 평정한 치킨 텐더 전문점.",
+    "secretTip": "마약 같은 감칠맛의 '케인스 특제 소스'와 버터에 구워낸 두툼한 '텍사스 토스트'가 핵심. 코울슬로를 토스트로 변경(Swap Slaw for Toast)하는 것이 현지 단골들의 꿀팁."
+  },
+  {
+    "id": "fc-daves",
+    "bannerColor": "#e85d04",
+    "name": "데이브스 핫치킨 (Dave's Hot Chicken)",
+    "origin": "캘리포니아 이스트할리우드 (2017년 창립)",
+    "scheduleDay": "할리우드 야식 & 시내 백업 체인",
+    "category": "내슈빌 스타일 핫치킨",
+    "icon": "🔥",
+    "mustOrder": "데이브스 #2 (Dave's #2: 핫치킨 슬라이더 2개 + 감자튀김)",
+    "features": "할리우드 주차장 팝업에서 시작해 래퍼 드레이크(Drake)의 투자로 전미 폭풍 성장을 이룬 내슈빌 스타일 스파이시 치킨 버거.",
+    "secretTip": "맵기는 7단계 중 'Medium'이나 'Hot'이 한국인에게 가장 맛있게 매콤함. 카운터에서 꿀(Honey) 패킷을 요청해 번 사이에 뿌려 먹으면 극강의 맵단짠 완성."
+  }
+]
