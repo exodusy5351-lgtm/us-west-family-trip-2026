@@ -217,6 +217,24 @@
   }
   .img-modal-close:hover,.img-modal-close:focus-visible{background:rgba(0,0,0,.18);outline:none;}
 
+  /* ===== 일자별 동선 지도 모달 (Leaflet 실지도) ===== */
+  .route-map-modal{display:none;position:fixed;inset:0;z-index:1100;background:rgba(20,30,40,.5);align-items:center;justify-content:center;padding:14px;}
+  .route-map-modal.open{display:flex;}
+  .route-map-sheet{background:var(--card);border-radius:16px;width:100%;max-width:640px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+  .route-map-header{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);flex-shrink:0;}
+  .route-map-title{flex:1;text-align:center;min-width:0;}
+  .rm-day{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-text);font-weight:700;}
+  .rm-label{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .route-map-nav{width:34px;height:34px;flex-shrink:0;border-radius:50%;background:var(--card-2);border:1px solid var(--line);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .route-map-nav:hover,.route-map-nav:focus-visible{border-color:var(--teal);outline:none;}
+  .route-map-nav:disabled{opacity:.35;cursor:default;}
+  .route-map-close{width:34px;height:34px;flex-shrink:0;border-radius:50%;background:rgba(0,0,0,.06);border:1px solid var(--line);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .route-map-close:hover,.route-map-close:focus-visible{background:rgba(0,0,0,.12);outline:none;}
+  .route-map-canvas{flex:1;min-height:340px;height:60vh;max-height:520px;position:relative;background:var(--card-2);}
+  .route-map-status{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);text-align:center;padding:0 20px;}
+  .route-map-day-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--teal-text);font-size:14px;cursor:pointer;flex-shrink:0;}
+  .route-map-day-icon:hover,.route-map-day-icon:focus-visible{border-color:var(--teal);outline:none;}
+
   /* ===== TIMELINE (accordion) ===== */
   .timeline{position:relative;padding-left:26px;}
   .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line);}
@@ -2424,6 +2442,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>1일차 동선:</b> LAX(ConRAC) ➔ 바스토우(인앤아웃) ➔ 세븐매직 ➔ 코스트코/트조 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/5251+W+98th+St,+Los+Angeles,+CA/In-N-Out+Burger,+Barstow,+CA/Seven+Magic+Mountains,+NV/Costco+Wholesale,+St+Rose+Pkwy,+Henderson,+NV/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="1" aria-label="1일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">LAX 입국 &amp; 베가스 로드트립</div>
         <div class="d-desc">공항 입국 후 렌터카로 모하비 사막을 가로질러 라스베가스 콘래드까지, 중간 명소·장보기 포함 첫날 로드트립</div>
@@ -2500,6 +2519,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>2일차 동선:</b> 콘래드 ➔ 서커스서커스 ➔ 스피어 ➔ 하몬코너(저녁) ➔ 벨라지오 분수 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Circus+Circus,+Las+Vegas/Sphere,+Las+Vegas/Harmon+Corner,+Las+Vegas/Bellagio+Fountains,+Las+Vegas/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="2" aria-label="2일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">오전 수영 → 호텔 F&amp;B 크레딧($50) 중식 → 레이트체크아웃(~14:00) → 서커스서커스 → 스피어 16:00 도어오픈 → 칙필레/치폴레 저녁 → 벨라지오 분수쇼 → 콘래드 투어 픽업</div>
         <div class="d-desc">23:45 콘래드(리조트월드) 로비에서 그랜드캐년 투어(요한투어) 픽업 <span class="mini-badge">예약확정</span></div>
@@ -2609,6 +2629,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>3일차 투어:</b> 콘래드 ➔ 웰컴사인 ➔ 마더포인트 ➔ 데저트뷰 ➔ 앤텔롭 ➔ 홀스슈 ➔ 글렌댐 ➔ 콘래드</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Welcome+to+Fabulous+Las+Vegas+Sign/Mather+Point,+Grand+Canyon/Desert+View+Watchtower,+Grand+Canyon/Lower+Antelope+Canyon/Horseshoe+Bend,+Page,+AZ/Glen+Canyon+Dam/Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">Google Maps 투어 코스 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="3" aria-label="3일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">그랜드캐년 VIP 당일투어 (요한투어 · 코스2)</div>
         <div class="d-desc">마이리얼트립 결제 완료 <span class="mini-badge">예약확정</span> — 예약번호 EXP-20260903-00006699</div>
@@ -2814,6 +2835,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>4일차 통합 동선:</b> 콘래드 ➔ Total Wine ➔ 베이커(Alien Fresh Jerky) ➔ 유카밸리(Walmart) ➔ 숙소(짐하차/휴식) ➔ 히든밸리 ➔ 바커댐 ➔ 키즈뷰(일몰) ➔ 숙소</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Conrad+Las+Vegas+at+Resorts+World/Total+Wine+%26+More,+6885+S+Las+Vegas+Blvd/Alien+Fresh+Jerky,+Baker,+CA/Walmart+Supercenter,+58501+29+Palms+Hwy,+Yucca+Valley,+CA+92284/61480+El+Cajon+Drive,+Joshua+Tree,+CA+92252/Hidden+Valley+Nature+Trail,+Joshua+Tree/Barker+Dam,+Joshua+Tree/Keys+View,+Joshua+Tree/61480+El+Cajon+Drive,+Joshua+Tree,+CA+92252" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="4" aria-label="4일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">라스베가스 → 조슈아트리 국립공원 &amp; 사막 독채 숙소 1박</div>
         <div class="d-desc">오전 조기 출발로 숙소 체크인 후 충분한 휴식을 취하고, 18:22 키즈뷰 일몰 골든아워에 맞춰 공원 핵심 스팟(히든밸리/스컬락/키즈뷰)을 완파하는 여유로운 힐링 동선</div>
@@ -2993,6 +3015,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>5일차 동선:</b> Pink Bungalow(체크아웃) ➔ 데저트힐스 아울렛 ➔ 트조(Orange) ➔ 코스트코 ➔ Home2 Suites(가족 하차) ➔ Hertz 선반납 ➔ 다운타운 디즈니</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/61480+El+Cajon+Drive,+Joshua+Tree,+CA+92252/Desert+Hills+Premium+Outlets/Trader+Joe's,+2114+N+Tustin+St,+Orange,+CA/Costco+Wholesale,+Garden+Grove,+CA/Home2+Suites+by+Hilton+Anaheim+Resort/Hertz+Rent+A+Car,+221+W+Katella+Ave,+Anaheim,+CA/Downtown+Disney+District+Anaheim" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="5" aria-label="5일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">조슈아트리 → 데저트힐스 아울렛 → 트레이더 조 → 코스트코 → 애너하임</div>
         <div class="d-desc">완벽한 서쪽 일직선 동선, 렌터카 트렁크를 활용한 쇼핑 몰아치기 후 반납 직전 코스트코 풀 주유로 유류비 절감 &amp; 패널티 방지</div>
@@ -3082,6 +3105,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>6일차 동선:</b> Home2 Suites ➔ 디즈니랜드 파크(오픈런~원드러스 저니, 파크 내부에서 저녁까지 해결) ➔ Home2 Suites</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Disneyland+Park,+Anaheim/Home2+Suites+by+Hilton+Anaheim+Resort" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="6" aria-label="6일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">디즈니랜드 파크 전일 (1-Day 1-Park)</div>
         <div class="d-desc">티켓 권종(1 Day 1 Park Tier 4)에 맞춰 디즈니랜드 파크(메인 파크) 단일 집중 일정 · 캘리포니아 어드벤처(DCA) 미포함</div>
@@ -3161,6 +3185,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>7일차 동선:</b> Home2 Suites ➔ 로어스 호텔(체크인) ➔ 유니버셜 스튜디오(하부) ➔ 시티워크 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Home2+Suites+by+Hilton+Anaheim+Resort/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Universal+CityWalk+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="7" aria-label="7일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">애너하임 → 로어스 할리우드 체크인 &amp; 유니버설 1일차(하부 로어랏)</div>
         <div class="d-desc">유니버설 2일권 1일차 · 로어스 할리우드(4박) 체크인 후 우버로 파크 왕복, 하부 구역 중심 공략</div>
@@ -3227,6 +3252,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>8일차 동선:</b> 로어스 할리우드 ➔ 유니버셜 스튜디오(상부) ➔ Ovation 몰 / 명예의 거리 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Universal+Studios+Hollywood/Ovation+Hollywood/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 오늘 동선 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="8" aria-label="8일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">유니버설 2일차(상부) &amp; 할리우드 나이트</div>
         <div class="d-desc">유니버설 2일권 2일차 · 상부 구역 오픈런, 로어스 할리우드 4박 체류 유지</div>
@@ -3311,6 +3337,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>9일차 투어:</b> 로어스 ➔ 산타모니카 ➔ 게티센터 ➔ 비벌리힐스 ➔ 핑크월 ➔ 파머스마켓 ➔ 할리우드사인 ➔ 그리피스 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Santa+Monica+Pier/The+Getty/Greystone+Mansion/Paul+Smith+Pink+Wall/The+Original+Farmers+Market/Lake+Hollywood+Park/Griffith+Observatory/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps 투어 전체 코스 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="9" aria-label="9일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">LA 핵심 종일 투어 (전문 도슨트 &amp; 미니밴 11시간)</div>
         <div class="d-desc">마이리얼트립 6인 소규모 도슨트 투어 진행 예정 (4인 ₩598,397, 결제완료) — 산타모니카 출발 → 게티센터 도슨트 → 그리피스 천문대 야경</div>
@@ -3452,6 +3479,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>10일차 DTLA 동선:</b> 다저스타디움 ➔ 그랜드센트럴 ➔ 엔젤스플라이트 ➔ 더브로드 ➔ 디즈니홀 ➔ 더라스트북스토어 ➔ 로어스</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Dodger+Stadium/Grand+Central+Market/Angels+Flight+Railway/The+Broad/Walt+Disney+Concert+Hall/The+Last+Bookstore/Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">Google Maps DTLA 코스 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="10" aria-label="10일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">다저 스타디움 &amp; 다운타운 LA 문화 도보 산책 (여행 마지막 온전한 하루)</div>
         <div class="d-desc">불필요한 지그재그 이동과 쇼핑을 덜어내고, 다저스타디움 공식 투어 후 다운타운 명소들을 원웨이 도보로 연결해 할리우드에서 품격 있는 만찬으로 마무리하는 최적화 동선 (전날 이틀 연속 온수풀 수영 후 체력 안배 및 익일 06:30 이른 공항 이동 준비상, 오늘은 루프탑 수영 없이 이른 취침)</div>
@@ -3604,6 +3632,7 @@
         <div class="route-nav-banner">
           <span class="route-nav-text">🧭 <b>11일차 귀국:</b> 로어스 할리우드 호텔 ➔ LAX 톰 브래들리 국제선 터미널(TBIT 출발층)</span>
           <a class="route-nav-link" href="https://www.google.com/maps/dir/Loews+Hollywood+Hotel/Tom+Bradley+International+Terminal,+Los+Angeles,+CA" target="_blank" rel="noopener noreferrer">Google Maps 공항 이동 열기 ↗</a>
+          <button type="button" class="route-map-day-icon" data-day="11" aria-label="11일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">새벽 LAX 이동 → 10:50 출국 (YP102)</div>
         <div class="d-desc">10/12(월) 15:50 한국 도착 · 10/13(화) 출근</div>
@@ -4855,6 +4884,24 @@
   <img id="img-modal-img" src="" alt="예약 첨부 이미지">
 </div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
+
+<!-- 일자별 동선 지도 모달 (Leaflet, 첫 오픈 시 지연 로드) -->
+<div class="route-map-modal" id="routeMapModal">
+  <div class="route-map-sheet">
+    <div class="route-map-header">
+      <button type="button" class="route-map-nav" id="routeMapPrev" aria-label="이전 날짜">‹</button>
+      <div class="route-map-title">
+        <div class="rm-day" id="rmDayNum">D1</div>
+        <div class="rm-label" id="rmDayLabel"></div>
+      </div>
+      <button type="button" class="route-map-nav" id="routeMapNext" aria-label="다음 날짜">›</button>
+      <button type="button" class="route-map-close" id="routeMapClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="route-map-canvas" id="routeMapCanvas">
+      <div class="route-map-status" id="routeMapStatus">지도를 불러오는 중...</div>
+    </div>
+  </div>
+</div>
 
 <!-- 오프라인 맵 다운로드 센터 모달 -->
 <div id="offlineMapModalBackdrop" class="offline-map-modal-backdrop"></div>
@@ -7635,8 +7682,179 @@
         var targetDayId = this.getAttribute('data-target');
         if (window.switchTab) window.switchTab('tab-schedule', true);
         if (window.jumpToDay) window.jumpToDay(targetDayId);
+        var dayNum = parseInt(targetDayId.replace('day-', ''), 10);
+        if (window.openRouteMap && dayNum) window.openRouteMap(dayNum);
       });
     });
+  })();
+
+  /* ==========================================================
+     [4-2b] 일자별 동선 지도 모달 (Leaflet, 실지도) — D1~D11 페이저
+     - route-nav-banner의 🗺️ 아이콘, 상단 루트 칩 클릭 시 오픈
+     - Leaflet 라이브러리는 첫 오픈 시에만 CDN에서 지연 로드(오프라인/최초로딩 가벼움 유지)
+  ========================================================== */
+  (function initRouteMapModal() {
+    var DAY_ROUTES = {
+      1: { label: 'LAX → 라스베가스', stops: [
+        ['LAX', 33.9382, -118.4090], ['바스토우(인앤아웃)', 34.8992, -117.0175],
+        ['세븐 매직 마운틴스', 35.9739, -115.4046], ['코스트코 헨더슨', 36.0331, -115.1067],
+        ['콘래드 라스베가스', 36.1215, -115.1739]
+      ]},
+      2: { label: '라스베가스 스트립', stops: [
+        ['콘래드', 36.1215, -115.1739], ['서커스서커스', 36.1372, -115.1652],
+        ['스피어', 36.1215, -115.1567], ['하몬코너', 36.1058, -115.1728],
+        ['벨라지오 분수', 36.1126, -115.1767], ['콘래드', 36.1215, -115.1739]
+      ]},
+      3: { label: '그랜드캐년·페이지 투어', stops: [
+        ['콘래드', 36.1215, -115.1739], ['웰컴사인', 36.0825, -115.1728],
+        ['마더포인트(그랜드캐년)', 36.0567, -112.1092], ['데저트뷰 워치타워', 36.0453, -111.8258],
+        ['로워 앤텔롭캐년', 36.8619, -111.5089], ['호스슈밴드', 36.8791, -111.5104],
+        ['글렌캐년댐', 36.9366, -111.4844], ['콘래드', 36.1215, -115.1739]
+      ]},
+      4: { label: '라스베가스 → 조슈아트리', stops: [
+        ['콘래드', 36.1215, -115.1739], ['Total Wine', 36.0866, -115.1728],
+        ['Alien Fresh Jerky(베이커)', 35.2706, -116.0653], ['Walmart 유카밸리', 34.1214, -116.4306],
+        ['조슈아트리 숙소', 34.1347, -116.3131], ['히든밸리', 34.0089, -116.1667],
+        ['바커댐', 34.0134, -116.1592], ['키즈뷰', 33.9508, -116.1811],
+        ['조슈아트리 숙소', 34.1347, -116.3131]
+      ]},
+      5: { label: '조슈아트리 → 애너하임', stops: [
+        ['조슈아트리 숙소', 34.1347, -116.3131], ['데저트힐스 아울렛', 33.9236, -116.7897],
+        ['트레이더조(Orange)', 33.7940, -117.8438], ['코스트코 가든그로브', 33.7742, -117.9605],
+        ['Home2 Suites', 33.8006, -117.9187], ['Hertz 반납', 33.8021, -117.9214],
+        ['다운타운 디즈니', 33.8078, -117.9236]
+      ]},
+      6: { label: '디즈니랜드', stops: [
+        ['Home2 Suites', 33.8006, -117.9187], ['디즈니랜드', 33.8121, -117.9190],
+        ['Home2 Suites', 33.8006, -117.9187]
+      ]},
+      7: { label: '애너하임 → 할리우드', stops: [
+        ['Home2 Suites', 33.8006, -117.9187], ['로어스 할리우드', 34.1017, -118.3392],
+        ['유니버설 스튜디오', 34.1381, -118.3534], ['시티워크', 34.1367, -118.3546],
+        ['로어스', 34.1017, -118.3392]
+      ]},
+      8: { label: '유니버설 2일차·할리우드', stops: [
+        ['로어스', 34.1017, -118.3392], ['유니버설 스튜디오(상부)', 34.1381, -118.3534],
+        ['Ovation Hollywood', 34.1017, -118.3389], ['로어스', 34.1017, -118.3392]
+      ]},
+      9: { label: 'LA 종일 투어', stops: [
+        ['로어스', 34.1017, -118.3392], ['산타모니카 피어', 34.0094, -118.4973],
+        ['게티센터', 34.0780, -118.4741], ['그레이스톤 맨션', 34.0928, -118.4128],
+        ['폴스미스 핑크월', 34.0836, -118.3831], ['파머스마켓', 34.0630, -118.3444],
+        ['레이크 할리우드 파크', 34.1073, -118.3392], ['그리피스 천문대', 34.1184, -118.3004],
+        ['로어스', 34.1017, -118.3392]
+      ]},
+      10: { label: 'DTLA 문화탐방', stops: [
+        ['로어스', 34.1017, -118.3392], ['다저스타디움', 34.0739, -118.2400],
+        ['그랜드센트럴마켓', 34.0505, -118.2493], ['엔젤스플라이트', 34.0507, -118.2506],
+        ['더 브로드', 34.0555, -118.2504], ['디즈니콘서트홀', 34.0554, -118.2496],
+        ['더 라스트 북스토어', 34.0453, -118.2537], ['로어스', 34.1017, -118.3392]
+      ]},
+      11: { label: '할리우드 → LAX 출국', stops: [
+        ['로어스', 34.1017, -118.3392], ['LAX 톰 브래들리 터미널', 33.9438, -118.4085]
+      ]}
+    };
+
+    var modal = document.getElementById('routeMapModal');
+    var canvas = document.getElementById('routeMapCanvas');
+    var statusEl = document.getElementById('routeMapStatus');
+    var dayNumEl = document.getElementById('rmDayNum');
+    var dayLabelEl = document.getElementById('rmDayLabel');
+    var prevBtn = document.getElementById('routeMapPrev');
+    var nextBtn = document.getElementById('routeMapNext');
+    var closeBtn = document.getElementById('routeMapClose');
+    if (!modal) return;
+
+    var leafletLoaded = false;
+    var leafletLoading = false;
+    var leafletMap = null;
+    var currentDay = 1;
+
+    function ensureLeaflet(cb) {
+      if (leafletLoaded && window.L) { cb(); return; }
+      if (leafletLoading) {
+        var wait = setInterval(function () {
+          if (window.L) { clearInterval(wait); leafletLoaded = true; cb(); }
+        }, 100);
+        return;
+      }
+      leafletLoading = true;
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';
+      document.head.appendChild(link);
+      var script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js';
+      script.onload = function () { leafletLoaded = true; cb(); };
+      script.onerror = function () {
+        leafletLoading = false;
+        statusEl.textContent = '⚠️ 지도를 불러오지 못했어요 — 오프라인이면 온라인일 때 한 번 열어야 다음부터 캐시로 열려요.';
+        statusEl.style.display = 'flex';
+      };
+      document.body.appendChild(script);
+    }
+
+    function renderDay(n) {
+      currentDay = n;
+      var route = DAY_ROUTES[n];
+      dayNumEl.textContent = 'D' + n;
+      dayLabelEl.textContent = route.label;
+      prevBtn.disabled = n <= 1;
+      nextBtn.disabled = n >= 11;
+      statusEl.style.display = 'flex';
+      statusEl.textContent = '지도를 불러오는 중...';
+
+      ensureLeaflet(function () {
+        statusEl.style.display = 'none';
+        var latlngs = route.stops.map(function (s) { return [s[1], s[2]]; });
+
+        if (!leafletMap) {
+          canvas.insertAdjacentHTML('beforeend', '<div id="routeMapLeaflet" style="position:absolute;inset:0;"></div>');
+          leafletMap = L.map('routeMapLeaflet', { attributionControl: true });
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(leafletMap);
+          leafletMap._rmLayer = L.layerGroup().addTo(leafletMap);
+        }
+
+        leafletMap._rmLayer.clearLayers();
+        L.polyline(latlngs, { color: '#3b78e7', weight: 4, opacity: 0.85 }).addTo(leafletMap._rmLayer);
+        route.stops.forEach(function (s, i) {
+          L.circleMarker([s[1], s[2]], {
+            radius: 7, color: '#fff', weight: 2, fillColor: '#e8710a', fillOpacity: 1
+          }).bindTooltip((i + 1) + '. ' + s[0], { permanent: false }).addTo(leafletMap._rmLayer);
+        });
+        setTimeout(function () {
+          leafletMap.invalidateSize();
+          leafletMap.fitBounds(latlngs, { padding: [28, 28] });
+        }, 60);
+      });
+    }
+
+    function openModal(n) {
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      renderDay(n || currentDay || 1);
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    window.openRouteMap = openModal;
+
+    document.querySelectorAll('.route-map-day-icon').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openModal(parseInt(btn.getAttribute('data-day'), 10));
+      });
+    });
+
+    prevBtn.addEventListener('click', function () { if (currentDay > 1) renderDay(currentDay - 1); });
+    nextBtn.addEventListener('click', function () { if (currentDay < 11) renderDay(currentDay + 1); });
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
   })();
 
   /* ==========================================================
