@@ -126,7 +126,9 @@
 
   /* ===== ROUTE LINE (signature element) ===== */
   .route{margin:30px 0 6px;}
-  .route-title{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;}
+  .route-title{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .route-overview-btn{font-family:'Work Sans',sans-serif;font-size:11px;letter-spacing:normal;text-transform:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--teal-text);cursor:pointer;flex-shrink:0;}
+  .route-overview-btn:hover,.route-overview-btn:focus-visible{border-color:var(--teal);outline:none;}
   .route-track{
     position:relative;
     display:flex;
@@ -2148,7 +2150,10 @@
   </div>
 
   <div class="route">
-    <div class="route-title">Route — LAS → JT → ANA → LAX</div>
+    <div class="route-title">
+      <span>Route — LAS → JT → ANA → LAX</span>
+      <button type="button" class="route-overview-btn" id="routeOverviewBtn">🗺️ 전체보기</button>
+    </div>
     <div class="route-track">
       <button type="button" class="stop active" data-target="day-1">
         <div class="dot">🎰</div>
@@ -7695,6 +7700,14 @@
   ========================================================== */
   (function initRouteMapModal() {
     var DAY_ROUTES = {
+      0: { label: '전체 여정 한눈에', loop: true, stops: [
+        ['로스앤젤레스', 34.02, -118.37], ['바스토우', 34.8992, -117.0175],
+        ['라스베가스', 36.1215, -115.1739], ['조슈아트리', 34.1347, -116.3131],
+        ['애너하임', 33.8006, -117.9187]
+      ], spur: [
+        ['라스베가스', 36.1215, -115.1739], ['그랜드캐년', 36.0567, -112.1092],
+        ['페이지·앤텔롭캐년', 36.8619, -111.5089]
+      ]},
       1: { label: 'LAX → 라스베가스', stops: [
         ['LAX', 33.9382, -118.4090], ['바스토우(인앤아웃)', 34.8992, -117.0175],
         ['세븐 매직 마운틴스', 35.9739, -115.4046], ['코스트코 헨더슨', 36.0331, -115.1067],
@@ -7797,9 +7810,9 @@
     function renderDay(n) {
       currentDay = n;
       var route = DAY_ROUTES[n];
-      dayNumEl.textContent = 'D' + n;
+      dayNumEl.textContent = n === 0 ? '전체' : 'D' + n;
       dayLabelEl.textContent = route.label;
-      prevBtn.disabled = n <= 1;
+      prevBtn.disabled = n <= 0;
       nextBtn.disabled = n >= 11;
       statusEl.style.display = 'flex';
       statusEl.textContent = '지도를 불러오는 중...';
@@ -7819,15 +7832,29 @@
         }
 
         leafletMap._rmLayer.clearLayers();
-        L.polyline(latlngs, { color: '#3b78e7', weight: 4, opacity: 0.85 }).addTo(leafletMap._rmLayer);
+        var mainLine = route.loop ? latlngs.concat([latlngs[0]]) : latlngs;
+        L.polyline(mainLine, { color: '#3b78e7', weight: 4, opacity: 0.85 }).addTo(leafletMap._rmLayer);
         route.stops.forEach(function (s, i) {
           L.circleMarker([s[1], s[2]], {
             radius: 7, color: '#fff', weight: 2, fillColor: '#e8710a', fillOpacity: 1
           }).bindTooltip((i + 1) + '. ' + s[0], { permanent: false }).addTo(leafletMap._rmLayer);
         });
+
+        var allLatlngs = latlngs;
+        if (route.spur) {
+          var spurLatlngs = route.spur.map(function (s) { return [s[1], s[2]]; });
+          L.polyline(spurLatlngs, { color: '#e8710a', weight: 3, opacity: 0.85, dashArray: '2 8' }).addTo(leafletMap._rmLayer);
+          route.spur.slice(1).forEach(function (s, i) {
+            L.circleMarker([s[1], s[2]], {
+              radius: 7, color: '#fff', weight: 2, fillColor: '#e8710a', fillOpacity: 1
+            }).bindTooltip(s[0], { permanent: false }).addTo(leafletMap._rmLayer);
+          });
+          allLatlngs = latlngs.concat(spurLatlngs);
+        }
+
         setTimeout(function () {
           leafletMap.invalidateSize();
-          leafletMap.fitBounds(latlngs, { padding: [28, 28] });
+          leafletMap.fitBounds(allLatlngs, { padding: [28, 28] });
         }, 60);
       });
     }
@@ -7835,7 +7862,7 @@
     function openModal(n) {
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
-      renderDay(n || currentDay || 1);
+      renderDay(typeof n === 'number' ? n : (currentDay || 1));
     }
     function closeModal() {
       modal.classList.remove('open');
@@ -7851,8 +7878,11 @@
       });
     });
 
-    prevBtn.addEventListener('click', function () { if (currentDay > 1) renderDay(currentDay - 1); });
+    prevBtn.addEventListener('click', function () { if (currentDay > 0) renderDay(currentDay - 1); });
     nextBtn.addEventListener('click', function () { if (currentDay < 11) renderDay(currentDay + 1); });
+
+    var overviewBtn = document.getElementById('routeOverviewBtn');
+    if (overviewBtn) overviewBtn.addEventListener('click', function () { openModal(0); });
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
   })();
