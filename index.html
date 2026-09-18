@@ -4909,14 +4909,14 @@
   <div class="sheet-park-panel hidden" id="sheetPanelUniversal" data-guide-src="guides/universal.html"></div>
 </div>
 
-<div class="img-modal" id="img-modal">
+<div class="img-modal" id="img-modal" role="dialog" aria-modal="true" aria-label="예약 첨부 이미지">
   <span class="img-modal-close" id="img-modal-close" role="button" aria-label="닫기" tabindex="0">✕</span>
   <img id="img-modal-img" src="" alt="예약 첨부 이미지">
 </div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
 <!-- 일자별 동선 지도 모달 (Leaflet, 첫 오픈 시 지연 로드) -->
-<div class="route-map-modal" id="routeMapModal">
+<div class="route-map-modal" id="routeMapModal" role="dialog" aria-modal="true" aria-labelledby="rmDayLabel">
   <div class="route-map-sheet">
     <div class="route-map-header">
       <button type="button" class="route-map-nav" id="routeMapPrev" aria-label="이전 날짜">‹</button>
@@ -8399,6 +8399,95 @@
     }
 
     autoOpenToday();
+  })();
+</script>
+
+<script>
+  /* ==========================================================
+     모달 공통 키보드·포커스 계약 (Esc 닫기 · 포커스 이동/복귀 · Tab 순환)
+     - 이미지/동선지도/오프라인맵/쇼핑DB/PIN/계산기/공략집 시트 등 모든 오버레이가
+       같은 규칙을 따르도록 한 곳에서 처리. 각 모달의 자체 닫기 버튼을 그대로 눌러
+       스크롤 잠금·백드롭 정리 같은 개별 정리 로직이 항상 함께 실행됨
+  ========================================================== */
+  (function initModalA11y() {
+    var DIALOG_SEL = '[role="dialog"]';
+    var CLOSE_SEL = '#img-modal-close, .route-map-close, .calc-close-btn, #closeBottomSheetBtn, [aria-label="닫기"]';
+    var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    var openers = new WeakMap();
+    var wasOpen = new WeakMap();
+
+    function openDialogs() {
+      return Array.prototype.filter.call(document.querySelectorAll(DIALOG_SEL), function (d) {
+        return d.classList.contains('open');
+      });
+    }
+    function topDialog() {
+      var list = openDialogs();
+      var top = null, topZ = -Infinity;
+      list.forEach(function (d) {
+        var z = parseInt(getComputedStyle(d).zIndex, 10);
+        if (isNaN(z)) z = 0;
+        if (z >= topZ) { top = d; topZ = z; }
+      });
+      return top;
+    }
+    function visibleFocusables(d) {
+      return Array.prototype.filter.call(d.querySelectorAll(FOCUSABLE), function (el) {
+        return el.offsetParent !== null || getComputedStyle(el).position === 'fixed';
+      });
+    }
+
+    var syncing = false;
+    function sync() {
+      if (syncing) return;
+      syncing = true;
+      document.querySelectorAll(DIALOG_SEL).forEach(function (d) {
+        var isOpen = d.classList.contains('open');
+        var was = wasOpen.get(d) || false;
+        if (isOpen && !was) {
+          openers.set(d, document.activeElement);
+          if (!d.hasAttribute('tabindex')) d.setAttribute('tabindex', '-1');
+          setTimeout(function () {
+            if (d.classList.contains('open') && !d.contains(document.activeElement)) {
+              try { d.focus({ preventScroll: true }); } catch (e) { d.focus(); }
+            }
+          }, 30);
+        } else if (!isOpen && was) {
+          var opener = openers.get(d);
+          if (opener && document.contains(opener) && !openDialogs().length) {
+            try { opener.focus({ preventScroll: true }); } catch (e) {}
+          }
+        }
+        wasOpen.set(d, isOpen);
+      });
+      syncing = false;
+    }
+
+    new MutationObserver(sync).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    sync();
+
+    document.addEventListener('keydown', function (e) {
+      var d = topDialog();
+      if (e.key === 'Escape') {
+        if (d) {
+          var closeBtn = d.querySelector(CLOSE_SEL);
+          if (closeBtn) { e.preventDefault(); closeBtn.click(); }
+        } else if (document.body.classList.contains('fab-dial-open')) {
+          var menuBtn = document.getElementById('fabMainBtn');
+          if (menuBtn) { menuBtn.click(); menuBtn.focus(); }
+        }
+        return;
+      }
+      if (e.key === 'Tab' && d) {
+        var items = visibleFocusables(d);
+        if (!items.length) { e.preventDefault(); d.focus(); return; }
+        var first = items[0], last = items[items.length - 1];
+        var active = document.activeElement;
+        if (!d.contains(active)) { e.preventDefault(); first.focus(); }
+        else if (e.shiftKey && (active === first || active === d)) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+      }
+    });
   })();
 </script>
 </body>
