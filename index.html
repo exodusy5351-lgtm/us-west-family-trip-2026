@@ -562,6 +562,9 @@
   .todo-item .txt{flex:1;line-height:1.4;}
   .todo-item .chk:checked ~ .txt{text-decoration:line-through;color:var(--muted);}
   .todo-item .tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  .todo-due{display:inline-block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:1px 8px;border-radius:20px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;}
+  .todo-due.soon{color:var(--gold-text);border-color:rgba(255,184,77,.5);background:rgba(255,184,77,.14);}
+  .todo-due.late{color:var(--red-text);border-color:rgba(230,57,70,.45);background:rgba(230,57,70,.12);}
 
   /* ===== 남은 할 일 전용 자물쇠 버튼 & 잠금 상태 UI ===== */
   .todo-lock-btn {
@@ -2349,11 +2352,16 @@
     <script>
       (function initProtectedTodos() {
         window.TRIP_DATA = window.TRIP_DATA || {};
+        // KST 기준 오늘부터 dateStr(YYYY-MM-DD)까지 남은 일수 (지났으면 음수) — 할 일 뱃지·상단 위젯 공용
+        window.tripDayDiff = function (dateStr) {
+          var today = new Date(Date.now() + 9 * 36e5).toISOString().slice(0, 10);
+          return Math.round((Date.parse(dateStr + 'T00:00:00Z') - Date.parse(today + 'T00:00:00Z')) / 864e5);
+        };
         window.TRIP_DATA.todos = [
-          { key: 'todo-dodger', priority: true, text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
-          { key: 'todo-the-broad', priority: true, text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/10 14:00 슬롯)' },
+          { key: 'todo-dodger', priority: true, due: '2026-09-28', verb: '오픈', text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
+          { key: 'todo-the-broad', priority: true, due: '2026-10-01', verb: '오픈', text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/10 14:00 슬롯)' },
           { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' },
-          { key: 'todo-waymo-app', priority: false, text: '웨이모(Waymo) 앱 미리 설치', tag: '— 한국 지역엔 앱이 없어 출국 전 앱스토어/플레이스토어 지역을 미국으로 변경 필요 (10/10 DTLA→로어스 복귀 시 시승 예정)' }
+          { key: 'todo-waymo-app', priority: false, due: '2026-09-29', verb: '까지', text: '웨이모(Waymo) 앱 미리 설치', tag: '— 한국 지역엔 앱이 없어 출국 전 앱스토어/플레이스토어 지역을 미국으로 변경 필요 (10/10 DTLA→로어스 복귀 시 시승 예정)' }
         ];
 
         var STORAGE_KEY = 'us_trip_todos_state_2026_v2';
@@ -2381,6 +2389,22 @@
         }
 
         var todoState = loadTodoState();
+
+        function dueBadgeHtml(t) {
+          var left = window.tripDayDiff(t.due);
+          var md = Number(t.due.slice(5, 7)) + '/' + Number(t.due.slice(8));
+          var cls = left < 0 ? ' late' : left <= 3 ? ' soon' : '';
+          var lab = left < 0 ? '지연 ' + (-left) + '일' : left === 0 ? '오늘' : 'D-' + left;
+          return ' <span class="todo-due' + cls + '">' + lab + ' · ' + md + ' ' + (t.verb || '까지') + '</span>';
+        }
+        // 상단 위젯(출발 전 "다음 마감")이 읽어가는 미완료 마감 목록
+        window.getTodoDue = function () {
+          return window.TRIP_DATA.todos.filter(function (t) { return t.due && !todoState[t.key]; }).map(function (t) {
+            var d = document.createElement('div');
+            d.innerHTML = t.text;
+            return { label: d.textContent, due: t.due, verb: t.verb || '까지', tab: 'tab-reservations' };
+          });
+        };
 
         function renderTodos() {
           var section = document.querySelector('#tab-reservations section:nth-of-type(2)');
@@ -2449,11 +2473,12 @@
             var checked = !!todoState[t.key];
             return '<div class="todo-item' + (t.priority ? ' priority' : '') + '">' +
               '<input type="checkbox" class="chk" data-key="' + t.key + '"' + (checked ? ' checked' : '') + (!isTodoUnlocked ? ' disabled' : '') + '>' +
-              '<div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span></div>' +
+              '<div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span>' + (t.due && !checked ? dueBadgeHtml(t) : '') + '</div>' +
             '</div>';
           }).join('');
 
           updateLockUI();
+          document.dispatchEvent(new Event('tripDueChanged'));
 
           // 3. 잠금 상태에서의 터치 피드백 & 체크 이벤트
           // (renderTodos()는 Firebase 원격 갱신 시에도 재호출되므로, wrap 자체는 재사용되는
@@ -2476,6 +2501,7 @@
                 todoState[key] = chk.checked;
                 saveTodoState(todoState);
                 if (todosSync) todosSync.push(key, chk.checked);
+                renderTodos(); // 마감 뱃지 갱신
                 if (window.triggerHaptic) window.triggerHaptic('light');
               }
             });
@@ -5886,6 +5912,14 @@
       updateLugBars();
     }
 
+    // 상단 위젯(출발 전 "다음 마감")이 읽어가는 미완료 마감 목록 / 항목으로 이동
+    window.getPackDue = function () {
+      return ITEMS.filter(function (it) { return it.due && !isItemDone(it); }).map(function (it) {
+        return { label: it.label, due: it.due, verb: "까지", tab: "tab-packing", id: it.id };
+      });
+    };
+    window.focusPackItem = function (id) { focusItem(id); };
+
     function isItemDone(it) {
       return leafKeys(it).every(function (k) { return isOn(it, k); });
     }
@@ -5944,6 +5978,7 @@
     function updateProgress() {
       renderDayGear();
       renderPackNow();
+      document.dispatchEvent(new Event("tripDueChanged"));
       var total = 0, done = 0;
       ITEMS.forEach(function (it) {
         leafKeys(it).forEach(function (k) { total++; if (isOn(it, k)) done++; });
@@ -8847,10 +8882,44 @@
     }
 
     var currentDayId = null;
+    var jumpLabelTrip = jumpBtn.textContent;
+    var preTripTarget = null;
+
+    // 출발 전(여행 시작 전): 일정 대신 "출발 D-n · 다음 마감(할 일 + 준비물 중 가장 이른 것)"을 보여준다
+    function showPreTrip() {
+      var dep = window.tripDayDiff ? window.tripDayDiff('2026-10-01') : 0;
+      var list = [];
+      if (window.getTodoDue) list = list.concat(window.getTodoDue());
+      if (window.getPackDue) list = list.concat(window.getPackDue());
+      list.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : 0; });
+      currentDayId = null;
+      preTripTarget = list[0] || null;
+      badgeEl.textContent = 'D-' + dep;
+      badgeEl.classList.add('later');
+      if (!list.length) {
+        timeEl.textContent = '출발 준비';
+        titleEl.textContent = '사전 준비 모두 완료 🎉';
+        jumpBtn.style.display = 'none';
+      } else {
+        var f = list[0];
+        var left = window.tripDayDiff(f.due);
+        var md = Number(f.due.slice(5, 7)) + '/' + Number(f.due.slice(8));
+        var soon = list.filter(function (x) { return window.tripDayDiff(x.due) <= 7; }).length - 1;
+        timeEl.textContent = '다음 마감 · ' + (left < 0 ? '지연 ' + (-left) + '일 · ' : '') + md + ' ' + f.verb;
+        titleEl.textContent = f.label + (soon > 0 ? ' 외 ' + soon + '개 임박' : '');
+        jumpBtn.style.display = '';
+        jumpBtn.textContent = '확인 →';
+      }
+      widget.classList.add('show');
+    }
 
     function update() {
       var now = new Date();
-      if (now < TRIP_START || now > TRIP_END) {
+      if (now < TRIP_START) { showPreTrip(); return; }
+      preTripTarget = null;
+      jumpBtn.style.display = '';
+      jumpBtn.textContent = jumpLabelTrip;
+      if (now > TRIP_END) {
         widget.classList.remove('show');
         return;
       }
@@ -8903,10 +8972,19 @@
     }
 
     jumpBtn.addEventListener('click', function () {
-      if (!currentDayId) return;
+      if (!currentDayId) {
+        if (!preTripTarget) return;
+        var target = preTripTarget;
+        if (window.switchTab) window.switchTab(target.tab, true);
+        if (target.id && window.focusPackItem) setTimeout(function () { window.focusPackItem(target.id); }, 150);
+        return;
+      }
       if (window.switchTab) window.switchTab('tab-schedule', true);
       if (window.jumpToDay) window.jumpToDay(currentDayId);
     });
+
+    // 체크/동기화로 마감 목록이 바뀌면 출발 전 위젯을 바로 갱신 (여행 중엔 무시)
+    document.addEventListener('tripDueChanged', function () { if (new Date() < TRIP_START) update(); });
 
     update();
     setInterval(update, 60000);
