@@ -76,6 +76,33 @@
     display: block;
   }
   .offline-status-bar.hidden { display: none !important; }
+
+  /* ===== "지금 뭐하지" 위젯 — 탭 무관하게 상단에 항상 노출 ===== */
+  .now-widget{
+    display:none;align-items:center;gap:12px;
+    background:linear-gradient(135deg,rgba(255,107,74,.14),rgba(255,184,77,.08));
+    border:1px solid rgba(255,184,77,.3);border-radius:14px;
+    padding:12px 14px;margin:14px 0 0;
+  }
+  .now-widget.show{display:flex;}
+  .now-widget-badge{
+    flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+    letter-spacing:.06em;color:var(--gold-text);
+    background:rgba(255,184,77,.2);border:1px solid rgba(255,184,77,.4);
+    border-radius:20px;padding:4px 9px;white-space:nowrap;
+  }
+  .now-widget-badge.later{color:var(--teal-text);background:rgba(46,196,182,.12);border-color:rgba(46,196,182,.35);}
+  .now-widget-body{flex:1;min-width:0;}
+  .now-widget-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:2px;}
+  .now-widget-title{font-size:13.5px;font-weight:700;color:var(--text);line-height:1.35;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .now-widget-jump{
+    flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+    background:var(--card);border:1px solid var(--line);color:var(--teal-text);
+    border-radius:10px;padding:7px 10px;cursor:pointer;white-space:nowrap;
+  }
+  .now-widget-jump:hover,.now-widget-jump:focus-visible{border-color:var(--teal);outline:none;}
+
   .eyebrow{
     font-family:'JetBrains Mono',monospace;
     font-size:11px;
@@ -2130,6 +2157,15 @@
 
   <div id="offlineStatusBar" class="offline-status-bar hidden" role="status" aria-live="polite">
     <span>⚡ 오프라인 모드: 로컬 캐시 데이터로 작동 중입니다</span>
+  </div>
+
+  <div id="nowWidget" class="now-widget">
+    <span class="now-widget-badge" id="nowWidgetBadge">NOW</span>
+    <div class="now-widget-body">
+      <div class="now-widget-time" id="nowWidgetTime"></div>
+      <div class="now-widget-title" id="nowWidgetTitle"></div>
+    </div>
+    <button type="button" class="now-widget-jump" id="nowWidgetJump">보기 →</button>
   </div>
 
   <div class="hero">
@@ -8233,6 +8269,98 @@
         highlightNextUp(e.target);
       }
     }, true);
+  })();
+</script>
+
+<script>
+  /* ==========================================================
+     "지금 뭐하지" 위젯 — 탭 무관 상단 상시 노출
+     - highlightNextUp()과 같은 시간 파싱 방식을 재사용하되, 아코디언을
+       열지 않아도(다른 탭에 있어도) 오늘 일정 중 지금/다음 블록을 보여줌
+  ========================================================== */
+  (function initNowWidget() {
+    var TRIP_START = new Date("2026-10-01T00:00:00+09:00");
+    var TRIP_END = new Date("2026-10-11T23:59:59+09:00");
+
+    var widget = document.getElementById('nowWidget');
+    var badgeEl = document.getElementById('nowWidgetBadge');
+    var timeEl = document.getElementById('nowWidgetTime');
+    var titleEl = document.getElementById('nowWidgetTitle');
+    var jumpBtn = document.getElementById('nowWidgetJump');
+    if (!widget) return;
+
+    function parseTimesInText(text) {
+      return text.match(/\d{1,2}:\d{2}/g) || [];
+    }
+    function toMinutes(hhmm) {
+      var parts = hhmm.split(':');
+      return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+    }
+
+    var currentDayId = null;
+
+    function update() {
+      var now = new Date();
+      if (now < TRIP_START || now > TRIP_END) {
+        widget.classList.remove('show');
+        return;
+      }
+      var diffDays = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24)) + 1;
+      var dayNum = Math.min(Math.max(diffDays, 1), 11);
+      var dayId = 'day-' + dayNum;
+      currentDayId = dayId;
+
+      var dayEl = document.getElementById(dayId);
+      var blocks = dayEl ? dayEl.querySelectorAll('.sched-block') : [];
+      if (!blocks.length) { widget.classList.remove('show'); return; }
+
+      var nowMin = now.getHours() * 60 + now.getMinutes();
+      var current = null;
+      var nearestFuture = null;
+      var nearestFutureDiff = Infinity;
+
+      blocks.forEach(function (block) {
+        var blockTimeEl = block.querySelector('.sched-time');
+        if (!blockTimeEl) return;
+        var times = parseTimesInText(blockTimeEl.textContent);
+        if (!times.length) return;
+        var start = toMinutes(times[0]);
+        var end = times.length > 1 ? toMinutes(times[1]) : start + 30;
+        var endAdj = end < start ? end + 1440 : end;
+
+        if (nowMin >= start && nowMin <= endAdj) {
+          current = { block: block, timeText: blockTimeEl.textContent };
+          return;
+        }
+        var diff = start - nowMin;
+        if (diff < 0) diff += 1440;
+        if (diff < nearestFutureDiff) {
+          nearestFutureDiff = diff;
+          nearestFuture = { block: block, timeText: blockTimeEl.textContent };
+        }
+      });
+
+      var picked = current || nearestFuture;
+      if (!picked) { widget.classList.remove('show'); return; }
+
+      var titleNode = picked.block.querySelector('.sched-title');
+      var title = titleNode ? titleNode.textContent.trim() : '';
+
+      badgeEl.textContent = current ? 'NOW' : '다음 일정';
+      badgeEl.classList.toggle('later', !current);
+      timeEl.textContent = picked.timeText;
+      titleEl.textContent = title;
+      widget.classList.add('show');
+    }
+
+    jumpBtn.addEventListener('click', function () {
+      if (!currentDayId) return;
+      if (window.switchTab) window.switchTab('tab-schedule', true);
+      if (window.jumpToDay) window.jumpToDay(currentDayId);
+    });
+
+    update();
+    setInterval(update, 60000);
   })();
 </script>
 
