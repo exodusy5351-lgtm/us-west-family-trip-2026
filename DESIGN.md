@@ -228,6 +228,7 @@ components:
 - **Do** coral→gold 그라데이션은 화면당 한 곳으로 제한한다 (The One Gradient Rule).
 - **Do** 그림자 깊이를 Three-Tier Lift Rule에 맞춰 결정한다 — 목록 카드는 평평하게 유지한다.
 - **Do** 좌측 색 레일은 Callout Rail 어휘(gold/teal/red = 팁/정보/경고)로만 쓴다.
+- **Do** teal 채움 배경 위 글자·체크(✓)는 흰색이 아니라 `--on-teal`을 쓴다 (라이트 5:1+, 다크·가족모드는 각자 값으로 자동 전환).
 - **Do** 예약번호처럼 현장에서 대조하는 값은 Critical Value 단계(고정폭·본문색·600)로 올린다.
 - **Do** 텍스트에 색을 쓸 때는 반드시 `-text` 변형을 쓴다 (The Text-Safe Twin Rule).
 - **Do** 가족모드를 건드리는 변경은 세피아 팔레트에서도 대비를 확인한다 (The Sepia Swap Rule).
