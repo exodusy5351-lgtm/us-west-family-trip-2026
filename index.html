@@ -667,6 +667,20 @@
   .pack-loc-tabs{margin-top:-8px;}
   .pack-loc-note{font-size:12px;color:var(--muted);line-height:1.5;margin:-6px 0 14px;padding:8px 12px;background:var(--card-2);border:1px solid var(--line);border-radius:8px;}
   .pack-loc-note.hidden{display:none;}
+  .pack-item-days{display:block;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+  /* 일정 탭 각 일자의 "이 날 챙길 것" */
+  .day-gear{margin:10px 0 4px;background:var(--card-2);border:1px solid var(--line);border-radius:10px;}
+  .day-gear summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;font-size:12.5px;font-weight:700;color:var(--text);}
+  .day-gear summary::-webkit-details-marker{display:none;}
+  .day-gear summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:10px;}
+  .day-gear-count{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;}
+  .day-gear-list{list-style:none;margin:0;padding:0 12px 4px;border-top:1px dashed var(--line);}
+  .day-gear-list li{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:12.5px;line-height:1.45;color:var(--text);}
+  .day-gear-list li.done{color:var(--muted);}
+  .day-gear-list li.done span:nth-child(2){text-decoration:line-through;}
+  .day-gear-mark{flex-shrink:0;width:16px;text-align:center;font-weight:700;color:var(--muted-2);}
+  .day-gear-list li.done .day-gear-mark{color:var(--green-text);}
+  .day-gear-go{margin:2px 12px 12px;}
 
   footer{margin-top:44px;text-align:center;color:var(--muted-2);font-size:11px;font-family:'JetBrains Mono',monospace;}
 
@@ -5479,56 +5493,57 @@
     var STORAGE_KEY = "us_trip_checklist_2026_v2";
 
     // loc: cabin(✈️ 기내 휴대·착용) / check(🧳 위탁 캐리어) / prep(🗓️ 출발 전 준비 — 짐이 아니라 설치·예약·구매)
+    // days: 이 물건이 쓰이는 일차(일정 탭 각 일자에 "이 날 챙길 것"으로 자동 표시됨)
     // subs: 있으면 체크박스가 하위 항목별로 나뉜다 (저장 키는 "<id>_<순번>", 예: wear1_0). 순서를 바꾸면 기존 체크가 어긋나므로 끝에만 추가할 것
     var ITEMS = [
-      { id: "doc1", cat: "doc", loc: "cabin", label: "여권 (가족 전원)", desc: "유효기간 6개월 이상 잔여 필수",
+      { id: "doc1", cat: "doc", loc: "cabin", days: [1, 11], label: "여권 (가족 전원)", desc: "유효기간 6개월 이상 잔여 필수",
         subs: ["성인 3인 여권 (유효기간 확인)", "수빈이 여권", "여권 사본 — 종이 1부는 캐리어에 별도 보관 + 스마트폰 사진"] },
-      { id: "doc2", cat: "doc", loc: "prep", label: "ESTA 승인 확인 (4인)", desc: "승인 여부 사전 확인 및 출력본(또는 PDF) 소지",
+      { id: "doc2", cat: "doc", loc: "prep", days: [1], label: "ESTA 승인 확인 (4인)", desc: "승인 여부 사전 확인 및 출력본(또는 PDF) 소지",
         subs: ["4인 ESTA 승인 상태 각각 확인", "승인 화면 PDF/스크린샷 오프라인 저장"] },
-      { id: "doc3", cat: "doc", loc: "cabin", label: "운전 관련 서류", desc: "1일차 LAX 렌터카 픽업(Hertz) 때 바로 필요 — 위탁이 아닌 기내 가방에",
+      { id: "doc3", cat: "doc", loc: "cabin", days: [1], label: "운전 관련 서류", desc: "1일차 LAX 렌터카 픽업(Hertz) 때 바로 필요 — 위탁이 아닌 기내 가방에",
         subs: ["한국 운전면허증 실물", "국제운전면허증 (발급일·유효기간 확인)", "주운전자 명의 신용카드 (Hertz 예약자와 동일인)", "Hertz 예약 확인서 (오프라인 저장)"] },
-      { id: "doc4", cat: "doc", loc: "cabin", label: "한국 코스트코 실물 회원권 카드", desc: "1일차 헨더슨 코스트코 주유 및 장보기용 (실물 카드 또는 바코드 앱)" },
+      { id: "doc4", cat: "doc", loc: "cabin", days: [1], label: "한국 코스트코 실물 회원권 카드", desc: "1일차 헨더슨 코스트코 주유 및 장보기용 (실물 카드 또는 바코드 앱)" },
       { id: "doc5", cat: "doc", loc: "cabin", label: "해외 결제 카드", desc: "트래블로그/트래블월렛 및 컨택리스 지원 비자/마스터/아멕스",
         subs: ["트래블로그/트래블월렛 카드 잔액 충전 확인", "컨택리스 지원 비자/마스터/아멕스 실물 카드", "해외 결제 차단 해제 및 한도 확인", "카드 분실 시 해외 신고 전화번호 메모"] },
-      { id: "doc6", cat: "doc", loc: "cabin", label: "미국 달러(USD) 현금 환전 ($1,050~$1,100)", desc: "현금 전용 지출이 있어 카드로 대체 불가 — 소액권($1·$5·$10)을 넉넉히",
+      { id: "doc6", cat: "doc", loc: "cabin", days: [3, 9], label: "미국 달러(USD) 현금 환전 ($1,050~$1,100)", desc: "현금 전용 지출이 있어 카드로 대체 불가 — 소액권($1·$5·$10)을 넉넉히",
         subs: ["투어 필수 현금 $888 분리 (그랜드캐년 $680 + 나바호팁 $8 + LA투어 $200)", "호텔/식당 매너팁·비상금 소액권 $160~$200", "현금은 2곳 이상에 나눠 보관 (지갑·기내 가방)"] },
-      { id: "doc7", cat: "doc", loc: "prep", label: "e-티켓 & 예약 바우처 PDF (오프라인 저장)", desc: "통신 음영 지역(모하비·그랜드캐년)에서도 열리도록 파일로 저장",
+      { id: "doc7", cat: "doc", loc: "prep", days: [2, 6, 7, 8, 9], label: "e-티켓 & 예약 바우처 PDF (오프라인 저장)", desc: "통신 음영 지역(모하비·그랜드캐년)에서도 열리도록 파일로 저장",
         subs: ["항공권 (에어프레미아 YP101 / YP102)", "숙소 확인서 4곳 (콘래드·조슈아트리·Home2·로어스)", "스피어 쇼 티켓", "투어 바우처 (그랜드캐년·LA드림투어)", "디즈니랜드·유니버설 티켓 QR", "다저 스타디움 투어 (9/28 오픈 후 예매 시)"] },
       { id: "doc8", cat: "doc", loc: "prep", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
-      { id: "doc9", cat: "doc", loc: "prep", label: "오프라인 지도 4개 권역 사전 다운로드", desc: "'오프라인 맵 다운로드 센터'에서 권역별로 완료 확인",
+      { id: "doc9", cat: "doc", loc: "prep", days: [1, 3, 4], label: "오프라인 지도 4개 권역 사전 다운로드", desc: "'오프라인 맵 다운로드 센터'에서 권역별로 완료 확인",
         subs: ["모하비 사막 / I-15", "조슈아트리", "그랜드캐년 · 페이지(Page AZ)", "LA · 애너하임"] },
       { id: "doc11", cat: "doc", loc: "prep", label: "비상 연락처 카드 (스마트폰 저장 + 종이 1부)", desc: "통신이 안 될 때를 대비해 종이로도 1부",
         subs: ["영사콜센터 +82-2-3210-0404 (24시간)", "미국 긴급전화 911 (경찰·소방·구급 공통)", "여행자보험사 24시간 해외 콜센터", "숙소 4곳 주소·전화번호", "국내 가족 비상연락처 1인"] },
 
-      { id: "elec12", cat: "elec", loc: "prep", label: "통신 방식 결정 & 준비 (eSIM 검토 중)", desc: "10/1~10/11(11일) 내비·우버·지도 의존도가 높아 출국 전 결정 필요 — eSIM QR은 와이파이에서 미리 설치, 활성화는 LAX 도착 후",
+      { id: "elec12", cat: "elec", loc: "prep", days: [1], label: "통신 방식 결정 & 준비 (eSIM 검토 중)", desc: "10/1~10/11(11일) 내비·우버·지도 의존도가 높아 출국 전 결정 필요 — eSIM QR은 와이파이에서 미리 설치, 활성화는 LAX 도착 후",
         subs: ["사용 기기 전부 eSIM 지원 + 통신사 잠금 해제(언락) 여부 확인", "방식 결정: eSIM vs 로밍 vs 현지 유심 (인당 각자 / 1대 핫스팟 공유)", "일 데이터 사용량 계산 후 용량·기간 선택", "eSIM 구매 후 QR 설치 (출국 전 와이파이에서)", "한국 번호는 물리 유심 유지 — 인증 문자·카드 승인 문자 수신용 (데이터 로밍은 꺼두기)", "사막·국립공원 음영 구간은 오프라인 지도로 보완 (doc9)"] },
-      { id: "elec1", cat: "elec", loc: "prep", label: "디즈니랜드 앱 (Disneyland)", desc: "10/6 이용 전 설정 완료",
+      { id: "elec1", cat: "elec", loc: "prep", days: [6], label: "디즈니랜드 앱 (Disneyland)", desc: "10/6 이용 전 설정 완료",
         subs: ["티켓 4인 등록", "Family 그룹 연동", "결제 카드 등록"] },
-      { id: "elec2", cat: "elec", loc: "prep", label: "유니버설 스튜디오 앱", desc: "공식 앱 설치 및 지도 확인 (10/7·10/8)" },
-      { id: "elec4", cat: "elec", loc: "prep", label: "우버(Uber) / 리프트(Lyft) 앱", desc: "계정 생성 및 해외 결제 카드 등록",
+      { id: "elec2", cat: "elec", loc: "prep", days: [7, 8], label: "유니버설 스튜디오 앱", desc: "공식 앱 설치 및 지도 확인 (10/7·10/8)" },
+      { id: "elec4", cat: "elec", loc: "prep", days: [7, 8, 9, 10, 11], label: "우버(Uber) / 리프트(Lyft) 앱", desc: "계정 생성 및 해외 결제 카드 등록",
         subs: ["Uber 계정 생성 + 카드 등록", "Lyft 계정 생성 + 카드 등록"] },
-      { id: "elec11", cat: "elec", loc: "prep", label: "웨이모(Waymo) 앱", desc: "한국 지역엔 없어 앱스토어/플레이스토어 지역을 미국으로 변경 후 설치 (가입·카드등록·전화인증은 미국 도착 후 진행, 10일차 DTLA→로어스 시승 예정)" },
-      { id: "elec5", cat: "elec", loc: "cabin", label: "110V 돼지코 변환 플러그 (4~5개)", desc: "호텔 객실 충전용 어댑터 — 도착 첫날 밤부터 필요해 기내 가방에" },
+      { id: "elec11", cat: "elec", loc: "prep", days: [10], label: "웨이모(Waymo) 앱", desc: "한국 지역엔 없어 앱스토어/플레이스토어 지역을 미국으로 변경 후 설치 (가입·카드등록·전화인증은 미국 도착 후 진행, 10일차 DTLA→로어스 시승 예정)" },
+      { id: "elec5", cat: "elec", loc: "cabin", days: [1], label: "110V 돼지코 변환 플러그 (4~5개)", desc: "호텔 객실 충전용 어댑터 — 도착 첫날 밤부터 필요해 기내 가방에" },
       { id: "elec6", cat: "elec", loc: "check", label: "멀티탭 / 다구 고속 멀티 충전기", desc: "스마트폰 4대, 보조배터리 동시 충전용" },
-      { id: "elec7", cat: "elec", loc: "cabin", label: "대용량 보조배터리 (2~3개)", desc: "테마파크 종일 사용 대비 — 위탁 금지, 100Wh 이하(20,000mAh ≈ 74Wh)만 1인 최대 5개, 본체 라벨의 Wh/mAh 확인" },
-      { id: "elec8", cat: "elec", loc: "check", label: "차량용 스마트폰 거치대 & 시거잭 충전기", desc: "렌터카 내비게이션 거치용" },
-      { id: "elec9", cat: "elec", loc: "check", label: "카메라 삼각대", desc: "조슈아트리 야간 은하수/별자리(Stargazing) 장노출 촬영용" },
-      { id: "elec10", cat: "elec", loc: "cabin", label: "차량용 USB-A/C 듀얼 충전 케이블", desc: "1일차 사막 로드트립, 4일차 조슈아트리 이동 등 장시간 드라이브 중 스마트폰 4대 동시 충전 대비" },
+      { id: "elec7", cat: "elec", loc: "cabin", days: [6, 7, 8], label: "대용량 보조배터리 (2~3개)", desc: "테마파크 종일 사용 대비 — 위탁 금지, 100Wh 이하(20,000mAh ≈ 74Wh)만 1인 최대 5개, 본체 라벨의 Wh/mAh 확인" },
+      { id: "elec8", cat: "elec", loc: "check", days: [1, 4, 5], label: "차량용 스마트폰 거치대 & 시거잭 충전기", desc: "렌터카 내비게이션 거치용" },
+      { id: "elec9", cat: "elec", loc: "check", days: [4], label: "카메라 삼각대", desc: "조슈아트리 야간 은하수/별자리(Stargazing) 장노출 촬영용" },
+      { id: "elec10", cat: "elec", loc: "cabin", days: [1, 4], label: "차량용 USB-A/C 듀얼 충전 케이블", desc: "1일차 사막 로드트립, 4일차 조슈아트리 이동 등 장시간 드라이브 중 스마트폰 4대 동시 충전 대비" },
 
-      { id: "wear1", cat: "wear", loc: "check", label: "새벽 사막/그랜드캐년 방한복 (수빈이 포함 4인)", desc: "10/2 밤 23:45 픽업이라, 콘래드에 짐보관을 맡기기 전에 방한복 세트는 꼭 따로 빼서 데이팩에 (tour5)",
+      { id: "wear1", cat: "wear", loc: "check", days: [2, 3], label: "새벽 사막/그랜드캐년 방한복 (수빈이 포함 4인)", desc: "10/2 밤 23:45 픽업이라, 콘래드에 짐보관을 맡기기 전에 방한복 세트는 꼭 따로 빼서 데이팩에 (tour5)",
         subs: ["경량 패딩", "후리스", "기모 긴팔·긴바지", "윈드브레이커", "넥워머 · 비니"] },
       { id: "wear2", cat: "wear", loc: "check", label: "일교차 대비 레이어드 의류", desc: "낮 기온 25~28℃, 밤 기온 15℃ 대비 반팔+가디건/셔츠 조합" },
-      { id: "wear3", cat: "wear", loc: "cabin", label: "가장 편안한 쿠션 러닝화/운동화 (신고 탑승)", desc: "하루 1.5만~2만 보 보행 대비 (가족 전원 필수)" },
-      { id: "wear4", cat: "wear", loc: "check", label: "조슈아트리 트레킹용 운동화", desc: "미끄럼 방지 밑창 운동화" },
-      { id: "wear5", cat: "wear", loc: "check", label: "수영복 / 래시가드", desc: "콘래드 수영장(10/2), 조슈아트리 자쿠지(10/4), 로어스 5층 루프탑 온수풀 야경수영(10/7·10/8)",
+      { id: "wear3", cat: "wear", loc: "cabin", days: [6, 7, 8], label: "가장 편안한 쿠션 러닝화/운동화 (신고 탑승)", desc: "하루 1.5만~2만 보 보행 대비 (가족 전원 필수)" },
+      { id: "wear4", cat: "wear", loc: "check", days: [4], label: "조슈아트리 트레킹용 운동화", desc: "미끄럼 방지 밑창 운동화" },
+      { id: "wear5", cat: "wear", loc: "check", days: [2, 4, 7, 8], label: "수영복 / 래시가드", desc: "콘래드 수영장(10/2), 조슈아트리 자쿠지(10/4), 로어스 5층 루프탑 온수풀 야경수영(10/7·10/8)",
         subs: ["성인 3인 수영복", "수빈이 수영복 / 래시가드", "젖은 옷 보관용 방수 파우치·지퍼백"] },
       { id: "wear6", cat: "wear", loc: "cabin", label: "선글라스 (가족 전원)", desc: "강한 사막 자외선 및 드라이브 눈부심 방지" },
-      { id: "wear7", cat: "wear", loc: "check", label: "챙 넓은 모자 & 자외선 차단제", desc: "SPF 50+ — 100ml 초과 선크림은 위탁, 선스틱은 기내 가능",
+      { id: "wear7", cat: "wear", loc: "check", days: [3, 4, 6], label: "챙 넓은 모자 & 자외선 차단제", desc: "SPF 50+ — 100ml 초과 선크림은 위탁, 선스틱은 기내 가능",
         subs: ["챙 넓은 모자 (4인)", "SPF 50+ 선크림", "선스틱"] },
       { id: "wear8", cat: "wear", loc: "check", label: "속옷·양말·잠옷 (4인분)", desc: "11일 일정 — 중간 세탁 여부로 분량 결정 (애너하임 Home2 Suites 세탁실 유무 확인)" },
-      { id: "wear9", cat: "wear", loc: "prep", label: "경량 우비/판초 & 지퍼락 (테마파크 물 튀는 라이드 대비)", desc: "디즈니(10/6)·유니버설(10/7·10/8) — 쥬라기월드 라이드 등에서 젖을 수 있음, 폰·티켓 QR은 지퍼락으로 보호" },
+      { id: "wear9", cat: "wear", loc: "prep", days: [6, 7, 8], label: "경량 우비/판초 & 지퍼락 (테마파크 물 튀는 라이드 대비)", desc: "디즈니(10/6)·유니버설(10/7·10/8) — 쥬라기월드 라이드 등에서 젖을 수 있음, 폰·티켓 QR은 지퍼락으로 보호" },
 
-      { id: "med1", cat: "med", loc: "cabin", label: "멀미약", desc: "그랜드캐년 투어 밴 장거리 사막 도로 이동 대비 — 승차 30분~1시간 전 복용",
+      { id: "med1", cat: "med", loc: "cabin", days: [3], label: "멀미약", desc: "그랜드캐년 투어 밴 장거리 사막 도로 이동 대비 — 승차 30분~1시간 전 복용",
         subs: ["성인용 멀미약", "수빈이용 멀미약 (8세·30kg 기준 용량은 약사 확인)"] },
       { id: "med11", cat: "med", loc: "cabin", label: "성인 상비약 파우치 (기내 휴대 권장)", desc: "첫날 밤 약국을 찾기 어려운 사막/국립공원 일정이 있어 기내 가방에",
         subs: ["해열진통제", "지사제", "소화제 · 제산제", "알레르기약 (항히스타민)", "종합감기약", "평소 복용 약 (약 이름 메모, 영문 처방전 있으면 함께)", "인공눈물 · 립밤 (사막 건조 대비)"] },
@@ -5538,25 +5553,25 @@
       { id: "med8", cat: "med", loc: "check", label: "칫솔 & 치약 세트", desc: "미국 호텔 객실 기본 미제공 대비 가족 전원분" },
       { id: "med10", cat: "med", loc: "cabin", label: "휴대용 물티슈(캡형) & 손소독제", desc: "손소독제는 100ml 이하만 기내 가능" },
 
-      { id: "doc10", cat: "kid", loc: "check", label: "휴대용 접이식 부스터 카시트 (수빈이용)", desc: "1일차·4일차 렌터카 및 LA 시내 우버 이동용 — 캘리포니아는 만 8세 미만이 의무이고, 8세 이상도 키 약 145cm(4피트 9인치) 미만이면 안전벨트가 맞지 않아 부스터 권장 (마이폴드 등)" },
+      { id: "doc10", cat: "kid", loc: "check", days: [1, 4, 5, 7, 8, 9], label: "휴대용 접이식 부스터 카시트 (수빈이용)", desc: "1일차·4일차 렌터카 및 LA 시내 우버 이동용 — 캘리포니아는 만 8세 미만이 의무이고, 8세 이상도 키 약 145cm(4피트 9인치) 미만이면 안전벨트가 맞지 않아 부스터 권장 (마이폴드 등)" },
       { id: "kid1", cat: "kid", loc: "cabin", label: "수빈이 상비약 (8세·30kg)", desc: "용량은 체중 기준이라 출국 전 약사에게 30kg 기준 복용량과 간격을 메모해 두기 — 미국 현지 제품(Children's Tylenol 등) 라벨은 lb 단위, 30kg ≈ 66lb 기준으로 확인",
         subs: ["어린이 해열제 (30kg 기준 용량 메모)", "어린이 소화제 · 지사제", "어린이 멀미약 (med1과 함께 준비)", "알레르기 약·연고 (평소 반응이 있는 경우)", "체온계"] },
-      { id: "kid2", cat: "kid", loc: "cabin", label: "수빈이 이동용 기내 가방", desc: "장시간 비행·사막 로드트립·심야 투어 대비 — 통신이 안 되는 구간에서도 쓸 수 있게 미리 준비",
+      { id: "kid2", cat: "kid", loc: "cabin", days: [1], label: "수빈이 이동용 기내 가방", desc: "장시간 비행·사막 로드트립·심야 투어 대비 — 통신이 안 되는 구간에서도 쓸 수 있게 미리 준비",
         subs: ["태블릿/폰에 영상·게임 미리 다운로드", "어린이 헤드폰 (볼륨 제한형)", "색칠책·스티커북 등 오프라인 놀이", "간식 (젤리·과자 — 액체류 제외)", "여벌 상하의 1벌 + 지퍼백"] },
-      { id: "kid3", cat: "kid", loc: "prep", label: "수빈이 키 실측 & 놀이기구 신장 제한 메모", desc: "디즈니·유니버설 어트랙션은 대부분 40~48인치(약 102~122cm) 제한 — 출발 전 키를 재서 인치(cm ÷ 2.54)로 환산해 앱 화면 캡처와 함께 저장" },
+      { id: "kid3", cat: "kid", loc: "prep", days: [6, 7, 8], label: "수빈이 키 실측 & 놀이기구 신장 제한 메모", desc: "디즈니·유니버설 어트랙션은 대부분 40~48인치(약 102~122cm) 제한 — 출발 전 키를 재서 인치(cm ÷ 2.54)로 환산해 앱 화면 캡처와 함께 저장" },
 
-      { id: "tour2", cat: "tour", loc: "cabin", label: "야간 사막 밴 / 기내 수면 세트", desc: "야간 투어와 장거리 비행 대비",
+      { id: "tour2", cat: "tour", loc: "cabin", days: [1, 2], label: "야간 사막 밴 / 기내 수면 세트", desc: "야간 투어와 장거리 비행 대비",
         subs: ["목베개", "수면 안대", "귀마개"] },
-      { id: "tour3", cat: "tour", loc: "check", label: "조슈아트리 바비큐용 한국 소포장 양념", desc: "소량 지퍼백 소분",
+      { id: "tour3", cat: "tour", loc: "check", days: [4], label: "조슈아트리 바비큐용 한국 소포장 양념", desc: "소량 지퍼백 소분",
         subs: ["허브솔트", "생와사비", "쌈장", "지퍼백 소량"] },
-      { id: "tour4", cat: "tour", loc: "check", label: "조슈아트리 별 관측 준비", desc: "10/4 밤 — 삼각대는 elec9",
+      { id: "tour4", cat: "tour", loc: "check", days: [4], label: "조슈아트리 별 관측 준비", desc: "10/4 밤 — 삼각대는 elec9",
         subs: ["붉은빛 조명 (헤드랜턴 적색모드 등)", "SkyView 또는 Stellarium 앱 설치"] },
-      { id: "tour5", cat: "tour", loc: "cabin", label: "그랜드캐년 투어 데이팩 (10/2 밤 23:45 픽업)", desc: "콘래드는 10/2 체크아웃 후 짐보관이라 짐을 맡기기 전에 미리 분리해 둘 것",
+      { id: "tour5", cat: "tour", loc: "cabin", days: [2], label: "그랜드캐년 투어 데이팩 (10/2 밤 23:45 픽업)", desc: "콘래드는 10/2 체크아웃 후 짐보관이라 짐을 맡기기 전에 미리 분리해 둘 것",
         subs: ["방한복 세트 (wear1)", "투어 현금 $680 + 나바호팁 $8", "생수·간식", "보조배터리 + 충전 케이블", "여권 사본 · 투어 바우처"] },
 
-      { id: "shop1", cat: "shop", loc: "check", label: "접이식 대형 보조가방 (폴딩백 / 확장백)", desc: "아울렛 및 디즈니/유니버설 기념품 수납용" },
-      { id: "shop2", cat: "shop", loc: "check", label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁 캐리어 4개 각각 23kg 이하인지 사전 측정용 (항공권 수하물 조건 재확인)" },
-      { id: "shop3", cat: "shop", loc: "check", label: "귀국 주류 안전 포장", desc: "10일차 밤 최종 패킹 때 — 병은 캐리어 중앙에 옷으로 감싸 위탁",
+      { id: "shop1", cat: "shop", loc: "check", days: [5, 6, 7, 8], label: "접이식 대형 보조가방 (폴딩백 / 확장백)", desc: "아울렛 및 디즈니/유니버설 기념품 수납용" },
+      { id: "shop2", cat: "shop", loc: "check", days: [10], label: "휴대용 디지털 손저울 (러기지 스케일)", desc: "귀국 전 위탁 캐리어 4개 각각 23kg 이하인지 사전 측정용 (항공권 수하물 조건 재확인)" },
+      { id: "shop3", cat: "shop", loc: "check", days: [10], label: "귀국 주류 안전 포장", desc: "10일차 밤 최종 패킹 때 — 병은 캐리어 중앙에 옷으로 감싸 위탁",
         subs: ["병마다 완충 포장 (에어캡·옷가지)", "면세 한도 확인 (인당 2병 · 합산 2L · $400 이하)", "구매 영수증 보관 (세관 신고 대비)"] }
     ];
     window.TRIP_DATA = window.TRIP_DATA || {};
@@ -5634,7 +5649,63 @@
       if (packingSync) packingSync.push(key, val);
     }
 
+    function isItemDone(it) {
+      return leafKeys(it).every(function (k) { return isOn(it, k); });
+    }
+    // 일정 탭: 각 일자 본문 상단에 "🎒 이 날 챙길 것" 접이식 목록 (ITEMS[].days 기준, 체크 상태 반영)
+    function renderDayGear() {
+      for (var n = 1; n <= 11; n++) {
+        var body = document.querySelector("#day-" + n + " .d-body-inner");
+        if (!body) continue;
+        var old = body.querySelector(".day-gear");
+        var its = ITEMS.filter(function (it) { return it.days && it.days.indexOf(n) !== -1; });
+        if (!its.length) { if (old) old.remove(); continue; }
+
+        var det = document.createElement("details");
+        det.className = "day-gear";
+        det.open = !!(old && old.open); // 갱신돼도 펼침 상태 유지
+        var doneCnt = its.filter(isItemDone).length;
+        var sum = document.createElement("summary");
+        sum.innerHTML = '<span>🎒 이 날 챙길 것</span><span class="day-gear-count"></span>';
+        sum.lastChild.textContent = doneCnt + "/" + its.length + " 준비됨";
+        det.appendChild(sum);
+
+        var ul = document.createElement("ul");
+        ul.className = "day-gear-list";
+        its.forEach(function (it) {
+          var li = document.createElement("li");
+          var ok = isItemDone(it);
+          li.className = ok ? "done" : "";
+          var mark = document.createElement("span");
+          mark.className = "day-gear-mark";
+          mark.textContent = ok ? "✓" : "○";
+          var txt = document.createElement("span");
+          txt.textContent = it.label;
+          li.appendChild(mark);
+          li.appendChild(txt);
+          if (it.subs && !ok) {
+            var part = leafKeys(it).filter(function (k) { return isOn(it, k); }).length;
+            if (part) { var pc = document.createElement("span"); pc.className = "day-gear-count"; pc.textContent = part + "/" + it.subs.length; li.appendChild(pc); }
+          }
+          ul.appendChild(li);
+        });
+        det.appendChild(ul);
+
+        var go = document.createElement("button");
+        go.type = "button";
+        go.className = "inline-btn-badge teal day-gear-go";
+        go.textContent = "준비물 탭에서 체크 →";
+        go.addEventListener("click", function () { if (window.switchTab) window.switchTab("tab-packing", true); });
+        det.appendChild(go);
+
+        if (old) old.remove();
+        var anchor = body.querySelector(".sched-list");
+        if (anchor) body.insertBefore(det, anchor); else body.appendChild(det);
+      }
+    }
+
     function updateProgress() {
+      renderDayGear();
       var total = 0, done = 0;
       ITEMS.forEach(function (it) {
         leafKeys(it).forEach(function (k) { total++; if (isOn(it, k)) done++; });
@@ -5723,6 +5794,13 @@
         descSpan.className = "pack-item-desc";
         descSpan.textContent = it.desc;
         textWrap.appendChild(descSpan);
+      }
+
+      if (it.days && it.days.length) {
+        var daysSpan = document.createElement("span");
+        daysSpan.className = "pack-item-days";
+        daysSpan.textContent = "📅 " + it.days.join("·") + "일차";
+        textWrap.appendChild(daysSpan);
       }
 
       if (!it.subs) {
@@ -5906,6 +5984,8 @@
         updateProgress();
       });
     }
+
+    renderDayGear();
 
     var packingInitialized = false;
     function initPackingContentAndSync() {
