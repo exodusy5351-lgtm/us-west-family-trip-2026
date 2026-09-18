@@ -30,8 +30,8 @@
     --card-2:#f8fafc;
     --line:#e2e8f0;
     --text:#1e293b;
-    --muted:#64748b;
-    --muted-2:#94a3b8;
+    --muted:#4f5766;
+    --muted-2:#626b78; /* 2026-09 대비 상향: 텍스트로도 쓰이므로 4.5:1 이상 */
     --coral:#e76f51;
     --gold:#f4a261;
     --teal:#2a9d8f;
@@ -40,13 +40,13 @@
     --green:#2b9348;
     --amber:#e9c46a;
     --red:#e63946;
-    --gold-text:#b45309;
+    --gold-text:#a94a07;
     --green-text:#15803d;
     --red-text:#b91c1c;
     --pink-text:#be185d;
     --teal-text:#0f766e;
     --coral-text:#c2410c;
-    --amber-text:#b45309;
+    --amber-text:#a94a07;
     --next-up-glow:rgba(42, 157, 143, 0.4);
     --radius:14px;
   }
@@ -983,7 +983,7 @@
     bottom: calc(80px + env(safe-area-inset-bottom, 0px));
     transform: translateX(-50%) translateY(20px);
     background: linear-gradient(135deg, var(--coral), var(--gold));
-    color: #fff;
+    color: #1a1c23;
     border-radius: 20px;
     padding: 10px 18px;
     font-size: 12.5px;
@@ -1024,6 +1024,7 @@
   .pin-input.shake{animation:pinShake .35s;}
   @keyframes pinShake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-6px);}40%,60%{transform:translateX(6px);}}
   .pin-error{color:var(--red-text);font-size:11.5px;margin:10px 0 0;}
+  .pin-help{color:var(--muted);font-size:11.5px;margin:12px 0 0;text-align:center;line-height:1.5;}
   .pin-error.hidden{display:none;}
   .calc-close-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--card-2);border:1px solid var(--line);border-radius:8px;color:var(--muted);font-size:14px;cursor:pointer;flex-shrink:0;}
   .calc-close-btn:hover,.calc-close-btn:focus-visible{color:var(--text);border-color:var(--teal);outline:none;}
@@ -1220,7 +1221,7 @@
   }
   [data-theme="light"] {
     --bg:#f4f7f6; --bg-2:#ebeeeb; --card:#ffffff; --card-2:#f8fafa;
-    --line:#e2e5e9; --text:#1a1c23; --muted:#5c6370; --muted-2:#8a92a3;
+    --line:#e2e5e9; --text:#1a1c23; --muted:#4f5766; --muted-2:#626b78;
   }
   [data-theme="light"] body { background: radial-gradient(1200px 600px at 50% -10%, rgba(0, 136, 255, 0.12) 0%, transparent 60%), var(--bg); }
 
@@ -1807,7 +1808,7 @@
   .wk-buy-badge {
     display:flex; align-items:center; gap:6px; flex-wrap: wrap;
     font-size: 12px; font-weight:700; color: #fff;
-    background: linear-gradient(135deg, var(--wk-accent, var(--coral)), color-mix(in srgb, var(--wk-accent, var(--coral)) 60%, #000));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--wk-accent, var(--coral)) 72%, #000), color-mix(in srgb, var(--wk-accent, var(--coral)) 45%, #000)); /* 흰 글씨 4.5:1 확보용으로 시작색도 어둡게 */
     padding: 7px 11px; border-radius:8px; margin-bottom:9px;
   }
   .wk-buy-badge .wk-buy-sub { font-weight:500; font-size:10.5px; opacity:.9; }
@@ -3690,6 +3691,16 @@
           </div>
 
         </div>
+
+        <div class="tip-note">
+          <div class="tip-note-title">💡 11일차 핵심 체크포인트</div>
+          <ol class="cheat-list">
+            <li>🚕 <b>새벽 우버는 여유 있게</b> — 06:30 정각이 아니라 06:15쯤 미리 호출(새벽 UberXL 배차 지연 대비). 40분 소요 기준 07:10경 도착이면 08:00 수속까지 50분 여유</li>
+            <li>🔋 <b>기내 vs 위탁</b> — 보조배터리·리튬 배터리는 반드시 <b>기내</b>, 주류·액체는 <b>위탁</b>(기내 액체 100ml 제한)</li>
+            <li>🛃 <b>귀국 세관</b> — 주류 인당 2병(합산 2L, $400 이하)까지 면세, 기내에서 휴대품 신고서 미리 작성</li>
+            <li>🔑 <b>체크아웃 전 최종 점검</b> — 여권·충전기·룸 금고·침대 밑·욕실 순서로 한 바퀴 확인 후 키 반납</li>
+          </ol>
+        </div>
         </div></div>
       </details>
 
@@ -5189,7 +5200,8 @@
   </div>
   <p class="pin-modal-sub" id="pinModalSub">가족 PIN 4자리를 입력해주세요</p>
   <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="pin-input" id="pinInput" autocomplete="off" placeholder="••••">
-  <p class="pin-error hidden" id="pinError">핀번호가 올바르지 않습니다. 다시 입력해주세요.</p>
+  <p class="pin-error hidden" id="pinError" role="alert">핀번호가 올바르지 않습니다. 다시 입력해주세요.</p>
+  <p class="pin-help" id="pinHelp">PIN을 잊으셨나요? 지은·승현에게 물어보세요.</p>
 </div>
 
 <!-- 2-in-1 팁 & 쇼핑세금 계산기 모달 -->
@@ -7526,8 +7538,8 @@
   ========================================================== */
   (function initPinGates() {
     var PIN_TIERS = {
-      family: { pin: FAMILY_PIN, key: 'us_trip_pin_verified', sub: '가족 PIN 4자리를 입력해주세요' },
-      admin:  { pin: ADMIN_PIN,  key: 'us_trip_admin_pin_verified', sub: '관리자(지은·승현) PIN 4자리를 입력해주세요' }
+      family: { pin: FAMILY_PIN, key: 'us_trip_pin_verified', sub: '가족 PIN 4자리를 입력해주세요', help: 'PIN을 잊으셨나요? 지은·승현에게 물어보세요.' },
+      admin:  { pin: ADMIN_PIN,  key: 'us_trip_admin_pin_verified', sub: '관리자(지은·승현) PIN 4자리를 입력해주세요', help: '관리자 PIN은 지은·승현만 알아요. 잊으셨다면 서로에게 확인해 주세요.' }
     };
     var backdrop = document.getElementById('pinModalBackdrop');
     var modal = document.getElementById('pinModal');
@@ -7556,6 +7568,8 @@
       var cfg = PIN_TIERS[tier] || PIN_TIERS.family;
       if (ownerNameEl) ownerNameEl.textContent = ownerName;
       if (subEl) subEl.textContent = cfg.sub;
+      var helpEl = document.getElementById('pinHelp');
+      if (helpEl) helpEl.textContent = cfg.help;
       backdrop.classList.add('open');
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';

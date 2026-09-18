@@ -5,7 +5,7 @@ colors:
   canyon-coral: "#e76f51"
   canyon-coral-text: "#c2410c"
   mojave-gold: "#f4a261"
-  mojave-gold-text: "#b45309"
+  mojave-gold-text: "#a94a07"
   pacific-teal: "#2a9d8f"
   pacific-teal-text: "#0f766e"
   bougainvillea-pink: "#d81159"
@@ -21,8 +21,8 @@ colors:
   neutral-card-2: "#f8fafc"
   neutral-line: "#e2e8f0"
   neutral-text: "#1e293b"
-  neutral-muted: "#64748b"
-  neutral-muted-2: "#94a3b8"
+  neutral-muted: "#4f5766"
+  neutral-muted-2: "#626b78"
 typography:
   display:
     fontFamily: "Oswald, sans-serif"
@@ -115,7 +115,7 @@ components:
 
 ### Primary
 - **캐니언 코랄** (#e76f51, 텍스트용 #c2410c): 히어로 타이틀 그라데이션 시작점, 주 CTA 버튼, 링크·강조 텍스트.
-- **모하비 골드** (#f4a261, 텍스트용 #b45309): 히어로 그라데이션 끝점, 가격/합계 숫자, "다음 일정" 강조.
+- **모하비 골드** (#f4a261, 텍스트용 #a94a07): 히어로 그라데이션 끝점, 가격/합계 숫자, "다음 일정" 강조.
 
 ### Secondary
 - **퍼시픽 틸** (#2a9d8f, 텍스트용 #0f766e): 내비게이션 뱃지, 포커스 링, 활성 탭 — "이동/액션 가능"을 뜻하는 색.
@@ -126,7 +126,7 @@ components:
 ### Neutral
 - **오프화이트 배경** (#f5f6f8 / 카드 #ffffff): 페이지 배경과 카드 배경의 미세한 명도 차이로 층을 구분.
 - **헤어라인** (#e2e8f0): 모든 카드·구분선의 유일한 경계 수단.
-- **잉크 텍스트** (#1e293b) / **뮤트 텍스트** (#64748b) / **보조 뮤트** (#94a3b8): 본문 3단 위계.
+- **잉크 텍스트** (#1e293b) / **뮤트 텍스트** (#4f5766) / **보조 뮤트** (#626b78): 본문 3단 위계.
 
 ### 상태색 (기능 색상)
 - **세쿼이아 그린** (#2b9348 / 텍스트 #15803d): 완료(done) 뱃지.

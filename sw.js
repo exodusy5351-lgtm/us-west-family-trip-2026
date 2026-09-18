@@ -3,7 +3,10 @@
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
 // 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-20260919e";
+const CACHE_NAME = "uswest-trip-2026-20260919f";
+// 앱 셸(index.html 등)만 버전 캐시에 넣고, 폰트·CDN 스크립트·이미지 같은 그 외 리소스는
+// 버전이 없는 RUNTIME_CACHE에 넣는다 — 배포마다 옛 캐시를 지워도 오프라인용 리소스가 같이 날아가지 않도록.
+const RUNTIME_CACHE = "uswest-trip-runtime";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -31,7 +34,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.filter((key) => key !== CACHE_NAME && key !== RUNTIME_CACHE).map((key) => caches.delete(key))
       )
     )
   );
@@ -42,6 +45,7 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   const sameOrigin = new URL(event.request.url).origin === self.location.origin;
+  const isShell = APP_SHELL.some((u) => new URL(u, self.location).href === event.request.url);
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
@@ -62,7 +66,7 @@ self.addEventListener("fetch", (event) => {
           // 비허용 리소스는 자동으로 캐싱에서 제외된다.
           if (networkResponse && networkResponse.ok) {
             const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
+            caches.open(isShell ? CACHE_NAME : RUNTIME_CACHE).then((cache) => {
               cache.put(event.request, responseClone);
             });
           }
