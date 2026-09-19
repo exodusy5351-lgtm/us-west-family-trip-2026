@@ -1168,8 +1168,15 @@
   @keyframes rateSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
   /* ===== 일정 탭: 캘린더 내보내기 ===== */
-  .cal-export{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;}
-  .cal-export-title{font-size:13.5px;font-weight:700;margin-bottom:6px;}
+  .cal-export{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);}
+  .cal-export > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:0 14px;min-height:44px;border-radius:var(--radius);}
+  .cal-export > summary::-webkit-details-marker{display:none;}
+  .cal-export > summary::after{content:"⌄";margin-left:auto;font-size:14px;color:var(--muted);transition:transform .2s;}
+  .cal-export[open] > summary::after{transform:rotate(180deg);}
+  .cal-export > summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;}
+  .cal-export-body{padding:0 14px 14px;}
+  .cal-export-title{font-size:13.5px;font-weight:700;}
+  .cal-export-hint{font-size:12px;color:var(--muted);}
   .cal-export-note{font-size:12px;color:var(--muted);line-height:1.55;margin:0 0 10px;}
   .cal-export-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
   .cal-export-actions .pack-action-btn{flex:1 1 200px;}
@@ -3936,15 +3943,17 @@
 
     </div>
 
-    <div class="cal-export" id="calExport">
-      <div class="cal-export-title">📅 폰 캘린더에 담기</div>
+    <details class="cal-export" id="calExport">
+      <summary><span class="cal-export-title">📅 폰 캘린더에 담기</span><span class="cal-export-hint">필요할 때만</span></summary>
+      <div class="cal-export-body">
       <p class="cal-export-note">받은 파일을 열면 캘린더 앱에 바로 추가돼요. 앱이 꺼져 있어도 알림이 울리니 예매 오픈일 같은 마감을 놓치지 않아요.</p>
       <div class="cal-export-actions">
         <button type="button" class="pack-action-btn" id="calSchedBtn">🗓️ 여행 일정 11일 (.ics)</button>
         <button type="button" class="pack-action-btn" id="calDueBtn">⏰ 출발 전 마감 알림 (.ics)</button>
       </div>
       <p class="cal-export-note">여행 일정은 현지(LA) 시각으로 들어가고, 각 일정 15분 전에 알려줘요. 마감 알림은 해당 날짜 오전 9시에 울려요. 파일 다운로드는 GitHub Pages 주소에서만 동작해요.</p>
-    </div>
+      </div>
+    </details>
 
     <script>
       window.TRIP_DATA = window.TRIP_DATA || {};
