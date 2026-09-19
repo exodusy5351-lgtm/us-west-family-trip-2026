@@ -83,7 +83,7 @@
     display:none;align-items:center;gap:12px;
     background:linear-gradient(135deg,rgba(255,107,74,.14),rgba(255,184,77,.08));
     border:1px solid rgba(255,184,77,.3);border-radius:14px;
-    padding:12px 14px;margin:14px 0 0;
+    padding:12px 14px;margin:14px 0 14px;
   }
   .now-widget.show{display:flex;}
   .now-widget-badge{
@@ -115,6 +115,7 @@
 
   /* ===== HERO ===== */
   .hero{padding:36px 0 26px;}
+  .now-widget.show + .hero{padding-top:22px;} /* 위젯 아래 여백(14px)만큼 줄여 일정 탭 간격은 그대로 */
   .hero-top-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
   .hero .eyebrow{margin-bottom:0;}
   .hero h1{
@@ -1008,6 +1009,7 @@
 
   /* ===== RESERVATION FILTER CHIPS ===== */
   .card-filters{display:flex;gap:8px;margin-bottom:14px;}
+  .card-filters + section{margin-top:0;} /* 칩은 첫 섹션 제목에 붙여서(위 배너와는 떨어져) */
   .filter-chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;}
   .filter-chip.active{background:var(--teal);color:var(--on-teal);font-weight:700;border-color:var(--teal);}
 
