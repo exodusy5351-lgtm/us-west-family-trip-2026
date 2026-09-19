@@ -11,6 +11,17 @@
       var view = localStorage.getItem('viewMode');
       document.documentElement.setAttribute('data-view', view === 'family' ? 'family' : 'admin');
     } catch (e) {}
+
+    // 야외 모드 토글
+    var btnOutdoor = document.getElementById('btnToggleOutdoor');
+    if (btnOutdoor) {
+      btnOutdoor.addEventListener('click', function() {
+        var isOutdoor = document.documentElement.getAttribute('data-outdoor') === 'true';
+        document.documentElement.setAttribute('data-outdoor', isOutdoor ? 'false' : 'true');
+        if (window.triggerHaptic) window.triggerHaptic('light');
+        if (window.closeQuickMenu) window.closeQuickMenu();
+      });
+    }
   })();
 </script>
 <meta charset="UTF-8">
@@ -2005,6 +2016,100 @@
   .wk-tip-box b { color: var(--wk-accent, var(--gold-text)); }
 
   .wk-modal-footer { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-top:1px solid var(--line); background:var(--card-2); flex-shrink:0; font-size:11.5px; color:var(--muted); }
+
+  /* ===== HUD 모드 오버레이 ===== */
+  #res-hud-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ffffff;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    text-align: center;
+  }
+  #res-hud-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #res-hud-overlay .hud-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 32px;
+    color: #1e293b;
+    cursor: pointer;
+    padding: 16px;
+    line-height: 1;
+    z-index: 10;
+  }
+  #res-hud-overlay .hud-content {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+  }
+  #res-hud-overlay .hud-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: #4f5766;
+    margin-bottom: 24px;
+    word-break: keep-all;
+  }
+  #res-hud-overlay .hud-code {
+    font-size: 40px;
+    font-weight: 700;
+    color: #000000;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 32px;
+    word-break: break-all;
+    line-height: 1.2;
+  }
+  #res-hud-overlay .hud-amount {
+    font-size: 32px;
+    color: #1e293b;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+  .hud-trigger-btn {
+    background: var(--card-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+  .hud-trigger-btn:active {
+    background: var(--line);
+  }
+
+  /* 야외 고대비 모드 (Outdoor Mode) */
+  html[data-outdoor="true"] {
+    --bg: #ffffff;
+    --card: #ffffff;
+    --line: #94a3b8; /* 테두리를 훨씬 진하게 */
+    --text: #000000;
+    --muted: #1e293b;
+  }
+  html[data-outdoor="true"] .card, html[data-outdoor="true"] .d-summary {
+    border-width: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  html[data-outdoor="true"] body {
+    font-weight: 500;
+  }
+  html[data-outdoor="true"] .badge {
+    border-width: 2px;
+    font-weight: 700;
+  }
 </style>
 </head>
 <body>
@@ -2442,8 +2547,10 @@
 
         wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r, i) {
           var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
+          var hasSensitive = r.detail && r.detail.indexOf('detail-sensitive') !== -1;
+          var hudBtn = hasSensitive ? '<button type="button" class="hud-trigger-btn" onclick="openHudMode(event, ' + i + ')" aria-label="HUD 크게 보기">🔍 크게 보기</button>' : '';
           return '<div class="card" role="button" tabindex="0" data-idx="' + i + '"' + imgAttr + '>' +
-            '<div class="top"><span class="icon">' + r.icon + '</span><div class="name">' + r.name + '</div><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
+            '<div class="top"><span class="icon">' + r.icon + '</span><div class="name">' + r.name + '</div>' + hudBtn + '<span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
             '<div class="sum">' + r.sum + '<span class="amount">' + r.amount + '</span></div>' +
             '</div>';
         }).join('');
@@ -2884,6 +2991,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="callout-warn" style="margin-top:12px; border-left:4px solid var(--red); background:rgba(230,57,70,0.08); padding:10px 12px; border-radius:0 8px 8px 0;">
+  <strong style="color:var(--red-text); font-size:13px;">🚨 유아 동반 비상 프로토콜 (B플랜)</strong>
+  <p style="margin:4px 0 0; font-size:12.5px; color:var(--text);">수빈이/유나 컨디션 저조 시 요한투어 가이드님과 협의하여 <b>홀슈밴드 도보(왕복 40분, 뙤약볕) 생략</b>을 과감히 결정하세요. 20시 베가스 복귀 후에는 다른 일정 없이 <b>무조건 취침</b>하여 다음 날 일정(조슈아트리)에 대비해야 합니다.</p>
+</div>
         <div class="day-family-highlight">
           <span class="dfh-emoji">🏜️</span>
           <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">오늘은 세상에서 제일 큰 협곡, 그랜드캐년을 보러 가는 날! 절벽 끝에서 멋진 사진도 찍고, 신비로운 앤텔롭캐년도 구경해요 📸🐎</span></span>
@@ -3489,6 +3600,10 @@
           <span class="d-chevron" aria-hidden="true">⌄</span>
         </summary>
         <div class="d-body"><div class="d-body-inner">
+        <div class="guide-summary-box" style="margin-top:12px; border-left:4px solid var(--amber); background:rgba(245,124,0,0.08); padding:10px 12px; border-radius:0 8px 8px 0;">
+  <strong style="color:var(--amber-text); font-size:13px;">💡 우버XL 호출 및 트래픽 주의</strong>
+  <p style="margin:4px 0 0; font-size:12.5px; color:var(--text);">애너하임 ➔ 할리우드 구간은 아침 정체로 <b>90분 이상</b> 소요될 수 있습니다. 짐(28인치 캐리어 3개+유모차)이 많으므로 우버XL 매칭 시 기사에게 <i>"We have 3 large bags and 1 stroller, is your trunk space okay?"</i> 라고 미리 메시지를 보내 승차거부를 예방하세요.</p>
+</div>
         <div class="day-family-highlight">
           <span class="dfh-emoji">🎬</span>
           <span class="dfh-body"><span class="dfh-title">오늘의 하이라이트</span><span class="dfh-text">할리우드에 있는 새 호텔로 이사하고, 오늘부터 유니버설 스튜디오 시작! 공룡과 미이라를 만나는 신나는 놀이기구가 기다려요 🦖👻</span></span>
@@ -5018,6 +5133,27 @@
         for (var i = 0; i < 6; i++) burst(c, t + i * 0.14, 0.05, 0.35, 'bandpass', i % 2 ? 1300 : 1700);
         [523, 659, 784].forEach(function (f, i) { glide(c, t + 0.95 + i * 0.13, f, f * 1.002, 0.16, 0.22, 'sawtooth', 1800); });
         [523, 659, 784, 1047].forEach(function (f) { glide(c, t + 1.4, f, f * 1.002, 0.7, 0.14, 'sawtooth', 1800); });
+      }),
+      canyon: run(function (c, t) { // 웅장한 대자연 계곡 바람 + 깊은 저음 화음
+        sweep(c, t, 1.6, 0.4, 150, 500, 'bandpass', 1.2);
+        [130.81, 196.00, 261.63, 329.63, 392.00].forEach(function (f, i) {
+          var o = c.createOscillator(), g = c.createGain();
+          o.type = 'triangle'; o.frequency.value = f;
+          g.gain.setValueAtTime(0.0001, t + i * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.18, t + 0.4 + i * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+          o.connect(g); g.connect(c.destination);
+          o.start(t + i * 0.08); o.stop(t + 1.85);
+        });
+        tone(c, t + 0.8, 523.25, 0.5, 0.12, 'sine');
+      }),
+      horseshoe: run(function (c, t) { // 다그닥-다그닥 말발굽 + 셔터 찰칵
+        var steps = [0, 0.12, 0.32, 0.44];
+        steps.forEach(function (st, idx) {
+          glide(c, t + st, idx % 2 === 0 ? 420 : 360, 180, 0.06, 0.35, 'sine');
+          burst(c, t + st + 0.01, 0.04, 0.25, 'bandpass', idx % 2 === 0 ? 1200 : 900);
+        });
+        shutter(c, t + 0.72);
       })
     };
   })();
@@ -5100,12 +5236,12 @@
       { id: "q2-6", icon: "⛲", sound: "fountain", toast: "⛲ 촤아~ 분수쇼 인증샷 완성", label: "(가족) 벨라지오 분수쇼 앞 사진찍기!" }
     ],
     "day-3": [
-      { id: "q3-1", icon: "🌌", label: "사막 한가운데서 쏟아질 듯한 밤하늘 은하수 눈에 담기" },
-      { id: "q3-2", icon: "🏜️", label: "그랜드캐년 마더포인트 절벽 위에서 웅장한 대자연 감상" },
-      { id: "q3-3", icon: "🗼", label: "데저트뷰 워치타워 올라가서 굽이치는 콜로라도강 찾기" },
-      { id: "q3-4", icon: "🐎", label: "앤텔롭캐년 붉은 사암 틈 사이로 비치는 환상적인 빛줄기 포착" },
-      { id: "q3-5", icon: "📸", label: "가이드 삼촌이 알려주는 나바호 전설의 비밀 포토존 찾기" },
-      { id: "q3-6", icon: "🧲", label: "말발굽 닮은 300m 수직 절벽 홀스슈밴드 인생샷 남기기" }
+      { id: "q3-1", icon: "🌌", sound: "sparkle", toast: "🌌 반짝반짝~ 사막 한가운데 쏟아지는 은하수 눈에 담기 완료! ✨", label: "사막 한가운데서 쏟아질 듯한 밤하늘 은하수 눈에 담기" },
+      { id: "q3-2", icon: "🏜️", sound: "canyon", toast: "🏜️ 와아~ 웅장한 그랜드캐년 대자연 감상 완료!", label: "그랜드캐년 마더포인트 절벽 위에서 웅장한 대자연 감상" },
+      { id: "q3-3", icon: "🗼", sound: "trail", toast: "🗼 짠! 워치타워에서 굽이치는 콜로라도강 찾기 성공!", label: "데저트뷰 워치타워 올라가서 굽이치는 콜로라도강 찾기" },
+      { id: "q3-4", icon: "🐎", sound: "oz", toast: "✨ 환상적! 붉은 사암 사이 신비로운 빛줄기 포착 완료", label: "앤텔롭캐년 붉은 사암 틈 사이로 비치는 환상적인 빛줄기 포착" },
+      { id: "q3-5", icon: "📸", sound: "family", toast: "📸 치~즈! 나바호 전설의 비밀 포토존 인생샷 완성", label: "가이드 삼촌이 알려주는 나바호 전설의 비밀 포토존 찾기" },
+      { id: "q3-6", icon: "🧲", sound: "horseshoe", toast: "🧲 다그닥 찰칵! 300m 절벽 홀스슈밴드 인생샷 완성!", label: "말발굽 닮은 300m 수직 절벽 홀스슈밴드 인생샷 남기기" }
     ],
     "day-4": [
       { id: "q4-7", icon: "🥃", sound: "whiskey", toast: "🥃 챙~ 위스키 득템!", label: "(아빠) 위스키 득템" },
@@ -10106,6 +10242,65 @@
       download('uswest2026-deadlines.ics', text);
     });
   })();
+</script>
+
+<!-- HUD 모드 스크립트 -->
+<script>
+  window.openHudMode = function(e, idx) {
+    if (e) e.stopPropagation();
+    var r = window.TRIP_DATA.reservations[idx];
+    if (!r) return;
+    
+    var probe = document.createElement('div');
+    probe.innerHTML = r.detail;
+    var sensitiveSpans = probe.querySelectorAll('.detail-sensitive');
+    if (sensitiveSpans.length === 0) return;
+    
+    var codeTexts = [];
+    for (var i = 0; i < sensitiveSpans.length; i++) {
+      var clone = sensitiveSpans[i].cloneNode(true);
+      var btns = clone.querySelectorAll('.copy-btn');
+      for (var j = 0; j < btns.length; j++) btns[j].remove();
+      codeTexts.push(clone.textContent.trim());
+    }
+    var codeText = codeTexts.join('<br><br>');
+    
+    var hud = document.getElementById('res-hud-overlay');
+    if (!hud) {
+      hud = document.createElement('div');
+      hud.id = 'res-hud-overlay';
+      hud.innerHTML = 
+        '<div class="hud-close" onclick="history.back()">✕</div>' +
+        '<div class="hud-content">' +
+          '<div class="hud-name"></div>' +
+          '<div class="hud-code"></div>' +
+          '<div class="hud-amount"></div>' +
+        '</div>';
+      document.body.appendChild(hud);
+      
+      hud.addEventListener('click', function(ev) {
+        if (ev.target === hud) {
+          history.back();
+        }
+      });
+    }
+    
+    hud.querySelector('.hud-name').innerHTML = r.name;
+    hud.querySelector('.hud-code').innerHTML = codeText;
+    hud.querySelector('.hud-amount').innerHTML = r.amount || '';
+    
+    hud.classList.add('active');
+    
+    if (window.pushModalNavState) {
+      window.pushModalNavState(function() {
+        hud.classList.remove('active');
+      });
+    } else {
+      hud.onclick = function() { hud.classList.remove('active'); };
+    }
+    
+    if (window.triggerHaptic) window.triggerHaptic('light');
+  };
 </script>
 </body>
 </html>
