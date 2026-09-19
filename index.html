@@ -4943,6 +4943,44 @@
         sweep(c, t, 0.55, 0.5, 2500, 300, 'lowpass', 0.7);
         glide(c, t, 300, 80, 0.2, 0.4, 'sine');
         for (var i = 0; i < 5; i++) glide(c, t + 0.2 + i * 0.09 + Math.random() * 0.04, 350 + Math.random() * 200, 900 + Math.random() * 300, 0.07, 0.15, 'sine');
+      }),
+      whiskey: run(function (c, t) { // 졸졸 따르고 → 얼음 딸랑 → 챙!
+        sweep(c, t, 0.55, 0.7, 900, 1500, 'bandpass', 1.2);
+        tone(c, t + 0.6, 2637, 0.18, 0.2); tone(c, t + 0.68, 3520, 0.16, 0.18); tone(c, t + 0.78, 2960, 0.16, 0.16);
+        tone(c, t + 1.0, 1760, 0.7, 0.28); tone(c, t + 1.0, 2349, 0.6, 0.2); tone(c, t + 1.0, 4698, 0.4, 0.08);
+        burst(c, t + 1.0, 0.02, 0.3, 'highpass', 4000);
+      }),
+      campfire: run(function (c, t) { // 활활 + 톡톡 튀는 불씨 + 폭!
+        sweep(c, t, 1.5, 0.5, 250, 500, 'lowpass', 0.7);
+        for (var i = 0; i < 26; i++) burst(c, t + Math.random() * 1.4, 0.012 + Math.random() * 0.02, 0.2 + Math.random() * 0.3, 'highpass', 2500 + Math.random() * 3000);
+        glide(c, t + 1.45, 500, 900, 0.09, 0.3, 'sine');
+      }),
+      ramen: run(function (c, t) { // 별 반짝 → 후루룹 → 꿀꺽
+        [2093, 2637, 3136, 3951].forEach(function (f, i) { tone(c, t + i * 0.11, f, 0.5, 0.15, 'sine'); });
+        sweep(c, t + 0.6, 0.5, 1.0, 600, 2800, 'bandpass', 2);
+        glide(c, t + 1.15, 300, 120, 0.12, 0.35, 'sine');
+      }),
+      jacuzzi: run(function (c, t) { // 보글보글 물살 + 찰칵
+        sweep(c, t, 1.2, 0.7, 300, 800, 'lowpass', 0.7);
+        for (var i = 0; i < 10; i++) glide(c, t + 0.1 + Math.random() * 1.0, 300 + Math.random() * 200, 800 + Math.random() * 400, 0.06, 0.12, 'sine');
+        shutter(c, t + 1.25);
+      }),
+      sunset: run(function (c, t) { // 노을빛 화음이 서서히 차오름 + 반짝
+        [262, 330, 392, 523].forEach(function (f, i) {
+          var o = c.createOscillator(), g = c.createGain();
+          o.type = 'triangle'; o.frequency.value = f;
+          g.gain.setValueAtTime(0.0001, t + i * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.16, t + 0.5 + i * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 2.0);
+          o.connect(g); g.connect(c.destination);
+          o.start(t + i * 0.08); o.stop(t + 2.05);
+        });
+        [1047, 1319, 1568].forEach(function (f, i) { tone(c, t + 0.9 + i * 0.15, f, 0.6, 0.1, 'sine'); });
+      }),
+      trail: run(function (c, t) { // 뚜벅뚜벅 자갈길 → 짜잔 팡파르
+        for (var i = 0; i < 6; i++) burst(c, t + i * 0.14, 0.05, 0.35, 'bandpass', i % 2 ? 1300 : 1700);
+        [523, 659, 784].forEach(function (f, i) { glide(c, t + 0.95 + i * 0.13, f, f * 1.002, 0.16, 0.22, 'sawtooth', 1800); });
+        [523, 659, 784, 1047].forEach(function (f) { glide(c, t + 1.4, f, f * 1.002, 0.7, 0.14, 'sawtooth', 1800); });
       })
     };
   })();
@@ -5033,12 +5071,12 @@
       { id: "q3-6", icon: "🧲", label: "말발굽 닮은 300m 수직 절벽 홀스슈밴드 인생샷 남기기" }
     ],
     "day-4": [
-      { id: "q4-1", icon: "🍢", label: "야외 화덕 모닥불에 통통한 마시멜로 노릇노릇 구워 먹기" },
-      { id: "q4-2", icon: "🌵", label: "만세하고 서 있는 신비로운 조슈아트리 나무와 하이파이브" },
-      { id: "q4-3", icon: "🚶", label: "히든밸리 기암괴석 둘레길 가족과 손잡고 완주하기" },
-      { id: "q4-4", icon: "🏞️", label: "옛 목장주가 만든 바커댐 저수지와 바위 속 숨은 암각화 찾아보기" },
-      { id: "q4-5", icon: "🌄", label: "해발 1,577m 키즈뷰 정상에서 붉게 물드는 사막 일몰 감상" },
-      { id: "q4-6", icon: "🥩", label: "사막 독채 숙소에서 스테이크 파티 & 따뜻한 자쿠지" }
+      { id: "q4-7", icon: "🥃", sound: "whiskey", toast: "🥃 챙~ 위스키 득템!", label: "(아빠) 위스키 득템" },
+      { id: "q4-3", icon: "🚶", sound: "trail", toast: "🥾 뚜벅뚜벅~ 둘레길 완주 성공! 🎉", label: "(가족) 히든밸리 기암괴석 둘레길 가족과 손잡고 완주하기" },
+      { id: "q4-5", icon: "🌄", sound: "sunset", toast: "🌄 짜잔~ 붉은 사막 일몰 감상 완료", label: "(가족) 해발 1,577m 키즈뷰 정상에서 붉게 물드는 사막 일몰 감상" },
+      { id: "q4-1", icon: "🍢", sound: "campfire", toast: "🔥 지글지글~ 마시멜로 노릇노릇! 수빈이 미션 성공", label: "(수빈) 모닥불에 마시멜로 노릇노릇 구워먹기" },
+      { id: "q4-8", icon: "🍜", sound: "ramen", toast: "🌌 반짝~ 후루룹! 별 보며 라면 완성", label: "(유나) 별 감상 후 라면 먹기!" },
+      { id: "q4-9", icon: "🛁", sound: "jacuzzi", toast: "🛁 보글보글~ 자쿠지 별 사진 완성", label: "(엄마) 따뜻한 자쿠지에서 별감상 및 촬영" }
     ],
     "day-5": [
       { id: "q5-1", icon: "🛍️", label: "데저트힐스 프리미엄 아울렛에서 나를 위한 인생 득템 선물 쇼핑하기" },
