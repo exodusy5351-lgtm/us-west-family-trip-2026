@@ -4929,7 +4929,7 @@
      Web Audio API 기반 묵직한 여권 도장 쾅! 타격음 합성기
   ========================================================== */
   var stampAudioCtx = null;
-  // 꿀꿀 소리 — 톱니파에 빠른 떨림(LFO)과 로우패스를 걸어 돼지 '꿀-꿀' 두 번 (스탬프 소리 직후에 재생)
+  // 꿀꿀 소리 — 리얼한 익살 코골이 마찰음(Snort) + 비강 포먼트 공명(Grunt) 2연타 "크흐륵 꿀! 꿀!"
   function playOinkSound() {
     try {
       var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -4937,25 +4937,76 @@
       if (!stampAudioCtx) stampAudioCtx = new AudioContext();
       if (stampAudioCtx.state === 'suspended') stampAudioCtx.resume();
       var ctx = stampAudioCtx, start = ctx.currentTime + 0.18;
-      [0, 0.3].forEach(function (offset, i) {
+
+      // 1. 코를 들이마시는 듯한 거친 비강 마찰음 (Inhaled Snort / Throat Flutter)
+      var snortDur = 0.14;
+      var n = Math.floor(ctx.sampleRate * snortDur);
+      var buf = ctx.createBuffer(1, n, ctx.sampleRate), data = buf.getChannelData(0);
+      for (var j = 0; j < n; j++) data[j] = Math.random() * 2 - 1;
+      var snortSrc = ctx.createBufferSource();
+      snortSrc.buffer = buf;
+      var snortFilt = ctx.createBiquadFilter(), snortGain = ctx.createGain();
+      snortFilt.type = 'bandpass';
+      snortFilt.frequency.setValueAtTime(450, start);
+      snortFilt.frequency.linearRampToValueAtTime(750, start + snortDur);
+      snortFilt.Q.value = 3.5;
+      snortGain.gain.setValueAtTime(0.0001, start);
+      snortGain.gain.exponentialRampToValueAtTime(0.35, start + 0.02);
+      snortGain.gain.exponentialRampToValueAtTime(0.001, start + snortDur);
+      snortSrc.connect(snortFilt);
+      snortFilt.connect(snortGain);
+      snortGain.connect(ctx.destination);
+      snortSrc.start(start);
+
+      // 2. 묵직하고 끈적한 돼지 비음 그르렁 2연타 ("꿀-꿀!")
+      // 포먼트 2개(F1 ~380Hz, F2 ~1380Hz)로 코맹맹이 음색 구현
+      var oinkOffsets = [0.12, 0.36];
+      oinkOffsets.forEach(function (offset, i) {
         var t = start + offset;
-        var osc = ctx.createOscillator(), lfo = ctx.createOscillator();
-        var lfoGain = ctx.createGain(), filt = ctx.createBiquadFilter(), gain = ctx.createGain();
+        var dur = i ? 0.18 : 0.22;
+        var osc = ctx.createOscillator();
+        var lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
+        var masterGain = ctx.createGain();
+
+        // 기본 음고: 피치가 위에서 아래로 끈적하게 떨어짐
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(i ? 170 : 210, t);
-        osc.frequency.exponentialRampToValueAtTime(i ? 95 : 120, t + 0.22);
-        lfo.frequency.value = 28;
-        lfoGain.gain.value = 0.3;
-        filt.type = 'lowpass';
-        filt.frequency.setValueAtTime(700, t);
-        filt.frequency.linearRampToValueAtTime(1600, t + 0.08);
-        filt.frequency.linearRampToValueAtTime(600, t + 0.22);
-        gain.gain.setValueAtTime(0.0001, t);
-        gain.gain.exponentialRampToValueAtTime(0.5, t + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.24);
-        lfo.connect(lfoGain); lfoGain.connect(gain.gain);
-        osc.connect(filt); filt.connect(gain); gain.connect(ctx.destination);
-        osc.start(t); lfo.start(t); osc.stop(t + 0.26); lfo.stop(t + 0.26);
+        osc.frequency.setValueAtTime(i ? 165 : 205, t);
+        osc.frequency.exponentialRampToValueAtTime(i ? 85 : 105, t + dur);
+
+        // 성대 거친 떨림 (LFO 거친 진폭 모듈레이션)
+        lfo.frequency.value = 42; // 빠른 코 떨림
+        lfoGain.gain.value = 0.45;
+
+        // 비강 공명 포먼트 F1 (저음 비음)
+        var f1 = ctx.createBiquadFilter();
+        f1.type = 'bandpass';
+        f1.frequency.value = 380;
+        f1.Q.value = 2.8;
+
+        // 비강 공명 포먼트 F2 (고음 비음 콧소리 피크)
+        var f2 = ctx.createBiquadFilter();
+        f2.type = 'bandpass';
+        f2.frequency.value = 1380;
+        f2.Q.value = 3.2;
+
+        masterGain.gain.setValueAtTime(0.0001, t);
+        masterGain.gain.exponentialRampToValueAtTime(0.65, t + 0.03);
+        masterGain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+
+        // 연결: osc -> F1 & F2 병렬 -> masterGain -> destination
+        lfo.connect(lfoGain);
+        lfoGain.connect(masterGain.gain);
+
+        osc.connect(f1);
+        osc.connect(f2);
+        f1.connect(masterGain);
+        f2.connect(masterGain);
+        masterGain.connect(ctx.destination);
+
+        osc.start(t);
+        lfo.start(t);
+        osc.stop(t + dur + 0.02);
+        lfo.stop(t + dur + 0.02);
       });
     } catch (e) {}
   }
