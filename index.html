@@ -4929,84 +4929,63 @@
      Web Audio API 기반 묵직한 여권 도장 쾅! 타격음 합성기
   ========================================================== */
   var stampAudioCtx = null;
-  // 꿀꿀 소리 — 리얼한 익살 코골이 마찰음(Snort) + 비강 포먼트 공명(Grunt) 2연타 "크흐륵 꿀! 꿀!"
+  // 꿀꿀 소리 — 익살스러운 만화풍 통통 튀는 아기돼지 꿀-꿀! ("꾸~울! 꿀!")
   function playOinkSound() {
     try {
       var AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) return;
       if (!stampAudioCtx) stampAudioCtx = new AudioContext();
       if (stampAudioCtx.state === 'suspended') stampAudioCtx.resume();
-      var ctx = stampAudioCtx, start = ctx.currentTime + 0.18;
+      var ctx = stampAudioCtx, start = ctx.currentTime + 0.12;
 
-      // 1. 코를 들이마시는 듯한 거친 비강 마찰음 (Inhaled Snort / Throat Flutter)
-      var snortDur = 0.14;
-      var n = Math.floor(ctx.sampleRate * snortDur);
-      var buf = ctx.createBuffer(1, n, ctx.sampleRate), data = buf.getChannelData(0);
-      for (var j = 0; j < n; j++) data[j] = Math.random() * 2 - 1;
-      var snortSrc = ctx.createBufferSource();
-      snortSrc.buffer = buf;
-      var snortFilt = ctx.createBiquadFilter(), snortGain = ctx.createGain();
-      snortFilt.type = 'bandpass';
-      snortFilt.frequency.setValueAtTime(450, start);
-      snortFilt.frequency.linearRampToValueAtTime(750, start + snortDur);
-      snortFilt.Q.value = 3.5;
-      snortGain.gain.setValueAtTime(0.0001, start);
-      snortGain.gain.exponentialRampToValueAtTime(0.35, start + 0.02);
-      snortGain.gain.exponentialRampToValueAtTime(0.001, start + snortDur);
-      snortSrc.connect(snortFilt);
-      snortFilt.connect(snortGain);
-      snortGain.connect(ctx.destination);
-      snortSrc.start(start);
+      // 두 번 튀어오르는 "꾸~울! 꿀!" (1타: 찰지고 긴 굴절, 2타: 경쾌한 스타카토)
+      var oinks = [
+        { offset: 0,    dur: 0.18, f0: 190, fPeak: 430, fEnd: 150, q: 3.8, formant: 880, vol: 0.75 },
+        { offset: 0.22, dur: 0.13, f0: 240, fPeak: 490, fEnd: 180, q: 4.2, formant: 960, vol: 0.7 }
+      ];
 
-      // 2. 묵직하고 끈적한 돼지 비음 그르렁 2연타 ("꿀-꿀!")
-      // 포먼트 2개(F1 ~380Hz, F2 ~1380Hz)로 코맹맹이 음색 구현
-      var oinkOffsets = [0.12, 0.36];
-      oinkOffsets.forEach(function (offset, i) {
-        var t = start + offset;
-        var dur = i ? 0.18 : 0.22;
+      oinks.forEach(function (cfg) {
+        var t = start + cfg.offset;
         var osc = ctx.createOscillator();
-        var lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
-        var masterGain = ctx.createGain();
+        var lfo = ctx.createOscillator();
+        var lfoGain = ctx.createGain();
+        var filter = ctx.createBiquadFilter();
+        var gain = ctx.createGain();
 
-        // 기본 음고: 피치가 위에서 아래로 끈적하게 떨어짐
+        // 1. 발성 파형 (풍부한 배음)
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(i ? 165 : 205, t);
-        osc.frequency.exponentialRampToValueAtTime(i ? 85 : 105, t + dur);
+        // 익살스러운 피치 굴절 ("꾸~울!" 곡선)
+        osc.frequency.setValueAtTime(cfg.f0, t);
+        osc.frequency.linearRampToValueAtTime(cfg.fPeak, t + 0.045);
+        osc.frequency.exponentialRampToValueAtTime(cfg.fEnd, t + cfg.dur);
 
-        // 성대 거친 떨림 (LFO 거친 진폭 모듈레이션)
-        lfo.frequency.value = 42; // 빠른 코 떨림
-        lfoGain.gain.value = 0.45;
+        // 2. 목젖/비강 떨림 LFO (34Hz 고속 변조로 찰진 코골림 질감)
+        lfo.type = 'sine';
+        lfo.frequency.value = 34;
+        lfoGain.gain.value = 50;
+        lfo.connect(osc.frequency);
 
-        // 비강 공명 포먼트 F1 (저음 비음)
-        var f1 = ctx.createBiquadFilter();
-        f1.type = 'bandpass';
-        f1.frequency.value = 380;
-        f1.Q.value = 2.8;
+        // 3. 비강 포먼트 필터 (코맹맹이 음색을 만드는 밴드패스 공명)
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(cfg.formant, t);
+        filter.frequency.linearRampToValueAtTime(cfg.formant * 1.15, t + 0.05);
+        filter.frequency.linearRampToValueAtTime(cfg.formant * 0.9, t + cfg.dur);
+        filter.Q.value = cfg.q;
 
-        // 비강 공명 포먼트 F2 (고음 비음 콧소리 피크)
-        var f2 = ctx.createBiquadFilter();
-        f2.type = 'bandpass';
-        f2.frequency.value = 1380;
-        f2.Q.value = 3.2;
+        // 4. 통통 튀는 볼륨 엔벨로프
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.exponentialRampToValueAtTime(cfg.vol, t + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + cfg.dur);
 
-        masterGain.gain.setValueAtTime(0.0001, t);
-        masterGain.gain.exponentialRampToValueAtTime(0.65, t + 0.03);
-        masterGain.gain.exponentialRampToValueAtTime(0.001, t + dur);
-
-        // 연결: osc -> F1 & F2 병렬 -> masterGain -> destination
-        lfo.connect(lfoGain);
-        lfoGain.connect(masterGain.gain);
-
-        osc.connect(f1);
-        osc.connect(f2);
-        f1.connect(masterGain);
-        f2.connect(masterGain);
-        masterGain.connect(ctx.destination);
+        // 연결: osc -> filter -> gain -> destination
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
 
         osc.start(t);
         lfo.start(t);
-        osc.stop(t + dur + 0.02);
-        lfo.stop(t + dur + 0.02);
+        osc.stop(t + cfg.dur + 0.02);
+        lfo.stop(t + cfg.dur + 0.02);
       });
     } catch (e) {}
   }
