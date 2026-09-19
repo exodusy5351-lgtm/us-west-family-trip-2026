@@ -222,19 +222,38 @@
   .card .detail + .detail{margin-top:2px;}
   .card .detail a{color:var(--teal-text);text-decoration:underline;text-underline-offset:2px;}
   :where(a[href^="tel:"]){color:var(--teal-text);}
-  .card-more{margin-top:6px;}
-  .card-more > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--teal-text);padding:6px 10px;margin-left:-10px;border-radius:8px;min-height:32px;}
-  .card-more > summary::-webkit-details-marker{display:none;}
-  .card-more > summary::after{content:"⌄";font-size:13px;transition:transform .2s;}
-  .card-more[open] > summary::after{transform:rotate(180deg);}
-  .card-more > summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;}
-  .card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
-  [data-view="family"] .card[data-img^="images/"] .card-img-btn{display:none;}
-  .card[data-img]{cursor:pointer;transition:border-color .15s,transform .15s;}
-  .card[data-img]:hover,.card[data-img]:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
-  .card[data-img] .name::after{content:"🖼";margin-left:6px;font-size:11px;opacity:.75;}
-  [data-view="family"] .card[data-img^="images/"]{cursor:default;}
-  [data-view="family"] .card[data-img^="images/"] .name::after{display:none;}
+  /* 예약 카드는 요약만 — 눌러서 상세·예약 화면을 시트로 본다 */
+  #tab-reservations .cards .card{cursor:pointer;transition:border-color .15s,transform .15s;}
+  #tab-reservations .cards .card:hover,#tab-reservations .cards .card:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
+  .card .sum{font-size:13px;color:var(--text);margin-top:5px;line-height:1.5;}
+  .card-tap{display:block;margin-top:8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--teal-text);}
+  [data-view="family"] .card .tap-img{display:none;}
+
+  /* ===== 예약 상세 시트 (모바일: 아래에서 올라오는 시트 / 넓은 화면: 가운데 카드) ===== */
+  .res-modal{display:none;position:fixed;inset:0;z-index:1050;background:rgba(20,30,40,.45);backdrop-filter:blur(3px);align-items:flex-end;justify-content:center;}
+  .res-modal.open{display:flex;}
+  .res-sheet{width:100%;max-width:560px;max-height:92vh;max-height:92dvh;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:18px 18px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.35);}
+  .res-head{display:flex;align-items:center;gap:10px;padding:14px 12px 12px 16px;border-bottom:1px solid var(--line);flex-shrink:0;}
+  .res-head .icon{font-size:22px;flex-shrink:0;}
+  .res-head h3{flex:1;min-width:0;margin:0;font-size:15px;line-height:1.35;}
+  .res-close{width:40px;height:40px;flex-shrink:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:rgba(0,0,0,.06);border:1px solid var(--line);color:var(--text);font-size:18px;line-height:1;cursor:pointer;padding:0;}
+  .res-close:hover,.res-close:focus-visible{border-color:var(--teal);outline:none;}
+  .res-body{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px 24px;}
+  .res-line{font-size:13.5px;line-height:1.65;color:var(--text);padding:9px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere;}
+  .res-line a{color:var(--teal-text);text-decoration:underline;text-underline-offset:2px;}
+  .res-amount{margin-top:14px;padding:12px 14px;border:1px dashed var(--line);border-radius:12px;}
+  .res-amount-main{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--gold-text);letter-spacing:.02em;}
+  .res-amount-sub{margin-top:4px;font-size:12.5px;line-height:1.5;color:var(--muted);}
+  .res-cta{margin-top:12px;}
+  .res-img{margin-top:16px;}
+  .res-img-title{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--teal-text);margin-bottom:8px;}
+  .res-img img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);cursor:zoom-in;background:#fff;}
+  .res-img-hint{margin-top:6px;font-size:12px;color:var(--muted);}
+  .res-lock{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(255,157,0,.12);border:1px solid rgba(255,157,0,.35);font-size:12.5px;line-height:1.55;color:var(--text);}
+  @media (min-width:600px){
+    .res-modal{align-items:center;padding:24px;}
+    .res-sheet{border-radius:var(--radius);max-height:88vh;}
+  }
   .top-right{display:flex;align-items:center;gap:8px;}
   .img-upload-btn{
     background:rgba(0,0,0,.06);border:1px solid var(--line);color:var(--muted);
@@ -248,7 +267,7 @@
 
   /* ===== IMAGE MODAL (reservation attachment viewer) ===== */
   .img-modal{
-    display:none;position:fixed;inset:0;z-index:1000;
+    display:none;position:fixed;inset:0;z-index:1060;
     background:rgba(20,30,40,.4);
     align-items:center;justify-content:center;padding:28px;
   }
@@ -2370,21 +2389,21 @@
     <script>
       window.TRIP_DATA = window.TRIP_DATA || {};
       window.TRIP_DATA.reservations = [
-        { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복 (에어프레미아)', imgKey: 'images/res-flight-airpremia.png', detail: '예약번호 <span class="detail-sensitive">H5TZJM<button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>가는 편 <b>YP101</b> · 10/1(목) 인천 T1 <b>13:00</b> → LAX 터미널 B <b>08:20</b> (11시간 20분)<br>오는 편 <b>YP102</b> · 10/11(일) LAX 터미널 B <b>10:50</b> → 인천 T1 10/12(월) <b>15:50</b> (13시간)<br>탑승 4인: 승현·지은·유나(성인) · 수빈(소아) · 이코노미 라이트 · 기내식 일반식<br>위탁 수하물 인당 23kg 1개 무료 (총 4개, 가는 편 기준) · 좌석은 아직 미지정(체크인 때 자동 배정)<br><span class="detail-sensitive">여권 영문명 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</span>', amount: '₩4,075,800', amountSub: '2026.8.5 결제 · 예약센터 1800-2626 (국내 전용, 평일 7–18시 · 주말 9–18시)' },
-        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 1차 렌트 (LAX→베가스)', imgKey: 'images/res-hertz-1-lax-vegas.png', detail: '예약번호 <span class="detail-sensitive">L676E0E0129<button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/1(목) 09:30 · LAX ConRAC 5251 W 98th St (24시간, <a href="tel:+13105685100">(310) 568-5100</a>)<br>예약상 반납 10/2(금) 09:00 · 리조트월드 (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>) — 일정은 10/1 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$40.55', amountSub: '후지불 — 픽업 시 카운터에서 주운전자 신용카드로 결제' },
-        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 2차 렌트 (베가스→애너하임)', imgKey: 'images/res-hertz-2-vegas-anaheim.png', detail: '예약번호 <span class="detail-sensitive">L676E084020<button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/4(일) 09:00 · 리조트월드 3000 S Las Vegas Blvd (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>)<br>예약상 반납 10/6(화) 09:00 · 애너하임 Katella 221 W Katella Ave (평일 8:00–17:00, 주말 9:00–12:00, <a href="tel:+17147720425">(714) 772-0425</a>) — 일정은 10/5 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$120.22', amountSub: '2일 × $60.11 · 후지불 — 픽업 시 카운터에서 결제' },
-        { icon: '🅿️', status: 'done', statusLabel: '완료', name: '인천공항 발렛 주차대행 (M-Parking)', detail: '10/1 09:00 ~ 10/12 15:50 · SUV · <span class="detail-sensitive">예약번호 937311647428</span><br>※ 15:50은 인천 <b>도착</b> 시각(YP102) — 입국·수하물을 지난 뒤 차를 받을 시각은 M-Parking에 확인', amount: '₩53,000', amountSub: '주차비, 현장/추후 결제 예정' },
-        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '콘래드 라스베가스 (1차 · 10/1–2)', imgKey: 'images/res-hilton-conrad-1.jpg', detail: '10/1(목) → 10/2(금) (1박) · 확인번호 <span class="detail-sensitive">3516025451<button type="button" class="copy-btn" data-copy="3516025451" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 프리미엄 룸 · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>111 Resorts World Ave, Las Vegas, NV 89109 · <a href="tel:+17026767000">+1 702-676-7000</a><br>무료 취소 <b>9/29 23:59</b>까지(호텔 현지 시각) · 힐튼 Honors MyWay: 일일 $25 식음료 크레딧', amount: '75,000 pt', amountSub: '힐튼 포인트 결제' },
-        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '콘래드 라스베가스 (2차 · 10/3–4)', imgKey: 'images/res-hilton-conrad-2.jpg', detail: '10/3(토) → 10/4(일) (1박) · 확인번호 <span class="detail-sensitive">3515380556<button type="button" class="copy-btn" data-copy="3515380556" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 프리미엄 룸 · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>111 Resorts World Ave, Las Vegas, NV 89109 · <a href="tel:+17026767000">+1 702-676-7000</a><br>무료 취소 <b>10/1 23:59</b>까지(호텔 현지 시각) · 힐튼 Honors MyWay: 일일 $25 식음료 크레딧', amount: '75,000 pt', amountSub: '힐튼 포인트 결제' },
-        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: 'Home2 Suites 애너하임', imgKey: 'images/res-hilton-home2.jpg', detail: '10/5(월) → 10/7(수) (2박) · 확인번호 <span class="detail-sensitive">90018119<button type="button" class="copy-btn" data-copy="90018119" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 스튜디오(금연) · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>1441 S Manchester Ave, Anaheim, CA 92802 · <a href="tel:+17148442811">+1 714-844-2811</a><br>무료 취소 <b>10/3 23:59</b>까지(호텔 현지 시각)', amount: '130,000 pt', amountSub: '힐튼 포인트 결제' },
-        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '로어스 할리우드', imgKey: 'images/res-loews-hollywood.png', detail: '10/7(수) <b>16:00</b>부터 체크인(마감 00:00) → 10/11(일) <b>11:00</b> 체크아웃 · 4박 · 스탠다드룸 퀸 2개 · 성인 2 + 어린이 2 · 무료 WiFi<br>1755 N Highland Ave, Hollywood, CA 90028 · <a href="tel:+13238561200">+1-323-856-1200</a><br>체크인 때 <b>사진 신분증 + 신용/직불카드</b> 필요(현금 불가) · 보증금 USD 150(1박 기준) · 리조트 이용료 1박 USD 35 + 필수 요금은 <b>현장 결제 ₩198,394</b>(환율에 따라 변동)<br>무료 취소는 <b>10/7 08:00(서울 시간)</b>까지 — 그 이후 취소는 ₩1,428,785 전액 수수료<br>발코니·테라스 등 어린이에게 적합하지 않을 수 있는 야외 공간이 있어 도착 전 호텔에 어린이 동반 객실 문의 권장 · 늦은 체크아웃은 추가 요금으로 가능(객실 상황에 따라)<br>유료 옵션: 조식 성인 $24~34·어린이 $17~26 · 발렛 $71.50/일 · 근처 주차 $25/일(805m) · 간이침대 $25/박<br><span class="detail-sensitive">Tripbtoz 예약번호 3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · Expedia 예약 ID 2543548491 · Itinerary 9094834660478 · 투숙객명 SEUNGHYUN SHIN(여권 영문명과 같아야 해요)</span>', amount: '₩1,428,785', amountSub: '객실 1,212,356 + 세금·봉사료 216,429 (Npay) + 현장 ₩198,394(리조트세 등)' },
-        { icon: '🌵', status: 'done', statusLabel: '완료', name: '조슈아트리 숙소 (The Pink Bungalow)', imgKey: 'images/res-airbnb-joshua-tree.png', detail: '10/4(일) <b>15:00</b> 체크인 → 10/5(월) <b>11:00</b> 체크아웃 (1박) · Airbnb · 호스트 Tisha · 셀프체크인 키패드 · <span class="detail-sensitive">예약코드 HMPHHMCHTE</span><br>61480 El Cajon Drive<button type="button" class="copy-btn" data-copy="61480 El Cajon Drive, Joshua Tree, CA 92252" aria-label="숙소 주소 복사" title="주소 복사"><span>📋</span> 복사</button><br>입실 안내(키패드)·와이파이는 체크인 48시간 전(<b>10/2 15:00 PT</b>)부터 Airbnb 예약 화면에서 확인 · 무료 취소는 9/29 15:00(현지 시각)까지 · 정원 4명, 반려동물 가능<br>진입로가 내리막이라 차가 낮으면 도로변 주차<br><span class="detail-sensitive">호스트 전화 <a href="tel:+13107499493">+1 310-749-9493</a> · 투숙자 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</span>', amount: '$282.48', amountSub: '결제 완료 (영수증은 Airbnb 예약 화면)' },
-        { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', imgKey: 'images/res-sphere-wizard-of-oz.png', detail: '오즈의 마법사 · 10/2(금) <b>17:00</b> (4인) · Sec 406 · Row 9 · Seat 13–16 (나란히)<br>입장은 <b>16:15</b>부터(공연 45분 전) · <b>지각 입장 불가</b> · 환불 불가<br>모바일 티켓 4매 — Ticketmaster 앱 또는 폰 지갑으로 입장 (스크린샷은 입장 불가) · 주문번호 <span class="detail-sensitive">35-17169/NEV<button type="button" class="copy-btn" data-copy="35-17169/NEV" aria-label="주문번호 복사" title="주문번호 복사"><span>📋</span> 복사</button></span>', amount: '₩906,999', amountSub: '$159 × 4 = $636.00 (카드 청구 환산)' },
-        { icon: '🏜️', status: 'done', statusLabel: '예약확정', name: '그랜드캐년 투어 (요한투어)', imgKey: 'images/res-tour-gc-confirm.png', detail: '마이리얼트립 VIP 당일 코스2 · 예약번호 <span class="detail-sensitive">EXP-20260903-00006699<button type="button" class="copy-btn" data-copy="EXP-20260903-00006699" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>이용일 <b>10/3(토)</b> · 소요 16시간 · 한국어 가이드 · 4인 이상 출발<br>픽업 <b>10/2(금) 밤 11:30 전후</b>, 스트립 호텔(콘래드 로비) — 날씨·앤텔로프 예약 시간에 따라 변경될 수 있어요<br>그랜드캐년 일출 + 라스베가스 사인 + 앤텔로프 + 홀슈 + 파웰 · 조식은 유부초밥/맥도날드, 중·석식은 불포함<br>입장료·퍼밋 등 불포함 비용은 현장 현금(CASH ONLY) 정산 · 앤텔로프 취소가 어려워 투어 시작 24시간 전 이후엔 환불 불가<br>요한투어 카카오톡 ID <b>yohantour</b><span class="detail-sensitive"> · 탑승자 신승현·최지은·신유나·신수빈</span>', amount: '₩487,946', amountSub: '+ 현장 $680(정산) + $8(나바호팁) · 예약 페이지의 ₩142,511은 성인 1인 단가로 보여요' },
-        { icon: '⚾', status: 'pending', statusLabel: '예매 불가·문의', name: '다저 스타디움 투어', detail: '10/10(토) 오전 · 성인 2 + 아동 2 · <b>9/19 확인: 10/10 예매 불가</b> — 예매 페이지에 "No tickets available — contact tours@ladodgers.com"로 표시<br><b>오픈 일정은 공식 페이지에 공개돼 있지 않아요.</b> 이전에 적어 둔 "9/27 오픈"은 근거를 확인하지 못했어요 → tours@ladodgers.com에 문의하고 예매 페이지를 매일 확인<br>스타디움 투어 75분(영어 매일, 비경기일 10:00~15:00 시작) · 클럽하우스 투어 약 2시간(비경기일 금~월) · 15분 전 도착 · 클리어백만 반입(백팩·쿨러 불가) · 환불 불가<br>포스트시즌: 디비전시리즈 10/3~, 챔피언십시리즈 10/11 이후 — 10/10은 경기 없는 날일 가능성이 높지만 홈 경기가 배정되면 투어가 취소될 수 있어요(플랜 B: 캘리포니아 사이언스 센터)', amount: '$149.00', amountSub: '예상 금액(예매 전)', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
-        { icon: '🏰', status: 'done', statusLabel: '예약확정', name: '디즈니랜드 티켓', imgKey: 'images/res-disney-tickets.png', detail: '10/6(화) <b>디즈니랜드 파크</b> · 1 Day 1 Park · Tier 4 + Lightning Lane <b>Multi Pass</b> · 성인 3 + 소아 1 (Klook)<br><b>Tier 4 이하</b> 날짜에만 유효 — 10/6이 Tier 4 이하인지 확인 · 1일 1파크(디즈니랜드 파크 또는 DCA 중 하나)<br>Disney 계정에 연동해야 입장 · 입구에서 인터넷이 되는 폰으로 스캔 · 재입장에는 사진 신분증 필요<br>양도·환불 불가 · 유효기간 성인권 2026-12-30, 소아권 2027-12-30 · Klook 글로벌 고객센터 +852-3462-6208<br><span class="detail-sensitive">티켓상 이름: 성인권 3장은 Klook Travel Technology Limited, 소아권은 Seunghyun Shin</span>', amount: '$810.34', amountSub: '(₩1,102,710 환산) · 성인3 $610.65 + 소아1 $199.69' },
-        { icon: '🎬', status: 'done', statusLabel: '예약확정', name: '유니버설 티켓 (1+1 2일권)', imgKey: 'images/res-universal-tickets.png', detail: '<b>10/7(수) 첫 방문</b> → 두 번째 방문은 첫 방문일 포함 7일 이내 (일정: 10/8) · 성인 3 + 소아 1 · 1일 구매 시 1일 무료(KKday)<br>티켓은 <b>이름이 적힌 본인만</b> 사용(승현·지은·유나 성인, 수빈 소아) · 입구에서 <b>사진 신분증 + 생체 인식</b> · <b>재입장 불가</b><br>대형 가방·아이스박스 금지 · 음식은 병 생수·과일·이유식만 반입 · 주차 미포함 · 양도·환불·교환 불가 · 유니버설 익스프레스 미포함<br>티켓 PDF는 예약 이메일로 발송됨(OnlineStoreConfirmations@nbcuni.com) · 현지 서비스 <a href="tel:+18662586546">+1 866-258-6546</a><br><span class="detail-sensitive">하나투어 주문번호 MHJ-OD2609111440GWG<button type="button" class="copy-btn" data-copy="MHJ-OD2609111440GWG" aria-label="주문번호 복사" title="주문번호 복사"><span>📋</span> 복사</button> · KKday 예약번호 26KK265304403<button type="button" class="copy-btn" data-copy="26KK265304403" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 확인번호 26KK265304403-HKKDYI</span>', amount: '₩400,507', amountSub: '하나투어×KKday 재예약 (9/11 23:43 · 네이버페이) · 445,225 − 쿠폰 44,522 − 마일리지 196 = 400,507 · 하나투어 고객센터 1577-1233' },
-        { icon: '🚌', status: 'done', statusLabel: '예약확정', name: 'LA드림투어 (6인 소규모)', imgKey: 'images/res-tour-la-confirm.png', detail: '마이리얼트립 LA 일일투어(게티센터 전문 도슨트·사진 맛집) · 예약번호 <span class="detail-sensitive">EXP-20260827-00000163<button type="button" class="copy-btn" data-copy="EXP-20260827-00000163" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>이용일 <b>10/9(금)</b> · 소요 11시간 · 한국어 · 3명 이상이면 출발 확정<br>투어 시작 <b>9~11시 사이</b>, 종료 19:30~21:00 (예약 페이지 기준 — 정확한 미팅 시각은 카톡으로 확정)<br>픽업: 코리아타운은 무료 · 그 외 지역은 LA 북창동 순두부 본점(3575 Wilshire Blvd)에서 무료 · 할리우드 호텔 픽업/드랍은 건당 $30<br>포함: 가이드·최신형 미니밴, 게티센터 도슨트(1시간 30분), 생수 무제한 · 불포함: 가이드 팁 $20/인, 주차료 $60(1/N), 식비<br>부스터는 <b>만 8세 미만·키 102cm 미만</b> 아동 대상 — 수빈이(8세)는 해당 안 될 수 있어요<br>LA드림투어 카카오톡 ID <b>ladreamtour</b>', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash) · 예약 페이지의 ₩172,888은 성인 1인 단가로 보여요' }
+        { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복 (에어프레미아)', sum: '<b>10/1(목)</b> 인천 13:00 → LAX 08:20 · <b>10/11(일)</b> LAX 10:50 → 인천 10/12 15:50', imgKey: 'images/res-flight-airpremia.png', detail: '예약번호 <span class="detail-sensitive">H5TZJM<button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>가는 편 <b>YP101</b> · 10/1(목) 인천 T1 <b>13:00</b> → LAX 터미널 B <b>08:20</b> (11시간 20분)<br>오는 편 <b>YP102</b> · 10/11(일) LAX 터미널 B <b>10:50</b> → 인천 T1 10/12(월) <b>15:50</b> (13시간)<br>탑승 4인: 승현·지은·유나(성인) · 수빈(소아) · 이코노미 라이트 · 기내식 일반식<br>위탁 수하물 인당 23kg 1개 무료 (총 4개, 가는 편 기준) · 좌석은 아직 미지정(체크인 때 자동 배정)<br><span class="detail-sensitive">여권 영문명 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</span>', amount: '₩4,075,800', amountSub: '2026.8.5 결제 · 예약센터 1800-2626 (국내 전용, 평일 7–18시 · 주말 9–18시)' },
+        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 1차 렌트 (LAX→베가스)', sum: '<b>10/1(목) 09:30</b> LAX 픽업 → 10/2 리조트월드 반납 · Midsize SUV', imgKey: 'images/res-hertz-1-lax-vegas.png', detail: '예약번호 <span class="detail-sensitive">L676E0E0129<button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/1(목) 09:30 · LAX ConRAC 5251 W 98th St (24시간, <a href="tel:+13105685100">(310) 568-5100</a>)<br>예약상 반납 10/2(금) 09:00 · 리조트월드 (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>) — 일정은 10/1 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$40.55', amountSub: '후지불 — 픽업 시 카운터에서 주운전자 신용카드로 결제' },
+        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 2차 렌트 (베가스→애너하임)', sum: '<b>10/4(일) 09:00</b> 리조트월드 픽업 → 10/6 애너하임 반납 · Midsize SUV', imgKey: 'images/res-hertz-2-vegas-anaheim.png', detail: '예약번호 <span class="detail-sensitive">L676E084020<button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/4(일) 09:00 · 리조트월드 3000 S Las Vegas Blvd (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>)<br>예약상 반납 10/6(화) 09:00 · 애너하임 Katella 221 W Katella Ave (평일 8:00–17:00, 주말 9:00–12:00, <a href="tel:+17147720425">(714) 772-0425</a>) — 일정은 10/5 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$120.22', amountSub: '2일 × $60.11 · 후지불 — 픽업 시 카운터에서 결제' },
+        { icon: '🅿️', status: 'done', statusLabel: '완료', name: '인천공항 발렛 주차대행 (M-Parking)', sum: '10/1 09:00 ~ 10/12 · SUV', detail: '10/1 09:00 ~ 10/12 15:50 · SUV · <span class="detail-sensitive">예약번호 937311647428</span><br>※ 15:50은 인천 <b>도착</b> 시각(YP102) — 입국·수하물을 지난 뒤 차를 받을 시각은 M-Parking에 확인', amount: '₩53,000', amountSub: '주차비, 현장/추후 결제 예정' },
+        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '콘래드 라스베가스 (1차 · 10/1–2)', sum: '<b>10/1(목) → 10/2(금)</b> 1박 · 체크인 16:00 · 체크아웃 11:00', imgKey: 'images/res-hilton-conrad-1.jpg', detail: '10/1(목) → 10/2(금) (1박) · 확인번호 <span class="detail-sensitive">3516025451<button type="button" class="copy-btn" data-copy="3516025451" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 프리미엄 룸 · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>111 Resorts World Ave, Las Vegas, NV 89109 · <a href="tel:+17026767000">+1 702-676-7000</a><br>무료 취소 <b>9/29 23:59</b>까지(호텔 현지 시각) · 힐튼 Honors MyWay: 일일 $25 식음료 크레딧', amount: '75,000 pt', amountSub: '힐튼 포인트 결제' },
+        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '콘래드 라스베가스 (2차 · 10/3–4)', sum: '<b>10/3(토) → 10/4(일)</b> 1박 · 체크인 16:00 · 체크아웃 11:00', imgKey: 'images/res-hilton-conrad-2.jpg', detail: '10/3(토) → 10/4(일) (1박) · 확인번호 <span class="detail-sensitive">3515380556<button type="button" class="copy-btn" data-copy="3515380556" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 프리미엄 룸 · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>111 Resorts World Ave, Las Vegas, NV 89109 · <a href="tel:+17026767000">+1 702-676-7000</a><br>무료 취소 <b>10/1 23:59</b>까지(호텔 현지 시각) · 힐튼 Honors MyWay: 일일 $25 식음료 크레딧', amount: '75,000 pt', amountSub: '힐튼 포인트 결제' },
+        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: 'Home2 Suites 애너하임', sum: '<b>10/5(월) → 10/7(수)</b> 2박 · 체크인 16:00 · 체크아웃 11:00', imgKey: 'images/res-hilton-home2.jpg', detail: '10/5(월) → 10/7(수) (2박) · 확인번호 <span class="detail-sensitive">90018119<button type="button" class="copy-btn" data-copy="90018119" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span><br>퀸 베드 2개 스튜디오(금연) · 성인 2 + 어린이 2 · 스탠다드 객실 리워드<br>체크인 <b>16:00</b> · 체크아웃 <b>11:00</b> · 조기 체크인·늦은 체크아웃은 보장 안 됨(호텔에 문의)<br>1441 S Manchester Ave, Anaheim, CA 92802 · <a href="tel:+17148442811">+1 714-844-2811</a><br>무료 취소 <b>10/3 23:59</b>까지(호텔 현지 시각)', amount: '130,000 pt', amountSub: '힐튼 포인트 결제' },
+        { icon: '🏨', status: 'done', statusLabel: '예약확정', name: '로어스 할리우드', sum: '<b>10/7(수) → 10/11(일)</b> 4박 · 체크인 16:00 · 체크아웃 11:00', imgKey: 'images/res-loews-hollywood.png', detail: '10/7(수) <b>16:00</b>부터 체크인(마감 00:00) → 10/11(일) <b>11:00</b> 체크아웃 · 4박 · 스탠다드룸 퀸 2개 · 성인 2 + 어린이 2 · 무료 WiFi<br>1755 N Highland Ave, Hollywood, CA 90028 · <a href="tel:+13238561200">+1-323-856-1200</a><br>체크인 때 <b>사진 신분증 + 신용/직불카드</b> 필요(현금 불가) · 보증금 USD 150(1박 기준) · 리조트 이용료 1박 USD 35 + 필수 요금은 <b>현장 결제 ₩198,394</b>(환율에 따라 변동)<br>무료 취소는 <b>10/7 08:00(서울 시간)</b>까지 — 그 이후 취소는 ₩1,428,785 전액 수수료<br>발코니·테라스 등 어린이에게 적합하지 않을 수 있는 야외 공간이 있어 도착 전 호텔에 어린이 동반 객실 문의 권장 · 늦은 체크아웃은 추가 요금으로 가능(객실 상황에 따라)<br>유료 옵션: 조식 성인 $24~34·어린이 $17~26 · 발렛 $71.50/일 · 근처 주차 $25/일(805m) · 간이침대 $25/박<br><span class="detail-sensitive">Tripbtoz 예약번호 3892645<button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · Expedia 예약 ID 2543548491 · Itinerary 9094834660478 · 투숙객명 SEUNGHYUN SHIN(여권 영문명과 같아야 해요)</span>', amount: '₩1,428,785', amountSub: '객실 1,212,356 + 세금·봉사료 216,429 (Npay) + 현장 ₩198,394(리조트세 등)' },
+        { icon: '🌵', status: 'done', statusLabel: '완료', name: '조슈아트리 숙소 (The Pink Bungalow)', sum: '<b>10/4(일) → 10/5(월)</b> 1박 · 체크인 15:00 · 체크아웃 11:00 · 셀프체크인', imgKey: 'images/res-airbnb-joshua-tree.png', detail: '10/4(일) <b>15:00</b> 체크인 → 10/5(월) <b>11:00</b> 체크아웃 (1박) · Airbnb · 호스트 Tisha · 셀프체크인 키패드 · <span class="detail-sensitive">예약코드 HMPHHMCHTE</span><br>61480 El Cajon Drive<button type="button" class="copy-btn" data-copy="61480 El Cajon Drive, Joshua Tree, CA 92252" aria-label="숙소 주소 복사" title="주소 복사"><span>📋</span> 복사</button><br>입실 안내(키패드)·와이파이는 체크인 48시간 전(<b>10/2 15:00 PT</b>)부터 Airbnb 예약 화면에서 확인 · 무료 취소는 9/29 15:00(현지 시각)까지 · 정원 4명, 반려동물 가능<br>진입로가 내리막이라 차가 낮으면 도로변 주차<br><span class="detail-sensitive">호스트 전화 <a href="tel:+13107499493">+1 310-749-9493</a> · 투숙자 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</span>', amount: '$282.48', amountSub: '결제 완료 (영수증은 Airbnb 예약 화면)' },
+        { icon: '🎫', status: 'done', statusLabel: '완료', name: '스피어 쇼', sum: '<b>10/2(금) 17:00</b> 오즈의 마법사 · 입장 16:15부터 · Sec 406 Row 9', imgKey: 'images/res-sphere-wizard-of-oz.png', detail: '오즈의 마법사 · 10/2(금) <b>17:00</b> (4인) · Sec 406 · Row 9 · Seat 13–16 (나란히)<br>입장은 <b>16:15</b>부터(공연 45분 전) · <b>지각 입장 불가</b> · 환불 불가<br>모바일 티켓 4매 — Ticketmaster 앱 또는 폰 지갑으로 입장 (스크린샷은 입장 불가) · 주문번호 <span class="detail-sensitive">35-17169/NEV<button type="button" class="copy-btn" data-copy="35-17169/NEV" aria-label="주문번호 복사" title="주문번호 복사"><span>📋</span> 복사</button></span>', amount: '₩906,999', amountSub: '$159 × 4 = $636.00 (카드 청구 환산)' },
+        { icon: '🏜️', status: 'done', statusLabel: '예약확정', name: '그랜드캐년 투어 (요한투어)', sum: '<b>10/3(토)</b> 16시간 · 픽업 10/2 밤 11:30 전후 (콘래드 로비)', imgKey: 'images/res-tour-gc-confirm.png', detail: '마이리얼트립 VIP 당일 코스2 · 예약번호 <span class="detail-sensitive">EXP-20260903-00006699<button type="button" class="copy-btn" data-copy="EXP-20260903-00006699" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>이용일 <b>10/3(토)</b> · 소요 16시간 · 한국어 가이드 · 4인 이상 출발<br>픽업 <b>10/2(금) 밤 11:30 전후</b>, 스트립 호텔(콘래드 로비) — 날씨·앤텔로프 예약 시간에 따라 변경될 수 있어요<br>그랜드캐년 일출 + 라스베가스 사인 + 앤텔로프 + 홀슈 + 파웰 · 조식은 유부초밥/맥도날드, 중·석식은 불포함<br>입장료·퍼밋 등 불포함 비용은 현장 현금(CASH ONLY) 정산 · 앤텔로프 취소가 어려워 투어 시작 24시간 전 이후엔 환불 불가<br>요한투어 카카오톡 ID <b>yohantour</b><span class="detail-sensitive"> · 탑승자 신승현·최지은·신유나·신수빈</span>', amount: '₩487,946', amountSub: '+ 현장 $680(정산) + $8(나바호팁) · 예약 페이지의 ₩142,511은 성인 1인 단가로 보여요' },
+        { icon: '⚾', status: 'pending', statusLabel: '예매 불가·문의', name: '다저 스타디움 투어', sum: '<b>10/10(토) 오전</b> · 현재 예매 불가 — 이메일 문의 중', detail: '10/10(토) 오전 · 성인 2 + 아동 2 · <b>9/19 확인: 10/10 예매 불가</b> — 예매 페이지에 "No tickets available — contact tours@ladodgers.com"로 표시<br><b>오픈 일정은 공식 페이지에 공개돼 있지 않아요.</b> 이전에 적어 둔 "9/27 오픈"은 근거를 확인하지 못했어요 → tours@ladodgers.com에 문의하고 예매 페이지를 매일 확인<br>스타디움 투어 75분(영어 매일, 비경기일 10:00~15:00 시작) · 클럽하우스 투어 약 2시간(비경기일 금~월) · 15분 전 도착 · 클리어백만 반입(백팩·쿨러 불가) · 환불 불가<br>포스트시즌: 디비전시리즈 10/3~, 챔피언십시리즈 10/11 이후 — 10/10은 경기 없는 날일 가능성이 높지만 홈 경기가 배정되면 투어가 취소될 수 있어요(플랜 B: 캘리포니아 사이언스 센터)', amount: '$149.00', amountSub: '예상 금액(예매 전)', cta: { label: '🎟️ 공식 투어 예매 페이지', href: 'https://www.mlb.com/dodgers/ballpark/tours' } },
+        { icon: '🏰', status: 'done', statusLabel: '예약확정', name: '디즈니랜드 티켓', sum: '<b>10/6(화)</b> 디즈니랜드 파크 · Multi Pass · 4인', imgKey: 'images/res-disney-tickets.png', detail: '10/6(화) <b>디즈니랜드 파크</b> · 1 Day 1 Park · Tier 4 + Lightning Lane <b>Multi Pass</b> · 성인 3 + 소아 1 (Klook)<br><b>Tier 4 이하</b> 날짜에만 유효 — 10/6이 Tier 4 이하인지 확인 · 1일 1파크(디즈니랜드 파크 또는 DCA 중 하나)<br>Disney 계정에 연동해야 입장 · 입구에서 인터넷이 되는 폰으로 스캔 · 재입장에는 사진 신분증 필요<br>양도·환불 불가 · 유효기간 성인권 2026-12-30, 소아권 2027-12-30 · Klook 글로벌 고객센터 +852-3462-6208<br><span class="detail-sensitive">티켓상 이름: 성인권 3장은 Klook Travel Technology Limited, 소아권은 Seunghyun Shin</span>', amount: '$810.34', amountSub: '(₩1,102,710 환산) · 성인3 $610.65 + 소아1 $199.69' },
+        { icon: '🎬', status: 'done', statusLabel: '예약확정', name: '유니버설 티켓 (1+1 2일권)', sum: '<b>10/7(수)</b> 첫 방문 · 10/8 두 번째 방문 · 4인', imgKey: 'images/res-universal-tickets.png', detail: '<b>10/7(수) 첫 방문</b> → 두 번째 방문은 첫 방문일 포함 7일 이내 (일정: 10/8) · 성인 3 + 소아 1 · 1일 구매 시 1일 무료(KKday)<br>티켓은 <b>이름이 적힌 본인만</b> 사용(승현·지은·유나 성인, 수빈 소아) · 입구에서 <b>사진 신분증 + 생체 인식</b> · <b>재입장 불가</b><br>대형 가방·아이스박스 금지 · 음식은 병 생수·과일·이유식만 반입 · 주차 미포함 · 양도·환불·교환 불가 · 유니버설 익스프레스 미포함<br>티켓 PDF는 예약 이메일로 발송됨(OnlineStoreConfirmations@nbcuni.com) · 현지 서비스 <a href="tel:+18662586546">+1 866-258-6546</a><br><span class="detail-sensitive">하나투어 주문번호 MHJ-OD2609111440GWG<button type="button" class="copy-btn" data-copy="MHJ-OD2609111440GWG" aria-label="주문번호 복사" title="주문번호 복사"><span>📋</span> 복사</button> · KKday 예약번호 26KK265304403<button type="button" class="copy-btn" data-copy="26KK265304403" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 확인번호 26KK265304403-HKKDYI</span>', amount: '₩400,507', amountSub: '하나투어×KKday 재예약 (9/11 23:43 · 네이버페이) · 445,225 − 쿠폰 44,522 − 마일리지 196 = 400,507 · 하나투어 고객센터 1577-1233' },
+        { icon: '🚌', status: 'done', statusLabel: '예약확정', name: 'LA드림투어 (6인 소규모)', sum: '<b>10/9(금)</b> 시작 9~11시 · 11시간 · 한국어', imgKey: 'images/res-tour-la-confirm.png', detail: '마이리얼트립 LA 일일투어(게티센터 전문 도슨트·사진 맛집) · 예약번호 <span class="detail-sensitive">EXP-20260827-00000163<button type="button" class="copy-btn" data-copy="EXP-20260827-00000163" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>이용일 <b>10/9(금)</b> · 소요 11시간 · 한국어 · 3명 이상이면 출발 확정<br>투어 시작 <b>9~11시 사이</b>, 종료 19:30~21:00 (예약 페이지 기준 — 정확한 미팅 시각은 카톡으로 확정)<br>픽업: 코리아타운은 무료 · 그 외 지역은 LA 북창동 순두부 본점(3575 Wilshire Blvd)에서 무료 · 할리우드 호텔 픽업/드랍은 건당 $30<br>포함: 가이드·최신형 미니밴, 게티센터 도슨트(1시간 30분), 생수 무제한 · 불포함: 가이드 팁 $20/인, 주차료 $60(1/N), 식비<br>부스터는 <b>만 8세 미만·키 102cm 미만</b> 아동 대상 — 수빈이(8세)는 해당 안 될 수 있어요<br>LA드림투어 카카오톡 ID <b>ladreamtour</b>', amount: '₩598,397', amountSub: '+ 현장 $200 (Cash) · 예약 페이지의 ₩172,888은 성인 1인 단가로 보여요' }
       ];
 
       (function renderReservationCards() {
@@ -2396,39 +2415,20 @@
             return (str.match(new RegExp('<' + t + '[\\s>]', 'g')) || []).length === (str.match(new RegExp('</' + t + '>', 'g')) || []).length;
           });
         }
-        // 상세를 줄(<br>) 단위로 나눠 "핵심 2줄 + 예약번호 줄"만 먼저 보이고 나머지는 접어 둔다
-        function splitDetail(detail) {
+        // 상세(detail)를 줄(<br>) 단위로 — 상세 시트에서 한 줄씩 보여 준다 (태그가 어긋나면 통째로 한 줄)
+        window.resDetailLines = function (detail) {
           var parts = detail.split('<br>');
-          if (parts.length <= 2 || !parts.every(balanced)) return { head: detail, more: '', moreCount: 0 };
-          var idLines = [], sensLines = [], normal = [];
-          parts.forEach(function (ln) {
-            var t = ln.trim();
-            if (t.indexOf('<span class="detail-sensitive">') === 0) sensLines.push(ln);
-            else if (/^(예약번호|확인번호)/.test(t)) idLines.push(ln);
-            else normal.push(ln);
-          });
-          var head = normal.slice(0, 2).concat(idLines);
-          var more = normal.slice(2).concat(sensLines);
-          if (!more.length) return { head: head.join('<br>'), more: '', moreCount: 0 };
-          return { head: head.join('<br>'), more: more.join('<br>'), moreCount: more.length };
-        }
+          return parts.every(balanced) ? parts : [detail];
+        };
 
-        wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r) {
-          var amountHtml = r.amount + (r.amountSub ? '<span class="amount-sub">' + r.amountSub + '</span>' : '');
-          var ctaHtml = r.cta ? '<a class="route-nav-link" href="' + r.cta.href + '" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">' + r.cta.label + '</a>' : '';
+        wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r, i) {
           var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
-          var d = splitDetail(r.detail);
-          var moreHtml = d.more
-            ? '<details class="card-more"><summary>자세히 보기 · ' + d.moreCount + '줄</summary><div class="detail">' + d.more + '</div></details>'
-            : '';
-          var imgBtn = r.imgKey ? '<div class="card-actions"><button type="button" class="inline-btn-badge teal card-img-btn">🖼 예약 화면 보기</button></div>' : '';
-          return '<div class="card"' + imgAttr + '>' +
+          return '<div class="card" role="button" tabindex="0" data-idx="' + i + '"' + imgAttr + '>' +
             '<div class="top"><span class="icon">' + r.icon + '</span><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
             '<div class="name">' + r.name + '</div>' +
-            '<div class="detail">' + d.head + '</div>' +
-            moreHtml +
-            '<div class="amount">' + amountHtml + '</div>' +
-            ctaHtml + imgBtn +
+            '<div class="sum">' + r.sum + '</div>' +
+            '<div class="amount">' + r.amount + '</div>' +
+            '<span class="card-tap">상세' + (r.imgKey ? '<span class="tap-img"> · 예약 화면</span>' : '') + ' ›</span>' +
             '</div>';
         }).join('');
       })();
@@ -5171,6 +5171,17 @@
   <span class="img-modal-close" id="img-modal-close" role="button" aria-label="닫기" tabindex="0">✕</span>
   <img id="img-modal-img" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="예약 첨부 이미지">
 </div>
+<div class="res-modal" id="res-modal" role="dialog" aria-modal="true" aria-labelledby="res-modal-title">
+  <div class="res-sheet">
+    <div class="res-head">
+      <span class="icon" id="res-modal-icon" aria-hidden="true"></span>
+      <h3 id="res-modal-title"></h3>
+      <span class="badge" id="res-modal-badge"></span>
+      <button type="button" class="res-close" id="res-modal-close" aria-label="닫기">✕</button>
+    </div>
+    <div class="res-body" id="res-modal-body"></div>
+  </div>
+</div>
 <input type="file" id="img-upload-input" accept="image/*" style="display:none">
 
 <!-- 일자별 동선 지도 모달 (Leaflet, 첫 오픈 시 지연 로드) -->
@@ -5649,16 +5660,6 @@
       modalImg.src = src;
       modal.classList.add('open');
     }
-    // 저장소 이미지(예약 캡처)에는 예약번호·이름이 있어 가족모드에서는 열지 않는다 (관리자 PIN 후 기획자모드에서 열림)
-    function openCardImage(card) {
-      var src = card.getAttribute('data-img');
-      if (/^images\//.test(src) && document.documentElement.getAttribute('data-view') === 'family') {
-        if (window.showToast) window.showToast('🔒 관리자 인증 후(기획자모드) 예약 이미지를 볼 수 있어요');
-        if (window.triggerHaptic) window.triggerHaptic('warning');
-        return;
-      }
-      openModal(src);
-    }
     // 글자가 작은 캡처는 이미지를 누르면 새 탭에서 원본 크기로 (확대해서 보기)
     modalImg.addEventListener('click', function (e) {
       var raw = modalImg.getAttribute('src') || '';
@@ -5668,6 +5669,73 @@
       modal.classList.remove('open');
       modalImg.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; // 빈 src 대신 1px 투명 GIF (깨진 이미지 아이콘 방지)
     }
+
+    /* 예약 상세 시트 — 카드는 요약만 보이고, 눌러서 전체 내용·예약 화면(이미지)을 본다.
+       예약번호·이름이 든 줄은 .detail-sensitive/.sensitive 라 가족모드에선 기존 CSS로 숨겨지고,
+       저장소 캡처(images/)는 가족모드에서 열지 않는다 (관리자 PIN 후 기획자모드에서 열림). */
+    var resModal = document.getElementById('res-modal');
+    var resBody = document.getElementById('res-modal-body');
+    function openRes(card) {
+      var r = window.TRIP_DATA.reservations[parseInt(card.getAttribute('data-idx'), 10)];
+      if (!r) return;
+      document.getElementById('res-modal-icon').textContent = r.icon;
+      document.getElementById('res-modal-title').innerHTML = r.name;
+      var badge = document.getElementById('res-modal-badge');
+      badge.className = 'badge ' + r.status;
+      badge.textContent = r.statusLabel;
+
+      var html = window.resDetailLines(r.detail).map(function (ln) {
+        var probe = document.createElement('div');
+        probe.innerHTML = ln;
+        Array.prototype.forEach.call(probe.querySelectorAll('.detail-sensitive'), function (x) { x.remove(); });
+        var onlySensitive = /^(예약번호|확인번호|주문번호|예약코드)?\s*$/.test(probe.textContent.trim());
+        return '<div class="res-line' + (onlySensitive ? ' sensitive' : '') + '">' + ln + '</div>';
+      }).join('');
+      html += '<div class="res-amount sensitive"><div class="res-amount-main">' + r.amount + '</div>' +
+        (r.amountSub ? '<div class="res-amount-sub">' + r.amountSub + '</div>' : '') + '</div>';
+      if (r.cta) {
+        html += '<div class="res-cta sensitive"><a class="route-nav-link" href="' + r.cta.href + '" target="_blank" rel="noopener noreferrer">' + r.cta.label + '</a></div>';
+      }
+      var src = card.getAttribute('data-img');
+      var locked = src && /^images\//.test(src) && document.documentElement.getAttribute('data-view') === 'family';
+      if (locked) {
+        html += '<div class="res-lock">🔒 예약 화면(캡처)에는 예약번호·이름이 들어 있어서 관리자 인증 후(기획자모드)에 볼 수 있어요.</div>';
+      } else if (src) {
+        html += '<div class="res-img"><div class="res-img-title">🖼 예약 화면</div><div class="res-img-slot"></div><div class="res-img-hint">사진을 누르면 크게 볼 수 있어요</div></div>';
+      }
+      resBody.innerHTML = html;
+      if (src && !locked) {
+        var im = document.createElement('img');
+        im.alt = r.name.replace(/<[^>]+>/g, '') + ' 예약 화면';
+        im.loading = 'lazy';
+        im.src = src;
+        im.addEventListener('click', function () { openModal(src); });
+        resBody.querySelector('.res-img-slot').appendChild(im);
+      }
+      resBody.scrollTop = 0;
+      resModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.pushModalNavState) window.pushModalNavState();
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+    function closeRes() {
+      resModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function requestCloseRes() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return resModal.classList.contains('open'); }, closeRes);
+      } else {
+        closeRes();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (resModal.classList.contains('open')) { closeRes(); closeModal(); }
+    });
+    document.getElementById('res-modal-close').addEventListener('click', requestCloseRes);
+    resModal.addEventListener('click', function (e) {
+      if (e.target === resModal) requestCloseRes();
+    });
 
     if (cardsWrap) {
       Array.prototype.forEach.call(cardsWrap.querySelectorAll('.card'), function (card) {
@@ -5702,17 +5770,17 @@
       });
 
       cardsWrap.addEventListener('click', function (e) {
-        if (e.target.closest('.img-upload-btn, a, summary, .copy-btn')) return;
-        var card = e.target.closest('.card[data-img]');
-        if (card) openCardImage(card);
+        if (e.target.closest('.img-upload-btn, a, .copy-btn')) return;
+        var card = e.target.closest('.card');
+        if (card) openRes(card);
       });
       cardsWrap.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter' && e.key !== ' ') return;
-        if (e.target.closest('.img-upload-btn, a, summary, .copy-btn')) return;
-        var card = e.target.closest('.card[data-img]');
+        if (e.target.closest('.img-upload-btn, a, .copy-btn')) return;
+        var card = e.target.closest('.card');
         if (card) {
           e.preventDefault();
-          openCardImage(card);
+          openRes(card);
         }
       });
     }
@@ -5765,7 +5833,7 @@
       if (e.key === 'Enter' || e.key === ' ') closeModal();
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape' && modal.classList.contains('open')) { closeModal(); e.stopImmediatePropagation(); }
     });
   })();
 </script>
