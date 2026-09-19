@@ -2533,7 +2533,14 @@
           }
 
           // 2. 할 일 리스트 렌더링
-          wrap.innerHTML = window.TRIP_DATA.todos.map(function (t) {
+          // 마감/오픈이 빠른 순으로 정렬 (같은 날이면 중요 항목 먼저, 마감이 없는 항목은 맨 아래). 체크 상태는 key 기준이라 순서가 바뀌어도 안전
+          var sortedTodos = window.TRIP_DATA.todos.map(function (t, i) { return { t: t, i: i }; }).sort(function (a, b) {
+            var da = a.t.due || '9999-12-31', db = b.t.due || '9999-12-31';
+            if (da !== db) return da < db ? -1 : 1;
+            if (!!a.t.priority !== !!b.t.priority) return a.t.priority ? -1 : 1;
+            return a.i - b.i;
+          }).map(function (x) { return x.t; });
+          wrap.innerHTML = sortedTodos.map(function (t) {
             var checked = !!todoState[t.key];
             return '<div class="todo-item' + (t.priority ? ' priority' : '') + '">' +
               '<input type="checkbox" class="chk" data-key="' + t.key + '"' + (checked ? ' checked' : '') + (!isTodoUnlocked ? ' disabled' : '') + '>' +
