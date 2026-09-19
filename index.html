@@ -1131,6 +1131,50 @@
   .rate-refresh-btn.spinning{animation:rateSpin .7s linear infinite;}
   @keyframes rateSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
+  /* ===== 일정 탭: 캘린더 내보내기 ===== */
+  .cal-export{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;}
+  .cal-export-title{font-size:13.5px;font-weight:700;margin-bottom:6px;}
+  .cal-export-note{font-size:12px;color:var(--muted);line-height:1.55;margin:0 0 10px;}
+  .cal-export-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .cal-export-actions .pack-action-btn{flex:1 1 200px;}
+  /* ===== 비상 카드 모달 ===== */
+  .floating-sos-btn{border-color:rgba(230,57,70,.5) !important;color:var(--red-text) !important;}
+  .sos-modal{max-width:440px;}
+  .sos-sub{font-size:12px;color:var(--muted);margin:-6px 0 12px;line-height:1.5;}
+  .sos-section{margin-top:16px;}
+  .sos-h{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);}
+  .sos-h-note{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--muted);margin-left:6px;}
+  .sos-call{display:block;text-decoration:none;color:var(--text);background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:6px;}
+  .sos-call b{display:block;font-size:14px;color:var(--text);}
+  .sos-call span{display:block;font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px;}
+  .sos-call.danger{border-color:rgba(230,57,70,.5);background:rgba(230,57,70,.08);}
+  .sos-call.danger b{color:var(--red-text);font-size:16px;}
+  .sos-call:focus-visible,.sos-map:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .sos-card{background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:6px;font-size:12.5px;line-height:1.5;}
+  .sos-card.tonight{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,184,77,.35);}
+  .sos-card b{font-size:13px;}
+  .sos-dates{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-left:8px;}
+  .sos-line{margin-top:4px;color:var(--text);}
+  .sos-line.muted{color:var(--muted);}
+  .sos-map{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;color:var(--teal-text);text-decoration:none;}
+  .sos-note-row{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin-bottom:8px;}
+  .sos-note-row label{grid-column:1 / -1;font-size:12px;color:var(--muted);}
+  .sos-note-row input,.sos-note-row textarea{width:100%;font-family:inherit;font-size:13px;padding:8px 10px;border-radius:8px;background:var(--card-2);border:1px solid var(--line);color:var(--text);}
+  .sos-note-row input:focus,.sos-note-row textarea:focus{outline:none;border-color:var(--teal);}
+  .sos-note-row.block{grid-template-columns:1fr;}
+  .sos-note-call{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-size:16px;}
+  .sos-note-call[hidden]{display:none;}
+  .sos-phrase{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card-2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin-bottom:6px;}
+  .sos-phrase b{display:block;font-size:12.5px;line-height:1.4;}
+  .sos-phrase em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+  .sos-phrase .copy-btn{margin-left:0;flex-shrink:0;}
+  /* ===== 오프라인 준비 센터: 앱 콘텐츠 저장 카드 ===== */
+  .offline-app-prep{background:var(--card-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+  .offline-app-prep b{font-size:13px;}
+  .offline-prep-track{margin-top:10px;}
+  .offline-prep-status{font-size:12px;color:var(--muted);line-height:1.5;margin:8px 0 0;}
+  .offline-prep-status.ok{color:var(--green-text);font-weight:700;}
+  .offline-prep-status.warn{color:var(--red-text);font-weight:700;}
   /* ===== 오프라인 맵 다운로드 센터 모달 ===== */
   .offline-map-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(20,30,40,.4);backdrop-filter:blur(4px);z-index:1150;}
   .offline-map-modal-backdrop.open{display:block;}
@@ -3808,6 +3852,16 @@
 
     </div>
 
+    <div class="cal-export" id="calExport">
+      <div class="cal-export-title">📅 폰 캘린더에 담기</div>
+      <p class="cal-export-note">받은 파일을 열면 캘린더 앱에 바로 추가돼요. 앱이 꺼져 있어도 알림이 울리니 예매 오픈일 같은 마감을 놓치지 않아요.</p>
+      <div class="cal-export-actions">
+        <button type="button" class="pack-action-btn" id="calSchedBtn">🗓️ 여행 일정 11일 (.ics)</button>
+        <button type="button" class="pack-action-btn" id="calDueBtn">⏰ 출발 전 마감 알림 (.ics)</button>
+      </div>
+      <p class="cal-export-note">여행 일정은 현지(LA) 시각으로 들어가고, 각 일정 15분 전에 알려줘요. 마감 알림은 해당 날짜 오전 9시에 울려요. 파일 다운로드는 GitHub Pages 주소에서만 동작해요.</p>
+    </div>
+
     <script>
       window.TRIP_DATA = window.TRIP_DATA || {};
       window.TRIP_DATA.schedule = [
@@ -5059,12 +5113,85 @@
 </div>
 
 <!-- 오프라인 맵 다운로드 센터 모달 -->
+<div id="sosModalBackdrop" class="calc-modal-backdrop"></div>
+<div id="sosModal" class="calc-modal sos-modal" role="dialog" aria-modal="true" aria-labelledby="sosModalTitle">
+  <div class="calc-modal-head">
+    <h3 id="sosModalTitle">🆘 비상 카드</h3>
+    <button type="button" id="sosCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
+  </div>
+  <p class="sos-sub">오프라인에서도 열려요. 번호를 누르면 바로 전화가 연결돼요.</p>
+
+  <div class="sos-section">
+    <div class="sos-h">📞 긴급 전화</div>
+    <a class="sos-call danger" href="tel:911"><b>911</b><span>미국 경찰·소방·구급 (무료) · 통역이 필요하면 "Korean, please"</span></a>
+    <a class="sos-call" href="tel:+8223210404"><b>영사콜센터 +82-2-3210-0404</b><span>24시간 · 사건사고·여권 분실 상담 (국제전화 요금 발생 가능)</span></a>
+    <a class="sos-call" href="tel:+12133859300"><b>주LA 대한민국 총영사관 +1-213-385-9300</b><span>대표번호 · 업무시간 외에는 영사콜센터로 · 출국 전 공식 사이트에서 번호 재확인</span></a>
+    <a class="sos-call" href="tel:+18002221222"><b>미국 독극물 상담 1-800-222-1222</b><span>아이가 약·세제 등을 잘못 먹었을 때 (24시간, 무료)</span></a>
+  </div>
+
+  <div class="sos-section">
+    <div class="sos-h">🏨 숙소 <span class="sos-h-note" id="sosTonight"></span></div>
+    <div class="sos-card" data-lodging="conrad">
+      <b>콘래드 라스베가스 (리조트월드)</b><span class="sos-dates">10/1–2 · 10/3–4</span>
+      <div class="sos-line">3000 S Las Vegas Blvd, Las Vegas, NV 89109 <button type="button" class="copy-btn" data-copy="3000 S Las Vegas Blvd, Las Vegas, NV 89109" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line muted">힐튼 포인트 결제 · 예약 확인은 힐튼 앱</div>
+      <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=Conrad+Las+Vegas+at+Resorts+World" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
+    </div>
+    <div class="sos-card" data-lodging="jt">
+      <b>The Pink Bungalow (조슈아트리, Airbnb)</b><span class="sos-dates">10/4–5</span>
+      <div class="sos-line">61480 El Cajon Drive, Joshua Tree, CA 92252 <button type="button" class="copy-btn" data-copy="61480 El Cajon Drive, Joshua Tree, CA 92252" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line">예약코드 HMPHHMCHTE <button type="button" class="copy-btn" data-copy="HMPHHMCHTE" aria-label="예약코드 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line muted">호스트 Tisha · 셀프체크인 키패드 (코드는 Airbnb 메시지)</div>
+      <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=61480+El+Cajon+Drive+Joshua+Tree+CA+92252" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
+    </div>
+    <div class="sos-card" data-lodging="home2">
+      <b>Home2 Suites by Hilton 애너하임 리조트</b><span class="sos-dates">10/5–7</span>
+      <div class="sos-line">1441 S Manchester Ave, Anaheim, CA 92802 <button type="button" class="copy-btn" data-copy="1441 S Manchester Ave, Anaheim, CA 92802" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line muted">힐튼 포인트 결제 · 예약 확인은 힐튼 앱</div>
+      <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=Home2+Suites+by+Hilton+Anaheim+Resort+1441+S+Manchester+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
+    </div>
+    <div class="sos-card" data-lodging="loews">
+      <b>로어스 할리우드 호텔</b><span class="sos-dates">10/7–11</span>
+      <div class="sos-line">1755 N Highland Ave, Hollywood, CA 90028 <button type="button" class="copy-btn" data-copy="1755 N Highland Ave, Hollywood, CA 90028" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line">예약번호 #3892645 <button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
+    </div>
+  </div>
+
+  <div class="sos-section">
+    <div class="sos-h">🚗 렌터카 (Hertz)</div>
+    <div class="sos-card">
+      <div class="sos-line"><b>1차</b> LAX 픽업 5251 W 98th St, Los Angeles <button type="button" class="copy-btn" data-copy="5251 W 98th St, Los Angeles, CA" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line muted">→ 10/1 콘래드 도착 후 리조트월드 주차장 Hertz 전용 구역에 반납 (Key Drop)</div>
+      <div class="sos-line"><b>2차</b> 리조트월드 Hertz에서 픽업 → 반납 221 W Katella Ave, Anaheim, CA 92802 <button type="button" class="copy-btn" data-copy="221 W Katella Ave, Anaheim, CA 92802" aria-label="주소 복사"><span>📋</span> 복사</button></div>
+    </div>
+  </div>
+
+  <div class="sos-section">
+    <div class="sos-h">📝 내 메모 <span class="sos-h-note">이 기기에만 저장돼요</span></div>
+    <div class="sos-note-row"><label for="sosNoteIns">보험사 24시간 콜센터</label><input type="tel" id="sosNoteIns" data-sos-note="ins" placeholder="+82-…" autocomplete="off"><a class="sos-note-call" data-sos-call="ins" hidden aria-label="보험사에 전화">📞</a></div>
+    <div class="sos-note-row"><label for="sosNotePol">보험 증권번호</label><input type="text" id="sosNotePol" data-sos-note="pol" placeholder="증권번호" autocomplete="off"></div>
+    <div class="sos-note-row"><label for="sosNoteHertz">Hertz 지점·긴급출동 번호</label><input type="tel" id="sosNoteHertz" data-sos-note="hertz" placeholder="+1-…" autocomplete="off"><a class="sos-note-call" data-sos-call="hertz" hidden aria-label="Hertz에 전화">📞</a></div>
+    <div class="sos-note-row"><label for="sosNoteHotel">오늘 숙소 프런트 번호</label><input type="tel" id="sosNoteHotel" data-sos-note="hotel" placeholder="+1-…" autocomplete="off"><a class="sos-note-call" data-sos-call="hotel" hidden aria-label="숙소에 전화">📞</a></div>
+    <div class="sos-note-row block"><label for="sosNoteMed">수빈이 (8세 · 30kg) 알레르기·복용약·혈액형</label><textarea id="sosNoteMed" data-sos-note="med" rows="2" placeholder="예: 알레르기 없음, 복용약 없음, 혈액형 …"></textarea></div>
+  </div>
+
+  <div class="sos-section">
+    <div class="sos-h">🗣️ 영어 한마디 <span class="sos-h-note">📋 눌러 복사 → 보여주기</span></div>
+    <div class="sos-phrase"><span><b>Please call 911. I need an ambulance.</b><em>911에 전화해 주세요. 구급차가 필요해요.</em></span><button type="button" class="copy-btn" data-copy="Please call 911. I need an ambulance." aria-label="문장 복사"><span>📋</span></button></div>
+    <div class="sos-phrase"><span><b>My child is sick. My child is 8 years old and weighs about 66 pounds.</b><em>아이가 아파요. 8살, 약 30kg(66파운드)이에요.</em></span><button type="button" class="copy-btn" data-copy="My child is sick. My child is 8 years old and weighs about 66 pounds." aria-label="문장 복사"><span>📋</span></button></div>
+    <div class="sos-phrase"><span><b>Where is the nearest hospital or urgent care?</b><em>가장 가까운 병원이나 응급 진료소가 어디예요?</em></span><button type="button" class="copy-btn" data-copy="Where is the nearest hospital or urgent care?" aria-label="문장 복사"><span>📋</span></button></div>
+    <div class="sos-phrase"><span><b>My passport was stolen. I need to contact the Korean consulate.</b><em>여권을 도난당했어요. 한국 영사관에 연락해야 해요.</em></span><button type="button" class="copy-btn" data-copy="My passport was stolen. I need to contact the Korean consulate." aria-label="문장 복사"><span>📋</span></button></div>
+    <div class="sos-phrase"><span><b>Our rental car broke down. Can you help us?</b><em>렌터카가 고장 났어요. 도와주실 수 있나요?</em></span><button type="button" class="copy-btn" data-copy="Our rental car broke down. Can you help us?" aria-label="문장 복사"><span>📋</span></button></div>
+  </div>
+</div>
+
 <div id="offlineMapModalBackdrop" class="offline-map-modal-backdrop"></div>
 <div id="offlineMapModal" class="offline-map-modal" role="dialog" aria-modal="true" aria-labelledby="offlineMapModalTitle">
   <div class="offline-map-modal-head">
     <div class="offline-map-modal-title-row">
       <div>
-        <h3 id="offlineMapModalTitle">🗺️ 오프라인 맵 다운로드 센터</h3>
+        <h3 id="offlineMapModalTitle">📥 오프라인 준비 센터</h3>
         <div class="offline-map-modal-sub">통신 음영 구간 대비 — 출발 전 숙소 Wi-Fi에서 미리 받아두세요</div>
       </div>
       <button type="button" id="offlineMapCloseBtn" class="calc-close-btn" aria-label="닫기">✕</button>
@@ -5072,6 +5199,14 @@
   </div>
 
   <div class="offline-map-body">
+    <div class="offline-app-prep" id="offlineAppPrep">
+      <b>📦 앱 콘텐츠 오프라인 저장</b>
+      <p class="offline-map-note">테마파크 공략집, 마트·위스키·맛집 데이터, 명소 사진, 지도 라이브러리, 글꼴을 이 기기에 미리 저장해요. 사막·국립공원처럼 신호가 없는 곳에서도 열립니다. 출발 전 숙소 Wi-Fi에서 한 번 눌러 주세요 (약 6MB).</p>
+      <button type="button" id="offlinePrepBtn" class="btn-submit btn-block">지금 저장하기</button>
+      <div class="bar-track offline-prep-track"><div class="bar-fill pack-fill" id="offlinePrepFill" style="width:0%;"></div></div>
+      <p class="offline-prep-status" id="offlinePrepStatus" role="status" aria-live="polite">아직 저장하지 않았어요</p>
+    </div>
+
     <div class="offline-map-howto">
       <b>📥 구글맵 앱 오프라인 지도 받는 법</b>
       <ol>
@@ -5597,7 +5732,8 @@
       { id: "doc8", cat: "doc", loc: "prep", due: "2026-09-25", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
       { id: "doc9", cat: "doc", loc: "prep", due: "2026-09-28", days: [1, 3, 4], label: "오프라인 지도 4개 권역 사전 다운로드", desc: "'오프라인 맵 다운로드 센터'에서 권역별로 완료 확인",
         subs: ["모하비 사막 / I-15", "조슈아트리", "그랜드캐년 · 페이지(Page AZ)", "LA · 애너하임"] },
-      { id: "doc11", cat: "doc", loc: "prep", due: "2026-09-28", label: "비상 연락처 카드 (스마트폰 저장 + 종이 1부)", desc: "통신이 안 될 때를 대비해 종이로도 1부",
+      { id: "doc12", cat: "doc", loc: "prep", due: "2026-09-28", label: "앱 콘텐츠 오프라인 저장 (📥 오프라인 준비 센터)", desc: "숙소 Wi-Fi에서 '오프라인 준비' 버튼으로 공략집·마트 데이터·사진·지도 라이브러리를 미리 저장 — 완료되면 '✅ 저장 완료'가 표시돼요" },
+      { id: "doc11", cat: "doc", loc: "prep", due: "2026-09-28", label: "비상 연락처 카드 (스마트폰 저장 + 종이 1부)", desc: "메뉴 → 🆘 비상 카드에 영사콜센터·911·숙소 주소가 정리돼 있어요. 보험사·Hertz 번호는 카드의 '내 메모'에 입력하고, 통신이 안 될 때를 대비해 종이로도 1부",
         subs: ["영사콜센터 +82-2-3210-0404 (24시간)", "미국 긴급전화 911 (경찰·소방·구급 공통)", "여행자보험사 24시간 해외 콜센터", "숙소 4곳 주소·전화번호", "국내 가족 비상연락처 1인"] },
 
       { id: "elec12", cat: "elec", loc: "prep", due: "2026-09-25", days: [1], label: "통신 방식 결정 & 준비 (eSIM 검토 중)", desc: "10/1~10/11(11일) 내비·우버·지도 의존도가 높아 출국 전 결정 필요 — eSIM QR은 와이파이에서 미리 설치, 활성화는 LAX 도착 후",
@@ -7369,6 +7505,211 @@
   })();
 
   /* ==========================================================
+     [4-0g-0] 비상 카드 모달 — 전화 연결·숙소 주소/예약번호 복사·내 메모·영어 한마디 (전부 정적이라 오프라인에서도 열림)
+  ========================================================== */
+  (function initSosModal() {
+    var backdrop = document.getElementById('sosModalBackdrop');
+    var modal = document.getElementById('sosModal');
+    var closeBtn = document.getElementById('sosCloseBtn');
+    if (!modal || !backdrop) return;
+
+    var NOTES_KEY = 'us_trip_sos_notes_2026';
+    // 일차별 그날 밤 숙소 (2일차 밤은 그랜드캐년 투어라 콘래드에 짐만 보관)
+    var NIGHT = { 1: 'conrad', 2: 'conrad', 3: 'conrad', 4: 'jt', 5: 'home2', 6: 'home2', 7: 'loews', 8: 'loews', 9: 'loews', 10: 'loews', 11: 'loews' };
+
+    function loadNotes() { try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; } catch (e) { return {}; } }
+    function saveNotes(n) { try { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); } catch (e) {} }
+    function telHref(v) { var d = String(v || '').replace(/[^\d+]/g, ''); return d.length >= 7 ? 'tel:' + d : ''; }
+
+    function refreshCallLinks() {
+      modal.querySelectorAll('[data-sos-call]').forEach(function (a) {
+        var inp = modal.querySelector('[data-sos-note="' + a.getAttribute('data-sos-call') + '"]');
+        var href = inp ? telHref(inp.value) : '';
+        if (href) { a.setAttribute('href', href); a.hidden = false; } else { a.removeAttribute('href'); a.hidden = true; }
+      });
+    }
+
+    function applyNotes() {
+      var notes = loadNotes();
+      modal.querySelectorAll('[data-sos-note]').forEach(function (el) { el.value = notes[el.getAttribute('data-sos-note')] || ''; });
+      refreshCallLinks();
+    }
+
+    function markTonight() {
+      var info = window.tripPhase ? window.tripPhase() : { phase: 'pre' };
+      var key = info.phase === 'trip' ? NIGHT[info.day] : null;
+      var noteEl = document.getElementById('sosTonight');
+      modal.querySelectorAll('[data-lodging]').forEach(function (c) { c.classList.toggle('tonight', c.getAttribute('data-lodging') === key); });
+      if (noteEl) noteEl.textContent = key ? '· 오늘 밤 숙소 강조' : '';
+      var tonight = modal.querySelector('.sos-card.tonight');
+      if (tonight) tonight.parentNode.insertBefore(tonight, tonight.parentNode.querySelector('.sos-card')); // 오늘 숙소를 맨 위로
+    }
+
+    function openModal() {
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+      markTonight();
+      applyNotes();
+      modal.scrollTop = 0;
+      if (window.pushModalNavState) window.pushModalNavState();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    }
+    function requestClose() {
+      if (window.closeModalWithHistory) {
+        window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      } else {
+        closeModal();
+      }
+    }
+    document.addEventListener('tripModalPop', function () {
+      if (modal.classList.contains('open')) closeModal();
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('#floatingSosBtn, .open-sos-modal-btn')) openModal();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', requestClose);
+    backdrop.addEventListener('click', requestClose);
+
+    modal.addEventListener('input', function (e) {
+      var key = e.target.getAttribute && e.target.getAttribute('data-sos-note');
+      if (!key) return;
+      var notes = loadNotes();
+      notes[key] = e.target.value;
+      saveNotes(notes);
+      refreshCallLinks();
+    });
+  })();
+
+  /* ==========================================================
+     [4-0g-1] 오프라인 준비 센터 — 앱 콘텐츠 미리 저장
+     - 서비스워커는 앱 셸만 미리 담고 나머지는 "한 번 열어본 뒤"에야 캐시하므로,
+       가이드·JSON·사진·CDN 라이브러리·글꼴을 출발 전에 한꺼번에 받아 둔다
+     - 저장 위치는 sw.js 의 RUNTIME_CACHE 와 같아야 서비스워커가 그대로 꺼내 쓴다
+  ========================================================== */
+  (function initOfflinePrep() {
+    var CACHE = 'uswest-trip-runtime';
+    var META_KEY = 'us_trip_offline_prep_2026';
+    var LEAFLET = [
+      'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css',
+      'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js'
+    ];
+    var btn = document.getElementById('offlinePrepBtn');
+    var fill = document.getElementById('offlinePrepFill');
+    var statusEl = document.getElementById('offlinePrepStatus');
+    if (!btn || !fill || !statusEl) return;
+
+    function abs(u) { return new URL(u, location.href).href; }
+    function readMeta() { try { return JSON.parse(localStorage.getItem(META_KEY)) || null; } catch (e) { return null; } }
+    function fmt(ts) {
+      var d = new Date(ts);
+      return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
+    }
+    function setStatus(txt, cls) { statusEl.textContent = txt; statusEl.className = 'offline-prep-status' + (cls ? ' ' + cls : ''); }
+
+    // 지금 화면에서 알 수 있는 저장 대상 (글꼴 파일은 CSS를 받은 뒤 추가)
+    function baseUrls() {
+      var list = ['manifest.json', 'icon.svg', 'guides/disneyland.html', 'guides/universal.html',
+        'data/costco.json', 'data/franchises.json', 'data/trader-joe.json', 'data/walmart.json', 'data/whiskey.json'];
+      document.querySelectorAll('img.att-photo').forEach(function (img) { list.push(img.getAttribute('src')); });
+      document.querySelectorAll('script[src^="http"]').forEach(function (sc) { list.push(sc.src); });
+      document.querySelectorAll('link[rel="stylesheet"][href^="http"]').forEach(function (l) { list.push(l.href); });
+      return list.concat(LEAFLET).map(abs).filter(function (u, i, a) { return a.indexOf(u) === i; });
+    }
+
+    // 저장 상태를 실제 캐시에서 다시 확인 (localStorage 기록만 믿지 않음)
+    function refreshStatus() {
+      var meta = readMeta();
+      if (!window.caches) { setStatus('이 환경에서는 오프라인 저장을 쓸 수 없어요 (GitHub Pages 주소나 홈 화면에 추가한 앱에서 사용하세요)', 'warn'); btn.disabled = true; return; }
+      if (!meta || !meta.urls) return;
+      caches.open(CACHE).then(function (cache) {
+        return Promise.all(meta.urls.map(function (u) { return cache.match(u); }));
+      }).then(function (res) {
+        var have = res.filter(Boolean).length;
+        fill.style.width = Math.round(have / meta.urls.length * 100) + '%';
+        if (have === meta.urls.length && !meta.failed) {
+          setStatus('✅ 저장 완료 · ' + have + '개 · ' + fmt(meta.time), 'ok');
+          btn.textContent = '다시 저장하기';
+        } else if (have === meta.urls.length) {
+          setStatus('⚠️ ' + meta.failed + '개를 받지 못했어요 (' + have + '개 저장됨) — 연결이 안정적일 때 다시 눌러 주세요', 'warn');
+          btn.textContent = '다시 저장하기';
+        } else {
+          setStatus('⚠️ ' + (meta.urls.length - have) + '개가 비어 있어요 (' + have + '/' + meta.urls.length + ') — Wi-Fi에서 다시 눌러 주세요', 'warn');
+          btn.textContent = '다시 저장하기';
+        }
+      }).catch(function () {});
+    }
+
+    function run() {
+      if (!window.caches) return;
+      btn.disabled = true;
+      fill.style.width = '0%';
+      setStatus('저장 준비 중…');
+      var urls = baseUrls();
+      var done = 0, failed = 0, total = urls.length;
+      var okUrls = [];
+      var cachePromise = caches.open(CACHE);
+
+      function tick() {
+        fill.style.width = Math.min(100, Math.round(done / total * 100)) + '%';
+        setStatus('저장 중… ' + done + '/' + total);
+      }
+      function put(url) {
+        return cachePromise.then(function (cache) {
+          return fetch(url, { cache: 'no-cache' }).then(function (res) {
+            if (!res.ok) throw new Error(res.status);
+            var clone = res.clone();
+            return cache.put(url, clone).then(function () { return res; });
+          });
+        });
+      }
+      function one(url) {
+        return put(url).then(function (res) {
+          okUrls.push(url);
+          // 글꼴 CSS면 안에 들어있는 글꼴 파일도 저장 대상에 추가
+          if (/fonts\.googleapis\.com/.test(url)) {
+            return res.clone().text().then(function (css) {
+              (css.match(/url\((https:[^)]+)\)/g) || []).forEach(function (m) {
+                var u = m.slice(4, -1);
+                if (urls.indexOf(u) === -1) { urls.push(u); total++; queue.push(u); }
+              });
+            });
+          }
+        }).catch(function () { failed++; }).then(function () { done++; tick(); });
+      }
+
+      var queue = urls.slice();
+      var active = 0;
+      var finished = false;
+      function pump() {
+        while (active < 4 && queue.length) {
+          active++;
+          one(queue.shift()).then(function () { active--; pump(); });
+        }
+        if (!active && !queue.length && !finished) {
+          finished = true;
+          try { localStorage.setItem(META_KEY, JSON.stringify({ time: Date.now(), urls: okUrls, failed: failed })); } catch (e) {}
+          btn.disabled = false;
+          fill.style.width = '100%';
+          refreshStatus();
+        }
+      }
+      tick();
+      pump();
+    }
+
+    btn.addEventListener('click', run);
+    window.refreshOfflinePrepStatus = refreshStatus; // 모달 열 때마다 호출
+    refreshStatus();
+  })();
+
+  /* ==========================================================
      [4-0g-2] 오프라인 맵 다운로드 센터 모달
   ========================================================== */
   (function initOfflineMapModal() {
@@ -7407,6 +7748,7 @@
       document.body.style.overflow = 'hidden';
       if (window.triggerHaptic) window.triggerHaptic('light');
       applyState();
+      if (window.refreshOfflinePrepStatus) window.refreshOfflinePrepStatus();
       if (window.pushModalNavState) window.pushModalNavState();
     }
     function closeModal() {
@@ -8234,7 +8576,7 @@
         return;
       }
       // 서브메뉴 아이템(계산기/테마파크 가이드/오프라인 맵/맛집 도장) 클릭 시 다이얼 자동 접힘 — 각 항목 자체의 모달/시트 오픈 로직은 별도 모듈이 처리
-      if (e.target.closest('#floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn, #floatingFranchiseBtn, #floatingWhiskeyBtn')) {
+      if (e.target.closest('#floatingSosBtn, #floatingCalcBtn, #floatingParkGuideBtn, #floatingOfflineMapBtn, #floatingFranchiseBtn, #floatingWhiskeyBtn')) {
         setOpen(false);
         return;
       }
@@ -8665,6 +9007,11 @@
 
 <!-- 스피드다이얼 서브메뉴 아이템 (flex 컨테이너로 스택 — 숨겨진 버튼이 있어도 빈 공간 없이 균일 정렬) -->
 <div class="fab-container">
+  <button type="button" id="floatingSosBtn" class="floating-calc-btn floating-sos-btn" aria-label="비상 카드 열기">
+    <span class="fab-icon">🆘</span>
+    <span class="fab-label">비상 카드</span>
+  </button>
+
   <button type="button" id="floatingCalcBtn" class="floating-calc-btn" aria-label="팁 &amp; 세금 계산기 열기">
     <span class="fab-icon">🧮</span>
     <span class="fab-label">팁/세금</span>
@@ -8674,8 +9021,8 @@
     <span>🏰</span> <span>테마파크 치트시트</span>
   </button>
 
-  <button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 맵 다운로드 센터 열기">
-    <span>🗺️</span> <span>오프라인 맵</span>
+  <button type="button" id="floatingOfflineMapBtn" class="floating-guide-btn" aria-label="오프라인 준비 센터 열기">
+    <span>📥</span> <span>오프라인 준비</span>
   </button>
 
   <button type="button" id="floatingFranchiseBtn" class="floating-calc-btn" aria-label="미국 프랜차이즈 도장깨기 열기">
@@ -9137,6 +9484,151 @@
         else if (e.shiftKey && (active === first || active === d)) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
       }
+    });
+  })();
+</script>
+<script>
+  /* ==========================================================
+     캘린더(.ics) 내보내기
+     - 여행 일정: 각 일자의 시간대별 블록(.sched-block) → 현지(America/Los_Angeles) 시각 이벤트 + 15분 전 알림
+     - 출발 전 마감: 할 일(TRIP_DATA.todos)·준비물(TRIP_DATA.packing)의 due → 종일 이벤트 + 당일 오전 9시 알림
+     - 화면 데이터에서 그대로 만들기 때문에 일정/마감을 고치면 다음 내보내기에 자동 반영됨
+  ========================================================== */
+  (function initCalendarExport() {
+    var TRIP_YEAR = 2026, TRIP_MONTH = 10;
+    var CRLF = '\r\n';
+    var VTZ = ['BEGIN:VTIMEZONE', 'TZID:America/Los_Angeles',
+      'BEGIN:DAYLIGHT', 'TZOFFSETFROM:-0800', 'TZOFFSETTO:-0700', 'TZNAME:PDT', 'DTSTART:19700308T020000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU', 'END:DAYLIGHT',
+      'BEGIN:STANDARD', 'TZOFFSETFROM:-0700', 'TZOFFSETTO:-0800', 'TZNAME:PST', 'DTSTART:19701101T020000', 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU', 'END:STANDARD',
+      'END:VTIMEZONE'];
+
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function ymd(d) { return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()); }
+    function esc(t) { return String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); }
+    // RFC 5545: 한 줄 75옥텟 초과 시 줄바꿈 + 공백으로 이어붙임 (한글은 글자당 3바이트라 바이트 기준으로 계산)
+    function fold(line) {
+      var enc = new TextEncoder(), out = [], cur = '', bytes = 0;
+      Array.from(line).forEach(function (ch) {
+        var b = enc.encode(ch).length;
+        if (bytes + b > 74) { out.push(cur); cur = ' ' + ch; bytes = 1 + b; } else { cur += ch; bytes += b; }
+      });
+      out.push(cur);
+      return out.join(CRLF);
+    }
+    function stamp() { var d = new Date(); return ymd(d) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z'; }
+    function wrap(name, lines) {
+      var head = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//uswest2026//family-trip//KO', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:' + esc(name)];
+      return head.concat(lines).concat(['END:VCALENDAR']).map(fold).join(CRLF) + CRLF;
+    }
+    function alarm(trigger, text) {
+      return ['BEGIN:VALARM', 'ACTION:DISPLAY', 'TRIGGER:' + trigger, 'DESCRIPTION:' + esc(text), 'END:VALARM'];
+    }
+    function cleanText(el) {
+      var c = el.cloneNode(true);
+      c.querySelectorAll('.nav-badge, .inline-btn-badge, .mini-badge, .copy-btn, button').forEach(function (x) { x.remove(); });
+      return c.textContent.replace(/\s+/g, ' ').trim();
+    }
+
+    function scheduleIcs() {
+      var lines = VTZ.slice(), now = stamp();
+      for (var n = 1; n <= 11; n++) {
+        var day = document.getElementById('day-' + n);
+        if (!day) continue;
+        day.querySelectorAll('.sched-block').forEach(function (block, i) {
+          var timeEl = block.querySelector('.sched-time');
+          var titleEl = block.querySelector('.sched-title');
+          if (!timeEl || !titleEl) return;
+          var t = timeEl.textContent.match(/\d{1,2}:\d{2}/g);
+          if (!t) return;
+          function mins(h) { var p = h.split(':'); return +p[0] * 60 + +p[1]; }
+          var s0 = mins(t[0]), e0 = t.length > 1 ? mins(t[1]) : s0 + 30;
+          var dayStart = new Date(Date.UTC(TRIP_YEAR, TRIP_MONTH - 1, n));
+          var endDay = new Date(dayStart.getTime());
+          var startShift = 0, endShift = Math.floor(e0 / 1440); // 단일 시각(+30분)이 자정을 넘는 경우도 여기서 처리
+          if (e0 <= s0) {
+            // 종료가 시작보다 이르면 자정을 넘기는 블록. 그날 첫 블록이면 "전날 밤에 시작해 이날 끝나는" 일정(예: 3일차 23:45~19:00 그랜드캐년 투어),
+            // 아니면 "이날 시작해 다음 날 끝나는" 일정으로 본다
+            if (i === 0 && n > 1) startShift = -1; else endShift += 1;
+          }
+          dayStart.setUTCDate(dayStart.getUTCDate() + startShift);
+          endDay.setUTCDate(endDay.getUTCDate() + endShift);
+          function hhmm(m) { m = m % 1440; return pad(Math.floor(m / 60)) + pad(m % 60) + '00'; }
+          var title = cleanText(titleEl);
+          var desc = Array.prototype.map.call(block.querySelectorAll('.sched-note'), cleanText).filter(Boolean).join('\n');
+          var loc = '';
+          var badge = block.querySelector('a.nav-badge[href*="query="]');
+          if (badge) { try { loc = new URL(badge.href).searchParams.get('query') || ''; } catch (e) {} }
+          lines.push('BEGIN:VEVENT',
+            'UID:sched-d' + n + '-' + i + '-' + hhmm(s0) + '@uswest2026',
+            'DTSTAMP:' + now,
+            'DTSTART;TZID=America/Los_Angeles:' + ymd(dayStart) + 'T' + hhmm(s0),
+            'DTEND;TZID=America/Los_Angeles:' + ymd(endDay) + 'T' + hhmm(e0),
+            'SUMMARY:' + esc(n + '일차 · ' + title));
+          if (desc) lines.push('DESCRIPTION:' + esc(desc));
+          if (loc) lines.push('LOCATION:' + esc(loc));
+          lines = lines.concat(alarm('-PT15M', title), ['END:VEVENT']);
+        });
+      }
+      return wrap('미서부 가족여행 2026 일정', lines);
+    }
+
+    function deadlinesIcs(todayStr) {
+      var byDate = {}, now = stamp();
+      function add(date, kind, label, note) {
+        if (date < todayStr) return; // 이미 지난 마감은 제외
+        (byDate[date] = byDate[date] || []).push({ kind: kind, label: label, note: note || '' });
+      }
+      ((window.TRIP_DATA && window.TRIP_DATA.todos) || []).forEach(function (t) {
+        if (!t.due) return;
+        var d = document.createElement('div'); d.innerHTML = t.text;
+        var tag = document.createElement('div'); tag.innerHTML = t.tag || '';
+        add(t.due, 'todo', d.textContent.trim() + (t.verb === '오픈' ? ' 오픈' : ' 마감'), tag.textContent);
+      });
+      ((window.TRIP_DATA && window.TRIP_DATA.packing) || []).forEach(function (it) {
+        if (it.due) add(it.due, 'pack', it.label, '');
+      });
+      var lines = [];
+      Object.keys(byDate).sort().forEach(function (date) {
+        var items = byDate[date];
+        var todos = items.filter(function (x) { return x.kind === 'todo'; });
+        var packs = items.filter(function (x) { return x.kind === 'pack'; });
+        var d0 = new Date(date + 'T00:00:00Z'), d1 = new Date(d0.getTime() + 864e5);
+        var parts = [];
+        todos.forEach(function (x) { parts.push('📌 ' + x.label + (x.note ? '\n   ' + x.note : '')); });
+        if (packs.length) parts.push('🎒 준비물 마감 ' + packs.length + '개\n' + packs.map(function (x) { return '• ' + x.label; }).join('\n'));
+        var summary = todos.length
+          ? '📌 ' + todos[0].label + (items.length > 1 ? ' 외 ' + (items.length - 1) + '개' : '')
+          : '🎒 준비물 마감: ' + packs[0].label + (packs.length > 1 ? ' 외 ' + (packs.length - 1) + '개' : '');
+        lines.push('BEGIN:VEVENT',
+          'UID:due-' + date + '@uswest2026',
+          'DTSTAMP:' + now,
+          'DTSTART;VALUE=DATE:' + ymd(d0),
+          'DTEND;VALUE=DATE:' + ymd(d1),
+          'SUMMARY:' + esc(summary),
+          'DESCRIPTION:' + esc(parts.join('\n')));
+        lines = lines.concat(alarm('PT9H', summary), ['END:VEVENT']);
+      });
+      return wrap('미서부 출발 전 마감', lines);
+    }
+
+    function todayKst() { return new Date(Date.now() + 9 * 36e5).toISOString().slice(0, 10); }
+    function download(name, text) {
+      var url = URL.createObjectURL(new Blob([text], { type: 'text/calendar;charset=utf-8' }));
+      var a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1000);
+      if (window.showToast) window.showToast('📅 파일을 열어 캘린더에 추가하세요');
+    }
+
+    window.TripIcs = { schedule: scheduleIcs, deadlines: deadlinesIcs };
+    var sBtn = document.getElementById('calSchedBtn'), dBtn = document.getElementById('calDueBtn');
+    if (sBtn) sBtn.addEventListener('click', function () { download('uswest2026-schedule.ics', scheduleIcs()); });
+    if (dBtn) dBtn.addEventListener('click', function () {
+      var text = deadlinesIcs(todayKst());
+      if (text.indexOf('BEGIN:VEVENT') === -1) { if (window.showToast) window.showToast('남은 마감이 없어요 🎉'); return; }
+      download('uswest2026-deadlines.ics', text);
     });
   })();
 </script>
