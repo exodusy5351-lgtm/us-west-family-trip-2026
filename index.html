@@ -2357,6 +2357,15 @@
           var today = new Date(Date.now() + 9 * 36e5).toISOString().slice(0, 10);
           return Math.round((Date.parse(dateStr + 'T00:00:00Z') - Date.parse(today + 'T00:00:00Z')) / 864e5);
         };
+        // 여행 단계와 오늘 일차. 기기 시계의 현지 달력 날짜(10/1~10/11 → 1~11일차)로 판정한다.
+        // (여행 중엔 폰이 미국 시간대라, 한국 자정 기준 경과시간으로 세면 현지 오전 8시에 다음 일차로 넘어가는 오류가 남)
+        window.tripPhase = function (now) {
+          now = now || new Date();
+          var ymd = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+          if (ymd < 20261001) return { phase: 'pre', day: 0 };
+          if (ymd > 20261011) return { phase: 'post', day: 12 };
+          return { phase: 'trip', day: now.getDate() };
+        };
         window.TRIP_DATA.todos = [
           { key: 'todo-dodger', priority: true, due: '2026-09-28', verb: '오픈', text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
           { key: 'todo-the-broad', priority: true, due: '2026-10-01', verb: '오픈', text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/10 14:00 슬롯)' },
@@ -5497,10 +5506,18 @@
 </script>
 
 <script>
-  var target = new Date("2026-10-01T00:00:00+09:00");
-  var now = new Date();
-  var diff = Math.ceil((target - now) / (1000*60*60*24));
-  document.getElementById('dday').textContent = diff > 0 ? diff : (diff === 0 ? 'D' : '완료');
+  var info = window.tripPhase();
+  var ddayEl = document.getElementById('dday');
+  var ddayLabel = ddayEl.nextElementSibling;
+  if (info.phase === 'pre') {
+    ddayEl.textContent = window.tripDayDiff('2026-10-01');
+  } else if (info.phase === 'trip') {
+    ddayEl.textContent = info.day + '일차';
+    if (ddayLabel) ddayLabel.textContent = '여행 중';
+  } else {
+    ddayEl.textContent = '완료';
+    if (ddayLabel) ddayLabel.textContent = '다녀왔어요';
+  }
 </script>
 
 <script>
@@ -6813,21 +6830,14 @@
      [4-0c] Today 자동 포커스 & 펄스
   ========================================================== */
   (function initTodayFocus() {
-    var TRIP_START = new Date("2026-10-01T00:00:00+09:00");
-    var TRIP_END = new Date("2026-10-11T23:59:59+09:00");
-    var now = new Date();
-
-    var dayNum = 1;
-    if (now >= TRIP_START && now <= TRIP_END) {
-      var diffDays = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24)) + 1;
-      dayNum = Math.min(Math.max(diffDays, 1), 11);
-    }
+    var info = window.tripPhase();
+    var dayNum = info.phase === 'trip' ? info.day : 1;
 
     var targetDayId = 'day-' + dayNum;
     var pill = document.querySelector('.date-pill[data-target="' + targetDayId + '"]');
     if (pill) pill.classList.add('today-pulse');
 
-    if (now >= TRIP_START && now <= TRIP_END && window.jumpToDay) {
+    if (info.phase === 'trip' && window.jumpToDay) {
       window.jumpToDay(targetDayId);
     }
   })();
@@ -8863,9 +8873,6 @@
        열지 않아도(다른 탭에 있어도) 오늘 일정 중 지금/다음 블록을 보여줌
   ========================================================== */
   (function initNowWidget() {
-    var TRIP_START = new Date("2026-10-01T00:00:00+09:00");
-    var TRIP_END = new Date("2026-10-11T23:59:59+09:00");
-
     var widget = document.getElementById('nowWidget');
     var badgeEl = document.getElementById('nowWidgetBadge');
     var timeEl = document.getElementById('nowWidgetTime');
@@ -8915,16 +8922,16 @@
 
     function update() {
       var now = new Date();
-      if (now < TRIP_START) { showPreTrip(); return; }
+      var info = window.tripPhase(now);
+      if (info.phase === 'pre') { showPreTrip(); return; }
       preTripTarget = null;
       jumpBtn.style.display = '';
       jumpBtn.textContent = jumpLabelTrip;
-      if (now > TRIP_END) {
+      if (info.phase === 'post') {
         widget.classList.remove('show');
         return;
       }
-      var diffDays = Math.floor((now - TRIP_START) / (1000 * 60 * 60 * 24)) + 1;
-      var dayNum = Math.min(Math.max(diffDays, 1), 11);
+      var dayNum = info.day;
       var dayId = 'day-' + dayNum;
       currentDayId = dayId;
 
@@ -8984,7 +8991,7 @@
     });
 
     // 체크/동기화로 마감 목록이 바뀌면 출발 전 위젯을 바로 갱신 (여행 중엔 무시)
-    document.addEventListener('tripDueChanged', function () { if (new Date() < TRIP_START) update(); });
+    document.addEventListener('tripDueChanged', function () { if (window.tripPhase().phase === 'pre') update(); });
 
     update();
     setInterval(update, 60000);
