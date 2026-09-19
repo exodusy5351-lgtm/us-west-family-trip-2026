@@ -192,7 +192,7 @@
   .section-head .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
 
   /* ===== STATUS CARDS ===== */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .cards{display:grid;grid-template-columns:1fr;gap:12px;} /* 예약 카드는 내용이 길어 1열로 (2열은 모바일에서 카드가 찌그러졌음) */
   .card{
     background:var(--card);
     border:1px solid var(--line);
@@ -217,6 +217,19 @@
   /* 예약번호·예약코드는 현장(체크인·창구)에서 읽어주거나 대조하는 값 — 본문보다 한 단계 위(고정폭·본문색·굵게)로 */
   .detail-sensitive{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--text);letter-spacing:.02em;overflow-wrap:anywhere;}
   .card .amount{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--gold-text);margin-top:8px;padding-top:6px;border-top:1px dashed var(--line);font-weight:700;letter-spacing:.02em;}
+  .card .amount-sub{display:block;margin-top:3px;font-family:'Work Sans',sans-serif;font-size:12px;line-height:1.45;font-weight:500;letter-spacing:0;color:var(--muted);}
+  .card .name{font-size:14.5px;}
+  .card .detail + .detail{margin-top:2px;}
+  .card .detail a{color:var(--teal-text);text-decoration:underline;text-underline-offset:2px;}
+  :where(a[href^="tel:"]){color:var(--teal-text);}
+  .card-more{margin-top:6px;}
+  .card-more > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--teal-text);padding:6px 10px;margin-left:-10px;border-radius:8px;min-height:32px;}
+  .card-more > summary::-webkit-details-marker{display:none;}
+  .card-more > summary::after{content:"⌄";font-size:13px;transition:transform .2s;}
+  .card-more[open] > summary::after{transform:rotate(180deg);}
+  .card-more > summary:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;}
+  .card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  [data-view="family"] .card[data-img^="images/"] .card-img-btn{display:none;}
   .card[data-img]{cursor:pointer;transition:border-color .15s,transform .15s;}
   .card[data-img]:hover,.card[data-img]:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
   .card[data-img] .name::after{content:"🖼";margin-left:6px;font-size:11px;opacity:.75;}
@@ -2377,16 +2390,45 @@
       (function renderReservationCards() {
         var wrap = document.querySelector('#tab-reservations .cards');
         if (!wrap) return;
+
+        function balanced(str) {
+          return ['span', 'b', 'a'].every(function (t) {
+            return (str.match(new RegExp('<' + t + '[\\s>]', 'g')) || []).length === (str.match(new RegExp('</' + t + '>', 'g')) || []).length;
+          });
+        }
+        // 상세를 줄(<br>) 단위로 나눠 "핵심 2줄 + 예약번호 줄"만 먼저 보이고 나머지는 접어 둔다
+        function splitDetail(detail) {
+          var parts = detail.split('<br>');
+          if (parts.length <= 2 || !parts.every(balanced)) return { head: detail, more: '', moreCount: 0 };
+          var idLines = [], sensLines = [], normal = [];
+          parts.forEach(function (ln) {
+            var t = ln.trim();
+            if (t.indexOf('<span class="detail-sensitive">') === 0) sensLines.push(ln);
+            else if (/^(예약번호|확인번호)/.test(t)) idLines.push(ln);
+            else normal.push(ln);
+          });
+          var head = normal.slice(0, 2).concat(idLines);
+          var more = normal.slice(2).concat(sensLines);
+          if (!more.length) return { head: head.join('<br>'), more: '', moreCount: 0 };
+          return { head: head.join('<br>'), more: more.join('<br>'), moreCount: more.length };
+        }
+
         wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r) {
-          var amountHtml = r.amount + (r.amountSub ? ' <span style="font-size:12.5px;color:var(--muted);font-weight:500;">' + r.amountSub + '</span>' : '');
+          var amountHtml = r.amount + (r.amountSub ? '<span class="amount-sub">' + r.amountSub + '</span>' : '');
           var ctaHtml = r.cta ? '<a class="route-nav-link" href="' + r.cta.href + '" target="_blank" rel="noopener noreferrer" style="margin-top:8px;">' + r.cta.label + '</a>' : '';
           var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
+          var d = splitDetail(r.detail);
+          var moreHtml = d.more
+            ? '<details class="card-more"><summary>자세히 보기 · ' + d.moreCount + '줄</summary><div class="detail">' + d.more + '</div></details>'
+            : '';
+          var imgBtn = r.imgKey ? '<div class="card-actions"><button type="button" class="inline-btn-badge teal card-img-btn">🖼 예약 화면 보기</button></div>' : '';
           return '<div class="card"' + imgAttr + '>' +
             '<div class="top"><span class="icon">' + r.icon + '</span><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
             '<div class="name">' + r.name + '</div>' +
-            '<div class="detail">' + r.detail + '</div>' +
+            '<div class="detail">' + d.head + '</div>' +
+            moreHtml +
             '<div class="amount">' + amountHtml + '</div>' +
-            ctaHtml +
+            ctaHtml + imgBtn +
             '</div>';
         }).join('');
       })();
@@ -5653,17 +5695,20 @@
         try { saved = localStorage.getItem(storageKey(card)); } catch (e) { saved = null; }
         var preset = card.getAttribute('data-img');
         if (saved) applyImage(card, saved);
-        else if (preset) applyImage(card, preset);
+        else if (preset) {
+          applyImage(card, preset);
+          btn.style.display = 'none'; // 저장소 이미지가 이미 연결된 카드는 '예약 화면 보기' 버튼이 있어 📎/✅ 버튼(완료 표시로 오해됨)을 숨김
+        }
       });
 
       cardsWrap.addEventListener('click', function (e) {
-        if (e.target.closest('.img-upload-btn')) return;
+        if (e.target.closest('.img-upload-btn, a, summary, .copy-btn')) return;
         var card = e.target.closest('.card[data-img]');
         if (card) openCardImage(card);
       });
       cardsWrap.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter' && e.key !== ' ') return;
-        if (e.target.closest('.img-upload-btn')) return;
+        if (e.target.closest('.img-upload-btn, a, summary, .copy-btn')) return;
         var card = e.target.closest('.card[data-img]');
         if (card) {
           e.preventDefault();
