@@ -225,9 +225,19 @@
   /* 예약 카드는 요약만 — 눌러서 상세·예약 화면을 시트로 본다 */
   #tab-reservations .cards .card{cursor:pointer;transition:border-color .15s,transform .15s;}
   #tab-reservations .cards .card:hover,#tab-reservations .cards .card:focus-visible{border-color:var(--teal);transform:translateY(-1px);outline:none;}
-  .card .sum{font-size:13px;color:var(--text);margin-top:5px;line-height:1.5;}
-  .card-tap{display:block;margin-top:8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:var(--teal-text);}
-  [data-view="family"] .card .tap-img{display:none;}
+  /* 카드 압축: [아이콘 이름 상태 ›] / 요약 / 금액 — 한 화면에 더 많이 */
+  #tab-reservations .cards{gap:8px;}
+  #tab-reservations .cards .card{padding:10px 12px;}
+  #tab-reservations .cards .card .top{align-items:center;gap:8px;}
+  #tab-reservations .cards .card .icon{font-size:16px;line-height:1;}
+  #tab-reservations .cards .card .name{flex:1;min-width:0;margin:0;font-size:13.5px;line-height:1.3;}
+  #tab-reservations .cards .card .badge{font-size:10.5px;padding:2px 7px;}
+  #tab-reservations .cards .card .top::after{content:"›";font-size:18px;line-height:1;font-weight:700;color:var(--teal-text);}
+  #tab-reservations .cards .card .top-right{gap:6px;}
+  #tab-reservations .cards .card .img-upload-btn{width:28px;height:28px;}
+  .card .sum{display:flow-root;font-size:12.5px;color:var(--text);margin-top:4px;line-height:1.45;}
+  #tab-reservations .cards .card .amount{float:right;font-size:13.5px;line-height:1.45;margin:0 0 0 8px;padding:0;border:0;}  /* 요약 줄 끝에 붙어 한 줄 절약 (자리 없으면 다음 줄로) */
+  @media (min-width:700px){ #tab-reservations .cards{grid-template-columns:1fr 1fr;} }
 
   /* ===== 예약 상세 시트 (모바일: 아래에서 올라오는 시트 / 넓은 화면: 가운데 카드) ===== */
   .res-modal{display:none;position:fixed;inset:0;z-index:1050;background:rgba(20,30,40,.45);backdrop-filter:blur(3px);align-items:flex-end;justify-content:center;}
@@ -2431,11 +2441,8 @@
         wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r, i) {
           var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
           return '<div class="card" role="button" tabindex="0" data-idx="' + i + '"' + imgAttr + '>' +
-            '<div class="top"><span class="icon">' + r.icon + '</span><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
-            '<div class="name">' + r.name + '</div>' +
-            '<div class="sum">' + r.sum + '</div>' +
-            '<div class="amount">' + r.amount + '</div>' +
-            '<span class="card-tap">상세' + (r.imgKey ? '<span class="tap-img"> · 예약 화면</span>' : '') + ' ›</span>' +
+            '<div class="top"><span class="icon">' + r.icon + '</span><div class="name">' + r.name + '</div><span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
+            '<div class="sum">' + r.sum + '<span class="amount">' + r.amount + '</span></div>' +
             '</div>';
         }).join('');
       })();
