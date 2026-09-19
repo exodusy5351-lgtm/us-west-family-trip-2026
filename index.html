@@ -4808,6 +4808,80 @@
     } catch (e) {}
   }
 
+  // 미션별 효과음 (quest.sound 이름 → 합성 함수). 모두 Web Audio 합성이라 파일·네트워크 불필요
+  var QUEST_SFX = (function () {
+    function ctxOrNull() {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!stampAudioCtx) stampAudioCtx = new AC();
+      if (stampAudioCtx.state === 'suspended') stampAudioCtx.resume();
+      return stampAudioCtx;
+    }
+    function tone(ctx, t, freq, dur, vol, type) {
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t); o.stop(t + dur + 0.02);
+    }
+    function burst(ctx, t, dur, vol, filterType, freq) {
+      var n = Math.max(1, Math.floor(ctx.sampleRate * dur));
+      var buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      var src = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      src.buffer = buf;
+      f.type = filterType; f.frequency.value = freq;
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(f); f.connect(g); g.connect(ctx.destination);
+      src.start(t);
+    }
+    function shutter(ctx, t) { // 찰칵: 셔터 막 두 번
+      burst(ctx, t, 0.025, 0.5, 'highpass', 2500);
+      tone(ctx, t, 180, 0.04, 0.35, 'sine');
+      burst(ctx, t + 0.07, 0.05, 0.4, 'bandpass', 1200);
+    }
+    function run(fn) { return function () { try { var c = ctxOrNull(); if (c) fn(c, c.currentTime + 0.18); } catch (e) {} }; }
+    return {
+      shutter: run(function (c, t) { shutter(c, t); }),
+      family: run(function (c, t) { // 찰칵 + 치~즈 (밝게 올라가는 3음)
+        shutter(c, t);
+        tone(c, t + 0.28, 659, 0.3, 0.25); tone(c, t + 0.4, 880, 0.3, 0.25); tone(c, t + 0.52, 1319, 0.5, 0.25);
+      }),
+      kaching: run(function (c, t) { // 띵! 계산대 종
+        burst(c, t, 0.03, 0.4, 'highpass', 3000);
+        tone(c, t + 0.06, 1568, 0.7, 0.3); tone(c, t + 0.06, 3136, 0.5, 0.1);
+        tone(c, t + 0.16, 2093, 0.9, 0.3); tone(c, t + 0.16, 4186, 0.5, 0.08);
+      }),
+      sparkle: run(function (c, t) { // 반짝반짝 올라가는 5음
+        [1047, 1319, 1568, 2093, 2637].forEach(function (f, i) { tone(c, t + i * 0.06, f, 0.22, 0.32, 'triangle'); });
+        tone(c, t + 0.34, 3136, 0.5, 0.2);
+      }),
+      honk: run(function (c, t) { // 빵빵 + 박수
+        [0, 0.3].forEach(function (d) {
+          var f = c.createBiquadFilter(), g = c.createGain();
+          f.type = 'lowpass'; f.frequency.value = 1800;
+          g.gain.setValueAtTime(0.0001, t + d);
+          g.gain.exponentialRampToValueAtTime(0.22, t + d + 0.02);
+          g.gain.setValueAtTime(0.22, t + d + 0.16);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.2);
+          f.connect(g); g.connect(c.destination);
+          [392, 494].forEach(function (hz) {
+            var o = c.createOscillator();
+            o.type = 'square'; o.frequency.value = hz;
+            o.connect(f); o.start(t + d); o.stop(t + d + 0.22);
+          });
+        });
+        for (var i = 0; i < 36; i++) burst(c, t + 0.75 + Math.random() * 1.1, 0.03, 0.2 + Math.random() * 0.15, 'bandpass', 1800 + Math.random() * 2200);
+      })
+    };
+  })();
+
+  QUEST_SFX.oink = playOinkSound;
+
   function playStampSound() {
     try {
       var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -4868,12 +4942,12 @@
 
   window.TRIP_DATA.dayQuests = {
     "day-1": [
-      { id: "q1-1", icon: "🤳", label: "(유나) LAX공항, 카톡 프로필사진 찍기" },
-      { id: "q1-7", icon: "🐷", sound: "oink", label: "(수빈) 인앤아웃, 타코스엘고르드에서 꿀꿀 소리내며 먹기!" },
-      { id: "q1-4", icon: "🎨", label: "(가족) 세븐매직마운틴스 가족사진 찍기" },
-      { id: "q1-8", icon: "🛍️", label: "(엄마) 트레이더조, 에코팩 득템" },
-      { id: "q1-9", icon: "🍬", label: "(유나) 트레이더조, 너드젤리 득템" },
-      { id: "q1-10", icon: "🚗", label: "(아빠) 사막 횡단 첫 운전 완주! 콘래드 도착해서 가족 박수 받기" }
+      { id: "q1-1", icon: "🤳", sound: "shutter", toast: "📸 찰칵! 프로필 사진 완성", label: "(유나) LAX공항, 카톡 프로필사진 찍기" },
+      { id: "q1-7", icon: "🐷", sound: "oink", toast: "🐷 꿀꿀! 수빈이 미션 성공", label: "(수빈) 인앤아웃, 타코스엘고르드에서 꿀꿀 소리내며 먹기!" },
+      { id: "q1-4", icon: "🎨", sound: "family", toast: "📸 치~즈! 가족사진 완성", label: "(가족) 세븐매직마운틴스 가족사진 찍기" },
+      { id: "q1-8", icon: "🛍️", sound: "kaching", toast: "🛍️ 띵! 에코팩 득템", label: "(엄마) 트레이더조, 에코팩 득템" },
+      { id: "q1-9", icon: "🍬", sound: "sparkle", toast: "🍬 반짝! 너드젤리 득템", label: "(유나) 트레이더조, 너드젤리 득템" },
+      { id: "q1-10", icon: "🚗", sound: "honk", toast: "🚗 빵빵! 운전 수고했어요 — 박수~ 👏", label: "(아빠) 사막 횡단 첫 운전 완주! 콘래드 도착해서 가족 박수 받기" }
     ],
     "day-2": [
       { id: "q2-1", icon: "🏊", label: "콘래드 야외 풀장에서 라스베가스 하늘 보며 물놀이" },
@@ -5123,9 +5197,9 @@
       if (!wasDone) {
         playStampSound();
         var quest = (window.TRIP_DATA.dayQuests[dayId] || []).filter(function (q) { return q.id === questId; })[0];
-        if (quest && quest.sound === 'oink') {
-          playOinkSound();
-          if (window.showToast) window.showToast('🐷 꿀꿀! 수빈이 미션 성공');
+        if (quest && quest.sound && QUEST_SFX[quest.sound]) {
+          QUEST_SFX[quest.sound]();
+          if (quest.toast && window.showToast) window.showToast(quest.toast);
         }
         if (window.triggerHaptic) window.triggerHaptic('success');
         spawnConfetti(confettiLayer);
