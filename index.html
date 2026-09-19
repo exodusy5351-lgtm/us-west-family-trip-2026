@@ -361,6 +361,8 @@
   [data-view="family"] #tab-reservations .currency-summary,
   [data-view="family"] #tab-reservations .cards .card .amount,
   [data-view="family"] #tab-reservations .cards .card .route-nav-link,
+  [data-view="family"] .detail-sensitive,
+  [data-view="family"] .sensitive,
   [data-view="family"] #tab-reservations .cards .card .detail-sensitive,
   [data-view="family"] #tab-budget .expense-entry-card,
   [data-view="family"] #tab-budget .budget-metric-card,
@@ -2353,9 +2355,9 @@
     <script>
       window.TRIP_DATA = window.TRIP_DATA || {};
       window.TRIP_DATA.reservations = [
-        { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복 (에어프레미아)', detail: '예약번호 <span class="detail-sensitive">H5TZJM<button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>가는 편 <b>YP101</b> · 10/1(목) 인천 T1 <b>13:00</b> → LAX 터미널 B <b>08:20</b> (11시간 20분)<br>오는 편 <b>YP102</b> · 10/11(일) LAX 터미널 B <b>10:50</b> → 인천 T1 10/12(월) <b>15:50</b> (13시간)<br>탑승 4인: 승현·지은·유나(성인) · 수빈(소아) · 이코노미 라이트 · 기내식 일반식<br>위탁 수하물 인당 23kg 1개 무료 (총 4개, 가는 편 기준) · 좌석은 아직 미지정(체크인 때 자동 배정)', amount: '₩4,075,800', amountSub: '2026.8.5 결제 · 예약센터 1800-2626 (국내 전용, 평일 7–18시 · 주말 9–18시)' },
-        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 1차 렌트 (LAX→베가스)', detail: '예약번호 <span class="detail-sensitive">L676E0E0129<button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/1(목) 09:30 · LAX ConRAC 5251 W 98th St (24시간, <a href="tel:+13105685100">(310) 568-5100</a>)<br>예약상 반납 10/2(금) 09:00 · 리조트월드 (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>) — 일정은 10/1 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%', amount: '$40.55', amountSub: '후지불 — 픽업 시 카운터에서 주운전자 신용카드로 결제' },
-        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 2차 렌트 (베가스→애너하임)', detail: '예약번호 <span class="detail-sensitive">L676E084020<button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/4(일) 09:00 · 리조트월드 3000 S Las Vegas Blvd (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>)<br>예약상 반납 10/6(화) 09:00 · 애너하임 Katella 221 W Katella Ave (평일 8:00–17:00, 주말 9:00–12:00, <a href="tel:+17147720425">(714) 772-0425</a>) — 일정은 10/5 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%', amount: '$120.22', amountSub: '2일 × $60.11 · 후지불 — 픽업 시 카운터에서 결제' },
+        { icon: '✈️', status: 'done', statusLabel: '완료', name: '항공권 왕복 (에어프레미아)', detail: '예약번호 <span class="detail-sensitive">H5TZJM<button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>가는 편 <b>YP101</b> · 10/1(목) 인천 T1 <b>13:00</b> → LAX 터미널 B <b>08:20</b> (11시간 20분)<br>오는 편 <b>YP102</b> · 10/11(일) LAX 터미널 B <b>10:50</b> → 인천 T1 10/12(월) <b>15:50</b> (13시간)<br>탑승 4인: 승현·지은·유나(성인) · 수빈(소아) · 이코노미 라이트 · 기내식 일반식<br>위탁 수하물 인당 23kg 1개 무료 (총 4개, 가는 편 기준) · 좌석은 아직 미지정(체크인 때 자동 배정)<br><span class="detail-sensitive">여권 영문명 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</span>', amount: '₩4,075,800', amountSub: '2026.8.5 결제 · 예약센터 1800-2626 (국내 전용, 평일 7–18시 · 주말 9–18시)' },
+        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 1차 렌트 (LAX→베가스)', detail: '예약번호 <span class="detail-sensitive">L676E0E0129<button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/1(목) 09:30 · LAX ConRAC 5251 W 98th St (24시간, <a href="tel:+13105685100">(310) 568-5100</a>)<br>예약상 반납 10/2(금) 09:00 · 리조트월드 (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>) — 일정은 10/1 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$40.55', amountSub: '후지불 — 픽업 시 카운터에서 주운전자 신용카드로 결제' },
+        { icon: '🚗', status: 'done', statusLabel: '예약확정', name: 'Hertz 2차 렌트 (베가스→애너하임)', detail: '예약번호 <span class="detail-sensitive">L676E084020<button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span><br>픽업 10/4(일) 09:00 · 리조트월드 3000 S Las Vegas Blvd (영업 7:00–12:00, 13:00–16:00, <a href="tel:+17022733059">(702) 273-3059</a>)<br>예약상 반납 10/6(화) 09:00 · 애너하임 Katella 221 W Katella Ave (평일 8:00–17:00, 주말 9:00–12:00, <a href="tel:+17147720425">(714) 772-0425</a>) — 일정은 10/5 저녁 Key Drop 조기 반납<br>Midsize SUV 2WD (Q4) Nissan Rogue급 · 카운터 서비스 · 아시아 골드 할인(CDP) 10%<br><span class="detail-sensitive">예약자 SEUNGHYUN SHIN · Hertz 회원번호 19197104 · 확인 메일 exodusy@naver.com</span>', amount: '$120.22', amountSub: '2일 × $60.11 · 후지불 — 픽업 시 카운터에서 결제' },
         { icon: '🅿️', status: 'done', statusLabel: '완료', name: '인천공항 발렛 주차대행 (M-Parking)', detail: '10/1 09:00 ~ 10/12 15:50 · SUV · <span class="detail-sensitive">예약번호 937311647428</span><br>※ 15:50은 인천 <b>도착</b> 시각(YP102) — 입국·수하물을 지난 뒤 차를 받을 시각은 M-Parking에 확인', amount: '₩53,000', amountSub: '주차비, 현장/추후 결제 예정' },
         { icon: '🏨', status: 'done', statusLabel: '완료', name: '콘래드 라스베가스', detail: '10/1–2, 10/3–4 (총 2박) · <span class="detail-sensitive">힐튼 포인트 결제 (2건)</span>', amount: '150,000 pt' },
         { icon: '🏨', status: 'done', statusLabel: '완료', name: 'Home2 Suites 애너하임', detail: '10/5–7 (2박) · <span class="detail-sensitive">힐튼 포인트 결제</span>', amount: '130,000 pt' },
@@ -2415,8 +2417,8 @@
           { key: 'todo-dodger', priority: true, due: '2026-09-28', verb: '오픈', text: '다저 스타디움 투어 예약', tag: '— 미국 9/27 오픈 → 한국 시간 9/28(월) KST 오픈 예정 (코스 변동 가능)' },
           { key: 'todo-the-broad', priority: true, due: '2026-10-01', verb: '오픈', text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/10 14:00 슬롯)' },
           { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 (OpenTable)', tag: '(선택 옵션 · 10/10 토)' },
-          { key: 'todo-airpremia-checkin', priority: true, due: '2026-09-30', verb: '까지', text: '에어프레미아 온라인 체크인 & 좌석 확인 (4인 나란히)', tag: "— 예약 H5TZJM · 4인 모두 좌석 미지정 상태(체크인 때 자동 배정), 소아 동반이라 붙어 앉는지 확인 · 체크인은 보통 출발 24시간 전(9/30 13:00 KST)쯤 열리니 앱에서 오픈 시각 확인 · 기내 수하물 규정도 함께" },
-        { key: 'todo-hertz-flight', priority: false, due: '2026-09-29', verb: '까지', text: 'Hertz 1차 예약에 도착 항공편 정보 추가', tag: "— 예약(L676E0E0129) 화면의 '비행 정보 추가하기'에 에어프레미아 YP101 도착편 입력 (지연 시 차량 보유에 도움)" },
+          { key: 'todo-airpremia-checkin', priority: true, due: '2026-09-30', verb: '까지', text: '에어프레미아 온라인 체크인 & 좌석 확인 (4인 나란히)', tag: "— 4인 모두 좌석 미지정 상태(체크인 때 자동 배정), 소아 동반이라 붙어 앉는지 확인 · 체크인은 보통 출발 24시간 전(9/30 13:00 KST)쯤 열리니 앱에서 오픈 시각 확인 · 기내 수하물 규정도 함께" },
+        { key: 'todo-hertz-flight', priority: false, due: '2026-09-29', verb: '까지', text: 'Hertz 1차 예약에 도착 항공편 정보 추가', tag: "— Hertz 1차 예약 화면의 '비행 정보 추가하기'에 에어프레미아 YP101 도착편 입력 (지연 시 차량 보유에 도움)" },
         { key: 'todo-waymo-app', priority: false, due: '2026-09-29', verb: '까지', text: '웨이모(Waymo) 앱 미리 설치', tag: '— 한국 지역엔 앱이 없어 출국 전 앱스토어/플레이스토어 지역을 미국으로 변경 필요 (10/10 DTLA→로어스 복귀 시 시승 예정)' }
         ];
 
@@ -2635,8 +2637,8 @@
             <div class="sched-time">✈️ 08:20–11:30</div>
             <div class="sched-title">LAX 공항 입국 &amp; Hertz 1차 렌터카 픽업 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=5251+W+98th+St+Los+Angeles+CA+90045" target="_blank" rel="noopener noreferrer">📍 ConRAC (5251 W 98th St)</a></div>
             <div class="sched-note">🚏 셔틀: 터미널 밖 보라색 표지판에서 '공용 렌터카 셔틀' 탑승 (모든 회사 공용) ➔ 🚗 수령: 신축 통합센터(ConRAC) 5층 규모 내 Hertz 카운터 ($40.55) ➔ 🛣️ I-15 N 진입</div>
-            <div class="sched-note">✈️ 에어프레미아 <b>YP101</b> 인천 T1 13:00 출발 → LAX 터미널 B 08:20 도착 (11시간 20분) · 예약번호 <b>H5TZJM</b> <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 위탁 수하물은 인당 23kg 1개</div>
-            <div class="sched-note">🔖 Hertz 예약번호 <b>L676E0E0129</b> <button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 예약 픽업 09:30 (LAX 24시간 영업, (310) 568-5100) · <b>후지불</b>이라 카운터에서 주운전자 명의 <b>신용카드</b>로 결제 (직불카드는 제한이 있어요) · 운전면허증·국제운전면허증 지참</div>
+            <div class="sched-note">✈️ 에어프레미아 <b>YP101</b> 인천 T1 13:00 출발 → LAX 터미널 B 08:20 도착 (11시간 20분) · <span class="sensitive">예약번호 <b>H5TZJM</b> <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · </span>위탁 수하물은 인당 23kg 1개</div>
+            <div class="sched-note">🔖 Hertz <span class="sensitive">예약번호 <b>L676E0E0129</b> <button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · Hertz 회원번호 19197104 · </span>예약 픽업 09:30 (LAX 24시간 영업, (310) 568-5100) · <b>후지불</b>이라 카운터에서 주운전자 명의 <b>신용카드</b>로 결제 (직불카드는 제한이 있어요) · 운전면허증·국제운전면허증 지참</div>
           </div>
 
           <div class="sched-block">
@@ -2818,7 +2820,7 @@
           <button type="button" class="route-map-day-icon" data-day="3" aria-label="3일차 지도 보기">🗺️</button>
         </div>
         <div class="d-title">그랜드캐년 VIP 당일투어 (요한투어 · 코스2)</div>
-        <div class="d-desc">마이리얼트립 결제 완료 <span class="mini-badge">예약확정</span> — 예약번호 EXP-20260903-00006699</div>
+        <div class="d-desc">마이리얼트립 결제 완료 <span class="mini-badge">예약확정</span><span class="sensitive"> — 예약번호 EXP-20260903-00006699</span></div>
 
         <div class="bar-row rail" style="margin-top:12px;">
           <div class="br-top"><span>투어사</span><span class="amt">요한투어</span></div>
@@ -2833,7 +2835,7 @@
           <div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">콘래드(리조트월드) 로비에서 픽업 · 픽업시간은 23:45 전후(남미·앤텔롭 예약시간에 따라 변경될 수 있음) · 드롭 후 짐 회수하여 콘래드 재체크인</div>
         </div>
         <div class="bar-row rail">
-          <div class="br-top"><span>예약번호</span><span class="amt">EXP-20260903-00006699<button type="button" class="copy-btn" data-copy="EXP-20260903-00006699" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span></div>
+          <div class="br-top sensitive"><span>예약번호</span><span class="amt">EXP-20260903-00006699<button type="button" class="copy-btn" data-copy="EXP-20260903-00006699" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button></span></div>
           <div style="font-size:10.5px;color:var(--muted-2);margin-top:2px;">마이리얼트립(Myrealtrip) 예약 · 2026.09.03(목) 13:15 결제 (환율 하락으로 기존 예약 취소 후 재결제)</div>
         </div>
         <div class="bar-row rail">
@@ -3031,7 +3033,7 @@
             <div class="sched-time">🚗 08:30–09:00</div>
             <div class="sched-title">콘래드 체크아웃 &amp; Hertz 2차 렌터카 픽업 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Resorts+World+Las+Vegas" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
             <div class="sched-note">🚗 리조트월드 데스크 2차 렌터카 픽업 (2일권 $120.22, 10/5 애너하임 Katella 반납) ➔ 짐 적재 후 남쪽 고속도로 진입로 이동</div>
-            <div class="sched-note">🔖 Hertz 예약번호 <b>L676E084020</b> <button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 예약 픽업 10/4 09:00 · 리조트월드 Hertz 영업 7:00–12:00 · 13:00–16:00 ((702) 273-3059) · <b>후지불</b> $120.22 (2일 × $60.11)</div>
+            <div class="sched-note">🔖 Hertz <span class="sensitive">예약번호 <b>L676E084020</b> <button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · </span>예약 픽업 10/4 09:00 · 리조트월드 Hertz 영업 7:00–12:00 · 13:00–16:00 ((702) 273-3059) · <b>후지불</b> $120.22 (2일 × $60.11)</div>
           </div>
 
           <div class="sched-block">
@@ -3264,7 +3266,7 @@
             <div class="sched-time">🚗 18:15–18:45</div>
             <div class="sched-title">Hertz 애너하임(Katella Ave) 렌터카 선반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+221+W+Katella+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Hertz Katella Ave</a></div>
             <div class="sched-note">🚗 무인 키드롭(Key Drop Box) 안전 반납 ($120.22) · 반납 전 계기판(주유/마일리지) 및 주차 위치 사진 촬영 필수 ➔ 🚶 호텔로 가볍게 도보 복귀 (약 900m, 10~12분)</div>
-            <div class="sched-note">⏰ Katella 지점은 평일 8:00–17:00 ((714) 772-0425)라 18:15 반납은 영업 종료 후 <b>Key Drop</b>. 예약상 반납은 10/6 09:00이라 <b>조기(선)반납</b>이에요 — 반납 후 영수증 메일에서 총액이 $120.22 이하인지 확인하고, 다르면 예약번호 L676E084020으로 문의하세요.</div>
+            <div class="sched-note">⏰ Katella 지점은 평일 8:00–17:00 ((714) 772-0425)라 18:15 반납은 영업 종료 후 <b>Key Drop</b>. 예약상 반납은 10/6 09:00이라 <b>조기(선)반납</b>이에요 — 반납 후 영수증 메일에서 총액이 $120.22 이하인지 확인하고, 다르면 예약 탭의 예약번호로 문의하세요.</div>
           </div>
 
           <div class="sched-block">
@@ -3836,7 +3838,7 @@
             <div class="sched-time">🛫 08:00–10:50</div>
             <div class="sched-title">탑승 수속 &amp; 출국 (LAX 톰 브래들리 터미널)</div>
             <div class="sched-note">✈️ 에어프레미아 카운터 수하물 위탁 ➔ 보안검색 통과</div>
-            <div class="sched-note">🔖 <b>YP102</b> LAX 터미널 B(TBIT) 10:50 출발 · 예약번호 <b>H5TZJM</b> <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · 이코노미 라이트라 위탁은 인당 23kg 1개(귀국편 수하물 규정은 에어프레미아 앱에서 한 번 더 확인)</div>
+            <div class="sched-note">🔖 <b>YP102</b> LAX 터미널 B(TBIT) 10:50 출발 · <span class="sensitive">예약번호 <b>H5TZJM</b> <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사" title="예약번호 복사"><span>📋</span> 복사</button> · </span>이코노미 라이트라 위탁은 인당 23kg 1개(귀국편 수하물 규정은 에어프레미아 앱에서 한 번 더 확인)</div>
           </div>
 
           <div class="sched-block">
@@ -4044,11 +4046,11 @@
     // est = 초기 계획치, act = 실집행치(미결제 시 0), done = 결제완료 여부
     var BUDGET_DATA = [
       // 항공
-      { cat: "항공", item: "에어프레미아 왕복 (4인)", estKrw: 4075800, estUsd: 0, actKrw: 4075800, actUsd: 0, note: "결제 완료 · 예약번호 H5TZJM · YP101 10/1 13:00 / YP102 10/11 10:50 · 이코노미 라이트(위탁 인당 23kg 1개)", done: true },
+      { cat: "항공", item: "에어프레미아 왕복 (4인)", estKrw: 4075800, estUsd: 0, actKrw: 4075800, actUsd: 0, note: "결제 완료 · YP101 10/1 13:00 / YP102 10/11 10:50 · 이코노미 라이트(위탁 인당 23kg 1개)", done: true },
 
       // 렌터카 & 교통
-      { cat: "렌터카", item: "Hertz 1차 렌트 (LAX→베가스)", estKrw: 0, estUsd: 40.55, actKrw: 0, actUsd: 0, note: "후지불 — 픽업 시 카운터 결제 예정 (예약 L676E0E0129, 반납 후 영수증 메일에서 총액 확인)", done: false },
-      { cat: "렌터카", item: "Hertz 2차 렌트 (베가스→애너하임)", estKrw: 0, estUsd: 120.22, actKrw: 0, actUsd: 0, note: "후지불 — 픽업 시 카운터 결제 예정 (예약 L676E084020, 2일 × $60.11)", done: false },
+      { cat: "렌터카", item: "Hertz 1차 렌트 (LAX→베가스)", estKrw: 0, estUsd: 40.55, actKrw: 0, actUsd: 0, note: "후지불 — 픽업 시 카운터 결제 예정 (반납 후 영수증 메일에서 총액 확인)", done: false },
+      { cat: "렌터카", item: "Hertz 2차 렌트 (베가스→애너하임)", estKrw: 0, estUsd: 120.22, actKrw: 0, actUsd: 0, note: "후지불 — 픽업 시 카운터 결제 예정 (2일 × $60.11)", done: false },
       { cat: "렌터카", item: "렌터카 주유비 (Jeep Compass 기준)", estKrw: 0, estUsd: 105.00, actKrw: 0, actUsd: 0, note: "1차 LAX-베가스($45) + 2차 베가스-조슈아트리-애너하임($60)", done: false },
       { cat: "렌터카", item: "LA & 시내 우버/교통비 (예상)", estKrw: 0, estUsd: 350.00, actKrw: 0, actUsd: 0, note: "우버XL/UberX 이동 (공항/파크/호텔간)", done: false },
       { cat: "렌터카", item: "인천공항 발렛 주차대행 (M-Parking)", estKrw: 53000, estUsd: 0, actKrw: 0, actUsd: 0, note: "발렛 자체는 현대카드 무료 혜택, 주차비 ₩53,000은 현장/추후 결제 예정 (예약번호 937311647428)", done: false },
@@ -4056,8 +4058,8 @@
       // 숙박
       { cat: "숙박", item: "콘래드 라스베가스 (2박 분할)", estKrw: 900000, estUsd: 0, actKrw: 900000, actUsd: 0, note: "결제 완료 (150,000pt · 1pt=6원 환산)", done: true },
       { cat: "숙박", item: "Home2 Suites 애너하임 (2박)", estKrw: 780000, estUsd: 0, actKrw: 780000, actUsd: 0, note: "결제 완료 (130,000pt · 1pt=6원 환산)", done: true },
-      { cat: "숙박", item: "조슈아트리 에어비앤비 (1박)", estKrw: 0, estUsd: 292.11, actKrw: 0, actUsd: 282.48, note: "The Pink Bungalow(호스트 Tisha) 결제 완료 · 예약코드 HMPHHMCHTE · 4인(성인2+아동2), 셀프체크인(키패드)", done: true },
-      { cat: "숙박", item: "로어스 할리우드 (4박)", estKrw: 1428785, estUsd: 0, actKrw: 1428785, actUsd: 0, note: "Npay 사전결제 완료 (#3892645) · 현장 체크인 시 카드결제 ₩198,394(리조트세 등) 별도", done: true },
+      { cat: "숙박", item: "조슈아트리 에어비앤비 (1박)", estKrw: 0, estUsd: 292.11, actKrw: 0, actUsd: 282.48, note: "The Pink Bungalow(호스트 Tisha) 결제 완료 · 4인(성인2+아동2), 셀프체크인(키패드)", done: true },
+      { cat: "숙박", item: "로어스 할리우드 (4박)", estKrw: 1428785, estUsd: 0, actKrw: 1428785, actUsd: 0, note: "Npay 사전결제 완료 · 현장 체크인 시 카드결제 ₩198,394(리조트세 등) 별도", done: true },
 
       // 투어 & 액티비티
       { cat: "액티비티", item: "스피어 쇼 (오즈의 마법사 4인)", estKrw: 906999, estUsd: 0, actKrw: 906999, actUsd: 0, note: "결제 완료 (406구역)", done: true },
@@ -5150,7 +5152,7 @@
     <div class="sos-card" data-lodging="jt">
       <b>The Pink Bungalow (조슈아트리, Airbnb)</b><span class="sos-dates">10/4–5</span>
       <div class="sos-line">61480 El Cajon Drive, Joshua Tree, CA 92252 <button type="button" class="copy-btn" data-copy="61480 El Cajon Drive, Joshua Tree, CA 92252" aria-label="주소 복사"><span>📋</span> 복사</button></div>
-      <div class="sos-line">예약코드 HMPHHMCHTE <button type="button" class="copy-btn" data-copy="HMPHHMCHTE" aria-label="예약코드 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive">예약코드 HMPHHMCHTE <button type="button" class="copy-btn" data-copy="HMPHHMCHTE" aria-label="예약코드 복사"><span>📋</span> 복사</button></div>
       <div class="sos-line muted">호스트 Tisha · 셀프체크인 키패드 (코드는 Airbnb 메시지)</div>
       <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=61480+El+Cajon+Drive+Joshua+Tree+CA+92252" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
     </div>
@@ -5163,7 +5165,7 @@
     <div class="sos-card" data-lodging="loews">
       <b>로어스 할리우드 호텔</b><span class="sos-dates">10/7–11</span>
       <div class="sos-line">1755 N Highland Ave, Hollywood, CA 90028 <button type="button" class="copy-btn" data-copy="1755 N Highland Ave, Hollywood, CA 90028" aria-label="주소 복사"><span>📋</span> 복사</button></div>
-      <div class="sos-line">예약번호 #3892645 <button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive">예약번호 #3892645 <button type="button" class="copy-btn" data-copy="3892645" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
       <a class="sos-map" href="https://www.google.com/maps/search/?api=1&amp;query=Loews+Hollywood+Hotel" target="_blank" rel="noopener noreferrer">지도 열기 ↗</a>
     </div>
   </div>
@@ -5171,7 +5173,8 @@
   <div class="sos-section">
     <div class="sos-h">✈️ 항공 (에어프레미아)</div>
     <div class="sos-card">
-      <div class="sos-line">예약번호 H5TZJM <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive">예약번호 H5TZJM <button type="button" class="copy-btn" data-copy="H5TZJM" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive">여권 영문명 SEUNGHYUN SHIN · JIEUN CHOI · YUNA SHIN · SUBIN SHIN</div>
       <div class="sos-line muted"><b>YP101</b> 10/1 인천 T1 13:00 → LAX 터미널 B 08:20</div>
       <div class="sos-line muted"><b>YP102</b> 10/11 LAX 터미널 B 10:50 → 인천 T1 10/12 15:50</div>
       <div class="sos-line muted">예약센터 1800-2626은 국내 전용 — 해외에서는 에어프레미아 사이트의 국가별 안내 확인</div>
@@ -5181,12 +5184,13 @@
   <div class="sos-section">
     <div class="sos-h">🚗 렌터카 (Hertz)</div>
     <div class="sos-card">
-      <div class="sos-line"><b>1차</b> 예약번호 L676E0E0129 <button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive"><b>1차</b> 예약번호 L676E0E0129 <button type="button" class="copy-btn" data-copy="L676E0E0129" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive">Hertz 회원번호 19197104 · 예약자 SEUNGHYUN SHIN · 확인 메일 exodusy@naver.com</div>
       <div class="sos-line muted">10/1 09:30 LAX 픽업 · 5251 W 98th St (24시간) · <a href="tel:+13105685100">(310) 568-5100</a></div>
       <div class="sos-line muted">리조트월드 반납 (예약 10/2 09:00, 일정은 10/1 저녁 Key Drop) · 영업 7–12시, 13–16시 · <a href="tel:+17022733059">(702) 273-3059</a></div>
     </div>
     <div class="sos-card">
-      <div class="sos-line"><b>2차</b> 예약번호 L676E084020 <button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
+      <div class="sos-line sensitive"><b>2차</b> 예약번호 L676E084020 <button type="button" class="copy-btn" data-copy="L676E084020" aria-label="예약번호 복사"><span>📋</span> 복사</button></div>
       <div class="sos-line muted">10/4 09:00 리조트월드 픽업 · <a href="tel:+17022733059">(702) 273-3059</a></div>
       <div class="sos-line">반납 221 W Katella Ave, Anaheim, CA 92802 <button type="button" class="copy-btn" data-copy="221 W Katella Ave, Anaheim, CA 92802" aria-label="주소 복사"><span>📋</span> 복사</button></div>
       <div class="sos-line muted">예약 10/6 09:00, 일정은 10/5 저녁 Key Drop · 평일 8–17시, 주말 9–12시 · <a href="tel:+17147720425">(714) 772-0425</a></div>
@@ -5747,14 +5751,14 @@
       { id: "doc2", cat: "doc", loc: "prep", due: "2026-09-22", days: [1], label: "ESTA 승인 확인 (4인)", desc: "승인 여부 사전 확인 및 출력본(또는 PDF) 소지",
         subs: ["4인 ESTA 승인 상태 각각 확인", "승인 화면 PDF/스크린샷 오프라인 저장"] },
       { id: "doc3", cat: "doc", loc: "cabin", due: "2026-09-24", days: [1], label: "운전 관련 서류", desc: "1일차 LAX 렌터카 픽업(Hertz) 때 바로 필요 — 위탁이 아닌 기내 가방에",
-        subs: ["한국 운전면허증 실물", "국제운전면허증 (발급일·유효기간 확인)", "주운전자 명의 신용카드 (Hertz 예약자와 동일인)", "Hertz 예약 확인서 2건 (L676E0E0129 · L676E084020, 오프라인 저장)"] },
+        subs: ["한국 운전면허증 실물", "국제운전면허증 (발급일·유효기간 확인)", "주운전자 명의 신용카드 (Hertz 예약자와 동일인)", "Hertz 예약 확인서 2건 (오프라인 저장)"] },
       { id: "doc4", cat: "doc", loc: "cabin", due: "2026-09-30", days: [1], label: "한국 코스트코 실물 회원권 카드", desc: "1일차 헨더슨 코스트코 주유 및 장보기용 (실물 카드 또는 바코드 앱)" },
       { id: "doc5", cat: "doc", loc: "cabin", due: "2026-09-28", label: "해외 결제 카드", desc: "트래블로그/트래블월렛 및 컨택리스 지원 비자/마스터/아멕스",
         subs: ["트래블로그/트래블월렛 카드 잔액 충전 확인", "컨택리스 지원 비자/마스터/아멕스 실물 카드", "해외 결제 차단 해제 및 한도 확인", "카드 분실 시 해외 신고 전화번호 메모"] },
       { id: "doc6", cat: "doc", loc: "cabin", due: "2026-09-28", days: [3, 9], label: "미국 달러(USD) 현금 환전 ($1,050~$1,100)", desc: "현금 전용 지출이 있어 카드로 대체 불가 — 소액권($1·$5·$10)을 넉넉히",
         subs: ["투어 필수 현금 $888 분리 (그랜드캐년 $680 + 나바호팁 $8 + LA투어 $200)", "호텔/식당 매너팁·비상금 소액권 $160~$200", "현금은 2곳 이상에 나눠 보관 (지갑·기내 가방)"] },
       { id: "doc7", cat: "doc", loc: "prep", due: "2026-09-28", days: [2, 6, 7, 8, 9], label: "e-티켓 & 예약 바우처 PDF (오프라인 저장)", desc: "통신 음영 지역(모하비·그랜드캐년)에서도 열리도록 파일로 저장",
-        subs: ["항공권 e-티켓·탑승권 (에어프레미아 H5TZJM, YP101 / YP102)", "숙소 확인서 4곳 (콘래드·조슈아트리·Home2·로어스)", "스피어 쇼 티켓", "투어 바우처 (그랜드캐년·LA드림투어)", "디즈니랜드·유니버설 티켓 QR", "다저 스타디움 투어 (9/28 오픈 후 예매 시)"] },
+        subs: ["항공권 e-티켓·탑승권 (에어프레미아 YP101 / YP102)", "숙소 확인서 4곳 (콘래드·조슈아트리·Home2·로어스)", "스피어 쇼 티켓", "투어 바우처 (그랜드캐년·LA드림투어)", "디즈니랜드·유니버설 티켓 QR", "다저 스타디움 투어 (9/28 오픈 후 예매 시)"] },
       { id: "doc8", cat: "doc", loc: "prep", due: "2026-09-25", label: "해외여행자보험 영문 증명서", desc: "질병/상해/휴대품 보상 범위 확인 및 모바일 저장" },
       { id: "doc9", cat: "doc", loc: "prep", due: "2026-09-28", days: [1, 3, 4], label: "오프라인 지도 4개 권역 사전 다운로드", desc: "'오프라인 맵 다운로드 센터'에서 권역별로 완료 확인",
         subs: ["모하비 사막 / I-15", "조슈아트리", "그랜드캐년 · 페이지(Page AZ)", "LA · 애너하임"] },
@@ -7061,7 +7065,7 @@
 
       var copyBtn = document.createElement('button');
       copyBtn.type = 'button';
-      copyBtn.className = 'quick-btn copy-btn';
+      copyBtn.className = 'quick-btn copy-btn' + (data.confNum ? ' sensitive' : ''); // 예약번호는 가족모드에서 숨김
       if (data.confNum) {
         copyBtn.setAttribute('data-copy', data.confNum);
         copyBtn.innerHTML = '<span>📋</span> <span>확인번호: ' + data.confNum + '</span>';
