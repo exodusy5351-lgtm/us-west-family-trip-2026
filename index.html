@@ -2017,81 +2017,6 @@
 
   .wk-modal-footer { display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-top:1px solid var(--line); background:var(--card-2); flex-shrink:0; font-size:11.5px; color:var(--muted); }
 
-  /* ===== HUD 모드 오버레이 ===== */
-  #res-hud-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: #ffffff;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
-    text-align: center;
-  }
-  #res-hud-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  #res-hud-overlay .hud-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 32px;
-    color: #1e293b;
-    cursor: pointer;
-    padding: 16px;
-    line-height: 1;
-    z-index: 10;
-  }
-  #res-hud-overlay .hud-content {
-    width: 100%;
-    max-width: 600px;
-    position: relative;
-  }
-  #res-hud-overlay .hud-name {
-    font-size: 22px;
-    font-weight: 600;
-    color: #4f5766;
-    margin-bottom: 24px;
-    word-break: keep-all;
-  }
-  #res-hud-overlay .hud-code {
-    font-size: 40px;
-    font-weight: 700;
-    color: #000000;
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 32px;
-    word-break: break-all;
-    line-height: 1.2;
-  }
-  #res-hud-overlay .hud-amount {
-    font-size: 32px;
-    color: #1e293b;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-  }
-  .hud-trigger-btn {
-    background: var(--card-2);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 4px 8px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: 8px;
-  }
-  [data-view="family"] .hud-trigger-btn { display: none; }
-  .hud-trigger-btn:active {
-    background: var(--line);
-  }
-
   /* 야외 고대비 모드 (Outdoor Mode) */
   html[data-outdoor="true"] {
     --bg: #ffffff;
@@ -2549,10 +2474,8 @@
 
         wrap.innerHTML = window.TRIP_DATA.reservations.map(function (r, i) {
           var imgAttr = r.imgKey ? ' data-img="' + r.imgKey + '"' : '';
-          var hasSensitive = r.detail && r.detail.indexOf('detail-sensitive') !== -1;
-          var hudBtn = hasSensitive ? '<button type="button" class="hud-trigger-btn" onclick="openHudMode(event, ' + i + ')" aria-label="HUD 크게 보기">🔍 크게 보기</button>' : '';
           return '<div class="card" role="button" tabindex="0" data-idx="' + i + '"' + imgAttr + '>' +
-            '<div class="top"><span class="icon">' + r.icon + '</span><div class="name">' + r.name + '</div>' + hudBtn + '<span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
+            '<div class="top"><span class="icon">' + r.icon + '</span><div class="name">' + r.name + '</div>' + '<span class="badge ' + r.status + '">' + r.statusLabel + '</span></div>' +
             '<div class="sum">' + r.sum + '<span class="amount">' + r.amount + '</span></div>' +
             '</div>';
         }).join('');
@@ -10296,74 +10219,5 @@
   })();
 </script>
 
-<!-- HUD 모드 스크립트 -->
-<script>
-  function hudEl() { return document.getElementById('res-hud-overlay'); }
-  function hudOpen() { var h = hudEl(); return !!(h && h.classList.contains('active')); }
-  function closeHud() { var h = hudEl(); if (h) h.classList.remove('active'); }
-  function requestCloseHud() {
-    if (window.closeModalWithHistory) window.closeModalWithHistory(hudOpen, closeHud);
-    else closeHud();
-  }
-  document.addEventListener('tripModalPop', function () { if (hudOpen()) closeHud(); });
-  document.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Escape' && hudOpen()) { ev.stopImmediatePropagation(); requestCloseHud(); }
-  }, true);
-
-  window.openHudMode = function(e, idx) {
-    if (e) e.stopPropagation();
-    if (document.documentElement.getAttribute('data-view') === 'family') return; // 예약번호는 관리자(PIN) 전용
-    var r = window.TRIP_DATA.reservations[idx];
-    if (!r) return;
-    
-    var probe = document.createElement('div');
-    probe.innerHTML = r.detail;
-    var sensitiveSpans = probe.querySelectorAll('.detail-sensitive');
-    if (sensitiveSpans.length === 0) return;
-    
-    var codeTexts = [];
-    for (var i = 0; i < sensitiveSpans.length; i++) {
-      var clone = sensitiveSpans[i].cloneNode(true);
-      var btns = clone.querySelectorAll('.copy-btn');
-      for (var j = 0; j < btns.length; j++) btns[j].remove();
-      codeTexts.push(clone.textContent.trim());
-    }
-    var codeText = codeTexts.join('<br><br>');
-    
-    var hud = document.getElementById('res-hud-overlay');
-    if (!hud) {
-      hud = document.createElement('div');
-      hud.id = 'res-hud-overlay';
-      hud.innerHTML = 
-        '<div class="hud-close" role="button" tabindex="0" aria-label="닫기">✕</div>' +
-        '<div class="hud-content">' +
-          '<div class="hud-name"></div>' +
-          '<div class="hud-code"></div>' +
-          '<div class="hud-amount"></div>' +
-        '</div>';
-      document.body.appendChild(hud);
-      
-      hud.setAttribute('role', 'dialog');
-      hud.setAttribute('aria-modal', 'true');
-      hud.addEventListener('click', function(ev) {
-        if (ev.target === hud || ev.target.closest('.hud-close')) requestCloseHud();
-      });
-      hud.addEventListener('keydown', function(ev) {
-        if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.closest('.hud-close')) { ev.preventDefault(); requestCloseHud(); }
-      });
-    }
-    
-    hud.querySelector('.hud-name').innerHTML = r.name;
-    hud.querySelector('.hud-code').innerHTML = codeText;
-    hud.querySelector('.hud-amount').innerHTML = r.amount || '';
-    
-    if (!hud.classList.contains('active')) {
-      hud.classList.add('active');
-      if (window.pushModalNavState) window.pushModalNavState();
-    }
-    
-    if (window.triggerHaptic) window.triggerHaptic('light');
-  };
-</script>
 </body>
 </html>
