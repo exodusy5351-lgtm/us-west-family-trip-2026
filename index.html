@@ -294,7 +294,9 @@
     align-items:center;justify-content:center;padding:28px;
   }
   .img-modal.open{display:flex;}
-  .img-modal img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+  .img-modal img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.35);cursor:zoom-in;}
+  .img-modal.zoom{overflow:auto;align-items:flex-start;justify-content:flex-start;-webkit-overflow-scrolling:touch;}
+  .img-modal.zoom img{max-width:none;max-height:none;cursor:zoom-out;}
   .img-modal-close{
     position:absolute;top:18px;right:20px;
     width:40px;height:40px;border-radius:50%;
@@ -6044,15 +6046,24 @@
 
     function openModal(src) {
       modalImg.src = src;
-      modal.classList.add('open');
+      modal.classList.remove('zoom');
+      if (!modal.classList.contains('open')) {
+        modal.classList.add('open');
+        if (window.pushModalNavState) window.pushModalNavState();
+      }
     }
-    // 글자가 작은 캡처는 이미지를 누르면 새 탭에서 원본 크기로 (확대해서 보기)
+    function requestCloseImg() {
+      if (window.closeModalWithHistory) window.closeModalWithHistory(function () { return modal.classList.contains('open'); }, closeModal);
+      else closeModal();
+    }
+    // 글자가 작은 캡처는 사진을 누르면 원본 크기로 확대/축소 (새 탭으로 나가면 설치형 앱에서 돌아올 수 없어서 앱 안에서 처리)
     modalImg.addEventListener('click', function (e) {
-      var raw = modalImg.getAttribute('src') || '';
-      if (/^images\//.test(raw)) { e.stopPropagation(); window.open(raw, '_blank', 'noopener'); }
+      e.stopPropagation();
+      modal.classList.toggle('zoom');
+      modal.scrollTop = 0; modal.scrollLeft = 0;
     });
     function closeModal() {
-      modal.classList.remove('open');
+      modal.classList.remove('open', 'zoom');
       modalImg.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; // 빈 src 대신 1px 투명 GIF (깨진 이미지 아이콘 방지)
     }
 
@@ -6087,7 +6098,7 @@
       if (locked) {
         html += '<div class="res-lock">🔒 예약 화면(캡처)에는 예약번호·이름이 들어 있어서 관리자 인증 후(기획자모드)에 볼 수 있어요.</div>';
       } else if (src) {
-        html += '<div class="res-img"><div class="res-img-title">🖼 예약 화면</div><div class="res-img-slot"></div><div class="res-img-hint">사진을 누르면 크게 볼 수 있어요</div></div>';
+        html += '<div class="res-img"><div class="res-img-title">🖼 예약 화면</div><div class="res-img-slot"></div><div class="res-img-hint">사진을 누르면 크게 · 크게 본 화면에서 한 번 더 누르면 원본 크기 (✕나 뒤로가기로 돌아와요)</div></div>';
       }
       resBody.innerHTML = html;
       if (src && !locked) {
@@ -6116,7 +6127,8 @@
       }
     }
     document.addEventListener('tripModalPop', function () {
-      if (resModal.classList.contains('open')) { closeRes(); closeModal(); }
+      if (modal.classList.contains('open')) { closeModal(); return; }
+      if (resModal.classList.contains('open')) closeRes();
     });
     document.getElementById('res-modal-close').addEventListener('click', requestCloseRes);
     resModal.addEventListener('click', function (e) {
@@ -6212,15 +6224,15 @@
     });
 
     modal.addEventListener('click', function (e) {
-      if (e.target === modal) closeModal();
+      if (e.target === modal) requestCloseImg();
     });
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', requestCloseImg);
     closeBtn.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') closeModal();
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); requestCloseImg(); }
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('open')) { closeModal(); e.stopImmediatePropagation(); }
-    });
+      if (e.key === 'Escape' && modal.classList.contains('open')) { requestCloseImg(); e.stopImmediatePropagation(); }
+    }, true);
   })();
 </script>
 
