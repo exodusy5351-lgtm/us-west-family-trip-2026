@@ -2087,6 +2087,7 @@
     margin-left: auto;
     margin-right: 8px;
   }
+  [data-view="family"] .hud-trigger-btn { display: none; }
   .hud-trigger-btn:active {
     background: var(--line);
   }
@@ -10297,8 +10298,21 @@
 
 <!-- HUD 모드 스크립트 -->
 <script>
+  function hudEl() { return document.getElementById('res-hud-overlay'); }
+  function hudOpen() { var h = hudEl(); return !!(h && h.classList.contains('active')); }
+  function closeHud() { var h = hudEl(); if (h) h.classList.remove('active'); }
+  function requestCloseHud() {
+    if (window.closeModalWithHistory) window.closeModalWithHistory(hudOpen, closeHud);
+    else closeHud();
+  }
+  document.addEventListener('tripModalPop', function () { if (hudOpen()) closeHud(); });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && hudOpen()) { ev.stopImmediatePropagation(); requestCloseHud(); }
+  }, true);
+
   window.openHudMode = function(e, idx) {
     if (e) e.stopPropagation();
+    if (document.documentElement.getAttribute('data-view') === 'family') return; // 예약번호는 관리자(PIN) 전용
     var r = window.TRIP_DATA.reservations[idx];
     if (!r) return;
     
@@ -10321,7 +10335,7 @@
       hud = document.createElement('div');
       hud.id = 'res-hud-overlay';
       hud.innerHTML = 
-        '<div class="hud-close" onclick="history.back()">✕</div>' +
+        '<div class="hud-close" role="button" tabindex="0" aria-label="닫기">✕</div>' +
         '<div class="hud-content">' +
           '<div class="hud-name"></div>' +
           '<div class="hud-code"></div>' +
@@ -10329,10 +10343,13 @@
         '</div>';
       document.body.appendChild(hud);
       
+      hud.setAttribute('role', 'dialog');
+      hud.setAttribute('aria-modal', 'true');
       hud.addEventListener('click', function(ev) {
-        if (ev.target === hud) {
-          history.back();
-        }
+        if (ev.target === hud || ev.target.closest('.hud-close')) requestCloseHud();
+      });
+      hud.addEventListener('keydown', function(ev) {
+        if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.closest('.hud-close')) { ev.preventDefault(); requestCloseHud(); }
       });
     }
     
@@ -10340,14 +10357,9 @@
     hud.querySelector('.hud-code').innerHTML = codeText;
     hud.querySelector('.hud-amount').innerHTML = r.amount || '';
     
-    hud.classList.add('active');
-    
-    if (window.pushModalNavState) {
-      window.pushModalNavState(function() {
-        hud.classList.remove('active');
-      });
-    } else {
-      hud.onclick = function() { hud.classList.remove('active'); };
+    if (!hud.classList.contains('active')) {
+      hud.classList.add('active');
+      if (window.pushModalNavState) window.pushModalNavState();
     }
     
     if (window.triggerHaptic) window.triggerHaptic('light');
