@@ -40,7 +40,7 @@
     "bannerColor": "#7f1d1d",
     "name": "치폴레 멕시칸 그릴 (Chipotle)",
     "origin": "콜로라도 덴버 (1993년 창립)",
-    "scheduleDay": "2일차 하몬코너 / 5일차 아울렛",
+    "scheduleDay": "2일차 하몬코너",
     "category": "커스텀 헬시 멕시칸 보울",
     "icon": "🌯",
     "mustOrder": "부리토 볼 (Burrito Bowl - 스테이크 또는 바바코아 토핑)",
@@ -48,11 +48,23 @@
     "secretTip": "또띠아 대신 '볼(Bowl)'로 선택하고, 밥은 브라운/화이트 반반(Half & Half), 콩도 블랙/핀토 반반 가능. 파히타 야채(Fajita Veggies)와 과카몰리, 사워크림을 추가하면 푸짐함 2배."
   },
   {
+    "id": "fc-fiveguys",
+    "bannerColor": "#c8102e",
+    "name": "파이브가이즈 (Five Guys)",
+    "origin": "버지니아 알링턴 (1986년 창립)",
+    "scheduleDay": "5일차 데저트힐스 아울렛 푸드 파빌리온",
+    "category": "수제 버거 & 감자튀김",
+    "icon": "🍔",
+    "mustOrder": "리틀 치즈버거(Little Cheeseburger) & 케이준 감자튀김(Cajun Fries)",
+    "features": "냉동하지 않은 소고기 패티를 주문 즉시 굽고, 감자튀김은 땅콩기름에 튀기는 미국 대표 수제 버거 체인. 토핑을 원하는 만큼 무료로 고를 수 있어요.",
+    "secretTip": "일반 '버거'는 패티 2장이라 아이·소식가는 패티 1장인 '리틀(Little)' 사이즈로. 감자튀김은 레귤러만 시켜도 양이 많아 4인 가족은 라지 1개면 충분. 매장에 따라 무료 땅콩이 있어요 — 땅콩 알레르기가 있으면 주의."
+  },
+  {
     "id": "fc-panda",
     "bannerColor": "#d62828",
     "name": "판다 익스프레스 (Panda Express)",
     "origin": "캘리포니아 글렌데일 (1983년 창립)",
-    "scheduleDay": "5일차 데저트힐스 아울렛 푸드코트",
+    "scheduleDay": "미서부 전역 백업 체인",
     "category": "아메리칸 차이니즈 웍 다이닝",
     "icon": "🐼",
     "mustOrder": "플레이트 (Plate: 차우멘/볶음밥 반반 + 오렌지 치킨 & 베이징 비프)",
