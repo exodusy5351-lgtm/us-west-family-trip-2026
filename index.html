@@ -4158,6 +4158,7 @@
             <option value="food-jt">🍽️ 조슈아트리 &amp; 아울렛 식비 (4~5일차)</option>
             <option value="food-theme">🍽️ 테마파크 식비 (6~8일차)</option>
             <option value="food-la">🍽️ LA &amp; 한인타운 식비 (9~11일차)</option>
+            <option value="shopping">🛒 장보기·쇼핑 (코스트코·트조·월마트 등)</option>
             <option value="activity-misc">🎟️ 액티비티/현장비/기타</option>
           </select>
           <button type="button" id="btnParseSms" class="btn-submit">분석 &amp; 등록</button>
@@ -4178,6 +4179,7 @@
             <option value="food-jt">🍽️ 조슈아트리 &amp; 아울렛 식비 (4~5일차)</option>
             <option value="food-theme">🍽️ 테마파크 식비 (6~8일차)</option>
             <option value="food-la">🍽️ LA &amp; 한인타운 식비 (9~11일차)</option>
+            <option value="shopping">🛒 장보기·쇼핑 (코스트코·트조·월마트 등)</option>
             <option value="activity-misc">🎟️ 액티비티/현장비/기타</option>
           </select>
 
@@ -4266,6 +4268,7 @@
       { cat: "투어·공연", item: "LA드림투어 사전결제", estKrw: 621270, estUsd: 0, actKrw: 598397, actUsd: 0, note: "마이리얼트립 결제 완료 (KB국민카드 할인 적용)", done: true },
       { cat: "투어·공연", item: "LA드림투어 현장비용 (Cash)", estKrw: 0, estUsd: 200.00, actKrw: 0, actUsd: 0, note: "가이드팁 $80 + 주차비 $60 + 할리우드 픽업/드랍비 $60", done: false },
       { cat: "투어·공연", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "10/8(목) 10:00 스타디움 투어로 예매 예정 — 9/27 확인: 10/8 예매 가능, 10/10 매진 · dodgerstadiumtours.com", done: false },
+      { cat: "장보기·쇼핑", item: "마트 장보기·쇼핑 (가계부 누적)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "코스트코·트레이더 조·월마트·홀푸드·토탈와인·아울렛 구매 — 가계부에 입력하면 여기로 쌓여요 (예상 금액 없음)", done: false },
       { cat: "기타", item: "현장 기타 지출 (가계부 누적)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "우버·주차·팁 등 카드문자/직접입력으로 건별 기록", done: false },
 
       // 식비 (10박 11일 4인 가족 예상)
@@ -4285,6 +4288,7 @@
       "투어·공연": "var(--amber-text)",
       "테마파크": "var(--gold-text)",
       "식비": "var(--green-text)",
+      "장보기·쇼핑": "var(--pink-text)",
       "보험·통신": "var(--red-text)",
       "기타": "var(--muted-2)"
     };
@@ -4297,6 +4301,7 @@
       "투어·공연": "🎫",
       "테마파크": "🎢",
       "식비": "🍽️",
+      "장보기·쇼핑": "🛒",
       "보험·통신": "🛡️",
       "기타": "📌"
     };
@@ -4307,6 +4312,7 @@
       "food-jt": "조슈아트리 & 아울렛 식비 (4~5일차)",
       "food-theme": "테마파크 식비 (6~8일차)",
       "food-la": "LA & 한인타운 식비 (9~11일차)",
+      "shopping": "마트 장보기·쇼핑 (가계부 누적)",
       "activity-misc": "현장 기타 지출 (가계부 누적)"
     };
     var ITEM_TO_CATEGORY = {};
@@ -4392,11 +4398,16 @@
       fullText = fullText || "";
       var query = (merchant + " " + fullText).toLowerCase();
 
+      var isFuel = /\bgas\b|fuel|주유/.test(query);
+      if (!isFuel && /costco|trader ?joe|walmart|wal-mart|whole ?foods|total ?wine|target|desert hills|premium outlet|코스트코|트레이더|월마트|홀푸드|토탈와인|아울렛/.test(query)) {
+        return "shopping";
+      }
+
       if (query.indexOf("disney") !== -1 || query.indexOf("universal") !== -1 || query.indexOf("zocalo") !== -1 ||
           query.indexOf("broomstick") !== -1 || query.indexOf("citywalk") !== -1 || query.indexOf("theme") !== -1 || query.indexOf("anaheim") !== -1) {
         return "food-theme";
       }
-      if (query.indexOf("joshua") !== -1 || query.indexOf("desert hills") !== -1 || query.indexOf("outlet") !== -1 ||
+      if (query.indexOf("joshua") !== -1 || query.indexOf("yucca") !== -1 ||
           query.indexOf("palm springs") !== -1 || query.indexOf("downtown disney") !== -1) {
         return "food-jt";
       }
