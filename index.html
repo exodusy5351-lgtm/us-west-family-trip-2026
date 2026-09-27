@@ -2337,8 +2337,37 @@
       };
     }
 
+    // 목록형 데이터 동기화 (가계부 건별 기록 등): 경로 아래 {id: 값} 전체를 받아 onValue(remote)로 넘기고,
+    // set/remove로 한 건씩 올린다. 값에는 기록한 사람(by)과 기기(client)를 붙인다.
+    function attachList(pathKey, onValue) {
+      if (!enabled || !authReadyPromise) return null;
+      var base = 'tripSync/uswest2026/' + pathKey;
+      authReadyPromise.then(function () {
+        if (!enabled) return;
+        firebase.database().ref(base).on('value', function (snap) { onValue(snap.val() || {}); });
+      });
+      return {
+        set: function (id, val) {
+          authReadyPromise.then(function () {
+            if (!enabled) return;
+            var v = {}; Object.keys(val).forEach(function (k) { if (val[k] !== undefined) v[k] = val[k]; });
+            v.by = v.by || getOwner() || '가족'; v.client = v.client || CLIENT_ID;
+            firebase.database().ref(base + '/' + id).set(v);
+          });
+        },
+        remove: function (id) {
+          authReadyPromise.then(function () {
+            if (!enabled) return;
+            firebase.database().ref(base + '/' + id).remove();
+          });
+        }
+      };
+    }
+
     window.TripSync = {
       attach: attach,
+      attachList: attachList,
+      clientId: CLIENT_ID,
       getOwner: getOwner,
       setOwner: setOwner,
       onStatus: function (fn) { statusHandlers.push(fn); },
@@ -4435,7 +4464,68 @@
     function saveExpenseLog(log) {
       try { localStorage.setItem(EXPENSE_LOG_KEY, JSON.stringify(log)); } catch (e) {}
     }
-    var expenseLog = loadExpenseLog(); // { "food-vegas": [{memo,amount,currency,payType,dateStr}, ...], ... }
+    var expenseLog = loadExpenseLog(); // { "food-vegas": [{id,memo,amount,currency,payType,by}, ...], ... }
+
+    // ===== 가계부 기기 간 동기화 (승현·지은 폰) — Firebase tripSync/uswest2026/expenses/{id} =====
+    // 로컬 저장이 기본이고, 연결되면 서버 목록이 기준이 된다. 오프라인에서 추가한 건은 다음 연결 때 올라가고,
+    // 오프라인에서 지운 건은 pendingDel에 남겨 두었다가 연결되면 서버에서도 지운다.
+    var EXP_META_KEY = "us_trip_expense_sync_meta_2026";
+    var expMeta = (function () {
+      try { var m = JSON.parse(localStorage.getItem(EXP_META_KEY) || '{}'); return { synced: m.synced || {}, pendingDel: m.pendingDel || {} }; }
+      catch (e) { return { synced: {}, pendingDel: {} }; }
+    })();
+    function saveExpMeta() { try { localStorage.setItem(EXP_META_KEY, JSON.stringify(expMeta)); } catch (e) {} }
+    function newTxId() { return 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    (function ensureIds() {
+      var changed = false;
+      Object.keys(expenseLog).forEach(function (cat) {
+        (expenseLog[cat] || []).forEach(function (t, i) { if (!t.id) { t.id = newTxId() + i; changed = true; } });
+      });
+      if (changed) saveExpenseLog(expenseLog);
+    })();
+    function txPayload(cat, t) {
+      return { cat: cat, memo: t.memo || '', amount: t.amount, currency: t.currency, payType: t.payType || '', ts: t.ts || Date.now(), by: t.by };
+    }
+    var expSync = null;
+    function onRemoteExpenses(remote) {
+      Object.keys(expMeta.pendingDel).forEach(function (id) {
+        if (remote[id]) { expSync.remove(id); delete remote[id]; } else delete expMeta.pendingDel[id];
+      });
+      var local = {};
+      Object.keys(expenseLog).forEach(function (cat) {
+        (expenseLog[cat] || []).forEach(function (t) { local[t.id] = { cat: cat, t: t }; });
+      });
+      Object.keys(local).forEach(function (id) { // 이 기기에서 오프라인으로 추가한 건 → 업로드
+        if (!remote[id] && !expMeta.synced[id]) {
+          var v = txPayload(local[id].cat, local[id].t);
+          expSync.set(id, v);
+          remote[id] = v;
+        }
+      });
+      var next = {}, fromOthers = [];
+      Object.keys(remote).map(function (id) { var r = remote[id]; r.id = id; return r; })
+        .sort(function (a, b) { return (a.ts || 0) - (b.ts || 0); })
+        .forEach(function (r) {
+          if (!r.cat) return;
+          if (!next[r.cat]) next[r.cat] = [];
+          next[r.cat].push({ id: r.id, memo: r.memo, amount: r.amount, currency: r.currency, payType: r.payType, by: r.by, ts: r.ts });
+          if (!local[r.id] && !expMeta.synced[r.id] && r.client !== window.TripSync.clientId) fromOthers.push(r.by || '가족');
+          expMeta.synced[r.id] = 1;
+        });
+      expenseLog = next;
+      saveExpenseLog(expenseLog);
+      saveExpMeta();
+      if (typeof renderBudget === 'function') renderBudget();
+      if (fromOthers.length && window.showToast) {
+        window.showToast(fromOthers[0] + '님이 지출 ' + fromOthers.length + '건을 기록했어요 💳');
+      }
+    }
+    function startExpenseSync() {
+      if (expSync || !window.TripSync || !window.TripSync.isEnabled() || !window.TripSync.attachList) return;
+      expSync = window.TripSync.attachList(/[?&]synctest=1/.test(location.search) ? 'expenses_test' : 'expenses', onRemoteExpenses); // synctest=1: 실제 가족 데이터와 분리된 테스트 경로
+    }
+    document.addEventListener('tripSyncReady', startExpenseSync);
+    if (window.TripSync) startExpenseSync();
 
     function fmtAmount(krw, usd) {
       if (krw > 0 && usd > 0) return "₩" + krw.toLocaleString() + " + $" + usd.toFixed(2);
@@ -4612,8 +4702,12 @@
       var cat = btn.getAttribute('data-cat');
       var tIdx = parseInt(btn.getAttribute('data-tidx'), 10);
       if (!expenseLog[cat]) return;
-      expenseLog[cat].splice(tIdx, 1);
+      var removed = expenseLog[cat].splice(tIdx, 1)[0];
       saveExpenseLog(expenseLog);
+      if (removed && removed.id) {
+        expMeta.pendingDel[removed.id] = 1; saveExpMeta();
+        if (expSync) expSync.remove(removed.id);
+      }
       renderBudget();
       if (window.showToast) window.showToast('내역이 삭제되었습니다');
       if (window.triggerHaptic) window.triggerHaptic('warning');
@@ -4687,8 +4781,11 @@
 
     function addTransaction(catId, memo, amount, currency, payType) {
       if (!expenseLog[catId]) expenseLog[catId] = [];
-      expenseLog[catId].push({ memo: memo, amount: amount, currency: currency, payType: payType });
+      var tx = { id: newTxId(), memo: memo, amount: amount, currency: currency, payType: payType, ts: Date.now(),
+                 by: (window.TripSync && window.TripSync.getOwner()) || '' };
+      expenseLog[catId].push(tx);
       saveExpenseLog(expenseLog);
+      if (expSync) expSync.set(tx.id, txPayload(catId, tx));
       renderBudget();
     }
 
@@ -4780,6 +4877,14 @@
               data.expenseLog === null || data.ledger === null) {
             throw new Error('unexpected backup shape');
           }
+          Object.keys(data.expenseLog).forEach(function (cat) {
+            (data.expenseLog[cat] || []).forEach(function (t, i) {
+              if (!t.id) t.id = newTxId() + i;
+              delete expMeta.synced[t.id];
+              if (expSync) expSync.set(t.id, txPayload(cat, t));
+            });
+          });
+          saveExpMeta();
           saveExpenseLog(data.expenseLog);
           saveLedger(data.ledger);
           expenseLog = data.expenseLog;
