@@ -27,3 +27,6 @@ for (const m of html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script
   try { new Function(m[2]); } catch (e) { errors++; console.log('SYNTAX ERROR:', e.message, '\n', m[2].slice(0, 120)); }
 }
 console.log('script blocks:', blocks, 'syntax errors:', errors);
+
+// 일정이 바뀌면 구독 캘린더(trip.ics)도 같이 갱신 — 커밋 전에 이 점검을 돌리는 흐름에 얹는다
+require('./build-ics');

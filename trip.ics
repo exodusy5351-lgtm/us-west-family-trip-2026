@@ -1,0 +1,1417 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//uswest2026//family-trip//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:미서부 가족여행 2026 일정
+X-WR-TIMEZONE:America/Los_Angeles
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:sched-d1-0-082000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T082000
+DTEND;TZID=America/Los_Angeles:20261001T113000
+SUMMARY:1일차 · LAX 공항 입국 & Hertz 1차 렌터카 픽업
+DESCRIPTION:🚏 셔틀: 터미널 밖 보라색 표지판에서 '공용 
+ 렌터카 셔틀' 탑승 (모든 회사 공용) ➔ 🚗 수령: 신축 
+ 통합센터(ConRAC) 5층 규모 내 Hertz 카운터 ($40.55) ➔ 🛣️
+  I-15 N 진입\n✈️ 에어프레미아 YP101 인천 T1 13:00 출발 
+ → LAX 터미널 B 08:20 도착 (11시간 20분) · 위탁 수하물은 
+ 인당 23kg 1개\n🔖 Hertz 예약 픽업 09:30 (LAX 24시간 영업\, (
+ 310) 568-5100) · 후지불이라 카운터에서 주운전자 명의 신
+ 용카드로 결제 (직불카드는 제한이 있어요) · 운전면허
+ 증·국제운전면허증 지참
+LOCATION:5251 W 98th St Los Angeles CA 90045
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:LAX 공항 입국 & Hertz 1차 렌터카 픽업
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d1-1-133000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T133000
+DTEND;TZID=America/Los_Angeles:20261001T143000
+SUMMARY:1일차 · [중간 휴게 & 점심] 바스토우 In-N-Out
+DESCRIPTION:🍔 식사: 더블더블 & 애니멀 프라이 | 🚻 정비:
+  화장실 이용
+LOCATION:In-N-Out Burger Barstow CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[중간 휴게 & 점심] 바스토우 In-N-Out
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d1-2-163000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T163000
+DTEND;TZID=America/Los_Angeles:20261001T170000
+SUMMARY:1일차 · [사막 포토존] 세븐 매직 마운틴스
+DESCRIPTION:📸 관람: 형광 거석 7개 기념촬영 (체류 20분)
+LOCATION:Seven Magic Mountains NV
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[사막 포토존] 세븐 매직 마운틴스
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d1-3-173000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T173000
+DTEND;TZID=America/Los_Angeles:20261001T182500
+SUMMARY:1일차 · [주유 & 필수 간식 퀵스톱] 코스트코 헨더
+ 슨 + 트레이더 조
+DESCRIPTION:⏱️ 55분 퀵스톱: 코스트코 주유(대기 포함 10~1
+ 5분) · ATM 인출 + 생수(매장 안 15~20분) → 트레이더 조까
+ 지 차로 약 5km·6분 → 트조 15분 · 매장 구경은 생략 (25
+ 분으로는 주유·ATM·두 매장을 다 할 수 없어 늘렸어요)\
+ n⛽ 코스트코: 풀주유 + 생수 벌크 구매 | 🛒 트조: 차내
+  간식 소량 구매\n💵 ATM: 주유하는 동안 한 명이 코스트
+ 코 ATM에서 $1\,100 인출 (트래블GO면 수수료 0원) · 10/2 밤 
+ 투어 전 마지막 기회 ➔ 아래 💵 ATM 30초 카드
+LOCATION:Costco Wholesale St Rose Pkwy Henderson NV
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[주유 & 필수 간식 퀵스톱] 코스트코 헨더슨 + 
+ 트레이더 조
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d1-4-184500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T184500
+DTEND;TZID=America/Los_Angeles:20261001T200000
+SUMMARY:1일차 · 콘래드 체크인 & Hertz 1차 렌터카 반납
+DESCRIPTION:🏨 체크인: 콘래드 메인 로비 정차 후 짐 하차 
+ ➔ 🚗 반납: 리조트월드 주차장(Self-Parking) 내 Hertz 전용
+  구역 주차 후 벽면 Key Drop Box에 키 투입 ($40.55) — 트조
+ 에서 콘래드까지 약 20km·20분 ➔ 75분 동안 4인 가족 짐
+ 하차·체크인·반납 서두름 없이 진행 ➔ 아이 피로 최
+ 소화\n🕓 콘래드 정식 체크인은 16:00부터(18:45 도착이면
+  문제없어요) · 호텔 +1 702-676-7000\n⏰ 리조트월드 Hertz 
+ 영업시간은 7:00–12:00 · 13:00–16:00 ((702) 273-3059) — 18:45 
+ 도착은 영업 종료 후라 Key Drop을 씁니다. 예약상 반납은
+  10/2 09:00이지만 픽업 후 24시간 안의 조기 반납이라 요
+ 금은 그대로일 가능성이 높아요 — 반납 뒤 도착하는 
+ 영수증 메일에서 총액이 $40.55인지 확인하세요.
+LOCATION:Hertz Car Rental Las Vegas Resorts World
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 체크인 & Hertz 1차 렌터카 반납
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d1-5-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261001T200000
+DTEND;TZID=America/Los_Angeles:20261001T211500
+SUMMARY:1일차 · [저녁 식사] Tacos El Gordo
+DESCRIPTION:🌮 메뉴: 아도바다(스파이시포크) & 카르네아
+ 사다 (호텔 맞은편 도보 7분\, 고기별 줄 확인) — 체크
+ 인 버퍼 확보 후 여유롭게 저녁 시작
+LOCATION:Tacos El Gordo 3041 S Las Vegas Blvd
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁 식사] Tacos El Gordo
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-0-090000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T090000
+DTEND;TZID=America/Los_Angeles:20261002T113000
+SUMMARY:2일차 · 콘래드 풀장 수영 & 중식
+DESCRIPTION:🏊 풀장 휴식 | 🍽️ 중식: F&B 크레딧 $50 룸차
+ 지 (Junior's 또는 Sun's Out Buns Out)
+LOCATION:Junior's Restaurant Resorts World Las Vegas
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 풀장 수영 & 중식
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-1-140000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T140000
+DTEND;TZID=America/Los_Angeles:20261002T143000
+SUMMARY:2일차 · 콘래드 레이트 체크아웃 & 투어 짐 보관
+DESCRIPTION:⚠️ 정식 체크아웃은 11:00이고\, ~14:00 레이트 
+ 체크아웃은 보장되지 않아요(힐튼 예약 화면: 늦은 체
+ 크아웃은 호텔에 문의). 미리 요청해 두고 안 되면 11:00
+ 에 체크아웃한 뒤 벨데스크에 짐을 맡기세요 · 호텔 +1 
+ 702-676-7000\n🧳 짐보관: 스피어 가방 규정(10×10×2인치)으
+ 로 투어용 개인 가방 전량 벨데스크 보관
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 레이트 체크아웃 & 투어 짐 보관
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-2-141500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T141500
+DTEND;TZID=America/Los_Angeles:20261002T151500
+SUMMARY:2일차 · 서커스서커스 (Circus Circus)
+DESCRIPTION:🎪 도보 이동 · 무료 서커스 공연 관람 & 아케
+ 이드 게임
+LOCATION:Circus Circus Las Vegas
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:서커스서커스 (Circus Circus)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-3-160000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T160000
+DTEND;TZID=America/Los_Angeles:20261002T181500
+SUMMARY:2일차 · 스피어 본공연 (오즈의 마법사)
+DESCRIPTION:🚖 우버 하차: 'Sphere Rideshare Drop-off (Sands Ave 북
+ 쪽 전용 구역)' 설정 (보행 육교 직결) ➔ 10×10×2인치 초
+ 과 가방 반입 불가 (투어 짐 콘래드 보관 필수) ➔ 입장 
+ 16:15(공연 45분 전)부터라 16:00 전후 도착 ➔ 로비에서 로
+ 봇 아우라 체험 ➔ 17:00 본공연 (지각 입장 불가) ➔ 티
+ 켓은 Ticketmaster 앱/폰 지갑 QR(스크린샷은 입장 불가)
+LOCATION:Sphere Las Vegas Rideshare Drop-off
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:스피어 본공연 (오즈의 마법사)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-4-185000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T185000
+DTEND;TZID=America/Los_Angeles:20261002T195000
+SUMMARY:2일차 · [저녁] 칙필레 또는 치폴레 (하몬 코너)
+DESCRIPTION:🍗 칙필레(치킨샌드위치/와플프라이) 또는 🌯
+  치폴레(부리토볼) 1시간 패스트캐주얼 컷\n💵 [현금 확
+ 인]: 10/2 자정 그랜드캐년 투어 현장 정산($688)을 위해 1
+ 일 차 코스트코 헨더슨에서 인출한 현금 봉투 최종 확
+ 인
+LOCATION:Harmon Corner Las Vegas NV
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] 칙필레 또는 치폴레 (하몬 코너)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-5-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T200000
+DTEND;TZID=America/Los_Angeles:20261002T220000
+SUMMARY:2일차 · [야경] 벨라지오 분수쇼 & 스트립 산책
+DESCRIPTION:⛲ 호수 앞 명당에서 분수쇼 관람 ➔ 메인 스트
+ 립 화려한 야경을 여유롭게 감상하며 구경 ➔ 22시경 우
+ 버로 콘래드 복귀
+LOCATION:Bellagio Fountains Las Vegas
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[야경] 벨라지오 분수쇼 & 스트립 산책
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-6-223000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T223000
+DTEND;TZID=America/Los_Angeles:20261002T234500
+SUMMARY:2일차 · 콘래드 복귀\, 짐 정리 & 로비 대기 휴식
+DESCRIPTION:🧳 콘래드 벨데스크 짐 픽업 ➔ 🧥 방한복(경
+ 량패딩/기모) 착용 및 투어 세팅 ➔ 로비 소파에서 조용
+ 히 대기하며 가족 휴식 (23:45 정문 드라이브웨이 탑승)
+LOCATION:Conrad Las Vegas at Resorts World
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 복귀\, 짐 정리 & 로비 대기 휴식
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d2-7-234500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T234500
+DTEND;TZID=America/Los_Angeles:20261003T001500
+SUMMARY:2일차 · 요한투어 픽업 & 그랜드캐년 투어 출발
+DESCRIPTION:🚐 콘래드 로비 픽업 탑승 ➔ 전용 밴 야간 취
+ 침 이동\n🕚 예약 페이지에는 픽업이 "전날 밤 11:30 전
+ 후"로 적혀 있어요(날씨·앤텔로프 예약 시간에 따라 변
+ 경 가능) — 23:45는 가정이니 요한투어 카톡(yohantour)으
+ 로 정확한 시각을 확정하세요
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:요한투어 픽업 & 그랜드캐년 투어 출발
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d3-0-234500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261002T234500
+DTEND;TZID=America/Los_Angeles:20261003T190000
+SUMMARY:3일차 · 그랜드캐년 VIP 투어 (요한투어 코스2)
+DESCRIPTION:💵 현금: 가이드 정산 $680 + 나바호팁 $8 | 🧳 
+ 인당 개인 소형 가방 1개 (차량 내 취침용 목베개/담요 
+ 지참) 📍 오전: 웰컴사인 ➔ 별자리 ➔ 조식(1인 $5\, 가
+ 이드 정산금 $680에 포함) ➔ 마더포인트 ➔ 데저트뷰 
+ 📍 오후: 로워 앤텔롭 ➔ 홀스슈밴드 ➔ 중식 ➔ 글렌
+ 댐 ※ 앤텔롭캐년은 로우어(Lower) 입장 예정이나\, 현지 
+ 상황 및 예약 마감 시 앤텔롭 X(Antelope Canyon X) 또는 기타
+  대체 캐년으로 변경될 수 있음.
+LOCATION:Welcome to Fabulous Las Vegas Sign
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:그랜드캐년 VIP 투어 (요한투어 코스2)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d3-1-190000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261003T190000
+DTEND;TZID=America/Los_Angeles:20261003T200000
+SUMMARY:3일차 · 콘래드 복귀 & 재체크인
+DESCRIPTION:🕓 10/3~10/4는 별도 예약이에요 — 체크인 16:00
+ 부터 가능\n🏨 리조트월드 정문 드롭 | 보관 캐리어 수
+ 령 & 객실 입실
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 복귀 & 재체크인
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d3-2-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261003T200000
+DTEND;TZID=America/Los_Angeles:20261003T203000
+SUMMARY:3일차 · [저녁] 리조트월드 푸드홀 / Junior's
+DESCRIPTION:🍽️ 16시간 투어 후 호텔 1층 Famous Foods 또는 Ju
+ nior's에서 편안한 식사/테이크아웃
+LOCATION:Famous Foods Street Eats Resorts World Las Vegas
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] 리조트월드 푸드홀 / Junior's
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-0-083000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T083000
+DTEND;TZID=America/Los_Angeles:20261004T090000
+SUMMARY:4일차 · 콘래드 체크아웃 & Hertz 2차 렌터카 픽업
+DESCRIPTION:🚗 리조트월드 데스크 2차 렌터카 픽업 (2일권 
+ $120.22\, 10/5 애너하임 Katella 반납) ➔ 짐 적재 후 남쪽 고
+ 속도로 진입로 이동\n🔖 Hertz 예약 픽업 10/4 09:00 · 리조
+ 트월드 Hertz 영업 7:00–12:00 · 13:00–16:00 ((702) 273-3059) · 
+ 후지불 $120.22 (2일 × $60.11)
+LOCATION:Hertz Resorts World Las Vegas
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:콘래드 체크아웃 & Hertz 2차 렌터카 픽업
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-1-091500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T091500
+DTEND;TZID=America/Los_Angeles:20261004T094000
+SUMMARY:4일차 · [도로 점심·간식] Whole Foods Market Las Vegas Bl
+ vd (Town Square)
+DESCRIPTION:🚗 콘래드 ➔ 홀푸드 약 11km · 15분 (09:00 출발) 
+ · 6689 S Las Vegas Blvd · 매일 07:00–22:00 · (702) 589-7711\n🥗 
+ [25분 컷] 사막 구간 점심 도시락(핫바·샐러드바·로티
+ 세리 치킨·샌드위치) + 과일·물·간식 ➔ 11:40 베이커 
+ 휴게소에서 점심 · 여유 있으면 홀푸드 에코백·365 브
+ 랜드 간식(귀국 선물)도 · ⚠️ 고기 등 냉장식품은 4시
+ 간 가까이 차에 있게 되니 바비큐 재료는 유카밸리 Walma
+ rt에서
+LOCATION:Whole Foods Market 6689 S Las Vegas Blvd Las Vegas NV 89119
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[도로 점심·간식] Whole Foods Market Las Vegas Blvd (Tow
+ n Square)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-2-094500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T094500
+DTEND;TZID=America/Los_Angeles:20261004T100500
+SUMMARY:4일차 · [위스키 쇼핑] Total Wine Town Square South
+DESCRIPTION:🥃 [20분 컷] 홀푸드에서 차로 0.7km · 약 3분 (같
+ 은 Town Square 권역\, 직선 약 300m — 홀푸드가 북쪽이라 
+ 먼저 들르고 남쪽 Total Wine에서 출발) ➔ 출발 후 Las Vegas
+  Blvd 남쪽 약 2.6km ➔ Blue Diamond Rd(SR 160)에서 I-15 S 진입 
+ ➔ 오늘밤 바비큐&자쿠지용 버번 위스키 구매
+LOCATION:Total Wine & More 6885 S Las Vegas Blvd NV
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[위스키 쇼핑] Total Wine Town Square South
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-3-100500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T100500
+DTEND;TZID=America/Los_Angeles:20261004T114000
+SUMMARY:4일차 · 모하비 사막 드라이브 1구간 (I-15 S)
+DESCRIPTION:🏜️ [약 1시간35분 · 137km] 베가스 → 베이커 
+ 방향 사막 고속도로 ➔ 통신음영 대비 구글 오프라인맵
+  가동
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:모하비 사막 드라이브 1구간 (I-15 S)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-4-114000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T114000
+DTEND;TZID=America/Los_Angeles:20261004T120000
+SUMMARY:4일차 · [중간 휴게] 베이커 · Alien Fresh Jerky
+DESCRIPTION:⛽🚻🍿 [20분] 사막 구간 진입 전 마지막 실질 
+ 서비스 지점 — 주유+화장실+홀푸드 도시락 점심. UFO 콘
+ 셉트 휴게소\, 세계 최대 온도계 조형물 포토스팟 ⚠️ 
+ 이후 구간 통신 두절 잦음
+LOCATION:Alien Fresh Jerky Baker CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[중간 휴게] 베이커 · Alien Fresh Jerky
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-5-120000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T120000
+DTEND;TZID=America/Los_Angeles:20261004T143000
+SUMMARY:4일차 · 모하비 사막 드라이브 2구간 (I-15 S ➔ CA-24
+ 7 S ➔ CA-62 E)
+DESCRIPTION:🏜️ [약 2시간 30분 · 227km] 베이커 → 바스토
+ 우(I-15 약 100km) → CA-247 남하(약 127km\, 2차로) → 유카밸
+ 리 · 경로 계산 2시간 20분~2시간 50분이라 기존 1시간 40
+ 분에서 늘렸어요 · 바스토우에서 화장실 한 번 가능
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:모하비 사막 드라이브 2구간 (I-15 S ➔ CA-247 S ➔
+  CA-62 E)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-6-143000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T143000
+DTEND;TZID=America/Los_Angeles:20261004T150000
+SUMMARY:4일차 · [바비큐 장보기] Walmart Supercenter 유카밸리
+ 점
+DESCRIPTION:🛒 30분 컷(목록대로 빠르게) — 점심은 홀푸드
+  도시락으로 해결했으니 장보기만: 스테이크·소시지·
+ 스모어 재료+숯(마시멜로 모닥불용)+생수 구매(EDLP 상시
+ 저가) 🔦 랜턴/손전등 + 담요 + 라이터 + 벌레기피제(야
+ 간 자쿠지·별관측 대비) + 알루미늄호일/쓰레기봉투/물
+ 티슈(바비큐 뒷정리용) — 마시멜로 꼬치는 한국에서 
+ 지참하니 구매 목록에서 제외
+LOCATION:Walmart Supercenter\, 58501 29 Palms Hwy\, Yucca Valley\, CA 9228
+ 4
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[바비큐 장보기] Walmart Supercenter 유카밸리점
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-7-151000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T151000
+DTEND;TZID=America/Los_Angeles:20261004T153000
+SUMMARY:4일차 · [체크인 & 식재료 냉장 & 환복] The Pink Bungal
+ ow (Airbnb)
+DESCRIPTION:고기·냉장식품부터 냉장고에 ➔ 트렁크 짐 내
+ 리기 · 가벼운 복장 환복(20분) ➔ 방한 겉옷 챙겨서 15:3
+ 0 공원으로 출발 · 운전이 더 걸려 늦어지면 바커댐을 
+ 빼고 히든밸리 → 키즈뷰(일몰 18:22)로\n🕒 공식 체크인
+  15:00 · 15:10 도착이라 바로 입실 가능 — 키패드가 안 
+ 열리면 호스트에게 메시지(Airbnb 앱). 입실 안내·와이파
+ 이는 10/2 15:00(PT)부터 Airbnb 예약 화면에서 확인할 수 있
+ 으니 캡처해 오프라인 저장 (사막이라 통신이 약해요)
+LOCATION:61480 El Cajon Drive Joshua Tree CA 92252
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[체크인 & 식재료 냉장 & 환복] The Pink Bungalow (Air
+ bnb)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-8-153000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T153000
+DTEND;TZID=America/Los_Angeles:20261004T165000
+SUMMARY:4일차 · [서쪽 게이트 입장 & 트레킹] 히든밸리
+DESCRIPTION:🚗 이동: 숙소에서 서쪽 게이트 거쳐 히든밸리
+ 까지 차량 25분 소요 ($30 차량 입장료) ➔ 🚶 트레킹: 1.6
+ km 완만 둘레길 기암괴석 및 조슈아트리 군락지 50분간 
+ 여유롭게 산책
+LOCATION:Hidden Valley Nature Trail Joshua Tree CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[서쪽 게이트 입장 & 트레킹] 히든밸리
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-9-170000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T170000
+DTEND;TZID=America/Los_Angeles:20261004T174500
+SUMMARY:4일차 · [숨은 명소] 바커댐 (Barker Dam)
+DESCRIPTION:🚗 [10분 이동] 히든밸리 바로 지척 ➔ 🚶 1.1마
+ 일(1.8km) 완만 둘레길 약 45분(NPS 기준 1.1마일) — 1900년
+ 대 초 목장주가 만든 저수지 & 주변 바위의 원주민 암각
+ 화(페트로글리프) 감상 (숙소 호스트 추천) ⏰ 시간 남
+ 으면 옵션 — 은 Park Blvd 동쪽으로 더 가야 해서 이번엔 
+ 스킵\, 여유 있을 때만 추가
+LOCATION:Barker Dam Joshua Tree CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[숨은 명소] 바커댐 (Barker Dam)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-10-180000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T180000
+DTEND;TZID=America/Los_Angeles:20261004T183500
+SUMMARY:4일차 · [일몰 명소] 키즈뷰 (Keys View) 골든아워 & 
+ 선셋 (18:22)
+DESCRIPTION:🌄 [약 20분] 고지대 전망대(해발 1\,577m) 이동 
+ ➔ 코첼라밸리·샌안드레아스 단층 물드는 일몰(18:22) 
+ 감상 ⚠️ 암흑·야생동물 대비 18:35 즉시 출차 ➔ 서쪽
+ 게이트 하산(19:10 숙소 도착) · 고지대 강풍 대비 방한 
+ 외투 착용
+LOCATION:Keys View Joshua Tree CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[일몰 명소] 키즈뷰 (Keys View) 골든아워 & 선셋 (1
+ 8:22)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d4-11-191000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261004T191000
+DTEND;TZID=America/Los_Angeles:20261004T194000
+SUMMARY:4일차 · [숙소 복귀 & 만찬] 가스레인지 팬 스테이
+ 크\, 마시멜로 구이 & 자쿠지 온수욕
+DESCRIPTION:서쪽 게이트로 나와 숙소 복귀 (35분 소요) ➔ 
+ 가스레인지 팬으로 소고기 스테이크 구이 & 모닥불 마
+ 시멜로 구이 ➔ 야외 자쿠지 온수욕 & 밤하늘 은하수/별
+ 자리(Stargazing) 감상 🌌 옵션(선택 시에만) — 컨디션 괜
+ 찮으면 까지 19분 야간 드라이브로 이동해 감상 가능 ➔
+  ⚠️ 밤 운전 + 공원 내 통신 완전 두절(오프라인 지도 
+ 필수) 감안\, 차량에서 20피트(6m) 이상 벗어나지 말 것 
+ — 무리하지 말고 숙소 마당에서만 봐도 충분
+LOCATION:Quail Springs Picnic Area Joshua Tree CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[숙소 복귀 & 만찬] 가스레인지 팬 스테이크\, 
+ 마시멜로 구이 & 자쿠지 온수욕
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-0-073000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T073000
+DTEND;TZID=America/Los_Angeles:20261005T083000
+SUMMARY:5일차 · 기상 & 아침(간단히) & 짐정리
+DESCRIPTION:🧳 전날 밤 바비큐·자쿠지 여운 마무리\, 숙소
+  전체 짐 재정리 및 최종 점검
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:기상 & 아침(간단히) & 짐정리
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-1-083000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T083000
+DTEND;TZID=America/Los_Angeles:20261005T084500
+SUMMARY:5일차 · The Pink Bungalow 체크아웃
+DESCRIPTION:✅ 체크아웃은 11:00으로 확인됨 — 08:45 조기 퇴
+ 실은 별도 승인이 필요 없어요 (호스트 Tisha에게 메시지
+ 로 미리 알려두면 좋아요)
+LOCATION:61480 El Cajon Drive\, Joshua Tree\, CA 92252
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:The Pink Bungalow 체크아웃
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-2-084500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T084500
+DTEND;TZID=America/Los_Angeles:20261005T102000
+SUMMARY:5일차 · 조슈아트리 → 데저트힐스 아울렛 이동 (C
+ A-62 W ➔ I-10 W)
+DESCRIPTION:🚗 [약 1시간 35분\, 여유 포함] 총 약 70마일 구
+ 간\, 오픈시간(10:00)에 맞춰 여유있게 도착
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:조슈아트리 → 데저트힐스 아울렛 이동 (CA-62 W 
+ ➔ I-10 W)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-3-102000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T102000
+DTEND;TZID=America/Los_Angeles:20261005T140000
+SUMMARY:5일차 · [쇼핑 & 점심] 데저트힐스 프리미엄 아울
+ 렛
+DESCRIPTION:🛍️ I-10 Exit 104 진입 ➔ 'Parking Garage' 표지판 
+ 따라 이스트빌리지 주차 (월~토 10:00~21:00) | 🎯 이스트 4
+ 곳(노스페이스 ➔ 폴로 ➔ 토미힐피거 ➔ 캘빈클라인) 
+ ➔ 웨스트 3곳(리바이스·폴로칠드런·배쓰&바디웍스) 
+ 한 방향 동선\, 쿠폰북 먼저 | 🍽️ 이스트 푸드 파빌리
+ 온 파이브가이즈 점심 (공식 매장 목록 기준 East Village F
+ ood Pavilion\, Entrance 1)
+LOCATION:Desert Hills Premium Outlets 48400 Seminole Dr Cabazon CA 92230
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[쇼핑 & 점심] 데저트힐스 프리미엄 아울렛
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-4-153000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T153000
+DTEND;TZID=America/Los_Angeles:20261005T161500
+SUMMARY:5일차 · [트렁크 쇼핑 1차] Trader Joe's Orange점
+DESCRIPTION:🛍️ 상온 귀국선물(토트백·시즈닝·과자)+테
+ 마파크 간식 대량구매 ➔ 트렁크 적재
+LOCATION:Trader Joe's 2114 N Tustin St Orange CA 92865
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[트렁크 쇼핑 1차] Trader Joe's Orange점
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-5-163000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T163000
+DTEND;TZID=America/Los_Angeles:20261005T173000
+SUMMARY:5일차 · [풀 주유 & 쇼핑 2차] 코스트코 가든그로브
+ 점
+DESCRIPTION:⛽ 반납대비 풀주유(Visa) ➔ 🛒 영양제·미국한
+ 정 위스키·대용량 생수 구매 ➔ 🍗 오늘 저녁용 로티
+ 세리 치킨 + 샐러드·과일·음료 (숙소에서 먹을 거라 마
+ 지막에 담기)
+LOCATION:Costco Wholesale 11000 Garden Grove Blvd Garden Grove CA 92843
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[풀 주유 & 쇼핑 2차] 코스트코 가든그로브점
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-6-174500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T174500
+DTEND;TZID=America/Los_Angeles:20261005T181500
+SUMMARY:5일차 · Home2 Suites 애너하임 도착 & 가족 선하차
+DESCRIPTION:👪 호텔 프런트에 아내·두 딸 및 모든 캐리어
+ ·쇼핑짐 전량 하차 ➔ 체크인 진행 (가족은 객실 대기\,
+  남편만 차량으로 렌터카 반납 이동)\n🕓 Home2 정식 체
+ 크인 16:00(17:45 도착이면 OK) · 체크아웃 11:00 · 호텔 +1 71
+ 4-844-2811
+LOCATION:Home2 Suites by Hilton Anaheim Resort 1441 S Manchester Ave Anahe
+ im CA 92802
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Home2 Suites 애너하임 도착 & 가족 선하차
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-7-181500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T181500
+DTEND;TZID=America/Los_Angeles:20261005T184500
+SUMMARY:5일차 · Hertz 애너하임(Katella Ave) 렌터카 선반납
+DESCRIPTION:🚗 무인 키드롭(Key Drop Box) 안전 반납 ($120.22) ·
+  반납 전 계기판(주유/마일리지) 및 주차 위치 사진 촬
+ 영 필수 ➔ 🚶 호텔로 도보 복귀 (약 1.2km\, 15분)\n⏰ Kate
+ lla 지점은 평일 8:00–17:00 ((714) 772-0425)라 18:15 반납은 영
+ 업 종료 후 Key Drop. 예약상 반납은 10/6 09:00이라 조기(선)
+ 반납이에요 — 반납 후 영수증 메일에서 총액이 $120.22 
+ 이하인지 확인하고\, 다르면 예약 탭의 예약번호로 문
+ 의하세요.
+LOCATION:Hertz 221 W Katella Ave Anaheim CA 92802
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Hertz 애너하임(Katella Ave) 렌터카 선반납
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-8-190000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T190000
+DTEND;TZID=America/Los_Angeles:20261005T200000
+SUMMARY:5일차 · [저녁] 숙소에서 코스트코 로티세리 치킨
+DESCRIPTION:🍗 아빠 렌터카 반납 후 합류 ➔ Home2 스튜디오
+  객실에서 코스트코 로티세리 치킨 + 샐러드·과일로 편
+ 하게 저녁 · 남은 치킨은 냉장고에 넣어 내일 아침·간
+ 식으로
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] 숙소에서 코스트코 로티세리 치킨
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d5-9-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261005T200000
+DTEND;TZID=America/Los_Angeles:20261005T210000
+SUMMARY:5일차 · (선택) 다운타운 디즈니 야경 산책
+DESCRIPTION:🌙 컨디션이 괜찮을 때만 — 내일 07:30 디즈니
+ 랜드 게이트라 일찍 쉬는 것도 좋아요 · 숙소에서 걸어
+ 서 약 20분(추정)
+LOCATION:Downtown Disney District Anaheim
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:(선택) 다운타운 디즈니 야경 산책
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-0-073000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T073000
+DTEND;TZID=America/Los_Angeles:20261006T080000
+SUMMARY:6일차 · 디즈니랜드 파크 게이트 ➔ 입장 즉시 LL#1
+  예약
+DESCRIPTION:🏰 Home2 Suites에서 Harbor Blvd 따라 북쪽 도보 12~15
+ 분 ➔ 동쪽 게이트(East Entrance) 보안검색대 통과 ➔ 07:40 
+ 메인 광장 허브 좌측 로프 대기 ➔ 08:00 정각 입장 (공식
+  캘린더 기준 파크 운영 08:00–23:00)\n⚡ 입장 스캔 직후 
+ 앱에서 LL#1 예약 — 티아나의 바이유 어드벤처 (복귀 ~09
+ :45–10:30 목표: 라이즈 다음에 이어서)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:디즈니랜드 파크 게이트 ➔ 입장 즉시 LL#1 예약
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-1-080000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T080000
+DTEND;TZID=America/Los_Angeles:20261006T093000
+SUMMARY:6일차 · [오픈런] 스타워즈 라이즈 오브 더 레지스
+ 탕스 (스탠바이)
+DESCRIPTION:🚀 로프 드롭 ➔ 도보 약 15분 Galaxy's Edge ➔ 하
+ 루 중 대기가 가장 짧은 오픈 직후에 라이즈 탑승 (Multi 
+ Pass 대상이 아니에요 · 유료 Single Pass는 선택)\n⚡ 라이
+ 즈 후 LL#1 복귀 시간까지 남는 틈엔 대기가 짧은 스탠바
+ 이 어트랙션 하나 (캐리비안의 해적·정글 크루즈는 LL 
+ 없음). 밀레니엄 팔콘은 오전 스탠바이 대신 저녁 LL#6으
+ 로 탑승
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[오픈런] 스타워즈 라이즈 오브 더 레지스탕스 
+ (스탠바이)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-2-093000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T093000
+DTEND;TZID=America/Los_Angeles:20261006T111500
+SUMMARY:6일차 · 서쪽 스윕 — 티아나의 바이유 & 헌티드 
+ 맨션 홀리데이 (LL#1·#2)
+DESCRIPTION:⚡ LL#1 티아나의 바이유 어드벤처(~09:45–10:30\, 
+ 크리터 컨트리) ➔ 탑승 직후 LL#2 헌티드 맨션 홀리데이
+  예약 ➔ LL#2 헌티드 맨션 홀리데이(~10:45–11:30\, 뉴올리
+ 언스 스퀘어) ➔ 탑승 직후 LL#3 마터호른을 점심 이후(13
+ 시대)로 예약
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:서쪽 스윕 — 티아나의 바이유 & 헌티드 맨션 
+ 홀리데이 (LL#1·#2)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-3-111500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T111500
+DTEND;TZID=America/Los_Angeles:20261006T124500
+SUMMARY:6일차 · [점심 + 돌 휩] Plaza Inn (또는 Café Orleans)
+DESCRIPTION:🍗 디즈니 앱 30분 전 모바일 오더 (프라이드치
+ 킨 플래터) ➔ 식후 어드벤처랜드에서 Dole Whip 🍍 ➔ 허
+ 브를 지나 판타지랜드로 이동
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[점심 + 돌 휩] Plaza Inn (또는 Café Orleans)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-4-124500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T124500
+DTEND;TZID=America/Los_Angeles:20261006T141500
+SUMMARY:6일차 · 판타지랜드 — 마터호른 (LL#3)
+DESCRIPTION:⚡ LL#3 마터호른 봅슬레이(~13:00–14:00) ➔ 탑승 
+ 직후 LL#4 스페이스 마운틴 예약 · 🏰 캐슬 앞에서 미키
+  머리띠 가족 인생샷 · 잇츠 어 스몰 월드는 대기가 짧
+ 을 때만 스탠바이 (LL 대상)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:판타지랜드 — 마터호른 (LL#3)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-5-141500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T141500
+DTEND;TZID=America/Los_Angeles:20261006T163000
+SUMMARY:6일차 · 투모로우랜드 — 스페이스 마운틴 & 스타 
+ 투어즈 (LL#4·#5)
+DESCRIPTION:⚡ LL#4 스페이스 마운틴(~14:30–15:30) ➔ 탑승 직
+ 후 LL#5 스타 투어즈 예약 ➔ LL#5 스타 투어즈(~15:45–16:30
+ ) ➔ 탑승 직후 LL#6 밀레니엄 팔콘을 17시대로 예약\n🌡
+ ️ 14~16시가 가장 더운 시간 — 실내 어트랙션(스타 투
+ 어즈·버즈 라이트이어)으로 체력 방어 + 15분 휴식 (버
+ 즈는 스탠바이가 짧을 때)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:투모로우랜드 — 스페이스 마운틴 & 스타 투어
+ 즈 (LL#4·#5)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-6-163000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T163000
+DTEND;TZID=America/Los_Angeles:20261006T181500
+SUMMARY:6일차 · 갤럭시 엣지 — 밀레니엄 팔콘 (LL#6)
+DESCRIPTION:🛸 투모로우랜드 ➔ Galaxy's Edge 도보 약 15~20분 
+ ➔ ⚡ LL#6 밀레니엄 팔콘(~17:15–18:15) ➔ 탑승 직후 LL#7 
+ 빅썬더 마운틴을 야간(19:30 전후)으로 예약 · 팔콘 조종
+ 석 인증샷
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:갤럭시 엣지 — 밀레니엄 팔콘 (LL#6)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-7-181500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T181500
+DTEND;TZID=America/Los_Angeles:20261006T191500
+SUMMARY:6일차 · [저녁] 파크 내부 Rancho del Zocalo (또는 Plaza 
+ Inn)
+DESCRIPTION:🌮 프론티어랜드 멕시칸 다이닝(카르니타스·
+ 바비큐) — 파크 내부에서 저녁 해결 권장 ⚠️ 외출 시
+  왕복+재입장 보안검색 대기 약 40분 소요로 저녁 라이
+ 드 시간 손실 ➔ 디즈니 앱 모바일 오더(17:45)로 줄 없이
+  바로 수령
+LOCATION:Rancho del Zocalo Restaurante Disneyland
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] 파크 내부 Rancho del Zocalo (또는 Plaza Inn)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-8-191500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T191500
+DTEND;TZID=America/Los_Angeles:20261006T203000
+SUMMARY:6일차 · 프런티어랜드 — 빅 썬더 마운틴 야간 (LL#
+ 7)
+DESCRIPTION:⚡ LL#7 빅썬더 마운틴(~19:30–20:30) — 조명 켜진
+  밤 협곡 코스터 (수빈이 키 102cm 이상 확인)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:프런티어랜드 — 빅 썬더 마운틴 야간 (LL#7)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-9-203000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261006T203000
+DTEND;TZID=America/Los_Angeles:20261006T223000
+SUMMARY:6일차 · 마무리 — 야간 어트랙션 & 할로윈 스크림
+ (Halloween Screams)
+DESCRIPTION:🎃 20:30–21:15 대기가 짧은 어트랙션 하나 (라
+ 이즈 야간 재탑승 · 캐리비안의 해적 · 헌티드 맨션 중
+ ) ➔ 21:15 명당 이동 ➔ 21:30 Halloween Screams — 공식 캘린
+ 더의 10/6 표기는 "with Projections"(불꽃 없는 프로젝션 버
+ 전\, 불꽃은 특정 날짜에만) ✨ 명당: 메인스트리트 Empor
+ ium 앞 또는 기차역 계단(캐슬 정면 혼잡 회피\, 퇴장 유
+ 리) ⚠️ 쇼 시간·구성은 당일 디즈니 앱으로 최종 확
+ 인\n🌙 파크는 23:00까지 — 수빈이 컨디션에 맞춰 22:30 
+ 전후 퇴장 권장 (Home2 Suites 도보 12~15분)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:마무리 — 야간 어트랙션 & 할로윈 스크림(Hallow
+ een Screams)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-0-093000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T093000
+DTEND;TZID=America/Los_Angeles:20261007T110000
+SUMMARY:7일차 · 애너하임 ➔ 로어스 할리우드 호텔 이동
+DESCRIPTION:🚕 [50분] UberXL 이동(4인+대형 캐리어4개+쇼핑백
+  전량) ➔ 배차 후 차량사진/차종 확인\, 트렁크 좁으면 
+ Uber Black SUV로 업그레이드 또는 캐리어 무릎/발밑 분산 
+ 대비 ➔ 프런트 짐 보관 후 파크 외출
+LOCATION:Loews Hollywood Hotel
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:애너하임 ➔ 로어스 할리우드 호텔 이동
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-1-123000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T123000
+DTEND;TZID=America/Los_Angeles:20261007T180000
+SUMMARY:7일차 · [유니버설 1일차] 하부(Lower Lot) 완파
+DESCRIPTION:🕗 10/7 파크 운영 08:00–18:00(공식 캘린더\, 9/27 
+ 확인) · 🤖 웨이모 먼저 앱에서 목적지 'Universal Studios H
+ ollywood'가 잡히는지 확인(유니버설 시티는 웨이모 공식 
+ 안내에 서비스 지역으로 명시돼 있지 않아 미확인) ➔ 
+ 안 되면 🚖 UberX 목적지는 'Frankenstein Parking Garage'로 지
+ 정 — 파크 입구와 가장 가까운 하차지점(에스컬레이터
+ /계단 1층만 오르면 입구)\, 그냥 'Universal Studios Hollywood'
+ 로 잡으면 시티워크/ET 주차장 쪽에 내려 20분 이상 더 
+ 걸을 수 있음 ➔ 입장 즉시 4단 에스컬레이터(Starway) 타
+ 고 하부(Lower Lot) 직행 ➔ 🍄 마리오카트 ➔ 🦖 쥬라기
+ 월드(옷 젖음 주의) ➔ ⚡ 미이라
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[유니버설 1일차] 하부(Lower Lot) 완파
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-2-180000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T180000
+DTEND;TZID=America/Los_Angeles:20261007T191500
+SUMMARY:7일차 · [저녁] 유니버설 시티워크 저녁식사
+DESCRIPTION:🍽️ 파크 퇴장 후 바로 시티워크 — Toothsome Ch
+ ocolate 또는 Antojitos(멕시칸) 디너(또는 포장) · 가볍게 
+ 산책
+LOCATION:Universal CityWalk Hollywood
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] 유니버설 시티워크 저녁식사
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-3-191500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T191500
+DTEND;TZID=America/Los_Angeles:20261007T194500
+SUMMARY:7일차 · [호텔 복귀 & 체크인] 로어스 할리우드
+DESCRIPTION:🤖 웨이모(안 되면 UberX) 15~20분 ➔ 프런트에서 
+ 맡긴 짐 찾고 체크인(16:00부터 가능) · 객실 배정 확인
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[호텔 복귀 & 체크인] 로어스 할리우드
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-4-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T200000
+DTEND;TZID=America/Los_Angeles:20261007T210000
+SUMMARY:7일차 · [호텔 액티비티] 5층 루프탑 온수풀 야경
+ 수영 (1회차)
+DESCRIPTION:🏊 온수풀이라 10월 초 선선한 날씨도 부담없
+ 음 · 할리우드힐스+도심 야경 조망 · 썬베드/타월 비치
+  · 풀사이드 파이어핏 · 운영 시간은 체크인 때 프런트
+ 에 확인
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[호텔 액티비티] 5층 루프탑 온수풀 야경수영 (1
+ 회차)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d7-5-210000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261007T210000
+DTEND;TZID=America/Los_Angeles:20261007T220000
+SUMMARY:7일차 · 객실 휴식
+DESCRIPTION:🛌 내일 다저스타디움 투어(10:00) 대비 이른 취
+ 침
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:객실 휴식
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-0-093000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T093000
+DTEND;TZID=America/Los_Angeles:20261008T120000
+SUMMARY:8일차 · [다저스타디움] 공식 투어 관람 (또는 플
+ 랜 B)
+DESCRIPTION:🤖 웨이모 우선 시도(15분\, 서비스구역 확인됨
+ ·2025.6 확장분) ➔ 안 잡히면 UberX 전환 · Gate A(Sunset Gate)
+ 로 진입(차량은 Lot P) → 팀스토어 옆 Top of the Park 집결 |
+  클래식 스타디움 투어: 필드 워닝트랙·더그아웃·빈 
+ 스컬리 프레스박스·클럽 레벨 박물관·트로피 갤러리 &
+  팀스토어 굿즈 쇼핑 (라커룸(클럽하우스)은 금~월 비경
+ 기일 전용 '클럽하우스 투어'라 목요일엔 없음 ·✅ 10/8(
+ 목) 스타디움 투어 10:00 · 11:00 · 12:00 · 13:00 예매 가능 
+ — 9/27 공식 사이트 확인\, 10/10은 매진이라 이날로 옮겼
+ 어요 · 10:00 · 4인 예매 필요 · 75분 · 15분 전 도착 · 클
+ 리어백만 반입) 🚨 플랜 B (다저스 포스트시즌 홈경기 
+ 배정 시): 투어 취소 또는 주변 교통 마비 시\, 실내 우
+ 주왕복선 인데버호가 있는 캘리포니아 사이언스 센터 (
+ California Science Center)로 오전 일정 즉시 전환 (LAX 인근 박
+ 물관 지구\, 주차 편리 & 아이들 관람 최적)
+LOCATION:Dodger Stadium 1000 Vin Scully Ave Los Angeles
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[다저스타디움] 공식 투어 관람 (또는 플랜 B)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-1-123000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T123000
+DTEND;TZID=America/Los_Angeles:20261008T133000
+SUMMARY:8일차 · [점심] 다운타운 그랜드 센트럴 마켓
+DESCRIPTION:🤖 웨이모 우선 시도(8분\, DTLA 내부라 서비스
+ 구역 확실) ➔ 안 잡히면 UberX 전환 | 100년 전통 푸드홀: 
+ 에그슬럿 본점 / 정통 타코 / 수제버거 자유 점심
+LOCATION:Grand Central Market Los Angeles CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[점심] 다운타운 그랜드 센트럴 마켓
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-2-133000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T133000
+DTEND;TZID=America/Los_Angeles:20261008T153000
+SUMMARY:8일차 · [다운타운 문화 도보 산책] 엔젤스 플라이
+ 트 ➔ 더 브로드 & 디즈니 콘서트홀
+DESCRIPTION:🥪 마켓 점심 ➔ 맞은편 엔젤스 플라이트($1) 
+ 탑승(벙커힐 언덕 진입) ➔ 🎨 더 브로드(14:00 사전예약
+  티켓) & 디즈니홀 외관 ➔ 남쪽 완만한 내리막 도보 약 
+ 12~15분(약 1km) 더 라스트 북스토어 (Grand Ave ➔ 5th St 북측
+  인도 이용\, 치안 안전 보행로 / 원웨이 도보 완결)
+LOCATION:Angels Flight Railway Los Angeles
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[다운타운 문화 도보 산책] 엔젤스 플라이트 ➔
+  더 브로드 & 디즈니 콘서트홀
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-3-153000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T153000
+DTEND;TZID=America/Los_Angeles:20261008T163000
+SUMMARY:8일차 · [포토존] 더 라스트 북스토어
+DESCRIPTION:📚 캘리포니아 최대 서점 · 2층 '책 터널(Book Tu
+ nnel)' 앞 가족 기념사진
+LOCATION:The Last Bookstore Los Angeles
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[포토존] 더 라스트 북스토어
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-4-163000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T163000
+DTEND;TZID=America/Los_Angeles:20261008T175000
+SUMMARY:8일차 · [귀국 선물 쇼핑] Whole Foods Market 웨스트 할
+ 리우드
+DESCRIPTION:🚕 라스트 북스토어 ➔ 홀푸드 약 14km · 교통 
+ 없을 때 16분\, 목요일 퇴근 시간이라 30~40분 예상 ➔ 웨
+ 이모(웨스트 할리우드가 서비스 구역인지 앱에서 확인)
+  또는 UberX · 7871 Santa Monica Blvd · 매일 07:00–22:00 · (323) 
+ 848-4200\n🛍️ [약 40분] 홀푸드 에코백·토트백\, 365 브랜
+ 드 간식·견과류\, 초콜릿\, 커피·차 등 귀국 선물 ➔ 객
+ 실에 보관했다가 10/10 최종 패킹 때 무게에 포함 · ⚠️
+  액체·젤류는 위탁 수하물로 · 교통이 너무 막히면 홀
+ 푸드를 건너뛰고 로어스로 직행
+LOCATION:Whole Foods Market 7871 Santa Monica Blvd West Hollywood CA 90046
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[귀국 선물 쇼핑] Whole Foods Market 웨스트 할리우
+ 드
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-5-175000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T175000
+DTEND;TZID=America/Los_Angeles:20261008T181000
+SUMMARY:8일차 · [호텔 복귀] 홀푸드 ➔ 로어스 할리우드
+DESCRIPTION:🚕 약 3.5km · 5~15분 (웨이모 또는 UberX) ➔ 쇼핑
+ 백 객실에 두고 환복 후 저녁
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[호텔 복귀] 홀푸드 ➔ 로어스 할리우드
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-6-181500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T181500
+DTEND;TZID=America/Los_Angeles:20261008T191500
+SUMMARY:8일차 · [저녁] CPK(Ovation 3층) 저녁식사
+DESCRIPTION:🍽️ 호텔 로비와 실내 직결 · 매장 식사 또는
+  포장 후 객실에서 편하게 · 🔑 나갈 땐 카드키 불필요
+ 하나 돌아올 때 카드키 태그 필수
+LOCATION:California Pizza Kitchen at Ovation Hollywood
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[저녁] CPK(Ovation 3층) 저녁식사
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-7-191500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T191500
+DTEND;TZID=America/Los_Angeles:20261008T194500
+SUMMARY:8일차 · [포토존 & 쇼핑] Ovation 4층 '블랙아치' · 세
+ 포라(1층)
+DESCRIPTION:📸 4층 '블랙아치' 포토존(3층 코끼리브릿지보
+ 다 한적\, 할리우드사인 정면샷) · 시간 되면 1층 세포
+ 라
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[포토존 & 쇼핑] Ovation 4층 '블랙아치' · 세포라(
+ 1층)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d8-8-200000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261008T200000
+DTEND;TZID=America/Los_Angeles:20261008T210000
+SUMMARY:8일차 · [호텔 액티비티] 루프탑 온수풀 야경수영 
+ (2회차)
+DESCRIPTION:🏊 5층 루프탑 온수풀 ➔ 야경 조망 & 파이어핏
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[호텔 액티비티] 루프탑 온수풀 야경수영 (2회
+ 차)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d9-0-083000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261009T083000
+DTEND;TZID=America/Los_Angeles:20261009T090000
+SUMMARY:9일차 · LA 핵심 종일 투어 — 로어스 호텔 픽업 (11
+ 시간)
+DESCRIPTION:🚐 로어스 호텔 앞 가이드 픽업 (최신형 미니
+ 밴\, 생수 제공) · 할리우드 호텔 픽업/드롭은 건당 $30(
+ 예약 페이지 기준) | 💵 현장비: 가이드 팁 $80 + 주차비 
+ $60 + 픽업·드롭 $60 = 총 $200 (Cash Only)\n🔁 대안: 픽업비
+ 가 인당으로 확인되면(4명 왕복 $240) 코리아타운 무료 
+ 미팅 + 웨이모 왕복(8.6km\, 편도 약 $20~30 추정)으로 바꾸
+ 세요\n⚠️ 예약 페이지 기준 투어 시작은 09:00~11:00 사
+ 이\, 종료 19:30~21:00이라 08:30 미팅은 가정이에요 — 미팅
+  시각·장소는 LA드림투어 카톡(ladreamtour)으로 확정하세
+ 요
+LOCATION:BCD Tofu House 3575 Wilshire Blvd Los Angeles
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:LA 핵심 종일 투어 — 로어스 호텔 픽업 (11시간)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d9-1-090000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261009T090000
+DTEND;TZID=America/Los_Angeles:20261009T193000
+SUMMARY:9일차 · LA 9대 핵심 코스 투어
+DESCRIPTION:📍 오전: 산타모니카 피어(끝단 간판샷) ➔ 게
+ 티센터 도슨트(중앙정원+전망테라스\, 💰뮤지엄샵 엽
+ 서) ➔ 비벌리힐스(차창) ➔ 그레이스톤 맨션(⚠️외관
+ ·정원만\, 내부투어 미운영) 📍 오후: 폴스미스 핑크월
+ (벽 앞 가족사진) ➔ 파머스마켓 점심(푸드홀 자유선택)
+  ➔ 할리우드사인(원거리 조망) ➔ 그리피스 천문대(야
+ 경+할리우드사인 동시조망\, 💰기프트샵 천문소품)
+LOCATION:Santa Monica Pier CA
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:LA 9대 핵심 코스 투어
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d9-2-193000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261009T193000
+DTEND;TZID=America/Los_Angeles:20261009T200000
+SUMMARY:9일차 · LA 종일 투어 종료 & 로어스 호텔 앞 드롭
+DESCRIPTION:🚐 로어스 할리우드 호텔 앞 드롭 · 종료 시각
+ 은 19:30~21:00 사이라 이후 산책·디저트는 컨디션 보고
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:LA 종일 투어 종료 & 로어스 호텔 앞 드롭
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d9-3-193000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261009T193000
+DTEND;TZID=America/Los_Angeles:20261009T194500
+SUMMARY:9일차 · 명예의 거리 가벼운 도보 산책
+DESCRIPTION:🚶 [10~15분] 차이니즈극장~무소앤프랭크 번화
+ 가 구간 내에서만 ⚠️ 동쪽 Vine St 방향 야간 이동 금지
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:명예의 거리 가벼운 도보 산책
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d9-4-194500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261009T194500
+DTEND;TZID=America/Los_Angeles:20261009T201500
+SUMMARY:9일차 · Ovation 몰 3층 벤앤제리스 디저트 테이크아
+ 웃 → 객실 복귀
+DESCRIPTION:🏊 오늘은 수영 없음 — 연속 이틀 수영 후 하
+ 루 휴식
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:Ovation 몰 3층 벤앤제리스 디저트 테이크아웃 →
+  객실 복귀
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-0-080000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T080000
+DTEND;TZID=America/Los_Angeles:20261010T113000
+SUMMARY:10일차 · [유니버설 2일차] 상부(Upper Lot) 해리포터 
+ 오픈런
+DESCRIPTION:🕗 10/10 파크 운영 08:00–18:00(공식 캘린더\, 9/27
+  확인) ➔ 07:30 로어스 출발 · 🤖 웨이모 먼저 앱에서 
+ 목적지 'Universal Studios Hollywood'가 잡히는지 확인(유니버
+ 설 시티는 웨이모 공식 안내에 서비스 지역으로 명시돼
+  있지 않아 미확인) ➔ 안 되면 🚖 UberX 목적지는 'Franken
+ stein Parking Garage'로 지정(파크 입구 최단거리 하차\, 7일
+ 차 참고) ➔ 08:00 개장과 함께 🏰 포비든 저니 & 히포그
+ 리프 ➔ 🍺 호그스미드 버터맥주 & 지팡이 체험
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[유니버설 2일차] 상부(Upper Lot) 해리포터 오픈
+ 런
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-1-113000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T113000
+DTEND;TZID=America/Los_Angeles:20261010T143000
+SUMMARY:10일차 · [핵심 투어 & 공연] 스튜디오 투어 & 워터
+ 월드
+DESCRIPTION:🎬 스튜디오 투어(60분 트램\, 좌측 좌석 착석) 
+ ➔ 🍽️ '쓰리 브룸스틱스' 점심 ➔ 🌊 워터월드 스턴
+ 트 쇼
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[핵심 투어 & 공연] 스튜디오 투어 & 워터월드
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-2-143000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T143000
+DTEND;TZID=America/Los_Angeles:20261010T173000
+SUMMARY:10일차 · [패밀리 라이드 & 주간 마감 퇴장]
+DESCRIPTION:🐶 마이펫 ➔ 미니언즈 & 심슨 라이드 ➔ 🚪 
+ 파크는 18:00 마감이지만 18:15 페어웰 디너를 위해 17:30에
+  퇴장
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[패밀리 라이드 & 주간 마감 퇴장]
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-3-173000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T173000
+DTEND;TZID=America/Los_Angeles:20261010T180000
+SUMMARY:10일차 · [유니버설 퇴장] 호텔 복귀
+DESCRIPTION:🤖 웨이모(안 되면 UberX)로 호텔 복귀 (15~20분) 
+ ➔ 환복 후 18:15 페어웰 디너
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[유니버설 퇴장] 호텔 복귀
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-4-181500@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T181500
+DTEND;TZID=America/Los_Angeles:20261010T193000
+SUMMARY:10일차 · [페어웰 디너 후보지 2선]
+DESCRIPTION:🥇 [추천] Musso & Frank Grill: 100년 전통 스테이크 
+ & 페투치니 알프레도 (도보 7분\, 18:15 · 4명 OpenTable 예약
+ )\n🥈 [편의] CPK Ovation Mall: BBQ 치킨 피자 & 파스타 (호텔 
+ 도보 1분\, 새벽출국 대비 최고 편의)
+LOCATION:Musso & Frank Grill 6667 Hollywood Blvd
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[페어웰 디너 후보지 2선]
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d10-5-193000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261010T193000
+DTEND;TZID=America/Los_Angeles:20261010T210000
+SUMMARY:10일차 · [최종 패킹] 귀국 짐 정리 & 수하물 무게 
+ 측정
+DESCRIPTION:🧳 위탁수하물 무게(인당 23kg 이하) 손저울 측
+ 정 ➔ 옷가지 활용 주류 안전패킹 ➔ 새벽 출국 대비 이
+ 른 취침 · 🏊 오늘은 온수풀 없음 — 온수풀은 10/7·10/8
+  저녁에 이용\, 마지막 밤은 06:30 공항 이동 대비 휴식
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:[최종 패킹] 귀국 짐 정리 & 수하물 무게 측정
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d11-0-063000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261011T063000
+DTEND;TZID=America/Los_Angeles:20261011T070000
+SUMMARY:11일차 · 호텔 체크아웃 & LAX 공항 이동
+DESCRIPTION:🚕 UberXL 호출 (4인+수하물 전량\, 약 $70~95 / 40분
+  소요) ➔ 기사에게 'Tom Bradley International Terminal (TBIT) - De
+ partures Level (출발층/3층)' 하차 요청 (카운터 바로 진입)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:호텔 체크아웃 & LAX 공항 이동
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d11-1-080000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261011T080000
+DTEND;TZID=America/Los_Angeles:20261011T105000
+SUMMARY:11일차 · 탑승 수속 & 출국 (LAX 톰 브래들리 터미널
+ )
+DESCRIPTION:✈️ 에어프레미아 카운터 수하물 위탁 ➔ 보
+ 안검색 통과\n🔖 YP102 LAX 터미널 B(TBIT) 10:50 출발 · 이코
+ 노미 라이트라 위탁은 인당 23kg 1개(귀국편 수하물 규정
+ 은 에어프레미아 앱에서 한 번 더 확인)
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:탑승 수속 & 출국 (LAX 톰 브래들리 터미널)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d11-2-105000@uswest2026
+DTSTAMP:20260927T153428Z
+DTSTART;TZID=America/Los_Angeles:20261011T105000
+DTEND;TZID=America/Los_Angeles:20261011T112000
+SUMMARY:11일차 · 에어프레미아 YP102 탑승 / LAX 출발
+DESCRIPTION:🛬 10/12(월) 15:50 인천국제공항(ICN) 도착
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:에어프레미아 YP102 탑승 / LAX 출발
+END:VALARM
+END:VEVENT
+END:VCALENDAR
