@@ -5081,6 +5081,42 @@
         [0, 0.22].forEach(function (d) { burst(c, t + d, 0.09, 1.2, 'lowpass', 900); glide(c, t + d, 240, 150, 0.1, 0.4, 'sine'); });
         glide(c, t + 0.55, 330, 440, 0.5, 0.35, 'triangle', 1500);
       }),
+      spooky: run(function (c, t) { // 우~우~ 유령 (떨리는 사인파)
+        [0, 0.55].forEach(function (d, i) {
+          var o = c.createOscillator(), vib = c.createOscillator(), vg = c.createGain(), g = c.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(i ? 520 : 440, t + d);
+          o.frequency.linearRampToValueAtTime(i ? 700 : 620, t + d + 0.25);
+          o.frequency.linearRampToValueAtTime(i ? 480 : 400, t + d + 0.5);
+          vib.frequency.value = 6; vg.gain.value = 14;
+          vib.connect(vg); vg.connect(o.frequency);
+          g.gain.setValueAtTime(0.0001, t + d);
+          g.gain.exponentialRampToValueAtTime(0.35, t + d + 0.1);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.52);
+          o.connect(g); g.connect(c.destination);
+          o.start(t + d); vib.start(t + d); o.stop(t + d + 0.55); vib.stop(t + d + 0.55);
+        });
+      }),
+      warp: run(function (c, t) { // 슈웅~ 하이퍼스페이스 (올라가는 음 + 바람)
+        glide(c, t, 120, 1800, 0.7, 0.3, 'sawtooth', 2500);
+        sweep(c, t, 0.9, 0.8, 300, 5000, 'bandpass', 1.5);
+        tone(c, t + 0.75, 1760, 0.4, 0.2, 'sine');
+      }),
+      whistle: run(function (c, t) { // 뿌우~ 기차 기적 (두 음 화음)
+        [0, 0.55].forEach(function (d) {
+          var f = c.createBiquadFilter(), g = c.createGain();
+          f.type = 'bandpass'; f.frequency.value = 900; f.Q.value = 1.2;
+          g.gain.setValueAtTime(0.0001, t + d);
+          g.gain.exponentialRampToValueAtTime(0.18, t + d + 0.05);
+          g.gain.setValueAtTime(0.18, t + d + 0.38);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.48);
+          f.connect(g); g.connect(c.destination);
+          [587, 740, 880].forEach(function (hz) {
+            var o = c.createOscillator(); o.type = 'sawtooth'; o.frequency.value = hz;
+            o.connect(f); o.start(t + d); o.stop(t + d + 0.5);
+          });
+        });
+      }),
       whiskey: run(function (c, t) { // 졸졸 따르고 → 얼음 딸랑 → 챙!
         sweep(c, t, 0.55, 0.7, 900, 1500, 'bandpass', 1.2);
         tone(c, t + 0.6, 2637, 0.18, 0.2); tone(c, t + 0.68, 3520, 0.16, 0.18); tone(c, t + 0.78, 2960, 0.16, 0.16);
@@ -5245,12 +5281,12 @@
       { id: "q5-9", icon: "🍗", sound: "campfire", toast: "🍗 지글지글~ 코스트코 통닭 파티 완료!", label: "(가족) 숙소에서 코스트코 로티세리 치킨 뜯으며 저녁 먹기" }
     ],
     "day-6": [
-      { id: "q6-1", icon: "🏰", label: "잠자는 숲속의 공주 성 앞에서 미키 머리띠 쓰고 패밀리 인생샷 찍기" },
-      { id: "q6-2", icon: "🚀", label: "스타워즈 라이즈 오브 더 레지스탕스 타고 전함 탈출 작전 성공" },
-      { id: "q6-3", icon: "🛸", label: "밀레니엄 팔콘 조종석 파일럿 좌석 앉아서 하이퍼스페이스 워프!" },
-      { id: "q6-4", icon: "🍦", label: "디즈니랜드 시그니처 상큼달콤 돌휩(Dole Whip) 아이스크림 맛보기" },
-      { id: "q6-5", icon: "🚂", label: "조명 켜진 밤의 붉은 협곡을 질주하는 빅 썬더 마운틴 탑승" },
-      { id: "q6-6", icon: "🎃", label: "할로윈 스크림 프로젝션 쇼 — 잠자는 숲속의 공주 성 위 악당들의 파티 감상" }
+      { id: "q6-2", icon: "🚀", sound: "robot", toast: "🚀 삐빅! 퍼스트 오더 전함 탈출 성공", label: "(가족) 08:00 오픈런! 라이즈 오브 더 레지스탕스에서 퍼스트 오더 전함 탈출하기" },
+      { id: "q6-7", icon: "🐸", sound: "splash", toast: "🐸 풍덩! 티아나 급강하 만세 성공", label: "(가족) LL#1 티아나의 바이유 어드벤처 — 마지막 급강하에서 다 같이 만세!" },
+      { id: "q6-8", icon: "👻", sound: "spooky", toast: "👻 우~우~ 잭 스켈레톤 발견!", label: "(가족) LL#2 헌티드 맨션 홀리데이에서 잭 스켈레톤 찾기" },
+      { id: "q6-9", icon: "🏔️", sound: "family", toast: "📸 치~즈! 마터호른 & 캐슬 가족샷 완성", label: "(가족) LL#3 마터호른 봅슬레이 타고 내려와 잠자는 숲속의 공주 성 앞에서 미키 머리띠 가족샷" },
+      { id: "q6-3", icon: "🛸", sound: "warp", toast: "🛸 슈웅~ 하이퍼스페이스 점프 성공!", label: "(가족) LL#6 밀레니엄 팔콘 — 파일럿·포수·엔지니어 역할 나눠 하이퍼스페이스 점프!" },
+      { id: "q6-5", icon: "🚂", sound: "whistle", toast: "🚂 뿌우~ 빅썬더 야간 질주 & 할로윈 스크림 완료!", label: "(가족) LL#7 조명 켜진 밤의 빅 썬더 마운틴 질주 & 21:30 할로윈 스크림 감상" }
     ],
     "day-7": [
       { id: "q7-1", icon: "👑", label: "할리우드 배우들의 호텔 로어스 로비에서 영화 주인공 포즈 취하기" },
