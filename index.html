@@ -243,7 +243,7 @@
   #tab-reservations .cards .card .top{align-items:center;gap:8px;}
   #tab-reservations .cards .card .icon{font-size:16px;line-height:1;}
   #tab-reservations .cards .card .name{flex:1;min-width:0;margin:0;font-size:13.5px;line-height:1.3;}
-  #tab-reservations .cards .card .badge{font-size:10.5px;padding:2px 7px;}
+  #tab-reservations .cards .card .badge{font-size:11px;padding:2px 7px;}
   #tab-reservations .cards .card .top::after{content:"›";font-size:18px;line-height:1;font-weight:700;color:var(--teal-text);}
   #tab-reservations .cards .card .top-right{gap:6px;}
   #tab-reservations .cards .card .img-upload-btn{width:28px;height:28px;}
@@ -1033,7 +1033,7 @@
   .currency-badge-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--gold-text);margin-top:4px;}
 
   /* ===== SECTION HEAD ACTION BUTTON (expand/collapse all 등) ===== */
-  .section-action-btn{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:5px 11px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s;}
+  .section-action-btn{font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:5px 11px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s;}
   .section-action-btn:hover,.section-action-btn:focus-visible{border-color:var(--teal);color:var(--text);outline:none;}
 
   /* ===== ROUTE STOP AS CLICKABLE ANCHOR ===== */
@@ -1502,7 +1502,7 @@
   }
   .passport-day-pill .pdp-day {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
     color: #a7a3c2;
   }
   .passport-day-pill .pdp-mark {
@@ -5543,7 +5543,7 @@
 
   <div class="guide-park-tabs">
     <button type="button" class="park-tab active" data-sheet-park="disney">디즈니랜드 (10/6)</button>
-    <button type="button" class="park-tab" data-sheet-park="universal">유니버셜 스튜디오 (10/7~8)</button>
+    <button type="button" class="park-tab" data-sheet-park="universal">유니버셜 스튜디오 (10/7·10/10)</button>
   </div>
 
   <!-- ==================== 1. 디즈니랜드 패널 ==================== -->
@@ -7448,7 +7448,20 @@
       document.body.style.overflow = 'hidden';
       triggerHaptic('light');
       if (window.pushModalNavState) window.pushModalNavState();
-      // 현재 활성 탭(기본값 디즈니)의 패널을 이 시점에 처음으로 로드
+      // 지금 보고 있는(펼친) 일차에 맞춰 파크 선택: 6일차=디즈니, 7·10일차=유니버설
+      var parkByDay = { 'day-6': 'disney', 'day-7': 'universal', 'day-10': 'universal' };
+      var best = null, bestDist = Infinity;
+      Object.keys(parkByDay).forEach(function (id) {
+        var d = document.getElementById(id);
+        if (!d || !d.open) return;
+        var r = d.getBoundingClientRect();
+        var dist = r.top > innerHeight ? r.top - innerHeight : (r.bottom < 0 ? -r.bottom : 0);
+        if (dist < bestDist) { bestDist = dist; best = parkByDay[id]; }
+      });
+      if (best) {
+        sheetTabs.forEach(function (t) { t.classList.toggle('active', t.getAttribute('data-sheet-park') === best); });
+        Object.keys(sheetPanels).forEach(function (k) { if (sheetPanels[k]) sheetPanels[k].classList.toggle('hidden', k !== best); });
+      }
       var activePark = sheet.querySelector('.guide-park-tabs .park-tab.active');
       var key = activePark ? activePark.getAttribute('data-sheet-park') : 'disney';
       loadGuidePanel(sheetPanels[key]);
