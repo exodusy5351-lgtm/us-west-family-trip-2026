@@ -5117,6 +5117,27 @@
           });
         });
       }),
+      coin: run(function (c, t) { // 띠링~ 코인 (짧게 올라가는 두 음 + 반짝)
+        tone(c, t, 1175, 0.08, 0.3, 'square');
+        tone(c, t + 0.08, 1760, 0.35, 0.3, 'square');
+        tone(c, t + 0.3, 2637, 0.3, 0.12, 'sine');
+      }),
+      roar: run(function (c, t) { // 크아앙 공룡 포효 (낮게 떨리는 톱니파 + 거친 숨소리)
+        var o = c.createOscillator(), vib = c.createOscillator(), vg = c.createGain(), f = c.createBiquadFilter(), g = c.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(90, t);
+        o.frequency.linearRampToValueAtTime(160, t + 0.25);
+        o.frequency.exponentialRampToValueAtTime(70, t + 0.9);
+        vib.frequency.value = 30; vg.gain.value = 18;
+        vib.connect(vg); vg.connect(o.frequency);
+        f.type = 'lowpass'; f.frequency.value = 900;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.5, t + 0.08);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.95);
+        o.connect(f); f.connect(g); g.connect(c.destination);
+        o.start(t); vib.start(t); o.stop(t + 1); vib.stop(t + 1);
+        sweep(c, t, 0.9, 0.35, 400, 1200, 'bandpass', 0.8);
+      }),
       whiskey: run(function (c, t) { // 졸졸 따르고 → 얼음 딸랑 → 챙!
         sweep(c, t, 0.55, 0.7, 900, 1500, 'bandpass', 1.2);
         tone(c, t + 0.6, 2637, 0.18, 0.2); tone(c, t + 0.68, 3520, 0.16, 0.18); tone(c, t + 0.78, 2960, 0.16, 0.16);
@@ -5289,12 +5310,12 @@
       { id: "q6-5", icon: "🚂", sound: "whistle", toast: "🚂 뿌우~ 빅썬더 야간 질주 & 할로윈 스크림 완료!", label: "(가족) 야간 빅썬더 & 할로윈 스크림" }
     ],
     "day-7": [
-      { id: "q7-1", icon: "👑", label: "로어스 로비 영화 주인공 포즈" },
-      { id: "q7-2", icon: "🔭", label: "스타웨이에서 스튜디오 전경 보기" },
-      { id: "q7-3", icon: "🍄", label: "마리오 카트 100코인 달성" },
-      { id: "q7-4", icon: "🦖", label: "쥬라기월드 물벼락 맞기" },
-      { id: "q7-5", icon: "⚡", label: "미이라 롤러코스터 정복" },
-      { id: "q7-6", icon: "🦍", label: "킹콩 앞 깜짝 가족사진" }
+      { id: "q7-2", icon: "🔭", sound: "sunset", toast: "🔭 와~ 스튜디오 전경 한눈에!", label: "(가족) 스타웨이에서 스튜디오 전경 보기" },
+      { id: "q7-3", icon: "🍄", sound: "coin", toast: "🍄 띠링! 100코인 달성", label: "(가족) 마리오 카트 100코인 달성" },
+      { id: "q7-4", icon: "🦖", sound: "roar", toast: "🦖 크아앙! 공룡 물벼락 성공", label: "(가족) 쥬라기월드 물벼락 맞기" },
+      { id: "q7-5", icon: "⚡", sound: "warp", toast: "⚡ 슈웅~ 미이라 코스터 정복!", label: "(가족) 미이라 롤러코스터 정복" },
+      { id: "q7-7", icon: "🌮", sound: "yum", toast: "🌮 냠냠! 시티워크 저녁 완료", label: "(가족) 시티워크 저녁 먹기" },
+      { id: "q7-8", icon: "🏊", sound: "splash", toast: "🏊 풍덩! 루프탑 야경 수영", label: "(가족) 루프탑 온수풀 야경 수영" }
     ],
     "day-8": [
       { id: "q10-1", icon: "⚾", label: "다저스타디움 그라운드 바라보기" },
