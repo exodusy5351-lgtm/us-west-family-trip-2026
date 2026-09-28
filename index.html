@@ -404,7 +404,7 @@
   }
   .day-family-highlight .dfh-emoji{font-size:22px;line-height:1;flex-shrink:0;}
   .day-family-highlight .dfh-body{flex:1;min-width:0;}
-  .day-family-highlight .dfh-title{font-size:13.5px;font-weight:700;color:var(--gold-text);margin-bottom:3px;}
+  .day-family-highlight .dfh-title{display:block;font-size:13.5px;font-weight:700;color:var(--gold-text);margin-bottom:3px;}
   .day-family-highlight .dfh-text{font-size:12.5px;color:var(--text);line-height:1.55;}
 
   /* ===== 뷰모드(기획자/가족) 토글 버튼 (헤더) ===== */
@@ -2077,6 +2077,27 @@
   #checkSec .todo-list,#cashSec .todo-list{display:flex;flex-direction:column;gap:8px;}
   .card.res-soon{border-color:var(--teal);box-shadow:0 0 0 2px rgba(46,196,182,.18);}
   .res-when{font-size:11.5px;font-weight:700;color:var(--teal-text);margin-top:4px;}
+
+  /* ===== UX 라운드(9/28): 퀘스트·여권 접기, 할 일 완료 접기·긴 설명 접기 ===== */
+  details.day-quest-container{padding:0;}
+  details.day-quest-container > summary.dqc-head{list-style:none;cursor:pointer;margin:0;padding:11px 12px;min-height:44px;box-sizing:border-box;}
+  details.day-quest-container > summary.dqc-head::-webkit-details-marker{display:none;}
+  details.day-quest-container > summary .dqc-progress::after{content:" ▾";color:var(--muted);}
+  details.day-quest-container[open] > summary .dqc-progress::after{content:" ▴";}
+  details.day-quest-container > .dqc-grid{padding:0 12px 12px;}
+  .passport-header{cursor:pointer;gap:8px;}
+  .passport-widget.pp-compact .passport-title{font-size:13px;}
+  .passport-widget.pp-compact{padding:10px 14px;margin:8px 0 12px;}
+  .passport-widget.pp-compact .passport-header{border-bottom:0;padding-bottom:0;margin-bottom:0;}
+  .passport-widget.pp-compact .passport-stamps-strip{display:none;}
+  .passport-widget.pp-compact .passport-total-badge::after{content:" ▾";}
+  .todo-item .txt{min-width:0;}
+  .todo-item.clampable .todo-body{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;}
+  .todo-item.clampable.expanded .todo-body{display:block;}
+  .todo-item.clampable:not(.expanded) .txt::after{content:"더보기 ▾";display:block;font-size:11px;color:var(--teal-text);margin-top:3px;}
+  .todo-done{margin-top:4px;}
+  .todo-done > summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:10px 4px;min-height:44px;box-sizing:border-box;display:flex;align-items:center;}
+  .todo-done > .todo-item{margin-top:8px;opacity:.75;}
 </style>
 </head>
 <body>
@@ -2478,16 +2499,15 @@
   </div>
 
   <main id="tab-reservations" class="tab-panel">
-  <div class="card-filters">
-    <button type="button" class="filter-chip active" data-filter="all">전체보기</button>
-    <button type="button" class="filter-chip" data-filter="done">완료 10</button>
-    <button type="button" class="filter-chip" data-filter="pending">대기/예정 2</button>
-  </div>
-
   <section>
     <div class="section-head">
       <h2>예약 현황</h2>
       <span class="count">10 / 12 완료</span>
+    </div>
+    <div class="card-filters">
+      <button type="button" class="filter-chip active" data-filter="all">전체보기</button>
+      <button type="button" class="filter-chip" data-filter="done">완료 10</button>
+      <button type="button" class="filter-chip" data-filter="pending">대기/예정 2</button>
     </div>
 
     <div class="currency-summary">
@@ -2610,6 +2630,7 @@
         }
 
         var todoState = loadTodoState();
+        var todoSection = null, todoDoneOpen = false;
 
         function dueBadgeHtml(t) {
           var left = window.tripDayDiff(t.due);
@@ -2628,7 +2649,8 @@
         };
 
         function renderTodos() {
-          var section = document.querySelector('#tab-reservations section:nth-of-type(2)');
+          // 섹션 순서가 arrange()로 바뀌므로 최초 1회만 위치로 찾고 이후엔 캐시
+          var section = todoSection || (todoSection = document.querySelector('#tab-reservations section:nth-of-type(2)'));
           if (!section) return;
 
           var head = section.querySelector('.section-head');
@@ -2697,13 +2719,22 @@
             if (!!a.t.priority !== !!b.t.priority) return a.t.priority ? -1 : 1;
             return a.i - b.i;
           }).map(function (x) { return x.t; });
-          wrap.innerHTML = sortedTodos.map(function (t) {
+          function itemHtml(t) {
             var checked = !!todoState[t.key];
-            return '<div class="todo-item' + (t.priority ? ' priority' : '') + '">' +
+            var long = (t.tag || '').replace(/<[^>]+>/g, '').length > 70;
+            return '<div class="todo-item' + (t.priority ? ' priority' : '') + (long ? ' clampable' : '') + '">' +
               '<input type="checkbox" class="chk" data-key="' + t.key + '"' + (checked ? ' checked' : '') + (!isTodoUnlocked ? ' disabled' : '') + '>' +
-              '<div class="txt">' + t.text + ' <span class="tag">' + t.tag + '</span>' + (t.due && !checked ? dueBadgeHtml(t) : '') + '</div>' +
+              '<div class="txt"><div class="todo-body">' + t.text + ' <span class="tag">' + t.tag + '</span></div>' + (t.due && !checked ? dueBadgeHtml(t) : '') + '</div>' +
             '</div>';
-          }).join('');
+          }
+          var openTodos = sortedTodos.filter(function (t) { return !todoState[t.key]; });
+          var doneTodos = sortedTodos.filter(function (t) { return !!todoState[t.key]; });
+          wrap.innerHTML = openTodos.map(itemHtml).join('') +
+            (doneTodos.length ? '<details class="todo-done"' + (todoDoneOpen ? ' open' : '') + '><summary>✅ 완료 ' + doneTodos.length + '개</summary>' + doneTodos.map(itemHtml).join('') + '</details>' : '');
+          var countEl2 = head.querySelector('.count');
+          if (countEl2) countEl2.textContent = openTodos.length + ' / ' + sortedTodos.length + ' 남음';
+          var doneDet = wrap.querySelector('.todo-done');
+          if (doneDet) doneDet.addEventListener('toggle', function () { todoDoneOpen = doneDet.open; });
 
           updateLockUI();
           document.dispatchEvent(new Event('tripDueChanged'));
@@ -2714,6 +2745,11 @@
           if (!wrap.dataset.clickBound) {
             wrap.dataset.clickBound = '1';
             wrap.addEventListener('click', function (e) {
+              // 긴 설명은 3줄로 접혀 있고, 글자 부분을 누르면 펼치기/접기 (잠금과 무관)
+              if (!e.target.closest('.chk, a, button, summary')) {
+                var ci = e.target.closest('.todo-item.clampable');
+                if (ci) { ci.classList.toggle('expanded'); return; }
+              }
               if (!isTodoUnlocked) {
                 var item = e.target.closest('.todo-item');
                 if (item) {
@@ -2875,6 +2911,10 @@
       }
 
       document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.timeline details.day').forEach(function (day) {
+          var tag = day.querySelector('.d-tag'), t = day.querySelector('.d-body .d-title');
+          if (tag && t && !t.querySelector('a') && tag.textContent.trim().indexOf(t.textContent.trim()) === 0) t.hidden = true;
+        });
         buildChecks();
         renderCash();
         arrange();
@@ -5869,6 +5909,10 @@
         '</div>' +
         '<div class="passport-stamps-strip" id="passportStampsStrip"></div>';
       dateNavWrap.parentNode.insertBefore(widget, dateNavWrap);
+      widget.querySelector('.passport-header').addEventListener('click', function () {
+        widget.dataset.expanded = widget.classList.contains('pp-compact') ? '1' : '';
+        widget.classList.toggle('pp-compact');
+      });
     }
 
     function updatePassportWidget() {
@@ -5895,6 +5939,8 @@
       }).join('');
 
       badgeEl.textContent = totalDone + ' / ' + totalQuests;
+      var w = document.getElementById('passportWidget');
+      if (w) w.classList.toggle('pp-compact', totalDone === 0 && !w.dataset.expanded);
     }
 
     function renderDayQuestContainers() {
@@ -5906,14 +5952,14 @@
         var bodyInner = dayEl.querySelector(':scope > .d-body > .d-body-inner');
         if (!bodyInner || bodyInner.querySelector('.day-quest-container')) return;
 
-        var container = document.createElement('div');
+        var container = document.createElement('details');
         container.className = 'day-quest-container';
         container.setAttribute('data-day-id', dayId);
         container.innerHTML =
-          '<div class="dqc-head">' +
+          '<summary class="dqc-head">' +
             '<span class="dqc-title">' + theme.icon + ' ' + theme.sealText + ' 스탬프 퀘스트</span>' +
             '<span class="dqc-progress">0 / ' + quests.length + '</span>' +
-          '</div>' +
+          '</summary>' +
           '<div class="dqc-grid">' +
             quests.map(function (q) {
               return '<button type="button" class="quest-stamp-btn" data-day-id="' + dayId + '" data-quest-id="' + q.id + '" aria-pressed="false">' +
@@ -9363,6 +9409,8 @@
         setTimeout(function () {
           var questEl = document.querySelector('.quest-stamp-btn[data-day-id="' + jumpDayId + '"][data-quest-id="' + jumpQuestId + '"]');
           if (!questEl) return;
+          var qBox = questEl.closest('details.day-quest-container');
+          if (qBox) qBox.open = true;
           questEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
           questEl.classList.add('fc-focus-highlight');
           setTimeout(function () { questEl.classList.remove('fc-focus-highlight'); }, 1800);
