@@ -2098,6 +2098,18 @@
   .todo-done{margin-top:4px;}
   .todo-done > summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--muted);padding:10px 4px;min-height:44px;box-sizing:border-box;display:flex;align-items:center;}
   .todo-done > .todo-item{margin-top:8px;opacity:.75;}
+
+  /* ===== UX 라운드(9/29): 가이드북 헤더·요약 중복·하이라이트·팁 접기 ===== */
+  .guide-header{flex-wrap:nowrap;align-items:flex-start;}
+  .guide-title-wrap{flex-wrap:wrap;min-width:0;}
+  .guide-header h2{font-size:16.5px;}
+  #closeBottomSheetBtn{flex-shrink:0;}
+  .day[open]:has(.route-nav-banner) > summary .d-line{display:none;}
+  .day-family-highlight{cursor:pointer;}
+  .day-family-highlight:not(.expanded) .dfh-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .day-tips{margin-top:14px;}
+  .day-tips > summary{font-weight:700;}
+  .day-tips > .tip-note{margin-top:10px;}
 </style>
 </head>
 <body>
@@ -2911,6 +2923,19 @@
       }
 
       document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.day-family-highlight').forEach(function (h) {
+          h.addEventListener('click', function () { h.classList.toggle('expanded'); });
+        });
+        document.querySelectorAll('.timeline details.day .d-body-inner').forEach(function (inner) {
+          var tips = Array.prototype.filter.call(inner.children, function (c) { return c.classList.contains('tip-note'); });
+          if (!tips.length) return;
+          var box = document.createElement('details');
+          box.className = 'sched-more day-tips';
+          var titles = tips.map(function (t) { var x = t.querySelector('.tip-note-title'); return x ? x.textContent.replace(/^[^\w가-힣]+/, '').trim() : ''; }).filter(Boolean);
+          box.innerHTML = '<summary>💡 팁 보기 (' + tips.length + ') — ' + titles.join(' · ').replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</summary>';
+          tips[0].parentNode.insertBefore(box, tips[0]);
+          tips.forEach(function (t) { box.appendChild(t); });
+        });
         document.querySelectorAll('.timeline details.day').forEach(function (day) {
           var tag = day.querySelector('.d-tag'), t = day.querySelector('.d-body .d-title');
           if (tag && t && !t.querySelector('a') && tag.textContent.trim().indexOf(t.textContent.trim()) === 0) t.hidden = true;
@@ -7753,6 +7778,28 @@
         window.scrollTo({ top: offsetTop, behavior: 'smooth' });
       }, 60);
     }
+
+    var spyTick = false, spyId = null;
+    function spyDay() {
+      spyTick = false;
+      var tab = document.getElementById('tab-schedule');
+      if (!tab || !tab.classList.contains('active')) return;
+      var cur = null;
+      dayDetails.forEach(function (d) { if (d.getBoundingClientRect().top <= 130) cur = d.id; });
+      if (!cur || cur === spyId) return;
+      spyId = cur;
+      pills.forEach(function (p) {
+        var on = p.getAttribute('data-target') === cur;
+        p.classList.toggle('active', on);
+        if (on) {
+          var wrap = p.closest('.date-nav-wrap');
+          if (wrap) wrap.scrollTo({ left: p.offsetLeft - (wrap.clientWidth - p.offsetWidth) / 2, behavior: 'smooth' });
+        }
+      });
+    }
+    window.addEventListener('scroll', function () {
+      if (!spyTick) { spyTick = true; setTimeout(spyDay, 120); }
+    }, { passive: true });
 
     pills.forEach(function(pill) {
       pill.addEventListener('click', function(e) {
