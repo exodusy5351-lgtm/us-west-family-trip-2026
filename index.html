@@ -2069,6 +2069,14 @@
     .section-action-btn,.route-overview-btn,.view-mode-toggle-btn,.now-widget-jump,.route-nav-link,.park-tab,.date-pill{display:inline-flex;align-items:center;justify-content:center;}
     .sched-more > summary{display:flex;align-items:center;}
   }
+
+  /* ===== 현장 확인·현금 봉투·예약 오늘/내일 ===== */
+  .d-check{font-size:10.5px;font-weight:700;color:var(--amber-text);border:1px solid rgba(255,184,77,.45);border-radius:10px;padding:1px 7px;margin-left:6px;white-space:nowrap;}
+  .check-item{width:100%;text-align:left;cursor:pointer;color:var(--text);font:inherit;}
+  .check-item .check-day{flex-shrink:0;font-size:11px;font-weight:700;color:var(--teal-text);min-width:38px;}
+  #checkSec .todo-list,#cashSec .todo-list{display:flex;flex-direction:column;gap:8px;}
+  .card.res-soon{border-color:var(--teal);box-shadow:0 0 0 2px rgba(46,196,182,.18);}
+  .res-when{font-size:11.5px;font-weight:700;color:var(--teal-text);margin-top:4px;}
 </style>
 </head>
 <body>
@@ -2747,6 +2755,137 @@
       })();
     </script>
   </section>
+
+  <section id="checkSec">
+    <div class="section-head">
+      <h2>현장 확인 필요</h2>
+      <span class="count" id="checkCount"></span>
+    </div>
+    <div class="todo-list" id="checkList"></div>
+  </section>
+
+  <section id="cashSec">
+    <div class="section-head">
+      <h2>💵 현금 봉투</h2>
+      <span class="count" id="cashLeft"></span>
+    </div>
+    <div class="todo-list" id="cashList"></div>
+  </section>
+  <script>
+    (function initTripHelpers() {
+      // ① 현장 확인 필요: 일정 메모 중 미확인·확정 필요·가정·추정 문구를 모아 보여 주고, 일자 카드에 뱃지
+      var KEY_RE = /(미확인|확정하세요|확인하세요|가정이에요|추정\)|\(추정)/;
+      function buildChecks() {
+        var items = [];
+        document.querySelectorAll('.timeline details.day').forEach(function (day) {
+          var n = +day.id.replace('day-', ''), cnt = 0;
+          day.querySelectorAll('.sched-block').forEach(function (b) {
+            var title = b.querySelector('.sched-title');
+            b.querySelectorAll('.sched-note').forEach(function (note) {
+              var txt = note.textContent.replace(/\s+/g, ' ').trim();
+              if (!KEY_RE.test(txt)) return;
+              var seg = txt.split(/ [·➔|] | — | \/ /).filter(function (x) { return KEY_RE.test(x); })[0] || txt;
+              if (seg.length > 110) seg = seg.slice(0, 109) + '…';
+              var t = title ? title.cloneNode(true) : null;
+              if (t) t.querySelectorAll('a,button').forEach(function (x) { x.remove(); });
+              items.push({ n: n, day: day.id, title: t ? t.textContent.trim() : '', seg: seg });
+              cnt++;
+            });
+          });
+          var head = day.querySelector(':scope > summary .d-head');
+          if (cnt && head && !head.querySelector('.d-check')) head.insertAdjacentHTML('beforeend', '<span class="d-check">⚠️ 확인 ' + cnt + '</span>');
+        });
+        var list = document.getElementById('checkList');
+        document.getElementById('checkCount').textContent = items.length + ' ITEMS';
+        list.innerHTML = items.map(function (x, i) {
+          var esc = function (v) { return v.replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+          return '<button type="button" class="todo-item check-item" data-day="' + x.day + '"><span class="check-day">' + x.n + '일차</span>' +
+            '<span class="txt"><b>' + esc(x.title) + '</b><br><span class="tag">' + esc(x.seg) + '</span></span><span aria-hidden="true">›</span></button>';
+        }).join('');
+        list.addEventListener('click', function (e) {
+          var b = e.target.closest('.check-item');
+          if (!b) return;
+          if (window.switchTab) window.switchTab('tab-schedule', true);
+          var d = document.getElementById(b.dataset.day);
+          if (d) { d.open = true; setTimeout(function () { d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80); }
+        });
+      }
+
+      // ② 현금 봉투: 인출·지급 체크(두 폰 동기화), 남은 현금 추정
+      var CASH = [
+        { id: 'cash-withdraw', amt: 1100, label: '1일차 코스트코 ATM에서 $1,100 인출', tag: '트래블GO면 수수료 0원' },
+        { id: 'cash-gc', amt: -688, label: '그랜드캐년 요한투어 $688 지급', tag: '가이드 정산 $680 + 나바호 팁 $8 · 10/2 밤 픽업 후' },
+        { id: 'cash-la', amt: -200, label: 'LA드림투어 현장비 $200 지급', tag: '가이드 팁 $80 · 주차 $60 · 픽업·드롭 $60 · 10/9' },
+        { id: 'cash-tip', amt: 0, label: '매너팁 봉투 따로 챙김 ($160~200)', tag: '호텔 하우스키핑·식당 팁용 $1·$5 잔돈' }
+      ];
+      var CASH_KEY = 'us_trip_cash_2026', cashState = {};
+      try { cashState = JSON.parse(localStorage.getItem(CASH_KEY) || '{}'); } catch (e) {}
+      function saveCash(st) { try { localStorage.setItem(CASH_KEY, JSON.stringify(st)); } catch (e) {} }
+      var cashSync = null;
+      function renderCash() {
+        var left = 0;
+        CASH.forEach(function (c) { if (cashState[c.id]) left += c.amt; });
+        document.getElementById('cashLeft').textContent = cashState['cash-withdraw'] ? '남은 현금 약 $' + left + (cashState['cash-tip'] ? ' (팁 봉투 포함)' : '') : '인출 전';
+        document.getElementById('cashList').innerHTML = CASH.map(function (c) {
+          return '<label class="todo-item"><input type="checkbox" class="chk" data-cash="' + c.id + '"' + (cashState[c.id] ? ' checked' : '') + '>' +
+            '<span class="txt">' + c.label + ' <span class="tag">— ' + c.tag + '</span></span></label>';
+        }).join('');
+      }
+      document.getElementById('cashList').addEventListener('change', function (e) {
+        var id = e.target.getAttribute('data-cash');
+        if (!id) return;
+        if (e.target.checked) cashState[id] = true; else delete cashState[id];
+        saveCash(cashState); renderCash();
+        if (cashSync) cashSync.push(id, !!cashState[id]);
+      });
+
+      // ③ 예약 카드 정렬 + 섹션 순서: 출발 전엔 할 일·미완료 예약 먼저, 여행 중엔 오늘·내일 쓸 예약과 현장 확인·현금 먼저
+      function arrange() {
+        var phase = window.tripPhase ? window.tripPhase() : { phase: 'pre', day: 0 };
+        var tab = document.getElementById('tab-reservations');
+        var secs = tab.querySelectorAll(':scope > section');
+        var resSec = secs[0], todoSec = secs[1];
+        var order = phase.phase === 'trip'
+          ? [document.getElementById('checkSec'), document.getElementById('cashSec'), resSec, todoSec]
+          : [todoSec, document.getElementById('checkSec'), resSec, document.getElementById('cashSec')];
+        order.forEach(function (sec) { tab.appendChild(sec); });
+
+        var wrap = resSec.querySelector('.cards');
+        var data = window.TRIP_DATA.reservations || [];
+        function dayOf(r) { var m = (r.sum || '').replace(/<[^>]+>/g, '').match(/10\/(\d{1,2})/); return m ? +m[1] : 99; }
+        var cards = [].slice.call(wrap.children);
+        cards.forEach(function (c) { c.classList.remove('res-soon'); var t = c.querySelector('.res-when'); if (t) t.remove(); });
+        cards.sort(function (a, b) {
+          var ra = data[a.getAttribute('data-idx')], rb = data[b.getAttribute('data-idx')];
+          var da = dayOf(ra), db = dayOf(rb);
+          if (phase.phase === 'trip') {
+            var pa = da < phase.day ? 1 : 0, pb = db < phase.day ? 1 : 0; // 지난 예약은 뒤로
+            if (pa !== pb) return pa - pb;
+          } else {
+            var ua = ra.status === 'done' ? 1 : 0, ub = rb.status === 'done' ? 1 : 0; // 미완료 먼저
+            if (ua !== ub) return ua - ub;
+          }
+          return da - db || a.getAttribute('data-idx') - b.getAttribute('data-idx');
+        }).forEach(function (c) {
+          wrap.appendChild(c);
+          if (phase.phase !== 'trip') return;
+          var d = dayOf(data[c.getAttribute('data-idx')]);
+          if (d === phase.day || d === phase.day + 1) {
+            c.classList.add('res-soon');
+            var top = c.querySelector('.top');
+            if (top) top.insertAdjacentHTML('afterend', '<div class="res-when">' + (d === phase.day ? '📍 오늘' : '⏭️ 내일') + '</div>');
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        buildChecks();
+        renderCash();
+        arrange();
+        if (window.TripSync) cashSync = window.TripSync.attach('cash_v1', CASH.map(function (c) { return c.id; }), cashState, saveCash, renderCash);
+      });
+    })();
+  </script>
   </main>
 
   <main id="tab-schedule" class="tab-panel active">
@@ -4240,12 +4379,15 @@
         <a class="pack-action-btn" href="https://calendar.google.com/calendar/render?cid=webcal%3A%2F%2Fexodusy5351-lgtm.github.io%2Fus-west-family-trip-2026%2Ftrip.ics" target="_blank" rel="noopener noreferrer" style="text-align:center;text-decoration:none;">➕ 구글 캘린더에 구독 추가</a>
         <button type="button" class="pack-action-btn copy-btn" style="margin-left:0;justify-content:center;padding:9px 12px;" data-copy="https://exodusy5351-lgtm.github.io/us-west-family-trip-2026/trip.ics">📋 구독 주소 복사</button>
       </div>
+      <details class="sched-more">
+        <summary>파일(.ics)로 받기 — 나중에 바뀐 일정은 자동 반영 안 됨</summary>
       <p class="cal-export-note">아래 파일(.ics)은 받은 시점 그대로 들어가서, 나중에 일정이 바뀌어도 폰 캘린더는 안 바뀌어요. 받은 파일을 열면 캘린더 앱에 바로 추가되고, 앱이 꺼져 있어도 알림이 울려요.</p>
       <div class="cal-export-actions">
         <button type="button" class="pack-action-btn" id="calSchedBtn">🗓️ 여행 일정 11일 (.ics)</button>
         <button type="button" class="pack-action-btn" id="calDueBtn">⏰ 출발 전 마감 알림 (.ics)</button>
       </div>
       <p class="cal-export-note">여행 일정은 현지(LA) 시각으로 들어가고, 각 일정 15분 전에 알려줘요. 마감 알림은 해당 날짜 오전 9시에 울려요. 파일 다운로드는 GitHub Pages 주소에서만 동작해요.</p>
+      </details>
       </div>
     </details>
 
