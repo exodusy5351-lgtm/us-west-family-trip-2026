@@ -4165,6 +4165,73 @@
 
     </div>
 
+    <details class="cal-export" id="offlinePack">
+      <summary><span class="cal-export-title">📥 오프라인 저장</span><span class="cal-export-hint" id="offlineHint">확인 중…</span></summary>
+      <div class="cal-export-body">
+      <p class="cal-export-note">예약 캡처·영문 보험증명서·테마파크 가이드·쇼핑 정보를 폰에 한 번에 저장해요. 사막·그랜드캐년 밴처럼 통신이 끊기는 곳에서도 열려요. <b>출국 전 와이파이에서 한 번</b>(약 8MB) 누르면 되고, 가족 폰도 각각 한 번씩 필요해요.</p>
+      <div class="cal-export-actions">
+        <button type="button" class="pack-action-btn" id="offlineBtn">📥 한 번에 다운로드</button>
+      </div>
+      <div style="height:6px;border-radius:3px;background:var(--line);margin:10px 0 6px;overflow:hidden;"><div id="offlineBar" style="height:100%;width:0;background:var(--teal);transition:width .2s;"></div></div>
+      <p class="cal-export-note" id="offlineMsg"></p>
+      </div>
+    </details>
+    <script>
+      // 페이지·가이드가 참조하는 로컬 파일을 찾아 서비스워커 런타임 캐시에 넣는다(sw.js는 모든 캐시에서 먼저 찾아 응답)
+      (function () {
+        var CACHE = 'uswest-trip-runtime';
+        var hint = document.getElementById('offlineHint'), btn = document.getElementById('offlineBtn'),
+          bar = document.getElementById('offlineBar'), msg = document.getElementById('offlineMsg'), box = document.getElementById('offlinePack');
+        if (!('caches' in window) || location.protocol === 'file:') { hint.textContent = '이 화면에선 지원 안 됨'; btn.disabled = true; return; }
+        var RE = /(?:images|insurance|guides|data)\/[^"'\s)<>\\*]+?\.(?:png|jpe?g|webp|pdf|html|json)/g;
+        function listFiles() {
+          return fetch('./index.html').then(function (r) { return r.text(); }).then(function (t) {
+            var set = {};
+            (t.match(RE) || []).forEach(function (p) { set[new URL(p, location.href).href] = 1; });
+            return Object.keys(set);
+          });
+        }
+        function status(files) {
+          return Promise.all(files.map(function (u) { return caches.match(u).then(function (r) { return !!r; }); }))
+            .then(function (ok) { return ok.filter(Boolean).length; });
+        }
+        function show(done, total) {
+          var full = done === total;
+          hint.textContent = full ? '✅ 완료 ' + done + '/' + total : '⚠️ ' + done + '/' + total + ' 저장됨';
+          bar.style.width = (total ? done / total * 100 : 0) + '%';
+          if (!full && !box.dataset.opened) { box.open = true; box.dataset.opened = 1; }
+        }
+        var files = [];
+        listFiles().then(function (f) { files = f; return status(f); }).then(function (n) { show(n, files.length); })
+          .catch(function () { hint.textContent = '오프라인 — 와이파이에서 다시 확인'; });
+        btn.addEventListener('click', function () {
+          if (!files.length) return;
+          btn.disabled = true;
+          var done = 0, bytes = 0, fail = [];
+          msg.textContent = '받는 중…';
+          caches.open(CACHE).then(function (cache) {
+            var queue = files.slice();
+            function worker() {
+              var u = queue.shift();
+              if (!u) return Promise.resolve();
+              return fetch(u, { cache: 'reload' }).then(function (r) {
+                if (!r.ok) throw 0;
+                return r.clone().blob().then(function (b) { bytes += b.size; return cache.put(u, r); });
+              }).catch(function () { fail.push(decodeURIComponent(u.split('/').slice(-2).join('/'))); })
+                .then(function () { done++; bar.style.width = done / files.length * 100 + '%'; msg.textContent = '받는 중… ' + done + '/' + files.length; return worker(); });
+            }
+            return Promise.all([worker(), worker(), worker(), worker()]);
+          }).then(function () { return status(files); }).then(function (n) {
+            show(n, files.length);
+            msg.textContent = (fail.length ? '⚠️ ' + fail.length + '개 실패: ' + fail.join(', ') + ' — 와이파이에서 다시 눌러 주세요' : '✅ 모두 저장했어요')
+              + ' (' + (bytes / 1048576).toFixed(1) + 'MB)';
+            btn.disabled = false;
+            if (window.showToast) window.showToast(fail.length ? '일부 파일 저장 실패' : '📥 오프라인 저장 완료');
+          });
+        });
+      })();
+    </script>
+
     <details class="cal-export" id="calExport">
       <summary><span class="cal-export-title">📅 폰 캘린더에 담기</span><span class="cal-export-hint">필요할 때만</span></summary>
       <div class="cal-export-body">
