@@ -2613,9 +2613,11 @@
     <script>
       (function initProtectedTodos() {
         window.TRIP_DATA = window.TRIP_DATA || {};
-        // KST 기준 오늘부터 dateStr(YYYY-MM-DD)까지 남은 일수 (지났으면 음수) — 할 일 뱃지·상단 위젯 공용
+        // 기기 현지 날짜 기준 오늘부터 dateStr(YYYY-MM-DD)까지 남은 일수 (지났으면 음수) — 할 일 뱃지·상단 위젯 공용
+        // (출발 전엔 한국 날짜, 여행 중엔 폰이 미국 시간대라 현지 날짜 — 마감이 현지 기준인 할 일이 하루 일찍 '지연'으로 뜨지 않게)
         window.tripDayDiff = function (dateStr) {
-          var today = new Date(Date.now() + 9 * 36e5).toISOString().slice(0, 10);
+          var n = new Date(), p = function (v) { return (v < 10 ? '0' : '') + v; };
+          var today = n.getFullYear() + '-' + p(n.getMonth() + 1) + '-' + p(n.getDate());
           return Math.round((Date.parse(dateStr + 'T00:00:00Z') - Date.parse(today + 'T00:00:00Z')) / 864e5);
         };
         // 여행 단계와 오늘 일차. 기기 시계의 현지 달력 날짜(10/1~10/11 → 1~11일차)로 판정한다.
