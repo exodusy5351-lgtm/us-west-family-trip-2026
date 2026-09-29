@@ -2129,6 +2129,12 @@
   .offline-entry-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
   .offline-entry-row small{font-size:12px;color:var(--muted);line-height:1.45;}
   .offline-entry-row .pack-action-btn{flex-shrink:0;margin:0;}
+
+  .now-widget{flex-wrap:wrap;}
+  .now-widget-quick{flex-basis:100%;display:flex;gap:8px;}
+  .now-widget-quick[hidden]{display:none;}
+  .now-widget-quick .now-widget-jump{flex:1;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;}
+  .now-widget-quick .now-widget-jump[hidden]{display:none;}
 </style>
 </head>
 <body>
@@ -2481,6 +2487,10 @@
       <div class="now-widget-title" id="nowWidgetTitle"></div>
     </div>
     <button type="button" class="now-widget-jump" id="nowWidgetJump">보기 →</button>
+    <div class="now-widget-quick" id="nowWidgetQuick" hidden>
+      <button type="button" class="now-widget-jump open-ride-modal-btn" id="nowQuickRide">🚖 오늘 승하차</button>
+      <a class="now-widget-jump" id="nowQuickRoute" href="#" target="_blank" rel="noopener noreferrer">🗺️ 오늘 동선</a>
+    </div>
   </div>
 
   <div class="hero">
@@ -10564,6 +10574,7 @@
       var info = window.tripPhase(now);
       if (info.phase === 'pre') { showPreTrip(); return; }
       preTripTarget = null;
+      var q0 = document.getElementById('nowWidgetQuick'); if (q0) q0.hidden = true; // 여행 중 블록을 찾으면 아래에서 다시 켬
       jumpBtn.style.display = '';
       jumpBtn.textContent = jumpLabelTrip;
       if (info.phase === 'post') {
@@ -10608,8 +10619,18 @@
       if (!picked) { widget.classList.remove('show'); return; }
 
       var titleNode = picked.block.querySelector('.sched-title');
+      if (titleNode) { titleNode = titleNode.cloneNode(true); titleNode.querySelectorAll('a, button').forEach(function (x) { x.remove(); }); } // 📍 지도 뱃지 글자는 빼고
       var title = titleNode ? titleNode.textContent.trim() : '';
 
+      var quick = document.getElementById('nowWidgetQuick');
+      if (quick) {
+        var routeA = dayEl.querySelector('.route-nav-link[href*="/maps/dir/"]');
+        var rideDays = { 2: 1, 7: 1, 8: 1, 10: 1, 11: 1 };
+        document.getElementById('nowQuickRide').hidden = !rideDays[dayNum];
+        document.getElementById('nowQuickRoute').hidden = !routeA;
+        if (routeA) document.getElementById('nowQuickRoute').href = routeA.href;
+        quick.hidden = !rideDays[dayNum] && !routeA;
+      }
       badgeEl.textContent = current ? 'NOW' : '다음 일정';
       badgeEl.classList.toggle('later', !current);
       timeEl.textContent = picked.timeText;
