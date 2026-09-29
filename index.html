@@ -2124,6 +2124,11 @@
   .ride-act .copy-btn{margin-left:0;}
   .ride-act .sos-map{margin-top:0;min-height:32px;display:inline-flex;align-items:center;}
   .ride-uber{color:var(--text) !important;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:0 10px;}
+
+  .offline-entry{padding:12px 14px;}
+  .offline-entry-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .offline-entry-row small{font-size:12px;color:var(--muted);line-height:1.45;}
+  .offline-entry-row .pack-action-btn{flex-shrink:0;margin:0;}
 </style>
 </head>
 <body>
@@ -4395,6 +4400,13 @@
         </div></div>
       </details>
 
+    </div>
+
+    <div class="cal-export offline-entry">
+      <div class="offline-entry-row">
+        <span><b>📥 오프라인 저장</b><br><small>가이드·예약 캡처·보험증명서·지도 도구를 이 폰에 저장 + 구글맵 오프라인 지도 4권역 체크 · <b>폰마다 한 번씩</b>(지은 폰도)</small></span>
+        <button type="button" class="pack-action-btn open-map-modal-btn">열기</button>
+      </div>
     </div>
 
     <details class="cal-export" id="calExport">
@@ -8806,8 +8818,11 @@
 
     // 지금 화면에서 알 수 있는 저장 대상 (글꼴 파일은 CSS를 받은 뒤 추가)
     function baseUrls() {
-      var list = ['manifest.json', 'icon.svg', 'guides/disneyland.html', 'guides/universal.html',
+      var list = ['manifest.json', 'icon.svg',
         'data/costco.json', 'data/franchises.json', 'data/trader-joe.json', 'data/walmart.json', 'data/whiskey.json'];
+      document.querySelectorAll('[data-guide-src]').forEach(function (g) { list.push(g.getAttribute('data-guide-src')); }); // 가이드는 버전 붙은 실제 주소로
+      ['choi-jieun', 'shin-seunghyun', 'shin-subin', 'shin-yuna'].forEach(function (n) { list.push('insurance/insurance-en-' + n + '.pdf'); }); // 영문 보험증명서(예약 상세 안에만 링크가 있어 직접 지정)
+      (window.TRIP_DATA && window.TRIP_DATA.reservations || []).forEach(function (r) { if (r.imgKey) list.push(r.imgKey); }); // 예약 캡처
       document.querySelectorAll('img.att-photo').forEach(function (img) { list.push(img.getAttribute('src')); });
       document.querySelectorAll('[data-img^="images/"]').forEach(function (c) { list.push(c.getAttribute('data-img')); });
       document.querySelectorAll('script[src^="http"]').forEach(function (sc) { list.push(sc.src); });
