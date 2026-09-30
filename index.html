@@ -2640,6 +2640,7 @@
           return { phase: 'trip', day: now.getDate() };
         };
         window.TRIP_DATA.todos = [
+          { key: 'todo-hertz-afterhours', priority: true, due: '2026-10-01', verb: '까지', text: 'Hertz 두 지점 영업시간 뒤 반납(키 반납함) 되는지 전화 확인', tag: "— 리조트월드 (702) 273-3059: 10/1 18:45 반납 · 애너하임 Katella (714) 772-0425: 10/5 18:15 반납(평일 17:00 마감, '영업시간 뒤 반납 불가' 후기 있음) · 한국 시간 새벽 0~8시가 현지 영업시간 · \"Can I return after hours? Is there a key drop box?\" · 안 되면 일정 칸의 대안대로" },
           { key: 'todo-dodger-postseason', priority: true, due: '2026-10-07', verb: '밤', text: '다저 스타디움 투어 10/8 운영 여부 확인', tag: '— 포스트시즌이라 투어 날짜가 경기 일정에 따라 정해져요(9/29 투어팀 답장) · 10/8은 경기 없는 날 · dodgerstadiumtours.com 달력 확인 + 투어팀(Sommer)에 현장 구매 가능 여부 회신 받기 · 안 되면 플랜 B(캘리포니아 사이언스 센터)' },
           { key: 'todo-the-broad', priority: true, due: '2026-10-01', verb: '오픈', text: '더 브로드(The Broad) 사전 무료 시간지정권 예매', tag: '— 9/30(수) 10am PT → 한국시간 10/1(목) 02:00 KST 오픈 (10/8(목) 14:00 슬롯)' },
           { key: 'todo-dine-musso', priority: false, text: 'Musso &amp; Frank Grill 페어웰 디너 예약 — 10/10(토) 18:15 · 4명 (OpenTable)', tag: '— 유니버설 17:30 퇴장 → 18:00 로어스 복귀 후 도보 7분 (6667 Hollywood Blvd) · 예약되면 체크 (선택 옵션)' },
@@ -3068,7 +3069,7 @@
             <div class="sched-title">콘래드 체크인 &amp; Hertz 1차 렌터카 반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+Car+Rental+Las+Vegas+Resorts+World" target="_blank" rel="noopener noreferrer">📍 Hertz Resorts World</a></div>
             <div class="sched-note">🏨 체크인: 콘래드 메인 로비 정차 후 짐 하차 ➔ 🚗 반납: 리조트월드 주차장(Self-Parking) 내 Hertz 전용 구역 주차 후 벽면 Key Drop Box에 키 투입 ($40.55) — 트조에서 콘래드까지 약 20km·20분 ➔ 75분 동안 4인 가족 짐하차·체크인·반납 서두름 없이 진행 ➔ 아이 피로 최소화</div>
             <div class="sched-note">🕓 콘래드 정식 체크인은 <b>16:00</b>부터(18:45 도착이면 문제없어요) · 호텔 <a href="tel:+17026767000">+1 702-676-7000</a><span class="sensitive"> · 힐튼 확인번호 3516025451 <button type="button" class="copy-btn" data-copy="3516025451" aria-label="확인번호 복사" title="확인번호 복사"><span>📋</span> 복사</button></span></div>
-            <div class="sched-note">⏰ 리조트월드 Hertz 영업시간은 7:00–12:00 · 13:00–16:00 ((702) 273-3059) — 18:45 도착은 영업 종료 후라 <b>Key Drop</b>을 씁니다. 예약상 반납은 10/2 09:00이지만 픽업 후 24시간 안의 조기 반납이라 요금은 그대로일 가능성이 높아요 — 반납 뒤 도착하는 영수증 메일에서 총액이 $40.55인지 확인하세요.</div>
+            <div class="sched-note">⏰ 리조트월드 Hertz 영업시간은 7:00–12:00 · 13:00–16:00 ((702) 273-3059) — 18:45 도착은 영업 종료 후라 <b>Key Drop</b>을 씁니다. ⚠️ <b>이 지점 영업시간 뒤 키 반납함 유무는 확인되지 않았어요</b> — 반납은 주차장 5층, 직원이 없으면 힐튼 로비 쪽 연결 통로의 카운터 · <b>키 반납함이 없으면</b> 차를 리조트월드 셀프 주차장에 두고 <b>10/2 07:00~09:00</b>(예약 반납 시각 안)에 5층에서 반납(하룻밤 주차비만 추가) · 픽업 때 카운터에 "After-hours return tonight — where is the key drop?" 물어보기. 예약상 반납은 10/2 09:00이지만 픽업 후 24시간 안의 조기 반납이라 요금은 그대로일 가능성이 높아요 — 반납 뒤 도착하는 영수증 메일에서 총액이 $40.55인지 확인하세요.</div>
           </div>
 
           <div class="sched-block">
@@ -3741,7 +3742,7 @@
           <div class="sched-block">
             <div class="sched-time">🚗 18:15–18:45</div>
             <div class="sched-title">Hertz 애너하임(Katella Ave) 렌터카 선반납 <a class="nav-badge" href="https://www.google.com/maps/search/?api=1&amp;query=Hertz+221+W+Katella+Ave+Anaheim+CA+92802" target="_blank" rel="noopener noreferrer">📍 Hertz Katella Ave</a></div>
-            <div class="sched-note">🚗 무인 키드롭(Key Drop Box) 안전 반납 ($120.22) · 반납 전 계기판(주유/마일리지) 및 주차 위치 사진 촬영 필수 ➔ 🚶 호텔로 도보 복귀 (약 1.2km, 15분)</div>
+            <div class="sched-note">🚗 반납 ($120.22) — ⚠️ <b>이 지점은 영업시간 뒤 반납이 안 된다는 후기가 있어요</b>(Hertz 공식 페이지엔 표기 없음) → 10/4 픽업 때 카운터에 확인 · <b>안 되면</b> ① 오늘 17:00 전에 반납하도록 트레이더 조·코스트코를 줄이거나 ② 차를 Home2에 하룻밤 두고 <b>10/6 08:00 개장 때</b> 한 명이 반납 후 디즈니로 합류(도보 약 15분, 예약 반납 10/6 09:00 안) · · 반납 전 계기판(주유/마일리지) 및 주차 위치 사진 촬영 필수 ➔ 🚶 호텔로 도보 복귀 (약 1.2km, 15분)</div>
             <div class="sched-note">⏰ Katella 지점은 평일 8:00–17:00 ((714) 772-0425)라 18:15 반납은 영업 종료 후 <b>Key Drop</b>. 예약상 반납은 10/6 09:00이라 <b>조기(선)반납</b>이에요 — 반납 후 영수증 메일에서 총액이 $120.22 이하인지 확인하고, 다르면 예약 탭의 예약번호로 문의하세요.</div>
           </div>
 
