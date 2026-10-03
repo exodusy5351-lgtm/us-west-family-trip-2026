@@ -4711,6 +4711,7 @@
       </div>
       <div class="bx-cats" id="bxCats"></div>
       <div class="bx-plan" id="bxPlan" hidden></div>
+      <div style="font-size:10.5px;color:var(--muted-2);margin:-4px 0 8px;">💡 우버 앱 팁·식당 카드 팁은 그 결제 금액에 합쳐서 · 손으로 건넨 현금 팁만 💵 현금 팁에</div>
       <input type="text" id="bxMemo" placeholder="메모 (선택) · 예: 스피어→하몬 우버">
       <div class="bx-line">
         <div class="bx-toggle" id="bxPay"><button type="button" data-v="card" class="on">💳 카드</button><button type="button" data-v="cash">💵 현금</button></div>
@@ -4763,7 +4764,7 @@
       { led: "food", cat: "식비", item: "식비", estKrw: 0, estUsd: 2180.00, actKrw: 0, actUsd: 0, note: "식당·카페·간식·테마파크 식사 전부 · 예상: 베가스 $635 + 조슈아트리·아울렛 $235 + 테마파크 $780 + LA $530", done: false },
       { led: "shopping", cat: "장보기·쇼핑", item: "장보기·쇼핑", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "코스트코·트레이더 조·월마트·홀푸드·토탈와인·아울렛·기념품 (예상 금액 없음)", done: false },
       { led: "admission", cat: "투어·공연", item: "입장·체험 (현장 결제)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "곤돌라·놀이공원 게임·사진 구매 등 예약 없이 현장에서 낸 것 (예상 금액 없음)", done: false },
-      { led: "tip", cat: "기타", item: "팁", estKrw: 0, estUsd: 160.00, actKrw: 0, actUsd: 0, note: "호텔 벨·하우스키핑·발렛·식당 팁 (투어 가이드 팁은 위 투어 항목에)", done: false },
+      { led: "tip", cat: "기타", item: "현금 팁", estKrw: 0, estUsd: 160.00, actKrw: 0, actUsd: 0, note: "손으로 따로 건넨 현금 팁만 (호텔 벨·하우스키핑·발렛·식당 현금 팁) · 우버 앱 팁·식당 카드 팁은 그 항목 금액에 포함 · 투어 가이드 팁은 투어 항목에", done: false },
       { led: "lodging", cat: "숙박", item: "호텔 현장 결제", estKrw: 198394, estUsd: 0, actKrw: 0, actUsd: 0, note: "로어스 리조트 이용료($35/박) 등 체크인 때 카드 결제 · 호텔 주차는 주유·주차에", done: false },
       { led: "misc", cat: "기타", item: "기타", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "약국·세탁·수수료 등 어디에도 안 맞는 지출", done: false }
     ];
@@ -4982,7 +4983,7 @@
     document.addEventListener('tripSyncReady', startExpenseSync);
     if (window.TripSync) startExpenseSync();
 
-    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "쇼핑", admission: "입장·체험", tip: "팁", lodging: "호텔", misc: "기타" };
+    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "쇼핑", admission: "입장·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
     function money(krw, usd) {
       var parts = [];
       if (usd) parts.push("$" + usd.toFixed(2));
@@ -5170,7 +5171,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet(); });
     curEl.addEventListener('click', function () { st.cur = st.cur === "USD" ? "KRW" : "USD"; paint(); });
     document.getElementById('bxCats').addEventListener('click', function (e) {
-      var b = e.target.closest('.bx-cat'); if (!b) return; st.led = b.getAttribute('data-led'); paint();
+      var b = e.target.closest('.bx-cat'); if (!b) return; st.led = b.getAttribute('data-led'); if (st.led === 'tip') st.pay = 'cash'; paint();
     });
     document.getElementById('bxPay').addEventListener('click', function (e) {
       var b = e.target.closest('button'); if (!b) return; st.pay = b.getAttribute('data-v'); paint();
