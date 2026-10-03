@@ -5230,7 +5230,18 @@
         if (item.note) {
           html += '<div style="font-size:10.5px;color:var(--muted-2);margin-top:3px;padding-left:2px;">' + (item.done ? '✅ ' : (hasTransactions || hasLogged ? '📝 ' : '⏳ ')) + item.note + '</div>';
         }
-        if (catId && !item.done) {
+        if (catId && !item.done && DAILY_LEDS.indexOf(catId) < 0) {
+          // 현장에서 낼 예정 비용: 이 칸에 실제 낸 금액을 바로 기록(가계부에 이 항목으로 들어감)
+          var cashFirst = /Cash|팁/.test(item.item);
+          html += '<div class="ledger-row">' +
+            '<input type="number" inputmode="decimal" step="0.01" class="lg-quick-amt" data-led="' + catId + '" placeholder="실제 낸 금액 (예정 ' + fmtAmount(item.estKrw, item.estUsd) + ')" style="flex:1;min-width:0;background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:var(--text);font-size:12px;">' +
+            '<span class="ledger-unit">' + (isKrwItem ? '원' : 'USD') + '</span>' +
+            '<select class="lg-quick-pay" style="background:var(--card-2);border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--text);font-size:12px;">' +
+            (cashFirst ? '<option value="cash">💵 현금</option><option value="card">💳 카드</option>' : '<option value="card">💳 카드</option><option value="cash">💵 현금</option>') + '</select>' +
+            '<button type="button" class="lg-quick-add" data-led="' + catId + '" data-cur="' + (isKrwItem ? 'KRW' : 'USD') + '" data-idx="' + idx + '" style="background:var(--teal);color:#fff;border:none;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;cursor:pointer;">기록</button>' +
+            '</div>';
+        }
+        if (catId && !item.done && (hasTransactions || DAILY_LEDS.indexOf(catId) >= 0)) {
           html += '<div class="expense-history-list"><button type="button" class="lg-jump" data-led="' + catId + '" style="font-size:10.5px;color:var(--teal-text);background:none;border:none;padding:0;cursor:pointer;">' +
             (hasTransactions ? '📒 ' + transactions.length + '건 기록 · 내역 보기' : '📒 가계부 입력창에서 이 항목으로 등록') + '</button></div>';
         }
@@ -5261,29 +5272,24 @@
 
       document.getElementById('budget-count').textContent = BUDGET_DATA.length + " ITEMS";
       renderLedger();
-
-      Array.prototype.forEach.call(document.querySelectorAll('.ledger-input'), function (input) {
-        function commit() {
-          var idx = parseInt(input.getAttribute('data-idx'), 10);
-          var item = BUDGET_DATA[idx];
-          var val = parseFloat(input.value);
-          if (!isNaN(val) && val > 0) {
-            ledger[item.item] = val;
-          } else {
-            delete ledger[item.item];
-          }
-          saveLedger(ledger);
-          renderBudget();
-        }
-        input.addEventListener('change', commit);
-        input.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
-        });
-      });
     }
 
     // ===== 건별 누적 가계부: 거래 삭제 (이벤트 위임, #budget-live는 재렌더링에도 유지됨) =====
     document.getElementById('budget-live').addEventListener('click', function (e) {
+      var q = e.target.closest('.lg-quick-add');
+      if (q) {
+        var row = q.closest('.ledger-row');
+        var amt = parseFloat(row.querySelector('.lg-quick-amt').value);
+        if (isNaN(amt) || amt <= 0) {
+          if (window.showToast) window.showToast('실제 낸 금액을 입력해주세요');
+          return;
+        }
+        var it = BUDGET_DATA[parseInt(q.getAttribute('data-idx'), 10)];
+        addTransaction(q.getAttribute('data-led'), it.item, amt, q.getAttribute('data-cur'), row.querySelector('.lg-quick-pay').value);
+        if (window.showToast) window.showToast('기록했어요 (' + it.item + ')');
+        if (window.triggerHaptic) window.triggerHaptic('success');
+        return;
+      }
       var j = e.target.closest('.lg-jump');
       if (!j) return;
       document.getElementById('lgCatFilter').value = j.getAttribute('data-led');
