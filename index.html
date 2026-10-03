@@ -595,7 +595,7 @@
   .bx-amt-row{display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--teal);padding-bottom:6px;margin-bottom:14px;}
   .bx-cur{border:1px solid var(--line);background:var(--card-2);color:var(--text);border-radius:10px;font-size:18px;font-weight:800;width:48px;height:44px;cursor:pointer;}
   #bxAmt{flex:1;min-width:0;border:none;background:none;color:var(--text);font-family:'JetBrains Mono',system-ui,sans-serif;font-size:32px;font-weight:800;outline:none;}
-  .bx-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+  .bx-cats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;}
   .bx-cat{border:1px solid var(--line);background:var(--card-2);color:var(--text);border-radius:12px;padding:8px 2px;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;}
   .bx-cat span{font-size:20px;}
   .bx-cat.on{border-color:var(--teal);background:rgba(46,196,182,.15);font-weight:700;}
@@ -4762,7 +4762,8 @@
       { led: "dodger", cat: "투어·공연", item: "다저 스타디움 투어", estKrw: 0, estUsd: 149.00, actKrw: 0, actUsd: 0, note: "10/8(목) 당일 현장 구매 예정 — 온라인은 한국 카드 결제 불가(9/28) · 10:00 회차 목표, 매진이면 플랜 B", done: false },
       // 가계부 누적 항목 (지역 구분 없이 항목별 — 날짜는 건마다 기록)
       { led: "food", cat: "식비", item: "식비", estKrw: 0, estUsd: 2180.00, actKrw: 0, actUsd: 0, note: "식당·카페·간식·테마파크 식사 전부 · 예상: 베가스 $635 + 조슈아트리·아울렛 $235 + 테마파크 $780 + LA $530", done: false },
-      { led: "shopping", cat: "장보기·쇼핑", item: "장보기·쇼핑", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "코스트코·트레이더 조·월마트·홀푸드·토탈와인·아울렛·기념품 (예상 금액 없음)", done: false },
+      { led: "shopping", cat: "장보기·쇼핑", item: "장보기", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "코스트코·트레이더 조·월마트·홀푸드·토탈와인·편의점 — 먹거리·생수·생필품 (예상 금액 없음)", done: false },
+      { led: "goods", cat: "장보기·쇼핑", item: "쇼핑", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "옷·아울렛(아크테릭스·토미 등)·기념품·로스 (예상 금액 없음)", done: false },
       { led: "admission", cat: "투어·공연", item: "입장·체험 (현장 결제)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "곤돌라·놀이공원 게임·사진 구매 등 예약 없이 현장에서 낸 것 (예상 금액 없음)", done: false },
       { led: "tip", cat: "기타", item: "현금 팁", estKrw: 0, estUsd: 160.00, actKrw: 0, actUsd: 0, note: "손으로 따로 건넨 현금 팁만 (호텔 벨·하우스키핑·발렛·식당 현금 팁) · 우버 앱 팁·식당 카드 팁은 그 항목 금액에 포함 · 투어 가이드 팁은 투어 항목에", done: false },
       { led: "lodging", cat: "숙박", item: "호텔 현장 결제", estKrw: 198394, estUsd: 0, actKrw: 0, actUsd: 0, note: "로어스 리조트 이용료($35/박) 등 체크인 때 카드 결제 · 호텔 주차는 주유·주차에", done: false },
@@ -4798,8 +4799,8 @@
     };
 
     // 가계부 분류 = BUDGET_DATA의 led 값. 일상 지출 분류는 아이콘을 따로 둔다.
-    var LED_ICON = { food: "🍽️", transport: "🚕", "fuel-parking": "⛽", shopping: "🛒", admission: "🎟️", tip: "💵", lodging: "🏨", misc: "📌" };
-    var DAILY_LEDS = ["food", "transport", "fuel-parking", "shopping", "admission", "tip", "lodging", "misc"];
+    var LED_ICON = { food: "🍽️", transport: "🚕", "fuel-parking": "⛽", shopping: "🛒", goods: "🛍️", admission: "🎟️", tip: "💵", lodging: "🏨", misc: "📌" };
+    var DAILY_LEDS = ["food", "transport", "fuel-parking", "shopping", "goods", "admission", "tip", "lodging", "misc"];
     var LED_ITEM = {};
     BUDGET_DATA.forEach(function (it) { if (it.led) LED_ITEM[it.led] = it; });
     // 예전 지역별 분류로 저장된 기록은 새 분류로 읽는다(서버 데이터는 그대로)
@@ -4903,7 +4904,8 @@
       var q = (merchant + " " + (fullText || "")).toLowerCase();
       if (/uber|lyft|waymo|taxi|cab\b|우버|택시/.test(q)) return "transport";
       if (/\bgas\b|fuel|chevron|shell|arco|76 |valero|주유|parking|park ?\d|주차/.test(q)) return "fuel-parking";
-      if (/costco|trader ?joe|walmart|wal-mart|whole ?foods|total ?wine|target|cvs|walgreens|desert hills|premium outlet|ross|코스트코|트레이더|월마트|홀푸드|토탈와인|아울렛/.test(q)) return "shopping";
+      if (/costco|trader ?joe|walmart|wal-mart|whole ?foods|total ?wine|target|cvs|walgreens|abc store|7-eleven|코스트코|트레이더|월마트|홀푸드|토탈와인/.test(q)) return "shopping";
+      if (/desert hills|premium outlet|outlet|ross|arc.?teryx|tommy|polo|ralph|levi|north face|calvin|nike|adidas|gift|souvenir|아울렛|기념품/.test(q)) return "goods";
       if (/hotel|resort fee|loews|conrad|hilton|home2|호텔/.test(q)) return "lodging";
       if (/gondola|ticket|admission|museum|observatory|arcade|adventuredome|입장/.test(q)) return "admission";
       return "food";
@@ -4983,7 +4985,7 @@
     document.addEventListener('tripSyncReady', startExpenseSync);
     if (window.TripSync) startExpenseSync();
 
-    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "쇼핑", admission: "입장·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
+    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
     function money(krw, usd) {
       var parts = [];
       if (usd) parts.push("$" + usd.toFixed(2));
