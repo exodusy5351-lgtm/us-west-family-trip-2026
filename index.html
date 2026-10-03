@@ -5067,8 +5067,14 @@
       if (!body) return;
       var dayF = document.getElementById('lgDayFilter').value;
       var catF = document.getElementById('lgCatFilter').value;
-      var rows = allTx().filter(function (x) {
-        return (dayF === "all" || String(x.day) === dayF) && (catF === "all" || x.led === catF);
+      // 여행 전에 결제를 끝낸 예약(항공·숙박·티켓 등)도 여행 경비라 같은 목록에 '여행 전 결제'로 보여 준다(삭제 불가)
+      var pre = BUDGET_DATA.filter(function (it) { return it.done; }).map(function (it) {
+        var usdPaid = it.actUsd > 0;
+        return { pre: true, day: "pre", led: "pre:" + it.cat, cat: it.cat,
+                 t: { memo: it.item, amount: usdPaid ? it.actUsd : it.actKrw, currency: usdPaid ? "USD" : "KRW" } };
+      });
+      var rows = allTx().concat(pre).filter(function (x) {
+        return (dayF === "all" || String(x.day) === dayF) && (catF === "all" || x.led === catF || (catF === "pre" && x.pre));
       });
       var usd = 0, krw = 0, byLed = {};
       rows.forEach(function (x) {
@@ -5078,11 +5084,12 @@
         if (t.currency === "KRW") b.krw += t.amount; else b.usd += t.amount;
         b.n++;
       });
-      var html = '<div class="lg-total"><span>' + rows.length + '건 · 합계</span><span><b>' + money(krw, usd) + '</b> <span style="color:var(--muted);">≈ ₩' + Math.round(krw + usd * USD_RATE).toLocaleString() + '</span></span></div>';
+      var html = '<div class="lg-total"><span>' + rows.length + '건 · 전체 합계</span><span><b>' + money(krw, usd) + '</b> <span style="color:var(--muted);">≈ ₩' + Math.round(krw + usd * USD_RATE).toLocaleString() + '</span></span></div>';
       var leds = Object.keys(byLed).sort(function (a, b) { return (byLed[b].krw + byLed[b].usd * USD_RATE) - (byLed[a].krw + byLed[a].usd * USD_RATE); });
       if (leds.length) {
         html += '<div class="lg-cats">' + leds.map(function (l) {
-          return '<span class="lg-cat">' + ledIcon(l) + ' ' + escapeHtml(ledLabel(l)) + ' ' + money(byLed[l].krw, byLed[l].usd) + '</span>';
+          var isPre = l.indexOf("pre:") === 0, c = l.slice(4);
+          return '<span class="lg-cat">' + (isPre ? (CAT_ICON[c] || '📌') + ' ' + escapeHtml(c) + '(사전)' : ledIcon(l) + ' ' + escapeHtml(ledLabel(l))) + ' ' + money(byLed[l].krw, byLed[l].usd) + '</span>';
         }).join('') + '</div>';
       }
       if (!rows.length) {
@@ -5091,13 +5098,22 @@
       }
       var groups = {};
       rows.forEach(function (x) { (groups[x.day] = groups[x.day] || []).push(x); });
-      Object.keys(groups).map(Number).sort(function (a, b) { return (b || 99) - (a || 99); }).forEach(function (d) {
+      // 최신 날짜가 위, '출발 전·귀국 후'(0) 다음 맨 아래에 '여행 전 결제'
+      Object.keys(groups).sort(function (a, b) {
+        function rank(k) { return k === "pre" ? -2 : (k === "0" ? -1 : Number(k)); }
+        return rank(b) - rank(a);
+      }).forEach(function (d) {
         var g = groups[d].sort(function (a, b) { return (b.t.ts || 0) - (a.t.ts || 0); });
         var du = 0, dk = 0;
         g.forEach(function (x) { if (x.t.currency === "KRW") dk += x.t.amount; else du += x.t.amount; });
-        html += '<div class="lg-day"><span>' + dayLabel(d) + '</span><span>' + money(dk, du) + '</span></div>';
+        html += '<div class="lg-day"><span>' + (d === "pre" ? "✈️ 여행 전 결제 (예약·사전결제)" : dayLabel(Number(d))) + '</span><span>' + money(dk, du) + '</span></div>';
         g.forEach(function (x) {
           var t = x.t;
+          if (x.pre) {
+            var pamt = t.currency === "KRW" ? "₩" + Math.round(t.amount).toLocaleString() : "$" + t.amount.toFixed(2);
+            html += '<div class="lg-row"><span class="lg-ic">' + (CAT_ICON[x.cat] || '📌') + '</span><div class="lg-main"><b>' + escapeHtml(t.memo) + '</b><span class="lg-sub">' + escapeHtml(x.cat) + ' · 결제 완료</span></div><span class="lg-amt">' + pamt + '</span></div>';
+            return;
+          }
           var amt = t.currency === "KRW" ? "₩" + Math.round(t.amount).toLocaleString() : "$" + t.amount.toFixed(2);
           var tm = t.ts ? new Date(t.ts) : null;
           var sub = [escapeHtml(ledLabel(x.led)), t.payType === "cash" ? "💵 현금" : "💳 카드"];
@@ -5119,7 +5135,7 @@
       var catOpts = '<optgroup label="일상 지출">' + daily + '</optgroup><optgroup label="예정된 결제 (렌터카·투어 현장비 등)">' + planned + '</optgroup>';
       document.getElementById('manualCategorySelect').innerHTML = catOpts;
       document.getElementById('smsCategorySelect').insertAdjacentHTML('beforeend', catOpts);
-      document.getElementById('lgCatFilter').innerHTML = opt('all', '전체 항목') + catOpts;
+      document.getElementById('lgCatFilter').innerHTML = opt('all', '전체 항목') + opt('pre', '✈️ 여행 전 결제 (항공·숙박·티켓)') + catOpts;
       var days = '';
       for (var n = 1; n <= 11; n++) days += opt(n, dayLabel(n));
       days += opt(0, dayLabel(0));
@@ -5127,7 +5143,7 @@
       var dsel = document.getElementById('ledgerDaySelect');
       dsel.innerHTML = days;
       dsel.value = String(today);
-      document.getElementById('lgDayFilter').innerHTML = opt('all', '전체 날짜') + days;
+      document.getElementById('lgDayFilter').innerHTML = opt('all', '전체 날짜') + opt('pre', '✈️ 여행 전 결제') + days;
       document.getElementById('lgDayFilter').addEventListener('change', renderLedger);
       document.getElementById('lgCatFilter').addEventListener('change', renderLedger);
       window.setLedgerDay = function (n) { dsel.value = String(n); };
