@@ -5004,7 +5004,7 @@
     }
     var PLANNED = BUDGET_DATA.filter(function (it) { return it.led && !it.done && DAILY_LEDS.indexOf(it.led) < 0; });
     var PREPAID = BUDGET_DATA.filter(function (it) { return it.done; });
-    var listFilter = "all";
+    var listFilter = "all", paidOpen = false;
 
     // ---------- 화면 ----------
     function renderBudget() {
@@ -5032,7 +5032,7 @@
       document.getElementById('budget-count').textContent = all.length + "건";
 
       // 아직 낼 돈
-      var dueHtml = "", dueKrw = 0, cashUsd = 0;
+      var dueHtml = "", paidHtml = "", paidN = 0, dueKrw = 0, cashUsd = 0;
       PLANNED.map(function (it) {
         var txs = all.filter(function (x) { return x.led === it.led; });
         return { it: it, txs: txs, paid: txs.length > 0 };
@@ -5043,13 +5043,20 @@
           if (cash) cashUsd += it.estUsd;
         }
         var paidAmt = d.txs.map(function (x) { return fmtTx(x.t); }).join(" + ");
-        dueHtml += '<div class="bx-row' + (d.paid ? ' paid' : '') + '" data-plan="' + it.led + '">' +
+        if (d.paid) paidN++;
+        var rowHtml = '<div class="bx-row' + (d.paid ? ' paid' : '') + '" data-plan="' + it.led + '">' +
           '<span class="bx-ic">' + (d.paid ? '✅' : (CAT_ICON[it.cat] || '📌')) + '</span>' +
           '<div class="bx-main"><b>' + escapeHtml(it.item.replace(/ \(Cash\)$/, '')) + (cash ? '<span class="bx-cash">현금</span>' : '') + '</b>' +
           '<span>' + (d.paid ? '낸 금액 · 탭하면 수정' : '탭해서 낸 금액 기록') + '</span></div>' +
           '<span class="bx-amt">' + (d.paid ? paidAmt + '<small>예정 ' + estOf(it) + '</small>' : estOf(it)) + '</span></div>';
+        if (d.paid) paidHtml += rowHtml; else dueHtml += rowHtml;
       });
+      // 낸 항목은 접어 두고 '낸 것 보기'로만 (열림 상태는 다시 그려도 유지)
+      if (!dueHtml) dueHtml = '<div class="bx-empty">모두 냈어요 🎉</div>';
+      if (paidN) dueHtml += '<details class="bx-paid"' + (paidOpen ? ' open' : '') + '><summary style="cursor:pointer;font-size:12px;color:var(--teal-text);padding:8px 0 2px;">✅ 낸 것 ' + paidN + '건 보기</summary>' + paidHtml + '</details>';
       document.getElementById('bxDue').innerHTML = dueHtml;
+      var pd = document.querySelector('#bxDue .bx-paid');
+      if (pd) pd.addEventListener('toggle', function () { paidOpen = pd.open; });
       document.getElementById('bxDueSum').textContent = dueKrw ? "남은 " + wonMan(dueKrw) + (cashUsd ? " · 현금 $" + Math.round(cashUsd) : "") : "모두 냈어요";
 
       // 항목 칩
