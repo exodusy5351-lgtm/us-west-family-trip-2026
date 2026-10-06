@@ -546,6 +546,16 @@
   .bar-row.subtotal .br-top .amt{color:var(--gold-text);font-size:14px;font-weight:700;}
   .cat-badge{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',system-ui,sans-serif;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin-right:6px;vertical-align:middle;line-height:1.2;}
 
+  /* ===== 6일차 한눈에 보기 ===== */
+  .glance{background:var(--card);border:2px solid var(--teal);border-radius:14px;padding:12px 12px 6px;margin:12px 0;}
+  .glance h4{margin:0 0 8px;font-size:15px;}
+  .glance-row{display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:start;padding:8px 0;border-top:1px solid var(--line);}
+  .glance-row:first-of-type{border-top:none;}
+  .glance-t{font-family:'JetBrains Mono',system-ui,sans-serif;font-size:14px;font-weight:800;color:var(--teal-text);}
+  .glance-w{font-size:15px;font-weight:700;line-height:1.35;}
+  .glance-ll{display:inline-block;margin-top:3px;font-size:12px;font-weight:700;color:#fff;background:var(--coral-text);border-radius:8px;padding:2px 8px;}
+  .glance-sub{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:2px;}
+  .glance-row.key .glance-w{color:var(--coral-text);}
   /* ===== 경비 가계부 (bx) ===== */
   .bx-hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
   .bx-hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;}
@@ -3857,7 +3867,23 @@
         </div>
         <div class="d-title">디즈니랜드 파크 전일 (1-Day 1-Park)</div>
         <div class="d-desc">디즈니랜드 파크 단일 집중 (1 Day 1 Park · DCA 미포함) · Lightning Lane Multi Pass 연쇄 · 시간대별 평균 대기 기준 동선 · 운영 08:00–23:00</div>
-        <details class="shield-card" open style="background:var(--card);border:2px solid var(--coral-text);border-radius:12px;padding:12px 14px;margin:12px 0;">
+        <div class="glance">
+          <h4>⏱️ 오늘 한눈에 — 이것만 보세요</h4>
+          <div class="glance-row key"><div class="glance-t">08:00</div><div class="glance-w">입장 → 🎃 헌티드 맨션<br><span class="glance-ll">⚡ 엄마 폰: LL#1 스페이스 (4명)</span><span class="glance-sub">아빠는 08:35 헌티드 맨션 출구에서 합류</span></div></div>
+          <div class="glance-row"><div class="glance-t">08:40</div><div class="glance-w">🐸 티아나 → 🚂 빅썬더<span class="glance-sub">서쪽 스탠바이 · 줄 짧은 시간</span></div></div>
+          <div class="glance-row"><div class="glance-t">09:45</div><div class="glance-w">🌌 스타 투어즈 → 🚀 스페이스<br><span class="glance-ll">⚡ 타자마자 LL#2 마터호른</span></div></div>
+          <div class="glance-row"><div class="glance-t">11:45</div><div class="glance-w">🍗 Plaza Inn 점심<span class="glance-sub">11:15 모바일 오더</span></div></div>
+          <div class="glance-row"><div class="glance-t">12:30</div><div class="glance-w">🏔️ 마터호른 · 캐슬 사진<br><span class="glance-ll">⚡ 타자마자 LL#3 헌티드 맨션</span></div></div>
+          <div class="glance-row key"><div class="glance-t">13:30</div><div class="glance-w">🚀 라이즈 1차 → 🛸 팔콘<br><span class="glance-ll">⚡ 14:30~15:30 LL#4 스페이스</span><span class="glance-sub">라이즈 멈춰 있으면 팔콘 먼저</span></div></div>
+          <div class="glance-row"><div class="glance-t">15:15</div><div class="glance-w">🎃 헌티드 맨션 → 🚀 스페이스 (두 번째)<br><span class="glance-ll">⚡ 타자마자 LL#5 남은 것</span><span class="glance-sub">Dole Whip · 쉬기</span></div></div>
+          <div class="glance-row"><div class="glance-t">18:00</div><div class="glance-w">🍽️ Docking Bay 7 저녁<span class="glance-sub">17:30 모바일 오더 · 18~20시 가장 붐빔</span></div></div>
+          <div class="glance-row"><div class="glance-t">19:00</div><div class="glance-w">🚀 라이즈 2차 (못 탔으면)<span class="glance-sub">탔으면 LL·짧은 줄·쉬기</span></div></div>
+          <div class="glance-row"><div class="glance-t">21:30</div><div class="glance-w">🎃 할로윈 스크림<span class="glance-sub">메인 스트리트 · 21:15 이동</span></div></div>
+          <div class="glance-row"><div class="glance-t">21:50</div><div class="glance-w">🚀 라이즈 3차 (못 탔으면) · 🏴‍☠️ 해적<span class="glance-sub">밤 10시가 가장 짧아요 → 퇴장</span></div></div>
+          <div style="font-size:11px;color:var(--muted-2);padding:6px 0 4px;">자세한 근거·대응은 아래 칸과 🛡️ 카드 · 현장에선 앱 실시간 대기가 우선</div>
+        </div>
+
+        <details class="shield-card" style="background:var(--card);border:2px solid var(--coral-text);border-radius:12px;padding:12px 14px;margin:12px 0;">
           <summary class="tip-note-title" style="cursor:pointer;">🛡️ 디즈니 실패 방지 플랜 — 오늘 밤 · 아침 · 상황별 대응</summary>
           <ol class="cheat-list">
             <li>🌙 <b>전날 밤(10/5) 꼭 (10분)</b> — ① 디즈니 앱 <b>"내 계획(My Plans)"에 4명 티켓 + Lightning Lane Multi Pass 4개</b>가 모두 보이는지 ② <b>승현·지은 두 폰 모두</b> 같은 계정으로 로그인(한 폰이 꺼져도 예약 가능) ③ 각자 입장 QR이 열리는지 · Klook PDF 4장도 폰에 저장 ④ 결제카드 등록(모바일 오더) ⑤ 보조배터리 2개 완충 ⑥ <b>10/7(7일차) 07:30 UberXL Reserve</b> — 늦어도 오늘(10/6) 밤 안에 ⑦ 짐 대부분 싸 두기 ⑧ 23시 전 취침</li>
