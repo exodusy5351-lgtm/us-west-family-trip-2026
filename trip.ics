@@ -26,7 +26,7 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:sched-d1-0-082000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T082000
 DTEND;TZID=America/Los_Angeles:20261001T113000
 SUMMARY:1일차 · LAX 공항 입국 & Hertz 1차 렌터카 픽업
@@ -66,7 +66,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-1-133000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T133000
 DTEND;TZID=America/Los_Angeles:20261001T143000
 SUMMARY:1일차 · [중간 휴게 & 점심] 바스토우 In-N-Out
@@ -81,7 +81,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-2-163000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T163000
 DTEND;TZID=America/Los_Angeles:20261001T170000
 SUMMARY:1일차 · [사막 포토존] 세븐 매직 마운틴스
@@ -100,7 +100,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-3-173000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T173000
 DTEND;TZID=America/Los_Angeles:20261001T182500
 SUMMARY:1일차 · [주유 & 필수 간식 퀵스톱] 코스트코 헨더
@@ -129,7 +129,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-4-184500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T184500
 DTEND;TZID=America/Los_Angeles:20261001T200000
 SUMMARY:1일차 · 콘래드 체크인 & Hertz 1차 렌터카 반납
@@ -179,7 +179,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-5-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T200000
 DTEND;TZID=America/Los_Angeles:20261001T211500
 SUMMARY:1일차 · [저녁 식사] Tacos El Gordo
@@ -195,7 +195,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d1-6-211500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261001T211500
 DTEND;TZID=America/Los_Angeles:20261001T230000
 SUMMARY:1일차 · (선택) 라스베이거스 야간 드라이브 — 차
@@ -252,7 +252,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-0-090000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T090000
 DTEND;TZID=America/Los_Angeles:20261002T113000
 SUMMARY:2일차 · 콘래드 풀장 수영 & 중식
@@ -273,7 +273,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-1-130000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T130000
 DTEND;TZID=America/Los_Angeles:20261002T133000
 SUMMARY:2일차 · 콘래드 체크아웃 & 투어 짐 보관
@@ -298,7 +298,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-2-133000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T133000
 DTEND;TZID=America/Los_Angeles:20261002T143000
 SUMMARY:2일차 · 서커스서커스 (Circus Circus)
@@ -323,7 +323,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-3-143000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T143000
 DTEND;TZID=America/Los_Angeles:20261002T161000
 SUMMARY:2일차 · 베네시안 구경(곤돌라 선택) → 걸어서 스
@@ -353,7 +353,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-4-162600@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T162600
 DTEND;TZID=America/Los_Angeles:20261002T181500
 SUMMARY:2일차 · 스피어 본공연 (오즈의 마법사)
@@ -379,7 +379,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-5-185000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T185000
 DTEND;TZID=America/Los_Angeles:20261002T195000
 SUMMARY:2일차 · [저녁] 칙필레 또는 치폴레 (하몬 코너)
@@ -401,7 +401,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-6-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T200000
 DTEND;TZID=America/Los_Angeles:20261002T220000
 SUMMARY:2일차 · [야경] 벨라지오 분수쇼 & 스트립 산책
@@ -428,7 +428,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-7-223000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T223000
 DTEND;TZID=America/Los_Angeles:20261002T234500
 SUMMARY:2일차 · 콘래드 복귀\, 짐 정리 & 로비 대기 휴식
@@ -444,7 +444,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d2-8-234500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T234500
 DTEND;TZID=America/Los_Angeles:20261003T001500
 SUMMARY:2일차 · 요한투어 픽업 & 그랜드캐년 투어 출발
@@ -461,7 +461,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d3-0-234500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261002T234500
 DTEND;TZID=America/Los_Angeles:20261003T190000
 SUMMARY:3일차 · 그랜드캐년 VIP 투어 (요한투어 코스2)
@@ -486,7 +486,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d3-1-190000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261003T190000
 DTEND;TZID=America/Los_Angeles:20261003T200000
 SUMMARY:3일차 · 콘래드 복귀 & 재체크인
@@ -504,7 +504,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d3-2-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261003T200000
 DTEND;TZID=America/Los_Angeles:20261003T203000
 SUMMARY:3일차 · [저녁] 리조트월드 푸드홀 / Junior's
@@ -519,22 +519,22 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-0-083000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T083000
 DTEND;TZID=America/Los_Angeles:20261004T090000
 SUMMARY:4일차 · 콘래드 체크아웃 & Hertz 2차 렌터카 픽업
 DESCRIPTION:🚗 리조트월드 데스크 2차 렌터카 픽업 (2일권 
- $120.22\, 10/5 17:00 전 애너하임 Katella 반납 — 영업시간 뒤
-  반납·반납지 변경 불가) ➔ 짐 적재 후 남쪽 고속도로 
- 진입로 이동\n🔖 Hertz 예약 픽업 10/4 09:00 · 리조트월드 
- Hertz 영업 7:00–12:00 · 13:00–16:00 ((702) 273-3059) · 후지불 
- $120.22 (2일 × $60.11)\n🗣️ 할 말 · 콘래드 프런트: "Checki
- ng out\, room ___. Could I get the receipt by email?" · Hertz: "Picking 
- up\, reservation under SHIN." → "I'd like to add my wife as an addition
- al driver. Is it free for a spouse?" · 반납 확인: "I'm returning it 
- at Anaheim\, West Katella Avenue\, tomorrow before 5 PM. Is that correct?
- " · 차 확인: "Is the tank full? Regular gas\, right?" · 옵션 권
- 유엔 "No\, thank you. I'll keep what's on my reservation."
+ $120.22\, 10/6(화) 08:00 애너하임 Katella 반납 — 영업시간 
+ 뒤 반납·반납지 변경 불가) ➔ 짐 적재 후 남쪽 고속도
+ 로 진입로 이동\n🔖 Hertz 예약 픽업 10/4 09:00 · 리조트월
+ 드 Hertz 영업 7:00–12:00 · 13:00–16:00 ((702) 273-3059) · 후지
+ 불 $120.22 (2일 × $60.11)\n🗣️ 할 말 · 콘래드 프런트: "Ch
+ ecking out\, room ___. Could I get the receipt by email?" · Hertz: "Pick
+ ing up\, reservation under SHIN." → "I'd like to add my wife as an addi
+ tional driver. Is it free for a spouse?" · 반납 확인: "I'm returning
+  it at Anaheim\, West Katella Avenue\, tomorrow before 5 PM. Is that corr
+ ect?" · 차 확인: "Is the tank full? Regular gas\, right?" · 옵션 
+ 권유엔 "No\, thank you. I'll keep what's on my reservation."
 LOCATION:Hertz Resorts World Las Vegas
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -544,7 +544,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-1-091500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T091500
 DTEND;TZID=America/Los_Angeles:20261004T094000
 SUMMARY:4일차 · [도로 점심·간식] Whole Foods Market Las Vegas Bl
@@ -567,7 +567,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-2-094500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T094500
 DTEND;TZID=America/Los_Angeles:20261004T100500
 SUMMARY:4일차 · [위스키 쇼핑] Total Wine Town Square South
@@ -602,7 +602,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-3-100500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T100500
 DTEND;TZID=America/Los_Angeles:20261004T114000
 SUMMARY:4일차 · 모하비 사막 드라이브 1구간 (I-15 S)
@@ -617,7 +617,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-4-114000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T114000
 DTEND;TZID=America/Los_Angeles:20261004T120000
 SUMMARY:4일차 · [중간 휴게] 베이커 · Alien Fresh Jerky
@@ -636,7 +636,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-5-120000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T120000
 DTEND;TZID=America/Los_Angeles:20261004T143000
 SUMMARY:4일차 · 모하비 사막 드라이브 2구간 (I-15 S ➔ CA-24
@@ -654,7 +654,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-6-143000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T143000
 DTEND;TZID=America/Los_Angeles:20261004T150000
 SUMMARY:4일차 · [바비큐 장보기 · ⛽ 주유] Walmart Supercenter
@@ -685,7 +685,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-7-151000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T151000
 DTEND;TZID=America/Los_Angeles:20261004T153000
 SUMMARY:4일차 · [체크인 & 식재료 냉장 & 환복] The Pink Bungal
@@ -708,7 +708,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-8-153000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T153000
 DTEND;TZID=America/Los_Angeles:20261004T165000
 SUMMARY:4일차 · [서쪽 게이트 입장 & 트레킹] 히든밸리
@@ -725,7 +725,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-9-170000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T170000
 DTEND;TZID=America/Los_Angeles:20261004T174500
 SUMMARY:4일차 · [숨은 명소] 바커댐 (Barker Dam)
@@ -744,7 +744,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-10-180000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T180000
 DTEND;TZID=America/Los_Angeles:20261004T183500
 SUMMARY:4일차 · [일몰 명소] 키즈뷰 (Keys View) 골든아워 & 
@@ -764,7 +764,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d4-11-191000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261004T191000
 DTEND;TZID=America/Los_Angeles:20261004T194000
 SUMMARY:4일차 · [숙소 복귀 & 만찬] 가스레인지 팬 스테이
@@ -787,7 +787,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-0-073000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T073000
 DTEND;TZID=America/Los_Angeles:20261005T083000
 SUMMARY:5일차 · 기상 & 아침(간단히) & 짐정리
@@ -801,7 +801,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-1-083000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T083000
 DTEND;TZID=America/Los_Angeles:20261005T084500
 SUMMARY:5일차 · The Pink Bungalow 체크아웃
@@ -817,14 +817,15 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-2-084500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T084500
 DTEND;TZID=America/Los_Angeles:20261005T100000
 SUMMARY:5일차 · 조슈아트리 → 데저트힐스 아울렛 이동 (C
  A-62 W ➔ I-10 W)
 DESCRIPTION:🚗 [약 64km · 55분(경로 계산\, 9/30) + 여유 20분] 
- 08:45 출발 ➔ 오픈시간(10:00) 전에 도착해 주차 · 오늘은
-  17:00 전 렌터카 반납이라 아울렛을 13:00에 나서야 해요
+ 08:45 출발 ➔ 오픈시간(10:00) 전에 도착해 주차 · 아울렛
+ 은 13:00 출발 목표(오늘은 반납 마감이 없어 조금 늦어
+ 져도 괜찮아요)
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
@@ -834,7 +835,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-3-100000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T100000
 DTEND;TZID=America/Los_Angeles:20261005T130000
 SUMMARY:5일차 · [쇼핑 & 점심] 데저트힐스 프리미엄 아울
@@ -892,7 +893,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-4-143000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T143000
 DTEND;TZID=America/Los_Angeles:20261005T150500
 SUMMARY:5일차 · [트렁크 쇼핑 1차] Trader Joe's Orange점
@@ -910,7 +911,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-5-152000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T152000
 DTEND;TZID=America/Los_Angeles:20261005T160500
 SUMMARY:5일차 · [풀 주유 & 쇼핑 2차] 코스트코 가든그로브
@@ -919,9 +920,8 @@ DESCRIPTION:⛽ 반납대비 풀주유(Visa · 주유기가 ZIP 코드를
  물으면 아래 1일차 요령) · 🪪 위스키 계산 때 여권 ➔ 
  🛒 영양제·미국한정 위스키·대용량 생수 구매 ➔ 🍗 
  오늘 저녁용 로티세리 치킨 + 샐러드·과일·음료 (숙소
- 에서 먹을 거라 마지막에 담기)\n⏰ 코스트코 출발 마감
-  16:15 — 넘기면 17:00 반납이 어려우니 아래 예비안(내일
-  08:00 반납)으로 전환
+ 에서 먹을 거라 마지막에 담기)\n⛽ 내일 아침 반납용이
+ 라 여기서 가득 주유(내일 아침엔 Home2→Katella 1km뿐)
 LOCATION:Costco Wholesale 11000 Garden Grove Blvd Garden Grove CA 92843
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -931,69 +931,38 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d5-6-162000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T162000
 DTEND;TZID=America/Los_Angeles:20261005T163500
-SUMMARY:5일차 · Home2 Suites 애너하임 도착 & 가족 선하차
-DESCRIPTION:👪 호텔 프런트에 아내·두 딸 및 모든 캐리어
- ·쇼핑짐 전량 하차 ➔ 체크인 진행 (가족은 객실 대기\,
-  남편만 차량으로 렌터카 반납 이동)\n🅿️ Home2 주차(
- 힐튼 공식\, 9/30): 셀프 주차 없음 · 발렛만 1박 $44.46 — 
- 차를 맡기지 않고 정문 앞에 잠깐 세워 짐만 내리기(직
- 원에게 "Just unloading\, I'm returning the rental car") · 차를 하
- 룻밤 두면 발렛비 $44.46이 붙어요\n🕓 Home2 정식 체크인 
- 16:00(16:20 도착이면 OK) · 체크아웃 11:00 · 호텔 +1 714-844-2
- 811\n🗣️ 할 말 · 정문 직원(운전자): "Just unloading. I'm re
- turning the rental car and I'll walk back." · 프런트(가족): "Checki
- ng in\, last name SHIN." → "Could we get a luggage cart?"
+SUMMARY:5일차 · Home2 Suites 애너하임 체크인 & 렌터카 발렛
+DESCRIPTION:👪 정문에서 캐리어·쇼핑짐 전부 내리고 체크
+ 인 ➔ 차는 Home2 발렛에 하룻밤(10/6 08:00 Katella 반납) · 
+ 차에 귀중품·쇼핑백 남기지 않기\n🅿️ Home2 주차(힐튼
+  공식\, 9/30): 셀프 주차 없음 · 발렛만 1박 $44.46 — 오늘
+ 은 발렛에 맡겨요($44.46\, 1박) · 맡길 때 "내일 07:40에 차
+ 를 꺼내 달라"고 미리 요청 · 발렛 영수증(티켓) 사진 ·
+  가계부 ⛽ 주유·주차에 기록\n🕓 Home2 정식 체크인 16:0
+ 0(16:20 도착이면 OK) · 체크아웃 11:00 · 호텔 +1 714-844-2811\
+ n🗣️ 할 말 · 발렛: "We're staying two nights. Please park it ove
+ rnight — I need the car at 7:40 tomorrow morning." · 프런트(가족)
+ : "Checking in\, last name SHIN." → "Could we get a luggage cart?"
 LOCATION:Home2 Suites by Hilton Anaheim Resort 1441 S Manchester Ave Anahe
  im CA 92802
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
-DESCRIPTION:Home2 Suites 애너하임 도착 & 가족 선하차
+DESCRIPTION:Home2 Suites 애너하임 체크인 & 렌터카 발렛
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d5-7-163500@uswest2026
-DTSTAMP:20261004T143549Z
-DTSTART;TZID=America/Los_Angeles:20261005T163500
-DTEND;TZID=America/Los_Angeles:20261005T170000
-SUMMARY:5일차 · Hertz 애너하임 Katella 반납 (17:00 마감)
-DESCRIPTION:🚗 17:00 전에 직원에게 반납 — 221 W Katella Ave(Ho
- me2에서 차로 5분) · 영업 평일 08:00–17:00\, (714) 772-0425 ·
-  9/30 허츠코리아 전화 확인: Katella·매리엇 모두 영업시
- 간 뒤 무인 반납 불가\, 라스베이거스 출발 편도라 반납
-  장소 변경도 불가 → 예약(10/6 09:00 Katella)은 그대로 두
- 고 일찍 반납($120.22 그대로)\n📸 계기판(주유 가득·마
- 일리지) 사진 ➔ 직원 체크인·영수증 받기 ➔ 🚶 Home2
- 까지 걸어서 약 15분 · 늦을 것 같으면 가는 길에 지점
- 으로 전화\n🔁 예비안 — 17:00를 놓치면: 차를 Home2 발렛
- 에 하룻밤 맡기고($44.46) 내일(10/6) 08:00 문 열 때 운전자 
- 혼자 반납 — 가족 셋은 07:15 걸어서 출발해 08:00 입장·L
- L 예약\, 운전자는 반납 뒤 걸어서 08:25쯤 합류(Katella 지
- 점→디즈니 동쪽 게이트 약 1km) · 예약 반납 시각(09:00) 
- 안이라 렌터카 요금은 그대로 · 운전자 입장권은 본인 
- 폰에 따로 준비\n🗣️ 할 말 · "Returning\, reservation under S
- HIN." · "It's earlier than my reservation. No extra charge\, right?" · 
- "Could I get the final receipt by email?"
-LOCATION:Hertz 221 W Katella Ave Anaheim CA 92802
-BEGIN:VALARM
-ACTION:DISPLAY
-TRIGGER:-PT15M
-DESCRIPTION:Hertz 애너하임 Katella 반납 (17:00 마감)
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:sched-d5-8-180000@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d5-7-180000@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T180000
 DTEND;TZID=America/Los_Angeles:20261005T190000
 SUMMARY:5일차 · [저녁] 숙소에서 코스트코 로티세리 치킨
-DESCRIPTION:🍗 아빠 렌터카 반납 후 합류 ➔ Home2 스튜디오
-  객실에서 코스트코 로티세리 치킨 + 샐러드·과일로 편
- 하게 저녁 · 남은 치킨은 냉장고에 넣어 내일 아침·간
- 식으로
+DESCRIPTION:🍗 Home2 스튜디오 객실에서 코스트코 로티세리
+  치킨 + 샐러드·과일로 편하게 저녁 · 남은 치킨은 냉
+ 장고에 넣어 내일 아침·간식으로
 BEGIN:VALARM
 ACTION:DISPLAY
 TRIGGER:-PT15M
@@ -1001,14 +970,14 @@ DESCRIPTION:[저녁] 숙소에서 코스트코 로티세리 치킨
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d5-9-190000@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d5-8-190000@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261005T190000
 DTEND;TZID=America/Los_Angeles:20261005T200000
 SUMMARY:5일차 · (선택) 다운타운 디즈니 야경 산책
-DESCRIPTION:🌙 컨디션이 괜찮을 때만 — 내일 07:30 디즈니
- 랜드 게이트라 일찍 쉬는 것도 좋아요 · 숙소에서 걸어
- 서 약 20분(추정)
+DESCRIPTION:🌙 컨디션이 괜찮을 때만 — 내일 07:15 출발(운
+ 전자는 07:40 렌터카 반납)이라 일찍 쉬는 것도 좋아요 ·
+  숙소에서 걸어서 약 20분(추정)
 LOCATION:Downtown Disney District Anaheim
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -1018,21 +987,19 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d6-0-073000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T073000
 DTEND;TZID=America/Los_Angeles:20261006T080000
 SUMMARY:6일차 · 디즈니랜드 파크 게이트 ➔ 입장 즉시 LL#1
   스페이스 마운틴 예약
-DESCRIPTION:🏰 Home2 Suites에서 Harbor Blvd 따라 북쪽 도보 12~15
- 분 ➔ 동쪽 게이트(East Entrance) 보안검색대 통과 ➔ 07:40 
- 메인 광장 허브 좌측 로프 대기 ➔ 08:00 정각 입장 (공식
-  캘린더 기준 파크 운영 08:00–23:00)\n🚗 (어제 17:00 전에
-  렌터카를 반납하지 못했을 때만) 운전자는 08:00 Hertz Kat
- ella 반납 뒤 걸어서 08:25쯤 합류 — 가족 셋이 먼저 입장
- 해 LL#1 예약\n⚡ 입장 스캔 직후 앱에서 LL#1 스페이스 마
- 운틴(가장 이른 복귀 시간\, 10:30 전후 목표) — 오후 대
- 기가 평균 55~62분으로 파크에서 가장 길게 유지되는 놀
- 이기구라 LL 효과가 제일 커요
+DESCRIPTION:🏰 가족 셋은 07:15 출발 — Home2 Suites에서 Harbor 
+ Blvd 따라 북쪽 도보 12~15분 ➔ 동쪽 게이트(East Entrance) 
+ 보안검색대 통과 ➔ 07:40 메인 광장 허브 좌측 로프 대
+ 기 ➔ 08:00 정각 입장 (공식 캘린더 기준 파크 운영 08:00
+ –23:00)\n⚡ 입장 스캔 직후 앱에서 LL#1 스페이스 마운틴
+ (가장 이른 복귀 시간\, 10:30 전후 목표) — 오후 대기가 
+ 평균 55~62분으로 파크에서 가장 길게 유지되는 놀이기
+ 구라 LL 효과가 제일 커요
 LOCATION:Disneyland Park 1313 S Harbor Blvd Anaheim CA
 BEGIN:VALARM
 ACTION:DISPLAY
@@ -1042,8 +1009,37 @@ DESCRIPTION:디즈니랜드 파크 게이트 ➔ 입장 즉시 LL#1 스페
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-1-080000@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-1-074000@uswest2026
+DTSTAMP:20261006T062006Z
+DTSTART;TZID=America/Los_Angeles:20261006T074000
+DTEND;TZID=America/Los_Angeles:20261006T082500
+SUMMARY:6일차 · 운전자 혼자 Hertz Katella 렌터카 반납 → 걸
+ 어서 합류
+DESCRIPTION:🚗 07:40 Home2 발렛에서 차 받기 ➔ 차로 5분 ➔ 0
+ 8:00 문 열 때 직원에게 반납(221 W Katella Ave\, 평일 08:00–1
+ 7:00\, (714) 772-0425) · 예약 반납 10/6 09:00 안이라 렌터카 
+ 요금 그대로($120.22) · 무인 반납 불가라 08:00 전엔 안 받
+ 아요 — 지점 앞에서 대기\n📸 계기판(주유 가득·마일
+ 리지)·차 사진 ➔ 영수증 메일 요청 ➔ 🚶 걸어서 디즈
+ 니 동쪽 게이트까지 약 15분(약 1km) ➔ 08:25쯤 입장 · 운
+ 전자 입장권은 본인 폰 디즈니 앱에\n🤝 합류: 가족은 0
+ 8:00 입장해 티아나로 직행 → 운전자는 티아나 출구(또
+ 는 헌티드 맨션 입구)에서 만나기 · LL#1은 가족이 입장 
+ 직후 4명 모두 선택해서 예약(앱이 입장 안 한 사람을 
+ 막으면 3명만 먼저\, 운전자는 입장 후 본인 것 따로)\n
+ 🗣️ 할 말 · "Returning\, reservation under SHIN." · "Could I get 
+ the final receipt by email?"
+LOCATION:Hertz 221 W Katella Ave Anaheim CA 92802
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT15M
+DESCRIPTION:운전자 혼자 Hertz Katella 렌터카 반납 → 걸어서 
+ 합류
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:sched-d6-2-080000@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T080000
 DTEND;TZID=America/Los_Angeles:20261006T101500
 SUMMARY:6일차 · [골든타임] 서쪽 스탠바이 — 티아나 · 헌
@@ -1065,8 +1061,8 @@ DESCRIPTION:[골든타임] 서쪽 스탠바이 — 티아나 · 헌티드
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-2-101500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-3-101500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T101500
 DTEND;TZID=America/Los_Angeles:20261006T114500
 SUMMARY:6일차 · 투모로우랜드 — 스페이스 마운틴 & 스타 
@@ -1083,8 +1079,8 @@ DESCRIPTION:투모로우랜드 — 스페이스 마운틴 & 스타 투어
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-3-114500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-4-114500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T114500
 DTEND;TZID=America/Los_Angeles:20261006T124500
 SUMMARY:6일차 · [점심] Plaza Inn (허브\, 투모로우랜드 옆)
@@ -1097,8 +1093,8 @@ DESCRIPTION:[점심] Plaza Inn (허브\, 투모로우랜드 옆)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-4-124500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-5-124500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T124500
 DTEND;TZID=America/Los_Angeles:20261006T141500
 SUMMARY:6일차 · 판타지랜드 — 마터호른 (LL#3)
@@ -1113,8 +1109,8 @@ DESCRIPTION:판타지랜드 — 마터호른 (LL#3)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-5-141500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-6-141500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T141500
 DTEND;TZID=America/Los_Angeles:20261006T154500
 SUMMARY:6일차 · 갤럭시 엣지 — 밀레니엄 팔콘 (LL#4)
@@ -1129,8 +1125,8 @@ DESCRIPTION:갤럭시 엣지 — 밀레니엄 팔콘 (LL#4)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-6-154500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-7-154500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T154500
 DTEND;TZID=America/Los_Angeles:20261006T181500
 SUMMARY:6일차 · 프런티어랜드 — 빅썬더 (LL#5) · 쉬어가기
@@ -1146,8 +1142,8 @@ DESCRIPTION:프런티어랜드 — 빅썬더 (LL#5) · 쉬어가기
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-7-181500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-8-181500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T181500
 DTEND;TZID=America/Los_Angeles:20261006T191500
 SUMMARY:6일차 · [저녁] 파크 내부 Docking Bay 7 (갤럭시 엣지)
@@ -1165,8 +1161,8 @@ DESCRIPTION:[저녁] 파크 내부 Docking Bay 7 (갤럭시 엣지)
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-8-191500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-9-191500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T191500
 DTEND;TZID=America/Los_Angeles:20261006T204500
 SUMMARY:6일차 · 스타워즈 라이즈 오브 더 레지스탕스 (스
@@ -1185,8 +1181,8 @@ DESCRIPTION:스타워즈 라이즈 오브 더 레지스탕스 (스탠바
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:sched-d6-9-204500@uswest2026
-DTSTAMP:20261004T143549Z
+UID:sched-d6-10-204500@uswest2026
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261006T204500
 DTEND;TZID=America/Los_Angeles:20261006T223000
 SUMMARY:6일차 · 마무리 — 할로윈 스크림(Halloween Screams)
@@ -1207,7 +1203,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-0-073000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T073000
 DTEND;TZID=America/Los_Angeles:20261007T090000
 SUMMARY:7일차 · 애너하임 ➔ 로어스 할리우드 호텔 이동
@@ -1241,7 +1237,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-1-094500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T094500
 DTEND;TZID=America/Los_Angeles:20261007T180000
 SUMMARY:7일차 · [유니버설 1일차] 상부(Upper Lot) — 해리포
@@ -1292,7 +1288,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-2-180000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T180000
 DTEND;TZID=America/Los_Angeles:20261007T191500
 SUMMARY:7일차 · [저녁] 유니버설 시티워크 저녁식사
@@ -1308,7 +1304,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-3-191500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T191500
 DTEND;TZID=America/Los_Angeles:20261007T194500
 SUMMARY:7일차 · [호텔 복귀 & 체크인] 로어스 할리우드
@@ -1329,7 +1325,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-4-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T200000
 DTEND;TZID=America/Los_Angeles:20261007T210000
 SUMMARY:7일차 · [호텔 액티비티] 5층 루프탑 온수풀 야경
@@ -1347,7 +1343,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d7-5-210000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261007T210000
 DTEND;TZID=America/Los_Angeles:20261007T220000
 SUMMARY:7일차 · 객실 휴식
@@ -1361,7 +1357,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-0-093000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T093000
 DTEND;TZID=America/Los_Angeles:20261008T120000
 SUMMARY:8일차 · [다저스타디움] 공식 투어 관람 (또는 플
@@ -1401,7 +1397,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-1-123000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T123000
 DTEND;TZID=America/Los_Angeles:20261008T133000
 SUMMARY:8일차 · [점심] 다운타운 그랜드 센트럴 마켓
@@ -1419,7 +1415,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-2-133000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T133000
 DTEND;TZID=America/Los_Angeles:20261008T153000
 SUMMARY:8일차 · [다운타운 문화 도보 산책] 엔젤스 플라이
@@ -1440,7 +1436,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-3-153000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T153000
 DTEND;TZID=America/Los_Angeles:20261008T163000
 SUMMARY:8일차 · [포토존] 더 라스트 북스토어
@@ -1455,7 +1451,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-4-163000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T163000
 DTEND;TZID=America/Los_Angeles:20261008T175000
 SUMMARY:8일차 · [귀국 선물 쇼핑] Whole Foods Market 웨스트 할
@@ -1481,7 +1477,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-5-175000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T175000
 DTEND;TZID=America/Los_Angeles:20261008T181000
 SUMMARY:8일차 · [호텔 복귀] 홀푸드 ➔ 로어스 할리우드
@@ -1496,7 +1492,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-6-181500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T181500
 DTEND;TZID=America/Los_Angeles:20261008T191500
 SUMMARY:8일차 · [저녁] CPK(Ovation 3층) 저녁식사
@@ -1512,7 +1508,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-7-191500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T191500
 DTEND;TZID=America/Los_Angeles:20261008T194500
 SUMMARY:8일차 · [포토존 & 쇼핑] Ovation 4층 '블랙아치' · 세
@@ -1529,7 +1525,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d8-8-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261008T200000
 DTEND;TZID=America/Los_Angeles:20261008T210000
 SUMMARY:8일차 · [호텔 액티비티] 루프탑 온수풀 야경수영 
@@ -1544,7 +1540,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d9-0-083000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261009T083000
 DTEND;TZID=America/Los_Angeles:20261009T090000
 SUMMARY:9일차 · LA 핵심 종일 투어 — 로어스 호텔 픽업 (11
@@ -1565,7 +1561,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d9-1-090000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261009T090000
 DTEND;TZID=America/Los_Angeles:20261009T193000
 SUMMARY:9일차 · LA 9대 핵심 코스 투어
@@ -1585,7 +1581,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d9-2-193000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261009T193000
 DTEND;TZID=America/Los_Angeles:20261009T200000
 SUMMARY:9일차 · LA 종일 투어 종료 & 로어스 호텔 앞 드롭
@@ -1599,7 +1595,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d9-3-193000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261009T193000
 DTEND;TZID=America/Los_Angeles:20261009T194500
 SUMMARY:9일차 · 명예의 거리 가벼운 도보 산책
@@ -1613,7 +1609,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d9-4-194500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261009T194500
 DTEND;TZID=America/Los_Angeles:20261009T201500
 SUMMARY:9일차 · Ovation 몰 3층 벤앤제리스 디저트 테이크아
@@ -1629,7 +1625,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-0-080000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T080000
 DTEND;TZID=America/Los_Angeles:20261010T084500
 SUMMARY:10일차 · [유니버설 2일차] 하부 오픈런 — 마리오
@@ -1661,7 +1657,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-1-084500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T084500
 DTEND;TZID=America/Los_Angeles:20261010T103000
 SUMMARY:10일차 · 하부 라이드 — 트랜스포머 · 미이라 · 
@@ -1682,7 +1678,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-2-103000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T103000
 DTEND;TZID=America/Los_Angeles:20261010T123000
 SUMMARY:10일차 · 닌텐도 월드 복귀 — 파워업 밴드 게임 & 
@@ -1702,7 +1698,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-3-123000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T123000
 DTEND;TZID=America/Los_Angeles:20261010T173000
 SUMMARY:10일차 · 상부 복귀 — 쉬엄쉬엄 → 늦은 오후 다
@@ -1726,7 +1722,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-4-173000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T173000
 DTEND;TZID=America/Los_Angeles:20261010T180000
 SUMMARY:10일차 · [유니버설 퇴장] 호텔 복귀
@@ -1742,7 +1738,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-5-184500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T184500
 DTEND;TZID=America/Los_Angeles:20261010T200000
 SUMMARY:10일차 · [페어웰 디너 후보지 2선]
@@ -1759,7 +1755,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d10-6-200000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261010T200000
 DTEND;TZID=America/Los_Angeles:20261010T213000
 SUMMARY:10일차 · [최종 패킹] 귀국 짐 정리 & 수하물 무게 
@@ -1776,7 +1772,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d11-0-064500@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261011T064500
 DTEND;TZID=America/Los_Angeles:20261011T073000
 SUMMARY:11일차 · 호텔 체크아웃 & LAX 공항 이동
@@ -1797,7 +1793,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d11-1-080000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261011T080000
 DTEND;TZID=America/Los_Angeles:20261011T105000
 SUMMARY:11일차 · 탑승 수속 & 출국 (LAX 톰 브래들리 터미널
@@ -1814,7 +1810,7 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:sched-d11-2-105000@uswest2026
-DTSTAMP:20261004T143549Z
+DTSTAMP:20261006T062006Z
 DTSTART;TZID=America/Los_Angeles:20261011T105000
 DTEND;TZID=America/Los_Angeles:20261011T112000
 SUMMARY:11일차 · 에어프레미아 YP102 탑승 / LAX 출발
