@@ -3,7 +3,7 @@
 // 앱 셸을 캐싱한다 (Stale-While-Revalidate: 캐시 우선 응답 + 백그라운드 갱신)
 // 커밋마다 아래 CACHE_NAME 날짜를 갱신할 것 (배포마다 캐시 강제 갱신 목적)
 
-const CACHE_NAME = "uswest-trip-2026-20261007f";
+const CACHE_NAME = "uswest-trip-2026-20261007g";
 // 앱 셸(index.html 등)만 버전 캐시에 넣고, 폰트·CDN 스크립트·이미지 같은 그 외 리소스는
 // 버전이 없는 RUNTIME_CACHE에 넣는다 — 배포마다 옛 캐시를 지워도 오프라인용 리소스가 같이 날아가지 않도록.
 const RUNTIME_CACHE = "uswest-trip-runtime";
@@ -46,6 +46,24 @@ self.addEventListener("fetch", (event) => {
 
   const sameOrigin = new URL(event.request.url).origin === self.location.origin;
   const isShell = APP_SHELL.some((u) => new URL(u, self.location).href === event.request.url);
+
+  // 페이지(HTML)는 네트워크 먼저: 온라인이면 항상 최신 일정, 4초 안에 응답이 없거나 오프라인이면 저장본.
+  // (예전엔 저장본을 먼저 보여 줘서 배포 후 새로고침을 두 번 해야 새 내용이 보였음)
+  if (event.request.mode === "navigate" || (sameOrigin && isShell)) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        const net = fetch(event.request.url, { cache: "reload" }).then((res) => {
+          if (res && res.ok) cache.put(event.request, res.clone());
+          return res;
+        });
+        const timeout = new Promise((resolve) => setTimeout(resolve, 4000));
+        return Promise.race([net, timeout.then(() => cache.match(event.request))])
+          .then((res) => res || net)
+          .catch(() => cache.match(event.request).then((c) => c || caches.match("./index.html")));
+      })
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
