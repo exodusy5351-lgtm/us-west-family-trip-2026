@@ -10301,12 +10301,12 @@
       uni: { name: 'Universal Studios Hollywood (Frankenstein 하차장)', addr: 'Frankenstein Parking Garage, Universal City, CA 91608', ll: [34.1374, -118.3560], how: '하차: Hotel Dr 원형 하차장(Frankenstein 주차장) — 파크 입구와 가장 가까움 · 탑승: 주차장 안 <b>\'Uber/Ride App\' 표지판</b> 전용 구역(특별 요금 $3)' },
       dodger: { name: 'Dodger Stadium Sunset Gate (Gate A)', addr: 'Dodger Stadium Sunset Gate, 1000 Vin Scully Ave, Los Angeles, CA 90012', ll: [34.0736, -118.2398], how: '투어 손님 입구 <b>Sunset Gate(Gate A)</b> — Vin Scully Ave &amp; Stadium Way · 경기일 우버 구역(Lot 1·Gate B)과 다르니 기사에게 "Stadium Tour, Sunset Gate" 안내' },
       olvera: { name: 'Olvera Street', addr: 'Olvera Street, 125 Paseo De La Plaza, Los Angeles, CA 90012', ll: [34.0573, -118.2377], how: 'Alameda St 쪽 올베라 스트리트 입구(플라자 앞)' },
-      ltokyo: { name: 'Little Tokyo (Japanese Village Plaza)', addr: 'Japanese Village Plaza, 335 E 2nd St, Los Angeles, CA 90012', ll: [34.0496, -118.2400], how: '2nd St 쪽 플라자 입구' },
-      ktown: { name: 'Koreatown (식당 앞)', addr: 'Koreatown, Los Angeles, CA 90020', ll: [34.0617, -118.3089], how: '고른 식당 이름으로 앱 목적지 다시 넣기' },
-      lacma: { name: 'LACMA Urban Light', addr: 'Urban Light, 5905 Wilshire Blvd, Los Angeles, CA 90036', ll: [34.0632, -118.3595], how: 'Wilshire Blvd 쪽 어반 라이트 앞' },
+      ltokyo: { name: 'Little Tokyo (Japanese Village Plaza)', addr: 'Japanese Village Plaza, 335 E 2nd St, Los Angeles, CA 90012', ll: [34.0496, -118.2400], how: '🤖 웨이모는 플라자 안으로 못 들어와요 — <b>E 2nd St 큰길 쪽 플라자 입구 길가</b>에서 앱 핀 확인 후 2~3분 먼저 나가 있기' },
+      ktown: { name: 'Koreatown (식당 앞)', addr: 'Koreatown, Los Angeles, CA 90020', ll: [34.0617, -118.3089], how: '고른 식당 이름으로 목적지 다시 넣기 · 🤖 쇼핑몰 주차장 안(Chapman Plaza 등) 말고 <b>6th St·Wilshire 같은 큰길 가</b>에서 타고 내리기' },
+      lacma: { name: 'LACMA Urban Light', addr: 'Urban Light, 5905 Wilshire Blvd, Los Angeles, CA 90036', ll: [34.0632, -118.3595], how: '🤖 <b>Wilshire Blvd 길가 어반 라이트 앞</b>(미술관 주차장 안으로는 안 들어가요) · 탈 때도 같은 자리' },
       gcm: { name: 'Grand Central Market (Hill St 입구)', addr: 'Angels Flight Railway, 351 S Hill St, Los Angeles, CA 90013', ll: [34.0509, -118.2496], how: '<b>Hill St 쪽 입구</b> — 엔젤스 플라이트 아래 역 바로 맞은편(점심 뒤 동선과 이어짐)' },
       lastbook: { name: 'The Last Bookstore', addr: 'The Last Bookstore, 453 S Spring St, Los Angeles, CA 90013', how: '서점 정문(Spring St) 앞' },
-      wfweho: { name: 'Whole Foods West Hollywood', addr: 'Whole Foods Market, 7871 Santa Monica Blvd, West Hollywood, CA 90046', ll: [34.0915, -118.3608], how: 'Santa Monica Blvd &amp; Fairfax Ave 모퉁이 주차장 입구' },
+      wfweho: { name: 'Whole Foods West Hollywood', addr: 'Whole Foods Market, 7871 Santa Monica Blvd, West Hollywood, CA 90046', ll: [34.0915, -118.3608], how: 'Santa Monica Blvd &amp; Fairfax Ave 모퉁이 · 🤖 웨이모는 주차장 안 대신 <b>Santa Monica Blvd 길가</b>에 내려 줄 수 있어요(걸어서 1~2분)' },
       lax: { name: 'LAX 톰 브래들리 국제선 터미널 출발층', addr: 'Tom Bradley International Terminal, 380 World Way, Los Angeles, CA 90045', ll: [33.9428, -118.4095], how: '<b>Departures(출발층·위층)</b> 커브 — 에어프레미아 카운터 바로 진입' }
     };
     var LEGS = [
@@ -10316,15 +10316,15 @@
       { d: 7, t: '07:30', from: 'home2', to: 'loews', ride: '우버XL · 전날 밤 Reserve' },
       { d: 7, t: '09:15', from: 'loews', to: 'uni', ride: '웨이모/우버' },
       { d: 7, t: '19:15', from: 'uni', to: 'loews', ride: '웨이모/우버' },
-      { d: 8, t: '09:15', from: 'loews', to: 'dodger', ride: '웨이모/우버' },
-      { d: 8, t: '11:15', from: 'dodger', to: 'gcm', ride: '웨이모/우버' },
-      { d: 8, t: '17:00', from: 'ltokyo', to: 'ktown', ride: '웨이모/우버' },
-      { d: 8, t: '18:15', from: 'ktown', to: 'lacma', ride: '웨이모/우버' },
-      { d: 8, t: '18:55', from: 'lacma', to: 'wfweho', ride: '웨이모/우버' },
-      { d: 8, t: '19:50', from: 'wfweho', to: 'loews', ride: '웨이모/우버' },
-      { d: 10, t: '07:30', from: 'loews', to: 'uni', ride: '웨이모/우버' },
-      { d: 10, t: '17:30', from: 'uni', to: 'loews', ride: '웨이모/우버' },
-      { d: 11, t: '06:45', from: 'loews', to: 'lax', ride: '우버XL · 전날 밤 Reserve' }
+      { d: 8, t: '09:15', from: 'loews', to: 'dodger', ride: '🚗 리프트 쿠폰① (경기장 안까지 · 웨이모는 언덕 아래 길가일 수 있어 피함)' },
+      { d: 8, t: '11:15', from: 'dodger', to: 'gcm', ride: '🚗 리프트 쿠폰②' },
+      { d: 8, t: '17:00', from: 'ltokyo', to: 'ktown', ride: '🤖 웨이모 쿠폰① (오늘 첫 웨이모)' },
+      { d: 8, t: '18:15', from: 'ktown', to: 'lacma', ride: '🤖 웨이모 쿠폰②' },
+      { d: 8, t: '18:55', from: 'lacma', to: 'wfweho', ride: '🤖 웨이모 쿠폰③' },
+      { d: 8, t: '19:50', from: 'wfweho', to: 'loews', ride: '🚕 우버 (쿠폰 소진 · 짧은 구간)' },
+      { d: 10, t: '07:30', from: 'loews', to: 'uni', ride: '🚕 우버 (유니버설은 웨이모 지역 미확인)' },
+      { d: 10, t: '17:30', from: 'uni', to: 'loews', ride: '🚕 우버' },
+      { d: 11, t: '06:45', from: 'loews', to: 'lax', ride: '🚗 리프트 XL 쿠폰③ 전날 밤 예약(쿠폰이 XL 안 되면 우버XL Reserve)' }
     ];
     var DATE = { 2: '10/2(금)', 7: '10/7(수)', 8: '10/8(목)', 10: '10/10(토)', 11: '10/11(일)' };
     function attr(v) { return String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
