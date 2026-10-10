@@ -5088,10 +5088,12 @@
     function allTx() {
       var out = [];
       Object.keys(expenseLog).forEach(function (raw) {
-        (expenseLog[raw] || []).forEach(function (t) { out.push({ t: t, raw: raw, led: normLed(raw), day: txDay(t) }); });
+        (expenseLog[raw] || []).forEach(function (t) { var l = normLed(raw); out.push({ t: t, raw: raw, led: l, show: (PLAN_SHOW || {})[l] || l, day: txDay(t) }); });
       });
       return out;
     }
+    // 예정 결제로 낸 돈도 목록·항목 칩에서는 성격에 맞는 항목으로 보이게(낸 것 체크는 원래 led로)
+    var PLAN_SHOW = { "gc-cash": "admission", "la-cash": "admission", "dodger": "admission", "jt-fee": "admission", "navajo-tip": "tip" };
     var PLANNED = BUDGET_DATA.filter(function (it) { return it.led && !it.done && DAILY_LEDS.indexOf(it.led) < 0; });
     var PREPAID = BUDGET_DATA.filter(function (it) { return it.done; });
     var listFilter = "all", paidOpen = false;
@@ -5151,8 +5153,8 @@
 
       // 항목 칩
       var counts = {};
-      all.forEach(function (x) { counts[x.led] = (counts[x.led] || 0) + 1; });
-      var planCount = all.filter(function (x) { return DAILY_LEDS.indexOf(x.led) < 0; }).length;
+      all.forEach(function (x) { counts[x.show] = (counts[x.show] || 0) + 1; });
+      var planCount = all.filter(function (x) { return DAILY_LEDS.indexOf(x.show) < 0; }).length;
       var chips = '<button type="button" class="bx-chip' + (listFilter === "all" ? ' on' : '') + '" data-f="all">전체 ' + all.length + '</button>';
       DAILY_LEDS.forEach(function (l) {
         if (!counts[l]) return;
@@ -5163,7 +5165,7 @@
 
       // 지출 내역 (날짜별, 최신 위)
       var rows = all.filter(function (x) {
-        return listFilter === "all" || x.led === listFilter || (listFilter === "plan" && DAILY_LEDS.indexOf(x.led) < 0);
+        return listFilter === "all" || x.show === listFilter || (listFilter === "plan" && DAILY_LEDS.indexOf(x.show) < 0);
       });
       var lu = 0, lk = 0;
       rows.forEach(function (x) { if (x.t.currency === "KRW") lk += x.t.amount; else lu += x.t.amount; });
@@ -5180,10 +5182,10 @@
           g.forEach(function (x) { if (x.t.currency === "KRW") dk += x.t.amount; else du += x.t.amount; });
           listHtml += '<div class="bx-day"><span>' + (d === today ? "오늘 · " : "") + dayLabel(d) + '</span><span>' + money(dk, du) + '</span></div>';
           g.forEach(function (x) {
-            var t = x.t, sub = [DAILY_LEDS.indexOf(x.led) >= 0 ? SHORT[x.led] : "예정 결제", t.payType === "cash" ? "💵 현금" : "💳 카드"];
+            var t = x.t, sub = [DAILY_LEDS.indexOf(x.show) >= 0 ? SHORT[x.show] : "예정 결제", t.payType === "cash" ? "💵 현금" : "💳 카드"];
             if (t.by) sub.push(escapeHtml(t.by));
-            listHtml += '<div class="bx-row" data-id="' + escapeHtml(t.id) + '"><span class="bx-ic">' + ledIcon(x.led) + '</span>' +
-              '<div class="bx-main"><b>' + escapeHtml(t.memo || SHORT[x.led] || "지출") + '</b><span>' + sub.join(" · ") + '</span></div>' +
+            listHtml += '<div class="bx-row" data-id="' + escapeHtml(t.id) + '"><span class="bx-ic">' + ledIcon(x.show) + '</span>' +
+              '<div class="bx-main"><b>' + escapeHtml(t.memo || SHORT[x.show] || "지출") + '</b><span>' + sub.join(" · ") + '</span></div>' +
               '<span class="bx-amt">' + fmtTx(t) + '</span></div>';
           });
         });
