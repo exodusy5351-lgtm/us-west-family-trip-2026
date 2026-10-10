@@ -5075,7 +5075,7 @@
     document.addEventListener('tripSyncReady', startExpenseSync);
     if (window.TripSync) startExpenseSync();
 
-    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
+    var SHORT = { food: "식비", transport: "Uber·Lyft", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
     function money(krw, usd) {
       var parts = [];
       if (usd) parts.push("$" + usd.toFixed(2));
