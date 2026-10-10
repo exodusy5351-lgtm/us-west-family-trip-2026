@@ -4852,7 +4852,7 @@
       { led: "food", cat: "식비", item: "식비", estKrw: 0, estUsd: 2180.00, actKrw: 0, actUsd: 0, note: "식당·카페·간식·테마파크 식사 전부 · 예상: 베가스 $635 + 조슈아트리·아울렛 $235 + 테마파크 $780 + LA $530", done: false },
       { led: "shopping", cat: "장보기·쇼핑", item: "장보기", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "코스트코·트레이더 조·월마트·홀푸드·토탈와인·편의점 — 먹거리·생수·생필품 (예상 금액 없음)", done: false },
       { led: "goods", cat: "장보기·쇼핑", item: "쇼핑", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "옷·아울렛(아크테릭스·토미 등)·기념품·로스 (예상 금액 없음)", done: false },
-      { led: "tour", cat: "투어·공연", item: "투어·공연 (현장 결제)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "투어 현장 정산·가이드 팁·입장료·체험(엔젤스 플라이트 등)처럼 현장에서 낸 것 (예상 금액 없음)", done: false },
+      { led: "tour", cat: "투어·공연", item: "투어·공연·체험 (현장 결제)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "투어 현장 정산·가이드 팁·입장료·체험(엔젤스 플라이트 등)처럼 현장에서 낸 것 (예상 금액 없음)", done: false },
       { led: "tip", cat: "기타", item: "현금 팁", estKrw: 0, estUsd: 160.00, actKrw: 0, actUsd: 0, note: "손으로 따로 건넨 현금 팁만 (호텔 벨·하우스키핑·발렛·식당 현금 팁) · 우버 앱 팁·식당 카드 팁은 그 항목 금액에 포함 · 투어 가이드 팁은 투어 항목에", done: false },
       { led: "lodging", cat: "숙박", item: "호텔 현장 결제", estKrw: 198394, estUsd: 0, actKrw: 0, actUsd: 0, note: "로어스 리조트 이용료($35/박) 등 체크인 때 카드 결제 · 호텔 주차는 주유·주차에", done: false },
       { led: "misc", cat: "기타", item: "기타", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "약국·세탁·수수료 등 어디에도 안 맞는 지출", done: false }
@@ -5073,7 +5073,7 @@
     document.addEventListener('tripSyncReady', startExpenseSync);
     if (window.TripSync) startExpenseSync();
 
-    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연", tip: "현금 팁", lodging: "호텔", misc: "기타" };
+    var SHORT = { food: "식비", transport: "우버·택시", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
     function money(krw, usd) {
       var parts = [];
       if (usd) parts.push("$" + usd.toFixed(2));
