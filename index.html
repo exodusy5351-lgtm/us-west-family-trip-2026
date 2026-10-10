@@ -4902,7 +4902,7 @@
     };
 
     // 가계부 분류 = BUDGET_DATA의 led 값. 일상 지출 분류는 아이콘을 따로 둔다.
-    var LED_ICON = { food: "🍽️", transport: "🚕", "fuel-parking": "⛽", shopping: "🛒", goods: "🛍️", admission: "🎟️", tour: "🚌", tip: "💵", lodging: "🏨", misc: "📌" };
+    var LED_ICON = { food: "🍽️", transport: "🚕", "fuel-parking": "🚗", shopping: "🛒", goods: "🛍️", admission: "🎟️", tour: "🚌", tip: "💵", lodging: "🏨", misc: "📌" };
     var DAILY_LEDS = ["food", "transport", "fuel-parking", "shopping", "goods", "tour", "tip", "lodging", "misc"];
     var LED_ITEM = {};
     BUDGET_DATA.forEach(function (it) { if (it.led) LED_ITEM[it.led] = it; });
@@ -5088,7 +5088,7 @@
     document.addEventListener('tripSyncReady', startExpenseSync);
     if (window.TripSync) startExpenseSync();
 
-    var SHORT = { food: "식비", transport: "Uber·Lyft", "fuel-parking": "주유·주차", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
+    var SHORT = { food: "식비", transport: "Uber·Lyft", "fuel-parking": "렌터카·주유", shopping: "장보기", goods: "쇼핑", admission: "입장·체험", tour: "투어·공연·체험", tip: "현금 팁", lodging: "호텔", misc: "기타" };
     function money(krw, usd) {
       var parts = [];
       if (usd) parts.push("$" + usd.toFixed(2));
@@ -5108,7 +5108,7 @@
       return out;
     }
     // 예정 결제로 낸 돈도 목록·항목 칩에서는 성격에 맞는 항목으로 보이게(낸 것 체크는 원래 led로)
-    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour" };
+    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour", "hertz-1": "fuel-parking", "hertz-2": "fuel-parking" };
     var PLANNED = BUDGET_DATA.filter(function (it) { return it.led && !it.done && DAILY_LEDS.indexOf(it.led) < 0; });
     var PREPAID = BUDGET_DATA.filter(function (it) { return it.done; });
     var listFilter = "all", paidOpen = false;
