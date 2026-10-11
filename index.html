@@ -4873,7 +4873,8 @@
       { led: "goods", cat: "장보기·쇼핑", item: "쇼핑", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "옷·아울렛(아크테릭스·토미 등)·기념품·로스 (예상 금액 없음)", done: false },
       { led: "tour", cat: "투어·공연·체험", item: "투어·공연·체험 (현장 결제)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "투어 현장 정산·가이드 팁·입장료·체험(엔젤스 플라이트 등)처럼 현장에서 낸 것 (예상 금액 없음)", done: false },
       { led: "tip", cat: "기타", item: "현금 팁", estKrw: 0, estUsd: 160.00, actKrw: 0, actUsd: 0, note: "손으로 따로 건넨 현금 팁만 (호텔 벨·하우스키핑·발렛·식당 현금 팁) · 우버 앱 팁·식당 카드 팁은 그 항목 금액에 포함 · 투어 가이드 팁은 투어 항목에", done: false },
-      { led: "lodging", cat: "숙박", item: "호텔 현장 결제", estKrw: 198394, estUsd: 0, actKrw: 0, actUsd: 0, note: "로어스 리조트 이용료($35/박) 등 체크인 때 카드 결제 · 호텔 주차는 주유·주차에", done: false },
+      { led: "loews-fee", cat: "숙박", item: "로어스 할리우드 리조트피 ($35/박 × 4박)", estKrw: 0, estUsd: 140.00, actKrw: 0, actUsd: 0, note: "체크아웃 때 카드로 청구 · 세금이 붙으면 조금 더 나올 수 있어요 · 체크아웃 영수증 금액으로 기록", done: false },
+      { led: "lodging", cat: "숙박", item: "호텔 현장 결제 (기타)", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "리조트피 외 호텔에서 낸 것", done: false },
       { led: "misc", cat: "기타", item: "기타", estKrw: 0, estUsd: 0, actKrw: 0, actUsd: 0, note: "약국·세탁·수수료 등 어디에도 안 맞는 지출", done: false }
     ];
     window.TRIP_DATA = window.TRIP_DATA || {};
@@ -5114,7 +5115,7 @@
       return out;
     }
     // 예정 결제로 낸 돈도 목록·항목 칩에서는 성격에 맞는 항목으로 보이게(낸 것 체크는 원래 led로)
-    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour", "hertz-1": "fuel-parking", "hertz-2": "fuel-parking" };
+    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour", "hertz-1": "fuel-parking", "hertz-2": "fuel-parking", "loews-fee": "lodging" };
     var PLANNED = BUDGET_DATA.filter(function (it) { return it.led && !it.done && DAILY_LEDS.indexOf(it.led) < 0; });
     var PREPAID = BUDGET_DATA.filter(function (it) { return it.done; });
     var listFilter = "all", paidOpen = false;
