@@ -709,7 +709,7 @@
   .rd-bar i b{font-family:system-ui,sans-serif;font-style:normal;font-variant-numeric:tabular-nums;font-size:10px;font-weight:800;color:#fff;letter-spacing:-.04em;white-space:nowrap;padding-top:4px;writing-mode:horizontal-tb;}
   .rd-col.hot .rd-bar i{background:var(--coral-text);}
   .rd-e{font-size:13px;line-height:1;}
-  .rd-d{font-size:10.5px;font-weight:700;color:var(--muted);}
+  .rd-d{font-size:9.5px;font-weight:700;color:var(--muted);letter-spacing:-.05em;white-space:nowrap;}
   .rd-col.on .rd-d{color:var(--text);}
   .rd-unit{font-size:10px;color:var(--muted-2);text-align:right;margin-top:2px;}
   .rd-detail{border-top:1px solid var(--line);margin-top:8px;padding-top:8px;}
@@ -5358,7 +5358,7 @@
       var dmaxU = Math.max.apply(null, days.map(function (o) { return o.k; })) || 1;
       var html = '<div class="rd-chart" role="group" aria-label="일자별 현지 지출">' + days.map(function (o) {
         var on = selDay === o.d;
-        return '<button type="button" class="rd-col' + (on ? ' on' : '') + (hot.indexOf(o.d) >= 0 ? ' hot' : '') + '" data-day="' + o.d + '" aria-pressed="' + on + '" aria-label="' + o.d + '일차 ' + escapeHtml(DAY_TITLE[o.d] || '') + ' ' + won(o.k) + '">' + (function () { var pct = o.k / dmaxU, lab = Math.round(o.k / 10000) + '만', inside = pct * 78 >= 26; return '<span class="rd-bar">' + (inside ? '' : '<span class="rd-v">' + lab + '</span>') + '<i style="height:' + Math.max(3, pct * 78).toFixed(1) + 'px">' + (inside ? '<b>' + lab + '</b>' : '') + '</i></span>'; })() + '<span class="rd-e">' + (DAY_EMOJI[o.d] || '') + '</span><span class="rd-d">' + o.d + '</span></button>';
+        return '<button type="button" class="rd-col' + (on ? ' on' : '') + (hot.indexOf(o.d) >= 0 ? ' hot' : '') + '" data-day="' + o.d + '" aria-pressed="' + on + '" aria-label="' + o.d + '일차 ' + escapeHtml(DAY_TITLE[o.d] || '') + ' ' + won(o.k) + '">' + (function () { var pct = o.k / dmaxU, lab = Math.round(o.k / 10000) + '만', inside = pct * 78 >= 26; return '<span class="rd-bar">' + (inside ? '' : '<span class="rd-v">' + lab + '</span>') + '<i style="height:' + Math.max(3, pct * 78).toFixed(1) + 'px">' + (inside ? '<b>' + lab + '</b>' : '') + '</i></span>'; })() + '<span class="rd-e">' + (DAY_EMOJI[o.d] || '') + '</span><span class="rd-d">' + o.d + '일차</span></button>';
       }).join('') + '</div>';
       if (selDay) {
         var o = days[selDay - 1];
