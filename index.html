@@ -703,9 +703,10 @@
   .rd-col{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;border-radius:8px;padding:2px 0 3px;}
   .rd-col:focus-visible{outline:2px solid var(--teal);outline-offset:1px;}
   .rd-col.on{background:var(--card-2);box-shadow:inset 0 0 0 1.5px var(--teal);}
-  .rd-v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:9.5px;color:var(--muted);}
-  .rd-bar{display:flex;align-items:flex-end;justify-content:center;width:100%;height:70px;}
-  .rd-bar i{display:block;width:70%;max-width:22px;min-height:3px;border-radius:4px 4px 0 0;background:var(--teal);}
+  .rd-v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:9.5px;color:var(--muted);letter-spacing:-.03em;white-space:nowrap;margin-bottom:2px;}
+  .rd-bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:100%;height:92px;}
+  .rd-bar i{display:flex;justify-content:center;width:92%;max-width:34px;min-height:3px;border-radius:5px 5px 0 0;background:var(--teal);max-height:78px;}
+  .rd-bar i b{font-family:system-ui,sans-serif;font-style:normal;font-variant-numeric:tabular-nums;font-size:10px;font-weight:800;color:#fff;letter-spacing:-.04em;white-space:nowrap;padding-top:4px;writing-mode:horizontal-tb;}
   .rd-col.hot .rd-bar i{background:var(--coral-text);}
   .rd-e{font-size:13px;line-height:1;}
   .rd-d{font-size:10.5px;font-weight:700;color:var(--muted);}
@@ -5357,8 +5358,8 @@
       var dmaxU = Math.max.apply(null, days.map(function (o) { return o.k; })) || 1;
       var html = '<div class="rd-chart" role="group" aria-label="일자별 현지 지출">' + days.map(function (o) {
         var on = selDay === o.d;
-        return '<button type="button" class="rd-col' + (on ? ' on' : '') + (hot.indexOf(o.d) >= 0 ? ' hot' : '') + '" data-day="' + o.d + '" aria-pressed="' + on + '" aria-label="' + o.d + '일차 ' + escapeHtml(DAY_TITLE[o.d] || '') + ' ' + won(o.k) + '"><span class="rd-v">' + Math.round(o.k / 10000) + '</span><span class="rd-bar"><i style="height:' + (o.k / dmaxU * 100).toFixed(1) + '%"></i></span><span class="rd-e">' + (DAY_EMOJI[o.d] || '') + '</span><span class="rd-d">' + o.d + '</span></button>';
-      }).join('') + '</div><div class="rd-unit">막대 위 숫자는 만 원</div>';
+        return '<button type="button" class="rd-col' + (on ? ' on' : '') + (hot.indexOf(o.d) >= 0 ? ' hot' : '') + '" data-day="' + o.d + '" aria-pressed="' + on + '" aria-label="' + o.d + '일차 ' + escapeHtml(DAY_TITLE[o.d] || '') + ' ' + won(o.k) + '">' + (function () { var pct = o.k / dmaxU, lab = Math.round(o.k / 10000) + '만', inside = pct * 78 >= 26; return '<span class="rd-bar">' + (inside ? '' : '<span class="rd-v">' + lab + '</span>') + '<i style="height:' + Math.max(3, pct * 78).toFixed(1) + 'px">' + (inside ? '<b>' + lab + '</b>' : '') + '</i></span>'; })() + '<span class="rd-e">' + (DAY_EMOJI[o.d] || '') + '</span><span class="rd-d">' + o.d + '</span></button>';
+      }).join('') + '</div>';
       if (selDay) {
         var o = days[selDay - 1];
         var items = all.filter(function (x) { return x.day === selDay; }).sort(function (p, q) { return (p.t.ts || 0) - (q.t.ts || 0); });
