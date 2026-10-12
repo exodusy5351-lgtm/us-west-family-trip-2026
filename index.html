@@ -648,6 +648,55 @@
   .bx-view-dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13.5px;margin:0 0 16px;}
   .bx-view-dl dt{color:var(--muted);font-size:12.5px;}
   .bx-view-dl dd{margin:0;min-width:0;word-break:keep-all;overflow-wrap:anywhere;}
+  /* ===== 경비: 여행 리포트형 ===== */
+  .rp{display:flex;flex-direction:column;gap:14px;margin-bottom:14px;}
+  .rp-hero{border-radius:20px;padding:20px 18px 16px;color:#fff;background:linear-gradient(155deg,#1d3d4f 0%,#245f63 55%,#8a4b2a 100%);box-shadow:0 10px 30px rgba(20,40,50,.18);display:flex;flex-direction:column;gap:6px;}
+  .rp-eyebrow{font-size:10.5px;letter-spacing:.12em;opacity:.75;font-weight:700;}
+  .rp-title{margin:0;font-size:17px;font-weight:800;}
+  .rp-total{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:clamp(30px,9vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:4px;}
+  .rp-sub{font-size:13px;opacity:.9;}
+  .rp-sub b{font-weight:800;}
+  .rp-donut-wrap{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:center;margin:10px 0 4px;}
+  .rp-donut svg{display:block;width:132px;height:132px;}
+  .rp-legend{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  .rp-lg{all:unset;cursor:pointer;display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:7px;font-size:12px;border-radius:6px;padding:1px 4px;margin:0 -4px;}
+  .rp-lg:hover,.rp-lg:focus-visible{background:rgba(255,255,255,.12);outline:none;}
+  .rp-lg i{width:10px;height:10px;border-radius:3px;box-shadow:0 0 0 1.5px rgba(255,255,255,.7);}
+  .rp-lg span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rp-lg b{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:11.5px;}
+  .rp-split{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;opacity:.9;border-top:1px solid rgba(255,255,255,.2);padding-top:9px;margin-top:4px;}
+  .rp-split b{font-family:'JetBrains Mono',system-ui,sans-serif;}
+  .rp-sec{display:flex;flex-direction:column;gap:8px;}
+  .rp-h{font-size:15px;font-weight:800;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .rp-h small{font-size:11px;font-weight:500;color:var(--muted);}
+  .rp-days{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;margin:0 -2px;scrollbar-width:thin;}
+  .rp-day{all:unset;box-sizing:border-box;cursor:pointer;scroll-snap-align:start;flex:0 0 138px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .rp-day:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .rp-day.hot{border-color:var(--coral-text);box-shadow:inset 0 3px 0 var(--coral-text);}
+  .rp-day .e{font-size:24px;line-height:1;}
+  .rp-day .d{font-size:11px;color:var(--muted);font-weight:700;margin-top:4px;}
+  .rp-day .t{font-size:12.5px;font-weight:700;line-height:1.3;min-height:2.6em;}
+  .rp-day .v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:17px;font-weight:800;}
+  .rp-day .k{font-size:11px;color:var(--muted);}
+  .rp-day .top{font-size:11px;color:var(--muted-2);border-top:1px dashed var(--line);padding-top:5px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .rp-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .rp-tile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 10px;display:flex;flex-direction:column;gap:2px;min-width:0;position:relative;overflow:hidden;}
+  .rp-tile:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .rp-tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c);}
+  .rp-tile .e{font-size:20px;line-height:1.1;}
+  .rp-tile .n{font-size:11.5px;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rp-tile .v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:15px;font-weight:800;}
+  .rp-tile .p{font-size:10.5px;color:var(--muted-2);}
+  .rp-all{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;border-radius:14px;padding:14px;font-size:15px;font-weight:800;background:var(--card);border:1.5px solid var(--teal);color:var(--teal-text);}
+  .rp-all:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .rp-panel{position:fixed;inset:0;z-index:8500;background:var(--bg);overflow-y:auto;padding:calc(10px + env(safe-area-inset-top,0px)) 14px calc(90px + env(safe-area-inset-bottom,0px));}
+  .rp-panel[hidden]{display:none;}
+  .rp-panel-bar{position:sticky;top:calc(-10px - env(safe-area-inset-top,0px));z-index:2;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg);padding:8px 0;margin-bottom:6px;max-width:720px;margin-inline:auto;}
+  .rp-panel > .bx-sec{max-width:720px;margin-inline:auto;}
+  .rp-back,.rp-addmini{all:unset;cursor:pointer;font-size:14px;font-weight:800;color:var(--teal-text);padding:6px 4px;}
+  .rp-addmini{font-size:12.5px;border:1px dashed var(--teal);border-radius:10px;padding:6px 10px;}
+  .rp-back:focus-visible,.rp-addmini:focus-visible{outline:2px solid var(--teal);border-radius:8px;}
+  @media (max-width:360px){.rp-tiles{grid-template-columns:repeat(2,1fr);}.rp-donut-wrap{grid-template-columns:110px 1fr;}.rp-donut svg{width:110px;height:110px;}}
   .bx-hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
   .bx-hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;}
   .bx-k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
@@ -4866,41 +4915,47 @@
     </div>
 
     <div class="pack-content hidden" id="budgetContent">
-      <div class="st-card" id="bxSettle" aria-labelledby="stTitle">
-        <div class="st-head">
-          <div class="st-eyebrow">10/1 – 10/11 · 10박 11일 · 4명</div>
-          <h3 class="st-title" id="stTitle">최종 정산</h3>
+      <section class="rp" id="bxSettle" aria-labelledby="stTitle">
+        <div class="rp-hero">
+          <div class="rp-eyebrow">WILD WEST USA 2026 · 10/1 – 10/11 · 4명</div>
+          <h3 class="rp-title" id="stTitle">우리 가족 여행 결산</h3>
+          <div class="rp-total" id="stTotal">₩0</div>
+          <div class="rp-sub"><span id="stTotalMan"></span> · 1인당 <b id="stPer">-</b></div>
+          <div class="rp-donut-wrap">
+            <div class="rp-donut" id="stDonut" role="img"></div>
+            <div class="rp-legend" id="stLegend"></div>
+          </div>
+          <div class="rp-split"><span>✈️ 여행 전 결제 <b id="stPre">-</b></span><span>💳 현지 지출 <b id="stLocal">-</b></span></div>
         </div>
-        <div class="st-total"><span class="st-total-v" id="stTotal">₩0</span><span class="st-total-s" id="stTotalMan"></span></div>
-        <div class="st-kpis">
-          <div><b id="stPer">-</b><span>1인당</span></div>
-          <div><b id="stPre">-</b><span>여행 전 결제</span></div>
-          <div><b id="stLocal">-</b><span>현지 지출</span></div>
-        </div>
-        <div class="st-split" id="stSplit" role="img"></div>
-        <div class="st-legend"><span><i class="st-pre"></i>여행 전 결제</span><span><i class="st-loc"></i>현지 지출</span></div>
 
-        <div class="st-block">
-          <div class="st-bh">어디에 썼을까 <small>미리 결제 + 현지 지출</small></div>
-          <div id="stCats"></div>
+        <div class="rp-sec">
+          <div class="rp-h">📅 하루하루 <small>옆으로 넘겨 보세요 · 누르면 그날 내역</small></div>
+          <div class="rp-days" id="stDayCards"></div>
         </div>
-        <div class="st-block">
-          <div class="st-bh">하루하루 현지 지출 <small>만 원 · 막대를 누르면 그날 내역</small></div>
-          <div class="st-days" id="stDays"></div>
+
+        <div class="rp-sec">
+          <div class="rp-h">🧭 어디에 썼을까 <small>누르면 그 항목 내역</small></div>
+          <div class="rp-tiles" id="stTiles"></div>
         </div>
+
+        <div class="rp-sec">
+          <div class="rp-h">🏆 이번 여행 하이라이트</div>
+          <div class="ins-grid" id="bxInsights" aria-label="여행 경비 하이라이트"></div>
+        </div>
+
+        <button type="button" class="rp-all" id="bxOpenList">📒 전체 내역 <span id="bxAllCount"></span> 보기 →</button>
         <div class="st-note">달러는 1달러 = 1,350원으로 바꿔 계산했어요. 실제 카드 청구액은 결제일 환율과 수수료에 따라 조금 달라요.</div>
-      </div>
+      </section>
 
-      <div class="ins-grid" id="bxInsights" aria-label="여행 경비 인사이트"></div>
-
-      <button type="button" class="bx-add bx-add-late" id="bxAddBtn">＋ 늦게 들어온 지출 기록</button>
-
-      <div class="bx-sec">
-        <h3 id="bxListHead">📒 지출 내역 <small id="bxListSum"></small></h3>
-        <div class="bx-search"><input type="search" id="bxSearch" placeholder="가게·메모·산 것 검색 (예: 트레이더 조, 미녹시딜)" autocomplete="off" aria-label="지출 검색"></div>
-        <div class="bx-filterbar" id="bxFilterBar" hidden></div>
-        <div class="bx-chips" id="bxChips" hidden></div>
-        <div id="bxList"></div>
+      <div class="rp-panel" id="bxListPanel" hidden role="dialog" aria-modal="true" aria-labelledby="bxListHead">
+        <div class="rp-panel-bar"><button type="button" class="rp-back" id="bxListClose">← 결산으로</button><button type="button" class="rp-addmini" id="bxAddBtn">＋ 늦은 지출 기록</button></div>
+        <div class="bx-sec">
+          <h3 id="bxListHead">📒 지출 내역 <small id="bxListSum"></small></h3>
+          <div class="bx-search"><input type="search" id="bxSearch" placeholder="가게·메모·산 것 검색 (예: 트레이더 조, 미녹시딜)" autocomplete="off" aria-label="지출 검색"></div>
+          <div class="bx-filterbar" id="bxFilterBar" hidden></div>
+          <div class="bx-chips" id="bxChips" hidden></div>
+          <div id="bxList"></div>
+        </div>
       </div>
 
       <details class="bx-sec">
@@ -5269,35 +5324,62 @@
           return '<span>' + b[0] + '</span><span class="v">' + usd2(b[1]) + ' / ' + usd2(b[2]) + '</span><span class="t"><i style="width:' + Math.min(100, b[1] / b[2] * 100) + '%"></i></span>';
         }).join('') + '</div><div class="ins-sub" style="margin-top:6px">예상보다 적게 썼어요</div></div>' : '');
     }
+    var RP_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7"];
+    var RP_ICON = { "투어·공연·체험": "🎟️", "항공": "✈️", "숙박": "🏨", "쇼핑": "🛍️", "식비": "🍽️", "교통": "🚗", "장보기": "🛒", "보험·통신": "🛡️", "현금 팁": "💵", "기타": "📌", "그 외": "🧩" };
+    var DAY_EMOJI = { 1: "✈️", 2: "🎰", 3: "🏜️", 4: "🌵", 5: "🛍️", 6: "🏰", 7: "🎬", 8: "⚾", 9: "🌉", 10: "🪄", 11: "🛫" };
+    var foldGroups = [];
+    function catHas(g) { return catFilter === "그 외" ? foldGroups.indexOf(g) >= 0 : g === catFilter; }
     function renderSettle(all, preKrw, spentKrw) {
       var tot = preKrw + spentKrw;
       var man = function (v) { return Math.round(v / 10000).toLocaleString() + "만"; };
       document.getElementById('stTotal').textContent = won(tot);
       document.getElementById('stTotalMan').textContent = "약 " + man(tot) + " 원";
-      document.getElementById('stPer').textContent = man(tot / 4);
+      document.getElementById('stPer').textContent = man(tot / 4) + " 원";
       document.getElementById('stPre').textContent = man(preKrw);
       document.getElementById('stLocal').textContent = man(spentKrw);
-      var pp = tot ? Math.round(preKrw / tot * 100) : 0, sp = document.getElementById('stSplit');
-      sp.setAttribute('aria-label', '여행 전 결제 ' + pp + '%, 현지 지출 ' + (100 - pp) + '%');
-      sp.innerHTML = '<div class="p" style="width:' + (tot ? preKrw / tot * 100 : 50) + '%">' + pp + '%</div><div class="l" style="width:' + (tot ? spentKrw / tot * 100 : 50) + '%">' + (100 - pp) + '%</div>';
+      var cnt = document.getElementById('bxAllCount'); if (cnt) cnt.textContent = all.length + "건";
+      // 항목 합계 (미리 결제 + 현지)
       var cat = {};
       PREPAID.forEach(function (it) { cat[it.cat] = (cat[it.cat] || 0) + it.actKrw + it.actUsd * SETTLE_RATE; });
-      all.forEach(function (x) { var g = SETTLE_GROUP[x.show] || "기타"; cat[g] = (cat[g] || 0) + (x.t.currency === "KRW" ? x.t.amount : x.t.amount * SETTLE_RATE); });
+      all.forEach(function (x) { var g = groupOf(x); cat[g] = (cat[g] || 0) + krwOf(x.t); });
       var rows = Object.keys(cat).filter(function (k) { return cat[k] > 0; }).map(function (k) { return [k, cat[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
-      var max = rows.length ? rows[0][1] : 1;
-      document.getElementById('stCats').innerHTML = rows.map(function (r) {
-        var on = catFilter === r[0], dim = catFilter && !on;
-        return '<button type="button" class="st-cat' + (on ? ' on' : '') + (dim ? ' dim' : '') + '" data-g="' + escapeHtml(r[0]) + '" aria-pressed="' + on + '" title="' + escapeHtml(r[0] + ' ' + won(r[1]) + (SETTLE_NOTE[r[0]] ? ' · ' + SETTLE_NOTE[r[0]] : '')) + '"><span class="st-cat-n">' + escapeHtml(r[0]) + '</span><span class="st-cat-t"><i style="width:calc((100% - 92px) * ' + (r[1] / max).toFixed(4) + ')"></i><span>' + man(r[1]) + ' · ' + (r[1] / tot * 100).toFixed(0) + '%</span></span></button>';
-      }).join('') + '<div class="st-tapnote">막대를 누르면 아래 지출 내역이 그 항목만 보여요</div>';
-      var days = [];
-      for (var d = 1; d <= 11; d++) days.push(0);
-      all.forEach(function (x) { if (x.day >= 1 && x.day <= 11) days[x.day - 1] += x.t.currency === "KRW" ? x.t.amount : x.t.amount * SETTLE_RATE; });
-      renderInsights(all, spentKrw);
-      var dmax = Math.max.apply(null, days) || 1;
-      var top2 = days.map(function (v, i) { return [v, i]; }).sort(function (a, b) { return b[0] - a[0]; }).slice(0, 2).map(function (q) { return q[1]; });
-      document.getElementById('stDays').innerHTML = days.map(function (v, i) {
-        return '<button type="button" class="st-day' + (top2.indexOf(i) >= 0 ? ' hi' : '') + (stDayOpen === i + 1 ? ' on' : '') + '" data-day="' + (i + 1) + '" aria-label="' + (i + 1) + '일차 ' + won(v) + ', 눌러서 그날 내역 보기"><em>' + Math.round(v / 10000) + '</em><i style="height:calc((100% - 34px) * ' + (v / dmax).toFixed(4) + ')"></i><b>' + (i + 1) + '</b></button>';
+      // 도넛: 3% 미만은 '그 외'로 접기 (색은 최대 7개)
+      var main = [], rest = 0; foldGroups = [];
+      rows.forEach(function (r) { if (main.length < 6 && r[1] / tot >= 0.03) main.push(r); else { rest += r[1]; foldGroups.push(r[0]); } });
+      if (rest > 0) main.push(["그 외", rest]);
+      var R = 52, C = 2 * Math.PI * R, off = 0, svg = '<svg viewBox="0 0 132 132" aria-hidden="true"><circle cx="66" cy="66" r="' + R + '" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="20"/>';
+      main.forEach(function (r, i) {
+        var len = r[1] / tot * C;
+        svg += '<circle cx="66" cy="66" r="' + R + '" fill="none" stroke="' + RP_COLORS[i] + '" stroke-width="20" stroke-dasharray="' + Math.max(0, len - 2).toFixed(2) + ' ' + (C - Math.max(0, len - 2)).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 66 66)"/>';
+        off += len;
+      });
+      svg += '<text x="66" y="62" text-anchor="middle" fill="#fff" font-size="11" opacity=".8">1인당</text><text x="66" y="80" text-anchor="middle" fill="#fff" font-size="16" font-weight="800">' + man(tot / 4) + '</text></svg>';
+      var dn = document.getElementById('stDonut');
+      dn.innerHTML = svg;
+      dn.setAttribute('aria-label', main.map(function (r) { return r[0] + ' ' + Math.round(r[1] / tot * 100) + '%'; }).join(', '));
+      document.getElementById('stLegend').innerHTML = main.map(function (r, i) {
+        return '<button type="button" class="rp-lg" data-g="' + escapeHtml(r[0]) + '" title="' + escapeHtml(r[0] + ' ' + won(r[1]) + (r[0] === "그 외" ? ' · ' + foldGroups.join(', ') : '')) + '"><i style="background:' + RP_COLORS[i] + '"></i><span>' + escapeHtml(r[0]) + '</span><b>' + Math.round(r[1] / tot * 100) + '%</b></button>';
       }).join('');
+      // 항목 타일
+      var colorOf = {}; main.forEach(function (r, i) { colorOf[r[0]] = RP_COLORS[i]; });
+      document.getElementById('stTiles').innerHTML = rows.map(function (r) {
+        var c = colorOf[r[0]] || colorOf["그 외"] || "var(--line)";
+        return '<button type="button" class="rp-tile" data-g="' + escapeHtml(r[0]) + '" style="--c:' + c + '" title="' + escapeHtml(SETTLE_NOTE[r[0]] || r[0]) + '"><span class="e">' + (RP_ICON[r[0]] || "📌") + '</span><span class="n">' + escapeHtml(r[0]) + '</span><span class="v">' + man(r[1]) + '</span><span class="p">' + (r[1] / tot * 100).toFixed(r[1] / tot < 0.01 ? 1 : 0) + '%</span></button>';
+      }).join('');
+      // 하루 카드
+      var days = [];
+      for (var d = 1; d <= 11; d++) days.push({ d: d, k: 0, u: 0, w: 0, n: 0, top: null });
+      all.forEach(function (x) {
+        if (x.day < 1 || x.day > 11) return;
+        var o = days[x.day - 1], kv = krwOf(x.t);
+        o.k += kv; o.n++; if (x.t.currency === "KRW") o.w += x.t.amount; else o.u += x.t.amount;
+        if (!o.top || kv > krwOf(o.top)) o.top = x.t;
+      });
+      var hot = days.slice().sort(function (a, b) { return b.k - a.k; }).slice(0, 2).map(function (o) { return o.d; });
+      document.getElementById('stDayCards').innerHTML = days.map(function (o) {
+        return '<button type="button" class="rp-day' + (hot.indexOf(o.d) >= 0 ? ' hot' : '') + '" data-day="' + o.d + '" aria-label="' + o.d + '일차 ' + escapeHtml(DAY_TITLE[o.d] || '') + ' ' + won(o.k) + ', 눌러서 그날 내역"><span class="e">' + (DAY_EMOJI[o.d] || "📍") + '</span><span class="d">' + dayLabel(o.d) + '</span><span class="t">' + escapeHtml(DAY_TITLE[o.d] || "") + '</span><span class="v">$' + o.u.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</span><span class="k">' + (o.w ? '+ ₩' + o.w.toLocaleString() + ' · ' : '') + krwShort(o.k) + ' · ' + o.n + '건</span>' + (o.top ? '<span class="top">💰 ' + escapeHtml(o.top.memo || "") + '</span>' : '') + '</button>';
+      }).join('');
+      renderInsights(all, spentKrw);
     }
 
     // ---------- 화면 ----------
@@ -5326,7 +5408,7 @@
       var q = searchQ.trim().toLowerCase();
       var rows = all.filter(function (x) {
         if (stDayOpen && x.day !== stDayOpen) return false;
-        if (catFilter && groupOf(x) !== catFilter) return false;
+        if (catFilter && !catHas(groupOf(x))) return false;
         if (q && ((x.t.memo || "") + " " + (x.t.items || "") + " " + (SHORT[x.show] || "") + " " + (DAY_TITLE[x.day] || "")).toLowerCase().indexOf(q) < 0) return false;
         return true;
       });
@@ -5341,7 +5423,7 @@
       if (filtering) fh += '<span>' + rows.length + '건</span><button type="button" class="bx-fclear" data-clear="all">전체 보기</button>';
       fb.innerHTML = fh; fb.hidden = !filtering;
       var listHtml = "";
-      var preHit = catFilter ? PREPAID.filter(function (it) { return it.cat === catFilter; }) : [];
+      var preHit = catFilter ? PREPAID.filter(function (it) { return catHas(it.cat); }) : [];
       if (preHit.length && !stDayOpen && !q) {
         listHtml += '<details class="bx-dg" open><summary><span class="bx-dg-t">✈️ 여행 전 결제<small>' + preHit.length + '건</small></span><span class="bx-dg-a">' + krwShort(preHit.reduce(function (a, it) { return a + it.actKrw + it.actUsd * SETTLE_RATE; }, 0)).replace("약 ", "") + '</span></summary><div class="bx-dg-body">' +
           preHit.map(function (it) {
@@ -5547,12 +5629,23 @@
     document.getElementById('bxInsights').addEventListener('click', function (e) {
       var b = e.target.closest('[data-id]'); if (b) openView(b.getAttribute('data-id'));
     });
-    document.getElementById('stCats').addEventListener('click', function (e) {
-      var b = e.target.closest('.st-cat[data-g]'); if (!b) return;
-      var g = b.getAttribute('data-g');
-      catFilter = catFilter === g ? "" : g;
-      renderBudget();
-      if (catFilter) document.getElementById('bxListHead').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var listPanel = document.getElementById('bxListPanel');
+    function openList() { listPanel.hidden = false; listPanel.scrollTop = 0; document.body.style.overflow = 'hidden'; setTimeout(function () { var c = document.getElementById('bxListClose'); if (c) c.focus(); }, 0); }
+    function closeList() { listPanel.hidden = true; document.body.style.overflow = ''; stDayOpen = 0; catFilter = ""; searchQ = ""; document.getElementById('bxSearch').value = ""; renderBudget(); }
+    document.getElementById('bxOpenList').addEventListener('click', function () { openList(); });
+    document.getElementById('bxListClose').addEventListener('click', closeList);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !listPanel.hidden && !viewEl.classList.contains('open') && !sheet.classList.contains('open')) closeList(); });
+    function pickGroup(e) {
+      var b = e.target.closest('[data-g]'); if (!b) return;
+      catFilter = b.getAttribute('data-g'); stDayOpen = 0;
+      renderBudget(); openList();
+    }
+    document.getElementById('stTiles').addEventListener('click', pickGroup);
+    document.getElementById('stLegend').addEventListener('click', pickGroup);
+    document.getElementById('stDayCards').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-day]'); if (!b) return;
+      stDayOpen = +b.getAttribute('data-day'); catFilter = "";
+      renderBudget(); openList();
     });
     var searchTimer = null;
     document.getElementById('bxSearch').addEventListener('input', function (e) {
@@ -5567,13 +5660,7 @@
       if (c === 'q' || c === 'all') { searchQ = ""; document.getElementById('bxSearch').value = ""; }
       renderBudget();
     });
-    document.getElementById('stDays').addEventListener('click', function (e) {
-      var b = e.target.closest('.st-day'); if (!b) return;
-      var d = +b.getAttribute('data-day');
-      stDayOpen = stDayOpen === d ? 0 : d;
-      renderBudget();
-      if (stDayOpen) document.getElementById('bxListHead').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+
     document.getElementById('bxChips').addEventListener('click', function (e) {
       var c = e.target.closest('.bx-chip'); if (!c) return; listFilter = c.getAttribute('data-f'); renderBudget();
     });
