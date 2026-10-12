@@ -679,14 +679,14 @@
   .rp-day .v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:17px;font-weight:800;}
   .rp-day .k{font-size:11px;color:var(--muted);}
   .rp-day .top{font-size:11px;color:var(--muted-2);border-top:1px dashed var(--line);padding-top:5px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .rp-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .rp-tile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 10px;display:flex;flex-direction:column;gap:2px;min-width:0;position:relative;overflow:hidden;}
+  .rp-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .rp-tile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 8px 6px 11px;display:grid;grid-template-columns:18px 1fr auto;grid-template-rows:auto auto;column-gap:6px;align-items:center;min-width:0;position:relative;overflow:hidden;}
   .rp-tile:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
   .rp-tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c);}
-  .rp-tile .e{font-size:20px;line-height:1.1;}
-  .rp-tile .n{font-size:11.5px;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .rp-tile .v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:15px;font-weight:800;}
-  .rp-tile .p{font-size:10.5px;color:var(--muted-2);}
+  .rp-tile .e{font-size:17px;line-height:1;grid-row:1/3;}
+  .rp-tile .n{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;grid-column:2;grid-row:1;}
+  .rp-tile .v{font-family:'JetBrains Mono',system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:800;grid-column:2/4;grid-row:2;line-height:1.2;white-space:nowrap;}
+  .rp-tile .p{font-size:10.5px;color:var(--muted-2);grid-column:3;grid-row:1;font-family:'JetBrains Mono',system-ui,sans-serif;}
   .rp-all{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;border-radius:14px;padding:14px;font-size:15px;font-weight:800;background:var(--card);border:1.5px solid var(--teal);color:var(--teal-text);}
   .rp-all:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
   .rp-panel{position:fixed;inset:0;z-index:8500;background:var(--bg);overflow-y:auto;padding:calc(10px + env(safe-area-inset-top,0px)) 14px calc(90px + env(safe-area-inset-bottom,0px));}
@@ -696,7 +696,7 @@
   .rp-back,.rp-addmini{all:unset;cursor:pointer;font-size:14px;font-weight:800;color:var(--teal-text);padding:6px 4px;}
   .rp-addmini{font-size:12.5px;border:1px dashed var(--teal);border-radius:10px;padding:6px 10px;}
   .rp-back:focus-visible,.rp-addmini:focus-visible{outline:2px solid var(--teal);border-radius:8px;}
-  @media (max-width:360px){.rp-tiles{grid-template-columns:repeat(2,1fr);}.rp-donut-wrap{grid-template-columns:110px 1fr;}.rp-donut svg{width:110px;height:110px;}}
+  @media (max-width:360px){.rp-donut-wrap{grid-template-columns:110px 1fr;}.rp-donut svg{width:110px;height:110px;}}
   .bx-hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
   .bx-hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;}
   .bx-k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
@@ -5364,7 +5364,7 @@
       var colorOf = {}; main.forEach(function (r, i) { colorOf[r[0]] = RP_COLORS[i]; });
       document.getElementById('stTiles').innerHTML = rows.map(function (r) {
         var c = colorOf[r[0]] || colorOf["그 외"] || "var(--line)";
-        return '<button type="button" class="rp-tile" data-g="' + escapeHtml(r[0]) + '" style="--c:' + c + '" title="' + escapeHtml(SETTLE_NOTE[r[0]] || r[0]) + '"><span class="e">' + (RP_ICON[r[0]] || "📌") + '</span><span class="n">' + escapeHtml(r[0]) + '</span><span class="v">' + man(r[1]) + '</span><span class="p">' + (r[1] / tot * 100).toFixed(r[1] / tot < 0.01 ? 1 : 0) + '%</span></button>';
+        return '<button type="button" class="rp-tile" data-g="' + escapeHtml(r[0]) + '" style="--c:' + c + '" title="' + escapeHtml(SETTLE_NOTE[r[0]] || r[0]) + '"><span class="e">' + (RP_ICON[r[0]] || "📌") + '</span><span class="n">' + escapeHtml(({ "투어·공연·체험": "투어·체험", "보험·통신": "보험·로밍", "현금 팁": "팁" })[r[0]] || r[0]) + '</span><span class="v">' + man(r[1]) + '</span><span class="p">' + (r[1] / tot * 100).toFixed(r[1] / tot < 0.01 ? 1 : 0) + '%</span></button>';
       }).join('');
       // 하루 카드
       var days = [];
