@@ -5115,7 +5115,7 @@
       return out;
     }
     // 예정 결제로 낸 돈도 목록·항목 칩에서는 성격에 맞는 항목으로 보이게(낸 것 체크는 원래 led로)
-    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour", "hertz-1": "fuel-parking", "hertz-2": "fuel-parking", "loews-fee": "lodging" };
+    var PLAN_SHOW = { "gc-cash": "tour", "la-cash": "tour", "dodger": "tour", "jt-fee": "tour", "navajo-tip": "tour", "hertz-1": "fuel-parking", "hertz-2": "fuel-parking", "loews-fee": "lodging", "icn-parking": "fuel-parking" };
     var PLANNED = BUDGET_DATA.filter(function (it) { return it.led && !it.done && DAILY_LEDS.indexOf(it.led) < 0; });
     var PREPAID = BUDGET_DATA.filter(function (it) { return it.done; });
     var listFilter = "all", paidOpen = false;
