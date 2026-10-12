@@ -592,6 +592,8 @@
   .st-day.on b{color:var(--text);text-decoration:underline;text-underline-offset:3px;}
   .st-note{font-size:11px;color:var(--muted-2);}
   .bx-add-late{background:var(--card-2);color:var(--teal-text);border:1px dashed var(--teal);font-size:14px;padding:11px;}
+  .bx-items{display:block;font-style:normal;font-size:11.5px;color:var(--text);opacity:.85;line-height:1.4;margin:1px 0 2px;white-space:normal;word-break:keep-all;}
+  #bxItems{display:block;width:100%;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:var(--card-2);color:var(--text);font:inherit;font-size:14px;padding:9px 10px;resize:vertical;}
   .bx-hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
   .bx-hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;}
   .bx-k{font-size:11.5px;color:var(--muted);margin-bottom:2px;}
@@ -4866,6 +4868,7 @@
       <div class="bx-plan" id="bxPlan" hidden></div>
       <div style="font-size:10.5px;color:var(--muted-2);margin:-4px 0 8px;">💡 우버 앱 팁·식당 카드 팁은 그 결제 금액에 합쳐서 · 손으로 건넨 현금 팁만 💵 현금 팁에</div>
       <input type="text" id="bxMemo" placeholder="메모 (선택) · 예: 스피어→하몬 우버">
+      <textarea id="bxItems" rows="2" placeholder="산 것 (선택) · 예: 생수 24병, 라면 2봉, 에코백 3개"></textarea>
       <div class="bx-line">
         <div class="bx-toggle" id="bxPay"><button type="button" data-v="card" class="on">💳 카드</button><button type="button" data-v="cash">💵 현금</button></div>
         <select id="bxDay" aria-label="지출한 날"></select>
@@ -5098,7 +5101,7 @@
       if (changed) saveExpenseLog(expenseLog);
     })();
     function txPayload(cat, t) {
-      return { cat: cat, memo: t.memo || '', amount: t.amount, currency: t.currency, payType: t.payType || '', ts: t.ts || Date.now(), by: t.by, day: t.day || 0 };
+      return { cat: cat, memo: t.memo || '', amount: t.amount, currency: t.currency, payType: t.payType || '', ts: t.ts || Date.now(), by: t.by, day: t.day || 0, items: t.items || '' };
     }
     var expSync = null;
     function onRemoteExpenses(remote) {
@@ -5122,7 +5125,7 @@
         .forEach(function (r) {
           if (!r.cat) return;
           if (!next[r.cat]) next[r.cat] = [];
-          next[r.cat].push({ id: r.id, memo: r.memo, amount: r.amount, currency: r.currency, payType: r.payType, by: r.by, ts: r.ts, day: r.day || 0 });
+          next[r.cat].push({ id: r.id, memo: r.memo, amount: r.amount, currency: r.currency, payType: r.payType, by: r.by, ts: r.ts, day: r.day || 0, items: r.items || '' });
           if (!local[r.id] && !expMeta.synced[r.id] && r.client !== window.TripSync.clientId) fromOthers.push(r.by || '가족');
           expMeta.synced[r.id] = 1;
         });
@@ -5244,7 +5247,7 @@
             var t = x.t, sub = [DAILY_LEDS.indexOf(x.show) >= 0 ? SHORT[x.show] : "예정 결제", t.payType === "cash" ? "💵 현금" : "💳 카드"];
             if (t.by) sub.push(escapeHtml(t.by));
             listHtml += '<div class="bx-row" data-id="' + escapeHtml(t.id) + '"><span class="bx-ic">' + ledIcon(x.show) + '</span>' +
-              '<div class="bx-main"><b>' + escapeHtml(t.memo || SHORT[x.show] || "지출") + '</b><span>' + sub.join(" · ") + '</span></div>' +
+              '<div class="bx-main"><b>' + escapeHtml(t.memo || SHORT[x.show] || "지출") + '</b>' + (t.items ? '<em class="bx-items">🧾 ' + escapeHtml(t.items) + '</em>' : '') + '<span>' + sub.join(" · ") + '</span></div>' +
               '<span class="bx-amt">' + fmtTx(t) + '</span></div>';
           });
         });
@@ -5262,7 +5265,7 @@
 
     // ---------- 입력 시트 ----------
     var sheet = document.getElementById('bxSheet'), backdrop = document.getElementById('bxBackdrop');
-    var amtEl = document.getElementById('bxAmt'), curEl = document.getElementById('bxCur'), memoEl = document.getElementById('bxMemo');
+    var amtEl = document.getElementById('bxAmt'), curEl = document.getElementById('bxCur'), memoEl = document.getElementById('bxMemo'), itemsEl = document.getElementById('bxItems');
     var dayEl = document.getElementById('bxDay'), smsEl = document.getElementById('bxSms');
     var st = { cur: "USD", pay: "card", led: "food", editId: null };
 
@@ -5302,7 +5305,7 @@
         if (!h) return;
         st.editId = opt.id;
         st.led = normLed(h.raw); st.cur = h.t.currency || "USD"; st.pay = h.t.payType || "card";
-        amtEl.value = h.t.amount; memoEl.value = h.t.memo || ""; dayEl.value = String(txDay(h.t));
+        amtEl.value = h.t.amount; memoEl.value = h.t.memo || ""; itemsEl.value = h.t.items || ""; dayEl.value = String(txDay(h.t));
       } else {
         st.led = opt.led || "food";
         var it = LED_ITEM[st.led];
@@ -5311,6 +5314,7 @@
         st.pay = planned && it && /Cash|팁/.test(it.item) ? "cash" : "card";
         amtEl.value = planned && it ? (it.estKrw > 0 ? it.estKrw : it.estUsd) : "";
         memoEl.value = planned && it ? it.item : "";
+        itemsEl.value = "";
         dayEl.value = String(opt.day != null ? opt.day : today);
       }
       smsEl.value = ""; document.getElementById('bxSmsBox').open = false;
@@ -5360,15 +5364,16 @@
       }
       var memo = memoEl.value.trim() || (DAILY_LEDS.indexOf(st.led) >= 0 ? SHORT[st.led] : (LED_ITEM[st.led] || {}).item || "지출");
       var day = parseInt(dayEl.value, 10) || 0;
+      var items = itemsEl.value.trim();
       if (st.editId) {
         var h = findTx(st.editId);
         if (h) {
           expenseLog[h.raw].splice(h.i, 1);
-          h.t.memo = memo; h.t.amount = amount; h.t.currency = st.cur; h.t.payType = st.pay; h.t.day = day;
+          h.t.memo = memo; h.t.items = items; h.t.amount = amount; h.t.currency = st.cur; h.t.payType = st.pay; h.t.day = day;
           pushTx(st.led, h.t);
         }
       } else {
-        pushTx(st.led, { id: newTxId(), memo: memo, amount: amount, currency: st.cur, payType: st.pay, ts: Date.now(), day: day,
+        pushTx(st.led, { id: newTxId(), memo: memo, items: items, amount: amount, currency: st.cur, payType: st.pay, ts: Date.now(), day: day,
                          by: (window.TripSync && window.TripSync.getOwner()) || '' });
       }
       closeSheet();
